@@ -1,6 +1,6 @@
-# irs1318_general
+# irs1318_2024
 
-General Robot code for team 1318
+2024 FIRST Crescendo code
 
 ## Links
 1. [Robot Programming Guide](/Robot%20Programming%20Guide.md)
