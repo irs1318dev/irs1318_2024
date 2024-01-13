@@ -29,4 +29,7 @@ public enum AnalogOperation implements IOperation
     DriveTrainPositionDrive4,
     DriveTrainStartingXPosition,
     DriveTrainStartingYPosition,
+
+    FlywheelMotorPower,
+    FlywheelVelocityGoal,
 }
