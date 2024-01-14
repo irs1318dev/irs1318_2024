@@ -82,4 +82,14 @@ public class ElectronicsConstants
     public static final int REVDRIVETRAIN_STEER_MOTOR_3_CAN_ID = 6;
     public static final int REVDRIVETRAIN_DRIVE_MOTOR_4_CAN_ID = 7;
     public static final int REVDRIVETRAIN_STEER_MOTOR_4_CAN_ID = 8;
+
+    //================================================== LinearActuarorArm ===============================================================
+
+    public static final int LIFT_LEFT_LINEAR_ACTUATOR = 10;
+    public static final int LIFT_RIGHT_LINEAR_ACTUATOR = 11;
+
+    //================================================== ChainArm =========================================================================
+
+    public static final int CHAIN_LEFT_MOTOR = 0;
+    public static final int CHAIN_RIGHT_MOTOR = 1;
 }

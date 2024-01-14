@@ -21,6 +21,10 @@ public class TuningConstants
     public static final double ENDGAME_START_TIME = 30.0;
     public static final double ENDGAME_CLIMB_TIME = 5.0;
 
+    //================================================== Arm Values ==============================================================
+
+    
+
     //================================================== Logging  ==============================================================
 
     public static final int CALENDAR_YEAR = 2023;
