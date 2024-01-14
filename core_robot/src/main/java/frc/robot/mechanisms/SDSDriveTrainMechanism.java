@@ -196,7 +196,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
         for (int i = 0; i < SDSDriveTrainMechanism.NUM_MODULES; i++)
         {
-            this.driveMotors[i] = provider.getTalonFX(driveMotorCanIds[i], ElectronicsConstants.CANIVORE_NAME);
+            this.driveMotors[i] = provider.getTalonFX(driveMotorCanIds[i]);
             this.driveMotors[i].setMotorOutputSettings(driveMotorInvert[i], MotorNeutralMode.Brake);
             this.driveMotors[i].setFeedbackUpdateRate(TuningConstants.SDSDRIVETRAIN_FEEDBACK_UPDATE_RATE_HZ);
             this.driveMotors[i].setErrorUpdateRate(TuningConstants.SDSDRIVETRAIN_ERROR_UPDATE_RATE_HZ);
@@ -223,7 +223,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.driveMotors[i].setControlMode(TalonFXControlMode.Velocity);
             this.driveMotors[i].setSelectedSlot(SDSDriveTrainMechanism.defaultPidSlotId);
 
-            this.steerMotors[i] = provider.getTalonFX(steerMotorCanIds[i], ElectronicsConstants.CANIVORE_NAME);
+            this.steerMotors[i] = provider.getTalonFX(steerMotorCanIds[i]);
             this.steerMotors[i].setMotorOutputSettings(steerMotorInvert[i], MotorNeutralMode.Brake);
             this.steerMotors[i].setPIDF(
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP,
@@ -260,7 +260,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 this.steerMotors[i].setSelectedSlot(SDSDriveTrainMechanism.defaultPidSlotId);
             }
 
-            this.absoluteEncoders[i] = provider.getCANCoder(absoluteEncoderCanIds[i], ElectronicsConstants.CANIVORE_NAME);
+            this.absoluteEncoders[i] = provider.getCANCoder(absoluteEncoderCanIds[i]);
         }
 
         //What does this do? Next few lines?
