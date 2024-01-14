@@ -10,7 +10,7 @@ import com.ctre.phoenix6.signals.*;
 
 public class TalonFXWrapper implements ITalonFX
 {
-    private static final double timeoutSecs = 0.025;
+    private static final double timeoutSecs = 0.05;
 
     private static final NeutralOut stop = new NeutralOut();
 

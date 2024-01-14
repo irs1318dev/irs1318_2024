@@ -194,47 +194,47 @@ public class TuningConstants
 
     //================================================== SDS DriveTrain ==============================================================
 
-    public static final boolean SDSDRIVETRAIN_STEER_MOTORS_USE_MOTION_MAGIC = true;
+    public static final boolean SDSDRIVETRAIN_STEER_MOTORS_USE_MOTION_MAGIC = false;
 
     public static final boolean SDSDRIVETRAIN_USE_ODOMETRY = true;
     public static final boolean SDSDRIVETRAIN_RESET_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 128.056;
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = -16.259;
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = 2.725;
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -30.586;
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.222900; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.147949; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.358643; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.339355 ; // rotations
 
-    public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
+    public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = false;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_POSITIVE_RATE = 3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
-    public static final boolean SDSDRIVETRAIN_USE_ROTATIONAL_RATE_LIMITING = true;
+    public static final boolean SDSDRIVETRAIN_USE_ROTATIONAL_RATE_LIMITING = false;
     public static final double SDSDRIVETRAIN_ROTATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -4.0 * TuningConstants.SDSDRIVETRAIN_TURN_SCALE;
     public static final double SDSDRIVETRAIN_ROTATIONAL_VELOCITY_MAX_POSITIVE_RATE = 4.0 * TuningConstants.SDSDRIVETRAIN_TURN_SCALE;
 
     // Position PID (angle) per-module
     public static final double SDSDRIVETRAIN_STEER_MOTOR_POSITION_PID_KS = HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = 11.0; // 0.5
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = 0.5;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KI = 0.0;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD = 0.0;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF = 0.0;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = 1.1010752688172043;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = 0.0;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI = 0.0;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KF = 0.748731182795699;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC = 234.375;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL = 234.375;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KF = 0.05;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC = 1.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL = 1.0;
 
     // Velocity PID (drive) per-module
-    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 78.125; // RPM ~98.0 was highest speed at full throttle FF on blocks
+    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 88.0; // RPM ~110.0 was highest speed at full throttle FF on blocks
 
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = 0.22021505376344086;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = 0.02;
     public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI = 0.0;
     public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = 0.11264;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = 0.00909; // 100% control authority (on blocks)
 
     public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KP = 22.0;
     public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KI = 0.0;
@@ -277,14 +277,14 @@ public class TuningConstants
     public static final double SDSDRIVETRAIN_OVERCURRENT_ADJUSTMENT = 0.75;
     public static final double SDSDRIVETRAIN_OVERCURRENT_HIGH_ADJUSTMENT = 0.5;
 
-    public static final boolean SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED = true;
+    public static final boolean SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED = false;
     public static final double SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION = 11.0;
     public static final boolean SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_LIMITING_ENABLED = true;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_MAX = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_CURRENT = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_DURATION = 0.25;
 
-    public static final boolean SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED = true;
+    public static final boolean SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED = false;
     public static final double SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION = 11.0;
     public static final boolean SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_LIMITING_ENABLED = true;
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_MAX = 20.0;
