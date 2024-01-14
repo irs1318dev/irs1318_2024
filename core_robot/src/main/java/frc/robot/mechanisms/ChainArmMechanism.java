@@ -20,17 +20,12 @@ import com.google.inject.Singleton;
 @Singleton
 public class ChainArmMechanism implements IMechanism{
 
-    //----------------- General variables -----------------//
-
     private static final int defaultPidSlotId = 0;
 
     private final IDriver driver;
     private final ILogger logger;
-    private double Position;
-    private final PowerManager powerManager;
     private final double leftMotorPosition;
     private final double leftMotorVelocity;
-    private double prevTime;
     private final ITalonSRX rightMotor;
     private final ITalonSRX leftMotor;
 

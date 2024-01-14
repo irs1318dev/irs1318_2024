@@ -33,23 +33,23 @@ public class ArmMechanism implements IMechanism
     private boolean inPIDMode;
 
     
-        //------------------------- Main Arm Initializiation -------------------------
-        public LinearActuatorArmMechanism(IDriver driver, IRobotProvider provider, ILogger logger) {
-            this.driver = driver;
-            this.leftArmLinearActuator = provider.getTalonSRX(10) //change later;
-      
+    //------------------------- Main Arm Initializiation -------------------------
+    @Inject
+    public LinearActuatorArmMechanism(IDriver driver, IRobotProvider provider, ILogger logger) {
+        this.driver = driver;
+        this.leftArmLinearActuator = provider.getTalonSRX(10); //change later;
+    
 
-            this.leftArmLinearActuator.setSelectedSlot(ArmMechanism.defaultPidSlotId);
-            this.leftArmLinearActuator.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-            this.leftArmLinearActuator.setInvertOutput(TuningConstants.ARM_LOWER_LEFT_INVERT_OUTPUT);
-            this.leftArmLinearActuator.setInvertSensor(TuningConstants.ARM_LOWER_LEFT_INVERT_SENSOR); 
+        this.leftArmLinearActuator.setSelectedSlot(ArmMechanism.defaultPidSlotId);
+        this.leftArmLinearActuator.setSensorType(TalonXFeedbackDevice.QuadEncoder);
+        this.leftArmLinearActuator.setInvertOutput(TuningConstants.ARM_LOWER_LEFT_INVERT_OUTPUT);
+        this.leftArmLinearActuator.setInvertSensor(TuningConstants.ARM_LOWER_LEFT_INVERT_SENSOR); 
 
-            this.leftArmLinearActuator.setPosition(0.0);
-            
-            ITalonSRX rightLowerLAFollower = provider.getTalonSRX(12);
-            rightLowerLAFollower.follow(leftArmLinearActuator);     
-        }  
-    }
+        this.leftArmLinearActuator.setPosition(0.0);
+        
+        ITalonSRX rightLowerLAFollower = provider.getTalonSRX(12);
+        rightLowerLAFollower.follow(leftArmLinearActuator);     
+    } 
 
     @Override
     public void readSensors()
@@ -88,14 +88,6 @@ public class ArmMechanism implements IMechanism
     {
        this.leftArmLinearActuator.setPosition(0.0);
     }
-
-
-   
-        
-
-      
-    
-
    
     
 
