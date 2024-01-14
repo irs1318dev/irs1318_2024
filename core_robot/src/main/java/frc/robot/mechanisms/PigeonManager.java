@@ -54,7 +54,7 @@ public class PigeonManager implements IPositionManager
         this.driver = driver;
         this.logger = logger;
 
-        this.pigeon = provider.getPigeon2(ElectronicsConstants.PIGEON_IMU_CAN_ID, ElectronicsConstants.CANIVORE_NAME);
+        this.pigeon = provider.getPigeon2(ElectronicsConstants.PIGEON_IMU_CAN_ID);
         this.pigeon.setYaw(0.0);
         this.pigeon.setYPRUpdateFrequency(200);
         this.pigeon.setRPYRateUpdateFrequency(200);
