@@ -40,7 +40,11 @@ public enum DigitalOperation implements IOperation
     IntakeOut, // add buttons
     FeedRing, // add buttons
 
-    //Arm operations:
+    //Chain Arm operations:
     ArmUsePID,
     ArmUsePercentOutput,
+    
+    //Linear Actuator Arm Operations:
+    ArmEnableSimpleMode,
+    ArmEnablePID,
 }

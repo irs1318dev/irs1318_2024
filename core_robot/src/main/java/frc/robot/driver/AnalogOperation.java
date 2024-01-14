@@ -33,7 +33,6 @@ public enum AnalogOperation implements IOperation
     FlywheelMotorPower,
     FlywheelVelocityGoal,
 
-    SimpleMoveLAArm,
-    PIDMoveLAArm,
-    ChainMoveArm,
+    MoveLinearActuatorArm,
+    MoveChainArm,
 }

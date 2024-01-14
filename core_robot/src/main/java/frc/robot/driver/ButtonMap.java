@@ -91,6 +91,14 @@ public class ButtonMap implements IButtonMap
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             1.0),
+        new AnalogOperationDescription(
+            AnalogOperation.MoveLinearActuatorArm,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_RSY,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            1.0),
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]

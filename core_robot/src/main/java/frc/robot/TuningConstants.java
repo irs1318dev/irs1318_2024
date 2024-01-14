@@ -490,4 +490,18 @@ public class TuningConstants
     public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
     
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
+
+    //==================================================== LinearActuatorArm =====================================================
+    public static final double LA_ARM_MOTOR_PID_KP = 0.3;
+    public static final double LA_ARM_MOTOR_PID_KI = 0.3;
+    public static final double LA_ARM_MOTOR_PID_KD = 0.3;
+    public static final double LA_ARM_MOTOR_PID_KF = 0.3;
+    public static final boolean LINEAR_ACTUATOR_INVER_OUTPUT = FALSE;
+
+    //==================================================== ChainArm ==============================================================
+    public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KF = 0.3;
+    public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = FALSE;
 }

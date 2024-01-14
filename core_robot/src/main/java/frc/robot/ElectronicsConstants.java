@@ -92,11 +92,11 @@ public class ElectronicsConstants
 
     //================================================== LinearActuarorArm ===============================================================
 
-    public static final int LIFT_LEFT_LINEAR_ACTUATOR = 10;
-    public static final int LIFT_RIGHT_LINEAR_ACTUATOR = 11;
+    public static final int LEFT_LINEAR_ACTUATOR_CAN_ID = 10;
+    public static final int RIGHT_LINEAR_ACTUATOR_CAN_ID = 11;
 
     //================================================== ChainArm =========================================================================
 
-    public static final int CHAIN_LEFT_MOTOR = 0;
-    public static final int CHAIN_RIGHT_MOTOR = 1;
+    public static final int LEFT_CHAIN_MOTOR_CAN_ID = 12;
+    public static final int RIGHT_CHAIN_MOTOR_CAN_ID = 13;
 }

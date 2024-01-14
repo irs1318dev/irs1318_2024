@@ -4,6 +4,7 @@ import frc.lib.mechanisms.*;
 import frc.lib.robotprovider.ITalonFX;
 import frc.lib.robotprovider.ITalonSRX;
 import frc.lib.robotprovider.TalonFXControlMode;
+import frc.robot.ElectronicsConstants;
 import frc.robot.driver.DigitalOperation;
 import src.main.java.frc.lib.driver.IDriver;
 import src.main.java.frc.lib.mechanisms.IMechanism;
@@ -33,12 +34,19 @@ public class ChainArmMechanism implements IMechanism{
     public ChainArmMechanism(IRobotProvider provider, IDriver driver)
     {
         this.driver = driver;
-        this.rightMotor = provider.getTalonSRX(0);
-        this.leftMotor = provider.getTalonSRX(1);
+        this.rightMotor = provider.getTalonSRX(ElectronicsConstants.LEFT_CHAIN_MOTOR_CAN_ID);
+        this.leftMotor = provider.getTalonSRX(ElectronicsConstants.RIGHT_CHAIN_MOTOR_CAN_ID);
+        this.leftMotor.setSelectedSlot(defaultPidSlotId);
         this.leftMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.leftMotor.setInvertOutput(true); // create a constant
+        this.leftMotor.setInvertOutput(TuningConstants.CHAIN_ARM_ACTUATOR_INVER_OUTPUT); 
         this.leftMotor.setPosition(0.0);
-        this.leftMotor.setPIDF(0.0, 0.0, 0.0, 0.0);
+        this.leftMotor.setControlMode(TalonXControlMode.Required);
+        this.leftMotor.setPIDF(
+            TuningConstants.CHAIN_ARM_MOTOR_PID_KP, 
+            TuningConstants.CHAIN_ARM_MOTOR_PID_KI, 
+            TuningConstants.CHAIN_ARM_MOTOR_PID_KD, 
+            TuningConstants.CHAIN_ARM_MOTOR_PID_KF, 
+            ChainArmMechanism.defaultPidSlotId);
         this.rightMotor.follow(this.leftMotor);
     }
     
@@ -54,16 +62,16 @@ public class ChainArmMechanism implements IMechanism{
     @Override
     public void update()
     {
+        double armPower = this.leftMotor.setPosition(this.driver.getAnalog(AnalogOperation.MoveChainArm));
+
         if(DigitalOperation.ArmUsePID)
         {
-            this.leftMotor.setControlMode(TalonXControlMode.Position);
-            this.leftMotor.setPosition(this.driver.getAnalog(AnalogOperation.ChainArm));
+            this.leftMotor.set(TalonXControlMode.Position, armPower);
         }
         
         else if(DigitalOperation.ArmUsePercentOutput)
         {
-            this.leftMotor.setControlMode(TalonXControlMode.PercentOutput);
-            this.leftMotor.set(this.driver.getAnalog(AnalogOperation.ChainArm));
+            this.leftMotor.set(TalonXControlMode.PercentOutput, armPower);
         }
         
     }
@@ -71,10 +79,6 @@ public class ChainArmMechanism implements IMechanism{
     @Override
     public void stop()
     {
-        this.leftMotor.setControlMode(TalonXControlMode.PercentOutput);
-        this.rightMotor.setControlMode(TalonXControlMode.PercentOutput);
-
-        this.leftMotor.set(0.0);
-        this.rightMotor.set(0.0);
+        this.leftMotor.stop();
     }
 }

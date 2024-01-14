@@ -30,25 +30,35 @@ public class ArmMechanism implements IMechanism
     private final ITalonSRX rightArmLinearActuator;
  
     private boolean inSimpleMode;
-    private boolean inPIDMode;
 
     
     //------------------------- Main Arm Initializiation -------------------------
     @Inject
     public LinearActuatorArmMechanism(IDriver driver, IRobotProvider provider, ILogger logger) {
         this.driver = driver;
-        this.leftArmLinearActuator = provider.getTalonSRX(10); //change later;
+        this.leftArmLinearActuator = provider.getTalonSRX(ElectronicsConstants.LEFT_LINEAR_ACTUATOR_CAN_ID); 
     
-
+        this.leftArmLinearActuator.setPIDF(
+            TuningConstants.LA_ARM_MOTOR_PID_KP, 
+            TuningConstants.LA_ARM_MOTOR_PID_KI, 
+            TuningConstants.LA_ARM_MOTOR_PID_KD, 
+            TuningConstants.LA_ARM_MOTOR_PID_KF,
+            LinearActuatorArm.defaultPidSlotId);
+            
         this.leftArmLinearActuator.setSelectedSlot(ArmMechanism.defaultPidSlotId);
         this.leftArmLinearActuator.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.leftArmLinearActuator.setInvertOutput(TuningConstants.ARM_LOWER_LEFT_INVERT_OUTPUT);
-        this.leftArmLinearActuator.setInvertSensor(TuningConstants.ARM_LOWER_LEFT_INVERT_SENSOR); 
-
+        this.leftArmLinearActuator.setInvertOutput(TuningConstants.LINEAR_ACTUATOR_INVER_OUTPUT);
+        this.leftArmLinearActuator.setControlMode(TalonXControlMode.Required);
+        this.leftArmLinearActuator.setAbsoluteEncoder();
         this.leftArmLinearActuator.setPosition(0.0);
         
-        ITalonSRX rightLowerLAFollower = provider.getTalonSRX(12);
+        ITalonSRX rightLowerLAFollower = provider.getTalonSRX(ElectronicsConstants.RIGHT_LINEAR_ACTUATOR_CAN_ID);
         rightLowerLAFollower.follow(leftArmLinearActuator);     
+
+        this.leftLinearActuatorPosition = 0.0;
+        this.leftLinearActuatorVelocity = 0.0;
+
+        this.inSimpleMode = false; // Add tuning constant
     } 
 
     @Override
@@ -64,31 +74,28 @@ public class ArmMechanism implements IMechanism
     public void update()
     {
         //----------------------------------- Main Arm Control Mode -----------------------------------
+        double armPower = this.driver.getAnalog(AnalogOperation.MoveLinearActuatorArm);
+
         if (this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
             this.inSimpleMode = true;
         }
-        else if (this.driver.getDigital(DigitalOperation.ArmUsePID)) {
-            this.inPIDMode = true;
+        else if (this.driver.getDigital(DigitalOperation.ArmEnablePID)){
+            this.inSimpleMode = false;
         }
 
         if (this.inSimpleMode)
         {
-            this.leftArmLinearActuator.setControlMode(TalonXControlMode.PercentOutput);
-            this.leftArmLinearActuator.set(this.driver.getAnalog(AnalogOperation.SimpleMoveLAArm));
+            this.leftArmLinearActuator.set(TalonXControlMode.PercentOutput, armPower);
         }
-        else if (this.inPIDMode) {
-            this.leftArmLinearActuator.setControlMode(TalonXControlMode.Position);
-            this.leftArmLinearActuator.setPosition(this.driver.getAnalog(AnalogOperation.PIDMoveLAArm))
-        }  
+        else if (!this.inSimpleMode) {
+            this.leftArmLinearActuator.set(TalonXControlMode.Position, armPower);
+        }       
     }
 
     @Override
     public void stop()
     {
-       this.leftArmLinearActuator.setPosition(0.0);
+       this.leftArmLinearActuator.stop();
     }
-   
-    
-
-    }
+}
