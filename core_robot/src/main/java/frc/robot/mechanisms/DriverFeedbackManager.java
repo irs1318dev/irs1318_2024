@@ -23,8 +23,8 @@ public class DriverFeedbackManager implements IMechanism
     private final ICANdle candle;
     private final IDriverStation ds;
     private final IDriver driver;
-
     private final PowerManager powerMan;
+    private final
 
     private LightMode currentStripMode;
     private LightMode currentCandleMode;
