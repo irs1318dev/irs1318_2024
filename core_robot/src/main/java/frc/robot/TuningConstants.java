@@ -27,7 +27,7 @@ public class TuningConstants
 
     //================================================== Logging  ==============================================================
 
-    public static final int CALENDAR_YEAR = 2023;
+    public static final int CALENDAR_YEAR = 2024;
     public static final boolean LOG_TO_FILE = true; // TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space
@@ -461,4 +461,33 @@ public class TuningConstants
     public static final double REVDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION = TuningConstants.REVDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION / 1.25; // in inches per second per second
     public static final double REVDRIVETRAIN_LOW_PATH_TRANSLATIONAL_VELOCITY = TuningConstants.REVDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY / 2.0; // in inches per second
     public static final double REVDRIVETRAIN_LOW_PATH_TRANSLATIONAL_ACCELERATION = TuningConstants.REVDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION / 2.0; // in inches per second per second
+
+    //================================================== EndEffector ==============================================================
+
+    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = false;
+    public static final double EFFECTOR_INTAKE_IN_POWER = 0.8;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.8;
+
+    public static final boolean SHOOTER_MOTOR_INVERT_SENSOR = false;
+    public static final boolean SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KP = 0.5;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KI = 0.5;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KD = 0.5;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KF = 0.5;
+    public static final double SHOOTER_FLYWHEEL_CONVERSION_FACTOR = 360;
+    public static final int FLYWHEEL_STALL_LIMIT = 100;
+    public static final int FLYWHEEL_FREE_LIMIT = 100;
+    public static final int FLYWHEEL_RPM_LIMIT = 2000;
+    public static final int FLYWHEEL_SENSOR_FRAME_PERIOD_MS = 10;
+    
+    public static final boolean SHOOTER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
+    public static final int FLYWHEEL_FOLLOWER_STALL_LIMIT = 100;
+    public static final int FLYWHEEL_FOLLOWER_FREE_LIMIT = 100;
+    public static final int FLYWHEEL_FOLLOWER_RPM_LIMIT = 2000;
+    public static final int FLYWHEEL_FOLLOWER_SENSOR_FRAME_PERIOD_MS = 10;
+
+    public static final double INTAKE_THROUGHBEAM_CUTOFF = 2.7;
+    public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
+    
+    public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 }

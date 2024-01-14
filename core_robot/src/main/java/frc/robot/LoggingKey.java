@@ -50,6 +50,18 @@ public enum LoggingKey
     NavxY("navx.y"),
     NavxZ("navx.z"),
 
+    IntakeMotorVelocity("ee.int_vel"),
+    IntakeMotorPercentOutput("ee.int_per_out)"),
+    ShooterFlywheelPosition("ee.fw_pos"),
+    ShooterFlywheelVelocity("ee.fw_vel"),
+    ShooterFlywheelError("ee.fw_err"),
+    IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
+    IntakeThroughBeamBroken("ee.thr_bem_brk"),
+    FlywheelPower("ee_fw_pow"),
+    FlywheelDesiredVelocity("ee.fw_vel_setpt"),
+
+
+
     DriveTrainDesiredAngle("dt.angle_goal"),
     DriveTrainAngle("dt.angle"),
     DriveTrainXPosition("dt.xpos", true),

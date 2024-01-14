@@ -736,7 +736,7 @@ public class TalonFXWrapper implements ITalonFX
         }
 
         this.velocity.refresh();
-        CTREStatusCodeHelper.printError(this.position.getStatus(), "TalonFX.getVelocity");
+        CTREStatusCodeHelper.printError(this.velocity.getStatus(), "TalonFX.getVelocity");
 
         return this.velocity.getValue();
     }
@@ -749,7 +749,7 @@ public class TalonFXWrapper implements ITalonFX
         }
 
         this.error.refresh();
-        CTREStatusCodeHelper.printError(this.position.getStatus(), "TalonFX.getError");
+        CTREStatusCodeHelper.printError(this.error.getStatus(), "TalonFX.getError");
 
         return this.error.getValue();
     }
