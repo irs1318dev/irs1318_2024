@@ -461,8 +461,9 @@ public class TuningConstants
     //================================================== EndEffector ==============================================================
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = false;
-    public static final double EFFECTOR_INTAKE_IN_POWER = 0.8;
-    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.8;
+    public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
+    public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
     public static final boolean SHOOTER_MOTOR_INVERT_SENSOR = false;
     public static final boolean SHOOTER_MOTOR_INVERT_OUTPUT = false;
@@ -486,4 +487,5 @@ public class TuningConstants
     public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
     
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
+    public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
 }
