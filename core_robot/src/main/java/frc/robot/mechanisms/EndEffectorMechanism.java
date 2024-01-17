@@ -196,14 +196,29 @@ public class EndEffectorMechanism implements IMechanism
 
             case Intaking:
 
-                if(this.throughBeamBroken)
+                if(this.useShootAnywayMode && this.driver.getDigital(DigitalOperation.FeedRing))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                }
+
+                else if(this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+
+                else if(this.throughBeamBroken)
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
             
             case Outtaking:
 
-                if(this.outTakeStartTime + TuningConstants.EFFECTOR_OUTTAKE_DURATION < currTime)
+                if(this.driver.getDigital(DigitalOperation.IntakeIn))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+            
+                else if(this.outTakeStartTime + TuningConstants.EFFECTOR_OUTTAKE_DURATION < currTime)
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
