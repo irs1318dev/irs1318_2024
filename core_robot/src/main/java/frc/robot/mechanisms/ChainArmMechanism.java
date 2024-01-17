@@ -29,6 +29,9 @@ public class ChainArmMechanism implements IMechanism{
     private final double leftMotorVelocity;
     private final ITalonSRX rightMotor;
     private final ITalonSRX leftMotor;
+    private final double gearRatio;
+    private final double minROM;
+    private final double maxROM;
 
     @Inject
     public ChainArmMechanism(IRobotProvider provider, IDriver driver)
@@ -48,6 +51,13 @@ public class ChainArmMechanism implements IMechanism{
             TuningConstants.CHAIN_ARM_MOTOR_PID_KF, 
             ChainArmMechanism.defaultPidSlotId);
         this.rightMotor.follow(this.leftMotor);
+//==================================== Arm Angle Values ====================================
+        this.gearRatio = gearRatio;
+        this.minROM = minROM;
+        this.maxROM = maxROM;
+        this.minROM = TuningConstants.MIN_ROM;
+        this.maxROM = TuningConstants.MAX_ROM;
+        this.gearRatio = TuningConstants.GEAR_RATIO;
     }
     
     @Override
@@ -55,8 +65,10 @@ public class ChainArmMechanism implements IMechanism{
     {
         this.leftMotorPosition = leftMotor.Position;
         this.leftMotorVelocity = leftMotor.Velocity;
+        this.armAngle = (leftMotor.Position) * this.gearRatio;
         this.logger.logNumber(LoggingKey.LeftMotorPosition, this.leftMotorPosition);
         this.logger.logNumber(LoggingKey.LeftMotorVelocity, this.leftMotorVelocity);
+        this.logger.logNumber(LoggingKey.ArmAngle, this.armAngle);
     }
 
     @Override
@@ -73,7 +85,20 @@ public class ChainArmMechanism implements IMechanism{
         {
             this.leftMotor.set(TalonXControlMode.PercentOutput, armPower);
         }
-        
+//==================================== Arm Calculations ====================================
+        if(this.armAngle > (this.maxROM - 1.0))
+        {
+            this.leftMotor.set(-0.1);
+            wait(500);
+            this.leftMotor.set(0);
+        }
+        else if(this.armAngle < (this.minROM + 1.0))
+        {
+            this.leftMotor.set(0.1);
+            wait(500);
+            this.leftMotor.set(0);
+
+        }
     }
 
     @Override

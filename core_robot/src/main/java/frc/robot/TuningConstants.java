@@ -498,10 +498,13 @@ public class TuningConstants
     public static final double LA_ARM_MOTOR_PID_KF = 0.3;
     public static final boolean LINEAR_ACTUATOR_INVER_OUTPUT = FALSE;
 
-    //==================================================== ChainArm ==============================================================
+    //==================================================== ChainAndSprocketArm ==============================================================
     public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KF = 0.3;
     public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = FALSE;
+    public static final double GEAR_RATIO = 2;
+    public static final double MIN_ROM = 0;
+    public static final double MAX_ROM = 130;
 }
