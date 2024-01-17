@@ -123,8 +123,14 @@ public enum LoggingKey
 
     //Arm Stuff
         //chm = Chain Motor
+<<<<<<< HEAD
     LeftMotorPosition("chm.position"),
     LeftMotorVelocity("chm.velocity"),
+=======
+    LeftMotorPosition("chm.position");
+    LeftMotorVelocity("chm.velocity");
+    ArmAngle("arm.angle");
+>>>>>>> 08c4c5c65c336c5d82687eccf87fd12fed2a9cd6
 
     LeftLAPosition("la.position"),
     LeftLAVelocity("la.velocity");
