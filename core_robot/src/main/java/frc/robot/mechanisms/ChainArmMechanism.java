@@ -14,6 +14,8 @@ import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.controltasks.WaitTask;
+
 //Inject Functions
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,9 +30,10 @@ public class ChainArmMechanism implements IMechanism{
     private double leftMotorPosition;
     private double leftMotorVelocity;
     private final ITalonSRX leftMotor;
-    private final double gearRatio;
-    private final double minROM;
-    private final double maxROM;
+    private double gearRatio;
+    private double minROM;
+    private double maxROM;
+    private double armAngle;
 
     @Inject
     public ChainArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
@@ -58,7 +61,7 @@ public class ChainArmMechanism implements IMechanism{
         ITalonSRX rightMotor = provider.getTalonSRX(ElectronicsConstants.RIGHT_CHAIN_MOTOR_CAN_ID);
         rightMotor.setMotorOutputSettings(TuningConstants.CHAIN_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         rightMotor.follow(this.leftMotor);
-        this.rightMotor.follow(this.leftMotor);
+        rightMotor.follow(this.leftMotor);
 //==================================== Arm Angle Values ====================================
         this.gearRatio = gearRatio;
         this.minROM = minROM;
@@ -73,9 +76,7 @@ public class ChainArmMechanism implements IMechanism{
     {
         this.leftMotorPosition = leftMotor.getPosition();
         this.leftMotorVelocity = leftMotor.getVelocity();
-        this.leftMotorPosition = leftMotor.Position;
-        this.leftMotorVelocity = leftMotor.Velocity;
-        this.armAngle = (leftMotor.Position) * this.gearRatio;
+        this.armAngle = (leftMotorPosition) * this.gearRatio;
         this.logger.logNumber(LoggingKey.LeftMotorPosition, this.leftMotorPosition);
         this.logger.logNumber(LoggingKey.LeftMotorVelocity, this.leftMotorVelocity);
         this.logger.logNumber(LoggingKey.ArmAngle, this.armAngle);
@@ -88,28 +89,28 @@ public class ChainArmMechanism implements IMechanism{
         
         this.leftMotor.set(armPower);
 
-        double armPower = this.leftMotor.setPosition(this.driver.getAnalog(AnalogOperation.MoveChainArm));
+        //double armPower = this.leftMotor.setPosition(this.driver.getAnalog(AnalogOperation.MoveChainArm));
 
-        if(DigitalOperation.ArmUsePID)
+        if(this.driver.getDigital(DigitalOperation.ArmUsePID))
         {
-            this.leftMotor.set(TalonXControlMode.Position, armPower);
+            this.leftMotor.set(TalonSRXControlMode.Position, armPower);
         }
         
-        else if(DigitalOperation.ArmUsePercentOutput)
+        else if(this.driver.getDigital(DigitalOperation.ArmUsePercentOutput))
         {
-            this.leftMotor.set(TalonXControlMode.PercentOutput, armPower);
+            this.leftMotor.set(TalonSRXControlMode.PercentOutput, armPower);
         }
 //==================================== Arm Calculations ====================================
         if(this.armAngle > (this.maxROM - 1.0))
         {
             this.leftMotor.set(-0.1);
-            wait(500);
+            new WaitTask(500);
             this.leftMotor.set(0);
         }
         else if(this.armAngle < (this.minROM + 1.0))
         {
             this.leftMotor.set(0.1);
-            wait(500);
+            new WaitTask(500);
             this.leftMotor.set(0);
 
         }
