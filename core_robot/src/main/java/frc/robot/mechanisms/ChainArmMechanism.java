@@ -46,7 +46,6 @@ public class ChainArmMechanism implements IMechanism{
             TuningConstants.CHAIN_ARM_MOTOR_PID_KD, 
             TuningConstants.CHAIN_ARM_MOTOR_PID_KF, 
             ChainArmMechanism.defaultPidSlotId);
-<<<<<<< HEAD
 
         this.leftMotor.setSelectedSlot(defaultPidSlotId);
         this.leftMotor.setSensorType(TalonSRXFeedbackDevice.None);
@@ -59,7 +58,6 @@ public class ChainArmMechanism implements IMechanism{
         ITalonSRX rightMotor = provider.getTalonSRX(ElectronicsConstants.RIGHT_CHAIN_MOTOR_CAN_ID);
         rightMotor.setMotorOutputSettings(TuningConstants.CHAIN_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         rightMotor.follow(this.leftMotor);
-=======
         this.rightMotor.follow(this.leftMotor);
 //==================================== Arm Angle Values ====================================
         this.gearRatio = gearRatio;
@@ -68,20 +66,16 @@ public class ChainArmMechanism implements IMechanism{
         this.minROM = TuningConstants.MIN_ROM;
         this.maxROM = TuningConstants.MAX_ROM;
         this.gearRatio = TuningConstants.GEAR_RATIO;
->>>>>>> 08c4c5c65c336c5d82687eccf87fd12fed2a9cd6
     }
     
     @Override
     public void readSensors()
     {
-<<<<<<< HEAD
         this.leftMotorPosition = leftMotor.getPosition();
         this.leftMotorVelocity = leftMotor.getVelocity();
-=======
         this.leftMotorPosition = leftMotor.Position;
         this.leftMotorVelocity = leftMotor.Velocity;
         this.armAngle = (leftMotor.Position) * this.gearRatio;
->>>>>>> 08c4c5c65c336c5d82687eccf87fd12fed2a9cd6
         this.logger.logNumber(LoggingKey.LeftMotorPosition, this.leftMotorPosition);
         this.logger.logNumber(LoggingKey.LeftMotorVelocity, this.leftMotorVelocity);
         this.logger.logNumber(LoggingKey.ArmAngle, this.armAngle);
@@ -90,11 +84,10 @@ public class ChainArmMechanism implements IMechanism{
     @Override
     public void update()
     {
-<<<<<<< HEAD
         double armPower = this.driver.getAnalog(AnalogOperation.MoveChainArm);
         
         this.leftMotor.set(armPower);
-=======
+
         double armPower = this.leftMotor.setPosition(this.driver.getAnalog(AnalogOperation.MoveChainArm));
 
         if(DigitalOperation.ArmUsePID)
@@ -120,7 +113,6 @@ public class ChainArmMechanism implements IMechanism{
             this.leftMotor.set(0);
 
         }
->>>>>>> 08c4c5c65c336c5d82687eccf87fd12fed2a9cd6
     }
 
     @Override
