@@ -11,9 +11,9 @@ import frc.robot.driver.*;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+    
 @Singleton
-public class ArmMechanism implements IMechanism
+public class LinearActuatorArmMechanism implements IMechanism
 {
     //----------------- General variables -----------------
 
@@ -21,13 +21,11 @@ public class ArmMechanism implements IMechanism
 
     private final IDriver driver;
     private final ILogger logger;
-    private final ITimer timer;
-    private final double leftLinearActuatorPosition;
-    private final double leftLinearActuatorVelocity;
+    private double leftLinearActuatorPosition;
+    private double leftLinearActuatorVelocity;
     //----------------- Main Arm Variables -----------------
 
     private final ITalonSRX leftArmLinearActuator;
-    private final ITalonSRX rightArmLinearActuator;
  
     private boolean inSimpleMode;
 
@@ -36,6 +34,7 @@ public class ArmMechanism implements IMechanism
     @Inject
     public LinearActuatorArmMechanism(IDriver driver, IRobotProvider provider, ILogger logger) {
         this.driver = driver;
+        this.logger = logger;
         this.leftArmLinearActuator = provider.getTalonSRX(ElectronicsConstants.LEFT_LINEAR_ACTUATOR_CAN_ID); 
     
         this.leftArmLinearActuator.setPIDF(
@@ -43,13 +42,13 @@ public class ArmMechanism implements IMechanism
             TuningConstants.LA_ARM_MOTOR_PID_KI, 
             TuningConstants.LA_ARM_MOTOR_PID_KD, 
             TuningConstants.LA_ARM_MOTOR_PID_KF,
-            LinearActuatorArm.defaultPidSlotId);
+            LinearActuatorArmMechanism.defaultPidSlotId);
             
-        this.leftArmLinearActuator.setSelectedSlot(ArmMechanism.defaultPidSlotId);
-        this.leftArmLinearActuator.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.leftArmLinearActuator.setInvertOutput(TuningConstants.LINEAR_ACTUATOR_INVER_OUTPUT);
-        this.leftArmLinearActuator.setControlMode(TalonXControlMode.Required);
-        this.leftArmLinearActuator.setAbsoluteEncoder();
+        this.leftArmLinearActuator.setSelectedSlot(LinearActuatorArmMechanism.defaultPidSlotId);
+        this.leftArmLinearActuator.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.leftArmLinearActuator.setMotorOutputSettings(TuningConstants.LINEAR_ACTUATOR_INVER_OUTPUT, MotorNeutralMode.Brake);
+        this.leftArmLinearActuator.setControlMode(TalonSRXControlMode.Required);
+        this.leftArmLinearActuator.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.leftArmLinearActuator.setPosition(0.0);
         
         ITalonSRX rightLowerLAFollower = provider.getTalonSRX(ElectronicsConstants.RIGHT_LINEAR_ACTUATOR_CAN_ID);
@@ -64,8 +63,8 @@ public class ArmMechanism implements IMechanism
     @Override
     public void readSensors()
     {
-        this.leftLinearActuatorPosition = leftArmLinearActuator.Position;
-        this.leftLinearActuatorVelocity = leftArmLinearActuator.Velocity;
+        this.leftLinearActuatorPosition = leftArmLinearActuator.getPosition();
+        this.leftLinearActuatorVelocity = leftArmLinearActuator.getVelocity();
         this.logger.logNumber(LoggingKey.LeftLAPosition, this.leftLinearActuatorPosition);
         this.logger.logNumber(LoggingKey.LeftLAVelocity, this.leftLinearActuatorVelocity);
     }
@@ -86,10 +85,10 @@ public class ArmMechanism implements IMechanism
 
         if (this.inSimpleMode)
         {
-            this.leftArmLinearActuator.set(TalonXControlMode.PercentOutput, armPower);
+            this.leftArmLinearActuator.set(TalonSRXControlMode.PercentOutput, armPower);
         }
         else if (!this.inSimpleMode) {
-            this.leftArmLinearActuator.set(TalonXControlMode.Position, armPower);
+            this.leftArmLinearActuator.set(TalonSRXControlMode.Position, armPower);
         }       
     }
 

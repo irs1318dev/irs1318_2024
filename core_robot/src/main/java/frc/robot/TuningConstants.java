@@ -496,12 +496,12 @@ public class TuningConstants
     public static final double LA_ARM_MOTOR_PID_KI = 0.3;
     public static final double LA_ARM_MOTOR_PID_KD = 0.3;
     public static final double LA_ARM_MOTOR_PID_KF = 0.3;
-    public static final boolean LINEAR_ACTUATOR_INVER_OUTPUT = FALSE;
+    public static final boolean LINEAR_ACTUATOR_INVER_OUTPUT = false;
 
     //==================================================== ChainArm ==============================================================
     public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KF = 0.3;
-    public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = FALSE;
+    public static final boolean CHAIN_ARM_MOTOR_INVER_OUTPUT = false;
 }

@@ -119,14 +119,14 @@ public enum LoggingKey
     DriveTrainSteerError4("dt.steer_err4", 1), // SDS-only
     DriveTrainSteerPositionGoal4("dt.steer_goal4", 1),
 
-    CompressorPreassure("com.pres");
+    CompressorPreassure("com.pres"),
 
     //Arm Stuff
         //chm = Chain Motor
-    LeftMotorPosition("chm.position");
-    LeftMotorVelocity("chm.velocity");
+    LeftMotorPosition("chm.position"),
+    LeftMotorVelocity("chm.velocity"),
 
-    LeftLAPosition("la.position");
+    LeftLAPosition("la.position"),
     LeftLAVelocity("la.velocity");
 
     public final String value;
