@@ -121,15 +121,14 @@ public enum LoggingKey
 
     CompressorPreassure("com.pres"),
 
-    //Arm Stuff
-        //chm = Chain Motor
-
+    // Arm Stuff
+    // chm = Chain Motor
     LeftMotorPosition("chm.position"),
     LeftMotorVelocity("chm.velocity"),
     ArmAngle("arm.angle"),
 
     LeftLAPosition("la.position"),
-    LeftLAVelocity("la.velocity"),
+    LeftLAVelocity("la.velocity");
 
     public final String value;
     public final int loggingFrequency;

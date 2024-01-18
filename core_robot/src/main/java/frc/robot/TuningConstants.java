@@ -465,8 +465,9 @@ public class TuningConstants
     //================================================== EndEffector ==============================================================
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = false;
-    public static final double EFFECTOR_INTAKE_IN_POWER = 0.8;
-    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.8;
+    public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
+    public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
     public static final boolean SHOOTER_MOTOR_INVERT_SENSOR = false;
     public static final boolean SHOOTER_MOTOR_INVERT_OUTPUT = false;
@@ -491,7 +492,10 @@ public class TuningConstants
     
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
+    public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
+
     //==================================================== LinearActuatorArm =====================================================
+
     public static final double LA_ARM_MOTOR_PID_KP = 0.3;
     public static final double LA_ARM_MOTOR_PID_KI = 0.3;
     public static final double LA_ARM_MOTOR_PID_KD = 0.3;
@@ -499,6 +503,7 @@ public class TuningConstants
     public static final boolean LINEAR_ACTUATOR_INVER_OUTPUT = false;
 
     //==================================================== ChainAndSprocketArm ==============================================================
+
     public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
     public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
@@ -506,7 +511,7 @@ public class TuningConstants
 
     public static final boolean CHAIN_ARM_MOTOR_INVER_OUTPUT = false;
 
-    public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = FALSE;
+    public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = false;
     public static final double GEAR_RATIO = 2;
     public static final double MIN_ROM = 0;
     public static final double MAX_ROM = 130;

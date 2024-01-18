@@ -83,21 +83,34 @@ public class ButtonMap implements IButtonMap
             !ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER, // make left positive, as counter-clockwise is positive
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_TURN,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_TURN),
+
+        new AnalogOperationDescription(
+            AnalogOperation.FlywheelMotorPower,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_LSY,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.0,
+            0.2),
+
+        new AnalogOperationDescription(
+            AnalogOperation.FlywheelVelocityGoal,
+            TuningConstants.MAGIC_NULL_VALUE),
+
         new AnalogOperationDescription(
             AnalogOperation.MoveChainArm,
-            UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSY,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_RSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         new AnalogOperationDescription(
             AnalogOperation.MoveLinearActuatorArm,
-            UserInputDevice.Driver,
+            UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
-    };
+        };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
@@ -158,6 +171,30 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_SELECT_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.IntakeIn,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.IntakeOut,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.FeedRing,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
         // Test operations:

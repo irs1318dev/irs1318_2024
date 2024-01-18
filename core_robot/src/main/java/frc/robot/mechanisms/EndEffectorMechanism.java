@@ -15,7 +15,6 @@ import com.google.inject.Singleton;
 public class EndEffectorMechanism implements IMechanism 
 {
     private static final int DefaultPidSlotId = 0;
-    private static final int SMPidSlotId = 1;
 
     private final IDriver driver;
     private final ILogger logger;
@@ -53,8 +52,6 @@ public class EndEffectorMechanism implements IMechanism
     private boolean useShootAnywayMode;
     private double outTakeStartTime;
 
-    private boolean firstRun;
-
     @Inject
     public EndEffectorMechanism(
         IDriver driver,
@@ -70,7 +67,6 @@ public class EndEffectorMechanism implements IMechanism
 
         // INTAKE MOTOR
         this.intakeMotor = provider.getSparkMax(ElectronicsConstants.INTAKE_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
-        this.intakeMotor.setRelativeEncoder();
         this.intakeMotor.setInvertOutput(TuningConstants.INTAKE_MOTOR_INVERT_OUTPUT);
         this.intakeMotor.setNeutralMode(MotorNeutralMode.Brake);
         this.intakeMotor.setControlMode(SparkMaxControlMode.PercentOutput);
@@ -79,7 +75,7 @@ public class EndEffectorMechanism implements IMechanism
 
         // FLYWHEEL MOTOR
         this.flywheelMotor = provider.getSparkMax(ElectronicsConstants.FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
-        this.flywheelMotor.setAbsoluteEncoder();
+        this.flywheelMotor.setRelativeEncoder();
         this.flywheelMotor.setInvertSensor(TuningConstants.SHOOTER_MOTOR_INVERT_SENSOR);
         this.flywheelMotor.setInvertOutput(TuningConstants.SHOOTER_MOTOR_INVERT_OUTPUT);
         this.flywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
@@ -104,7 +100,6 @@ public class EndEffectorMechanism implements IMechanism
         flywheelFollower.setNeutralMode(MotorNeutralMode.Coast);
         flywheelFollower.follow(flywheelMotor);
         flywheelFollower.setCurrentLimit(TuningConstants.FLYWHEEL_FOLLOWER_STALL_LIMIT, TuningConstants.FLYWHEEL_FOLLOWER_FREE_LIMIT, TuningConstants.FLYWHEEL_FOLLOWER_RPM_LIMIT);
-        flywheelFollower.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_FOLLOWER_SENSOR_FRAME_PERIOD_MS);
 
         flywheelFollower.burnFlash();
 
@@ -112,7 +107,6 @@ public class EndEffectorMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
 
         this.useShootAnywayMode = false;
-        this.firstRun = true;
         this.outTakeStartTime = 0.0;
 
         this.currentEffectorState = EffectorState.Off;
@@ -178,33 +172,63 @@ public class EndEffectorMechanism implements IMechanism
 
         // STATE SWITCHING
 
-        if (this.driver.getDigital(DigitalOperation.IntakeIn))
-        {
-            this.currentEffectorState = EffectorState.Intaking;
-        }
-        else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        {
-            this.currentEffectorState = EffectorState.Outtaking;
-            if (this.firstRun) {
-                this.outTakeStartTime = currTime;
-            }
-            firstRun = false;
-        }
+        // Make another case here and make sure we can leave shooting
 
-        if (this.driver.getDigital(DigitalOperation.FeedRing) && isFlywheelSpunUp())
+        switch (this.currentEffectorState)
         {
-            this.currentEffectorState = EffectorState.Shooting;
-        }
+            case Off:
 
-        if(this.currentEffectorState == EffectorState.Intaking && this.throughBeamBroken)
-        {
-            this.currentEffectorState = EffectorState.Off;
-        }
+                if (this.driver.getDigital(DigitalOperation.IntakeIn))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
 
-        if(this.currentEffectorState == EffectorState.Outtaking && this.outTakeStartTime + TuningConstants.EFFECTOR_OUTTAKE_DURATION > currTime)
-        {
-            this.currentEffectorState = EffectorState.Off;
-            this.firstRun = true;
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                    this.outTakeStartTime = currTime;
+                }
+
+                else if (this.driver.getDigital(DigitalOperation.FeedRing) && isFlywheelSpunUp())
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                }
+
+            case Intaking:
+
+                if(this.useShootAnywayMode && this.driver.getDigital(DigitalOperation.FeedRing))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                }
+
+                else if(this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+
+                else if(this.throughBeamBroken)
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+            
+            case Outtaking:
+
+                if(this.driver.getDigital(DigitalOperation.IntakeIn))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+            
+                else if(this.outTakeStartTime + TuningConstants.EFFECTOR_OUTTAKE_DURATION < currTime)
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+            
+            case Shooting:
+
+                if(this.outTakeStartTime + TuningConstants.EFFECTOR_SHOOTING_DURATION < currTime)
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
         }
 
         // STATE CONTROL
@@ -221,7 +245,7 @@ public class EndEffectorMechanism implements IMechanism
                 this.intakeMotor.set(intakePower);
 
             case Shooting:
-                intakePower = TuningConstants.EFFECTOR_INTAKE_IN_POWER;
+                intakePower = TuningConstants.EFFECTOR_INTAKE_FEED_SHOOTER_POWER;
                 this.intakeMotor.set(intakePower);
             
             case Off:
@@ -250,5 +274,10 @@ public class EndEffectorMechanism implements IMechanism
     public boolean isFlywheelSpunUp()
     {
         return this.flywheelSetpoint > 0.0 && Math.abs(this.flywheelError) <= TuningConstants.FLYWHEEL_ALLOWABLE_ERROR_RANGE;
+    }
+
+    public boolean hasGamePiece()
+    {
+        return this.throughBeamBroken;
     }
 }
