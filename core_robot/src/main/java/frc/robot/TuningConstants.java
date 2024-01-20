@@ -512,7 +512,6 @@ public class TuningConstants
     public static final boolean CHAIN_ARM_MOTOR_INVER_OUTPUT = false;
 
     public static final boolean CHAIN_ARM_ACTUATOR_INVER_OUTPUT = false;
-    public static final double GEAR_RATIO = 2;
     public static final double MIN_ROM = 0;
     public static final double MAX_ROM = 130;
 }
