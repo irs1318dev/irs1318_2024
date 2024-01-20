@@ -62,13 +62,7 @@ public class ChainArmMechanism implements IMechanism{
         rightMotor.setMotorOutputSettings(TuningConstants.CHAIN_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         rightMotor.follow(this.leftMotor);
         rightMotor.follow(this.leftMotor);
-//==================================== Arm Angle Values ====================================
-        this.gearRatio = gearRatio;
-        this.minROM = minROM;
-        this.maxROM = maxROM;
-        this.minROM = TuningConstants.MIN_ROM;
-        this.maxROM = TuningConstants.MAX_ROM;
-        this.gearRatio = TuningConstants.GEAR_RATIO;
+
     }
     
     @Override
@@ -76,7 +70,7 @@ public class ChainArmMechanism implements IMechanism{
     {
         this.leftMotorPosition = leftMotor.getPosition();
         this.leftMotorVelocity = leftMotor.getVelocity();
-        this.armAngle = (leftMotorPosition) * this.gearRatio;
+        this.armAngle = (leftMotorPosition) * HardwareConstants.CHAINARM_TICKS_TO_ANGLE;
         this.logger.logNumber(LoggingKey.LeftMotorPosition, this.leftMotorPosition);
         this.logger.logNumber(LoggingKey.LeftMotorVelocity, this.leftMotorVelocity);
         this.logger.logNumber(LoggingKey.ArmAngle, this.armAngle);
@@ -101,13 +95,13 @@ public class ChainArmMechanism implements IMechanism{
             this.leftMotor.set(TalonSRXControlMode.PercentOutput, armPower);
         }
 //==================================== Arm Calculations ====================================
-        if(this.armAngle > (this.maxROM - 1.0))
+        if(this.armAngle > (TuningConstants.CHAINARM_MAX_ANGLE - 1.0))
         {
             this.leftMotor.set(-0.1);
             new WaitTask(500);
             this.leftMotor.set(0);
         }
-        else if(this.armAngle < (this.minROM + 1.0))
+        else if(this.armAngle < (TuningConstants.CHAINARM_MIN_ANGLE + 1.0))
         {
             this.leftMotor.set(0.1);
             new WaitTask(500);
