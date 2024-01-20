@@ -36,9 +36,11 @@ public enum DigitalOperation implements IOperation
     DriveTrainIgnoreSlewRateLimitingMode,
 
     // EndEffector operations:
-    IntakeIn, // add buttons
-    IntakeOut, // add buttons
-    FeedRing, // add buttons
+    IntakeIn,
+    IntakeOut,
+    FeedRing,
+    ForceStop, // add buttons
+    ForceIntake, // add buttons
 
     //Chain Arm operations:
     ArmUsePID,
