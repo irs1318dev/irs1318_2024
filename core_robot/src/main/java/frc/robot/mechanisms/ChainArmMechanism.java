@@ -31,15 +31,21 @@ public class ChainArmMechanism implements IMechanism{
     private double leftMotorVelocity;
     private final ITalonSRX leftMotor;
     private double gearRatio;
-    private double minROM;
-    private double maxROM;
+    /* 
+    private double minAngle;
+    private double maxAngle;
+    These can be accessed by tuning constants CHAIN_ARM_MIN_ANGLE and CHAIN_ARM_MAX_ANGLE
+    */
+
     private double armAngle;
+    
 
     @Inject
     public ChainArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
     {
         this.driver = driver;
         this.logger = logger;
+        this.
 
         this.leftMotor = provider.getTalonSRX(ElectronicsConstants.LEFT_CHAIN_MOTOR_CAN_ID);
 
