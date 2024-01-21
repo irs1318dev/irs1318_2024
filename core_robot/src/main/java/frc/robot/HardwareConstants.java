@@ -10,6 +10,8 @@ public class HardwareConstants
 {
     public static final double MAX_ROBOT_HEIGHT = 78.0; // inches, max overall height
     public static final double MAX_ROBOT_EXTENSION = 48.0; // inches, max extension beyond frame perimeter
+    public static final double FRAME_PERIMETER = 34; //With bumpers
+    public static final double HALF_FRAME_PERIMETER = FRAME_PERIMETER / 2;
 
     //================================================== DriveTrain ==============================================================
 

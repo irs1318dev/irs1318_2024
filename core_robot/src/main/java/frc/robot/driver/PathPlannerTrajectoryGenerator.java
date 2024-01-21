@@ -142,8 +142,8 @@ public class PathPlannerTrajectoryGenerator
                 "P3toP12");
     }
 
-    //Blue is Positive
-    //Red is Negative
+    
+    /* 
     public static double getXPosition(double position)
     {
         if(TuningConstants.IS_RED)
@@ -155,6 +155,7 @@ public class PathPlannerTrajectoryGenerator
             return position * -1.0;
         }
     }
+    */
 
     public static double getOrientationOrHeading(double orientationOrHeading)
     {
