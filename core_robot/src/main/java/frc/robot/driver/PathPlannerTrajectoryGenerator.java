@@ -157,6 +157,8 @@ public class PathPlannerTrajectoryGenerator
     }
     */
 
+    //TODO can getOrientationorHeading() go in AutonLocManager?
+
     public static double getOrientationOrHeading(double orientationOrHeading)
     {
         if(TuningConstants.IS_RED)
