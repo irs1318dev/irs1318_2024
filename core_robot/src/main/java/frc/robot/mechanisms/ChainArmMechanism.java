@@ -101,6 +101,8 @@ public class ChainArmMechanism implements IMechanism{
             this.leftMotor.set(TalonSRXControlMode.PercentOutput, armPower);
         }
 //==================================== Arm Calculations ====================================
+
+        /*
         if(this.armAngle > (TuningConstants.CHAINARM_MAX_ANGLE - 1.0))
         {
             this.leftMotor.set(-0.1);
@@ -114,6 +116,10 @@ public class ChainArmMechanism implements IMechanism{
             this.leftMotor.set(0);
 
         }
+
+        TODO: This is supposed to make sure the arm is not overextending. Wrong use of waittask.
+
+        */
     }
 
     @Override
