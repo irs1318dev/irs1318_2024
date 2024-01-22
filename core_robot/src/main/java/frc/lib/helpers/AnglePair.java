@@ -34,7 +34,7 @@ public class AnglePair
         // }
 
         // get the difference in degrees between -180 and 180
-        double difference = Helpers.updateAngleRange(desiredAngle - currentAngle);
+        double difference = Helpers.updateAngleRange180(desiredAngle - currentAngle);
 
         if (allowReverse)
         {
@@ -97,7 +97,7 @@ public class AnglePair
         }
 
         // get the difference in degrees between -180 and 180
-        double difference = Helpers.updateAngleRange(desiredAngle - currentAngle);
+        double difference = Helpers.updateAngleRange180(desiredAngle - currentAngle);
 
         if (difference < -90.0 || difference > 90.0)
         {

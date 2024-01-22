@@ -375,7 +375,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.driveErrors[i] = this.driveMotors[i].getError();
             this.steerVelocities[i] = this.steerMotors[i].getVelocity();
             this.steerPositions[i] = this.steerMotors[i].getPosition();
-            this.steerAngles[i] = Helpers.updateAngleRange(this.steerPositions[i] * HardwareConstants.SDSDRIVETRAIN_STEER_TICK_DISTANCE);
+            this.steerAngles[i] = Helpers.updateAngleRange180(this.steerPositions[i] * HardwareConstants.SDSDRIVETRAIN_STEER_TICK_DISTANCE);
             this.steerErrors[i] = this.steerMotors[i].getError();
             this.encoderAngles[i] = this.absoluteEncoders[i].getAbsolutePosition();
 
@@ -465,7 +465,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             for (int i = 0; i < SDSDriveTrainMechanism.NUM_MODULES; i++)
             {
                 this.driveMotors[i].setPosition(0);
-                double angleDifference = (this.encoderAngles[i] - this.drivetrainSteerMotorAbsoluteOffsets[i]) * 360.0;
+                double angleDifference = (this.encoderAngles[i] - this.drivetrainSteerMotorAbsoluteOffsets[i]);
                 double tickDifference = angleDifference * HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
                 this.steerMotors[i].setPosition((int)tickDifference);
 

@@ -1,6 +1,7 @@
 package frc.lib.controllers;
 
 import frc.lib.helpers.ExceptionHelpers;
+import frc.lib.helpers.Helpers;
 
 /**
  * TrapezoidProfile is a class that can be used to create a trapezoidal motion profile.
@@ -47,8 +48,9 @@ public class TrapezoidProfile
      * @param timeDelta from the last update cycle
      * @param curr current position, velocity
      * @param goal desired final/end position, velocity
+     * @return true if we still have more progress to make, false if it was already at the goal
      */
-    public void update(double timeDelta, State curr, State goal)
+    public boolean update(double timeDelta, State curr, State goal)
     {
         ExceptionHelpers.Assert(timeDelta >= 0.0, "timeDelta must be non-negative");
 
@@ -123,6 +125,7 @@ public class TrapezoidProfile
         // accel end time is accelDuration
         // coast end time is accelDuration + coastDuration;
         // decel end time is accelDuration + coastDuration + decelDuration;
+        boolean inProgress = true;
         if (timeDelta < accelDuration)
         {
             // accelerating
@@ -147,6 +150,7 @@ public class TrapezoidProfile
             // done
             currPosition = goalPosition;
             currVelocity = goalVelocity;
+            inProgress = false;
         }
 
         // now, (potentially swap the direction back and) put them back into curr (to avoid new allocations)
@@ -160,6 +164,8 @@ public class TrapezoidProfile
             curr.position = currPosition;
             curr.velocity = currVelocity;
         }
+
+        return inProgress;
     }
 
     public static class State
@@ -181,6 +187,22 @@ public class TrapezoidProfile
         public double getVelocity()
         {
             return this.velocity;
+        }
+
+        public boolean updatePosition(double position)
+        {
+            if (Helpers.RoughEquals(this.position, position, 1e-5))
+            {
+                return false;
+            }
+
+            this.position = position;
+            return true;
+        }
+
+        public void setVelocity(double velocity)
+        {
+            this.velocity = velocity;
         }
     }
 }
