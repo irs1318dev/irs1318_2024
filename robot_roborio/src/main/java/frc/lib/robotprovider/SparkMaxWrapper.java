@@ -2,7 +2,7 @@ package frc.lib.robotprovider;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.*;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.SparkPIDController.AccelStrategy;
 
 public class SparkMaxWrapper implements ISparkMax
@@ -20,15 +20,15 @@ public class SparkMaxWrapper implements ISparkMax
 
     public SparkMaxWrapper(int deviceID, SparkMaxMotorType motorType)
     {
-        MotorType type = MotorType.kBrushless;
+        CANSparkLowLevel.MotorType type = CANSparkLowLevel.MotorType.kBrushless;
         switch (motorType)
         {
             case Brushed:
-                type = MotorType.kBrushed;
+                type = CANSparkLowLevel.MotorType.kBrushed;
                 break;
 
             case Brushless:
-                type = MotorType.kBrushless;
+                type = CANSparkLowLevel.MotorType.kBrushless;
                 break;
         }
 
@@ -86,23 +86,23 @@ public class SparkMaxWrapper implements ISparkMax
 
         this.ensurePidController();
 
-        CANSparkMax.ControlType controlType;
+        CANSparkBase.ControlType controlType;
         switch (this.currentMode)
         {
             case Position:
-                controlType = CANSparkMax.ControlType.kPosition;
+                controlType = CANSparkBase.ControlType.kPosition;
                 break;
 
             case SmartMotionPosition:
-                controlType = CANSparkMax.ControlType.kSmartMotion;
+                controlType = CANSparkBase.ControlType.kSmartMotion;
                 break;
 
             case Velocity:
-                controlType = CANSparkMax.ControlType.kVelocity;
+                controlType = CANSparkBase.ControlType.kVelocity;
                 break;
 
             case Voltage:
-                controlType = CANSparkMax.ControlType.kVoltage;
+                controlType = CANSparkBase.ControlType.kVoltage;
                 break;
 
             default:
@@ -124,17 +124,17 @@ public class SparkMaxWrapper implements ISparkMax
 
     public void setFeedbackFramePeriod(SparkMaxPeriodicFrameType frameType, int periodMS)
     {
-        PeriodicFrame type = PeriodicFrame.kStatus0;
+        CANSparkLowLevel.PeriodicFrame type = CANSparkLowLevel.PeriodicFrame.kStatus0;
         switch (frameType)
         {
             case Status0:
-                type = PeriodicFrame.kStatus0;
+                type = CANSparkLowLevel.PeriodicFrame.kStatus0;
                 break;
             case Status1:
-                type = PeriodicFrame.kStatus1;
+                type = CANSparkLowLevel.PeriodicFrame.kStatus1;
                 break;
             case Status2:
-                type = PeriodicFrame.kStatus2;
+                type = CANSparkLowLevel.PeriodicFrame.kStatus2;
                 break;
         }
 
@@ -500,6 +500,8 @@ public class SparkMaxWrapper implements ISparkMax
 
     public double getVelocity()
     {
+        // NOTE: SparkMAX Absolute encoder provides velocity in Rotations per Second,
+        // but SparkMAX Relative/Alternative encoder provides velocity in Rotations per Minute.
         if (this.useAbsoluteEncoder)
         {
             return this.wrappedAbsoluteEncoder.getVelocity();

@@ -15,7 +15,7 @@ public class TrapezoidProfileTests
         TrapezoidProfile.State curr = new TrapezoidProfile.State(0.0, 0.0);
         TrapezoidProfile.State goal = new TrapezoidProfile.State(0.0, 0.0);
 
-        profile.update(0.0, curr, goal);
+        Assertions.assertFalse(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
         Assertions.assertEquals(0.0, goal.getPosition());
@@ -29,25 +29,25 @@ public class TrapezoidProfileTests
 
         TrapezoidProfile.State curr = new TrapezoidProfile.State(0.0, 0.0);
         TrapezoidProfile.State goal = new TrapezoidProfile.State(0.0, 0.0);
-        profile.update(0.02, curr, goal);
+        Assertions.assertFalse(profile.update(0.02, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(2.0, 0.0);
         goal = new TrapezoidProfile.State(2.0, 0.0);
-        profile.update(0.02, curr, goal);
+        Assertions.assertFalse(profile.update(0.02, curr, goal));
         Assertions.assertEquals(2.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(360.0, 4.0);
         goal = new TrapezoidProfile.State(360.0, 4.0);
-        profile.update(0.04, curr, goal);
+        Assertions.assertFalse(profile.update(0.04, curr, goal));
         Assertions.assertEquals(360.0, curr.getPosition());
         Assertions.assertEquals(4.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(0.0, 8.0);
         goal = new TrapezoidProfile.State(0.0, 8.0);
-        profile.update(1.0, curr, goal);
+        Assertions.assertFalse(profile.update(1.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(8.0, curr.getVelocity());
     }
@@ -59,31 +59,31 @@ public class TrapezoidProfileTests
 
         TrapezoidProfile.State curr = new TrapezoidProfile.State(0.0, 0.0);
         TrapezoidProfile.State goal = new TrapezoidProfile.State(0.02, 0.0);
-        profile.update(0.0, curr, goal);
+        Assertions.assertTrue(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(0.0, 0.0);
         goal = new TrapezoidProfile.State(0.2, 2.0);
-        profile.update(0.0, curr, goal);
+        Assertions.assertTrue(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(0.0, 0.0);
         goal = new TrapezoidProfile.State(0.4, 4.0);
-        profile.update(0.0, curr, goal);
+        Assertions.assertTrue(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(0.0, 0.0);
         goal = new TrapezoidProfile.State(1.0, 8.0);
-        profile.update(0.0, curr, goal);
+        Assertions.assertTrue(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
 
         curr = new TrapezoidProfile.State(0.0, 0.0);
         goal = new TrapezoidProfile.State(10.0, 10.0);
-        profile.update(0.0, curr, goal);
+        Assertions.assertTrue(profile.update(0.0, curr, goal));
         Assertions.assertEquals(0.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
@@ -97,7 +97,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 300; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 299);
 
             // simple verification of path
             Assertions.assertTrue(curr.getPosition() >= 0.0 && curr.getPosition() <= 6.0, "Position out of range [0,6] -> " + curr.getPosition());
@@ -109,7 +109,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(6.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -126,7 +126,7 @@ public class TrapezoidProfileTests
         // first second will have the system reach max speed at position ~0.75
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
         }
 
         Assertions.assertNotEquals(goal.getPosition(), curr.getPosition());
@@ -136,7 +136,7 @@ public class TrapezoidProfileTests
         goal = new TrapezoidProfile.State(3.0, 0.0);
         for (int i = 0; i < 50; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
         }
 
         Assertions.assertNotEquals(goal.getPosition(), curr.getPosition());
@@ -146,7 +146,7 @@ public class TrapezoidProfileTests
         goal = new TrapezoidProfile.State(2.25, 0.0);
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 99);
         }
 
         // should at least roughly equal the goal
@@ -154,7 +154,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(2.25, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -172,7 +172,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 200; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -185,7 +185,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 65700; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -198,7 +198,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 200; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 199);
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -214,7 +214,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(13180.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -232,7 +232,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 800; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -245,7 +245,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 65100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -258,7 +258,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 800; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 799);
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -274,7 +274,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(1318.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -287,9 +287,9 @@ public class TrapezoidProfileTests
         TrapezoidProfile.State curr = new TrapezoidProfile.State(0.0, 0.0);
         TrapezoidProfile.State goal = new TrapezoidProfile.State(-6.0, 0.0);
 
-        for (int i = 0; i <= 300; i++)
+        for (int i = 0; i < 300; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 299);
 
             // simple verification of path
             Assertions.assertTrue(curr.getPosition() >= -6.0 && curr.getPosition() <= 0.0, "Position out of range [-6,0] -> " + curr.getPosition());
@@ -301,7 +301,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(-6.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -318,7 +318,7 @@ public class TrapezoidProfileTests
         // first second will have the system reach max speed at position ~0.75
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
         }
 
         Assertions.assertNotEquals(goal.getPosition(), curr.getPosition());
@@ -328,7 +328,7 @@ public class TrapezoidProfileTests
         goal = new TrapezoidProfile.State(-3.0, 0.0);
         for (int i = 0; i < 50; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
         }
 
         Assertions.assertNotEquals(goal.getPosition(), curr.getPosition());
@@ -338,7 +338,7 @@ public class TrapezoidProfileTests
         goal = new TrapezoidProfile.State(-2.25, 0.0);
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 99);
         }
 
         // should at least roughly equal the goal
@@ -346,7 +346,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(-2.25, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -364,7 +364,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 200; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -377,7 +377,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 65700; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -390,7 +390,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 200; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 199);;
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -405,7 +405,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(-13180.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -423,7 +423,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 800; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -436,7 +436,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 65100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -449,7 +449,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 800; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 799);
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
@@ -464,7 +464,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(-1318.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
@@ -482,7 +482,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             double positionChange = curr.getPosition() - prevPosition;
@@ -496,7 +496,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 1950; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be decreasing");
@@ -509,7 +509,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 100; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 99);
 
             // verify decel
             double positionChange = curr.getPosition() - prevPosition;
@@ -525,7 +525,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(5.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(200.0, curr.getPosition());
         Assertions.assertEquals(5.0, curr.getVelocity());
@@ -543,7 +543,7 @@ public class TrapezoidProfileTests
         double prevVelocity = curr.getVelocity();
         for (int i = 0; i < 800; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -556,7 +556,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 65400; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal));
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -569,7 +569,7 @@ public class TrapezoidProfileTests
 
         for (int i = 0; i < 200; i++)
         {
-            profile.update(0.01, curr, goal);
+            Assertions.assertTrue(profile.update(0.01, curr, goal) || i == 199);
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
@@ -585,7 +585,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity(), 1e-5);
 
         // after any subsequent update, should be exactly equal to goal...
-        profile.update(0.01, curr, goal);
+        Assertions.assertFalse(profile.update(0.01, curr, goal));
 
         Assertions.assertEquals(1318.0, curr.getPosition());
         Assertions.assertEquals(0.0, curr.getVelocity());
