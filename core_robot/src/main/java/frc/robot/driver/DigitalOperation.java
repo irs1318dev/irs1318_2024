@@ -45,8 +45,8 @@ public enum DigitalOperation implements IOperation
     //Chain Arm operations:
     ArmUsePID,
     ArmUsePercentOutput,
-    
-    //Linear Actuator Arm Operations:
-    ArmEnableSimpleMode,
-    ArmEnablePID,
+
+    WristUsePID,
+    WristUsePower,
+
 }

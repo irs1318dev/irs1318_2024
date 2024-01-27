@@ -123,12 +123,11 @@ public enum LoggingKey
 
     // Arm Stuff
     // chm = Chain Motor
-    LeftMotorPosition("chm.position"),
-    LeftMotorVelocity("chm.velocity"),
-    ArmAngle("arm.angle"),
+    ChainMotorPosition("chm.position"),
+    ChainMotorVelocity("chm.velocity"),
+    WristMotorPosition("wr.position"),
+    WristMotorVelocity("wr.velocity");
 
-    LeftLAPosition("la.position"),
-    LeftLAVelocity("la.velocity");
 
     public final String value;
     public final int loggingFrequency;

@@ -99,4 +99,5 @@ public class ElectronicsConstants
 
     public static final int LEFT_CHAIN_MOTOR_CAN_ID = 12;
     public static final int RIGHT_CHAIN_MOTOR_CAN_ID = 13;
+    public static final int WRIST_CHAIN_MOTOR_CAN_ID = 14;
 }

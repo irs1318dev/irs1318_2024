@@ -48,7 +48,6 @@ public class LinearActuatorArmMechanism implements IMechanism
         this.leftArmLinearActuator.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.leftArmLinearActuator.setMotorOutputSettings(TuningConstants.LINEAR_ACTUATOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         this.leftArmLinearActuator.setControlMode(TalonSRXControlMode.Required);
-        this.leftArmLinearActuator.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.leftArmLinearActuator.setPosition(0.0);
         
         ITalonSRX rightLowerLAFollower = provider.getTalonSRX(ElectronicsConstants.RIGHT_LINEAR_ACTUATOR_CAN_ID);

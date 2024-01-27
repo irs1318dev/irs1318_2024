@@ -97,17 +97,36 @@ public class ButtonMap implements IButtonMap
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.MoveChainArm,
+            AnalogOperation.PositionChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.INVERT_XBONE_LEFT_X_AXIS,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+
+        new AnalogOperationDescription(
+            AnalogOperation.PowerChainArm,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+        
         new AnalogOperationDescription(
-            AnalogOperation.MoveLinearActuatorArm,
+            AnalogOperation.WristPositionChainArm,
             UserInputDevice.Codriver,
-            AnalogAxis.XBONE_RSY,
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            AnalogAxis.INVERT_XBONE_LEFT_TRIGGER,
+            Shift.CodriverDebug,
+
+            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+
+        new AnalogOperationDescription(
+            AnalogOperation.WristPowerChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.INVERT_XBONE_RIGHT_TRIGGER,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         };
@@ -197,6 +216,22 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
+        new DigitalOperationDescription(
+            DigitalOperation.WristUsePID,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.WristUsePower,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_LEFT_STICK_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
         // Test operations:
         new DigitalOperationDescription(
             DigitalOperation.VisionEnableAprilTagProcessing,
@@ -205,6 +240,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle),
+        
         new DigitalOperationDescription(
             DigitalOperation.VisionEnableRetroreflectiveProcessing,
             UserInputDevice.Test1,
@@ -212,6 +248,8 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Toggle),
+
+        
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
