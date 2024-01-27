@@ -494,6 +494,23 @@ public class TuningConstants
 
     public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
 
+    //==================================================== ShootNoteTask =====================================================
+
+    //TODO get the actual values here
+    public static final double GRAVITY_CONSTANT = 192; // inches per second per second
+
+    public static final double APRILTAG_TARGET_OFFSET_X = 0; // inches
+    public static final double APRILTAG_TARGET_OFFSET_Y = 48; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_X = 12; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_Y = 24; // inches
+
+    public static final int ANGLE_FINDING_ITERATIONS = 10;
+
+    public static final double SHOOTER_ANGLE_ASYMPTOTE_DISTANCE = 1; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees
+
+
+
     //==================================================== LinearActuatorArm =====================================================
 
     public static final double LA_ARM_MOTOR_PID_KP = 0.3;

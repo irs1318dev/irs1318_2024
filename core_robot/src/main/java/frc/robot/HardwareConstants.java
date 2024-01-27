@@ -85,4 +85,7 @@ public class HardwareConstants
 
     //=============================================== Arm =====================================================================//
     public static final double CHAINARM_TICKS_TO_ANGLE = 0.5; // Ratio of Arm Gear to Drive Gear
+
+    //=============================================== EndEffector =====================================================================//
+    public static final double END_EFFECTOR_PIVOT_LENGTH = 24; //inches
 }
