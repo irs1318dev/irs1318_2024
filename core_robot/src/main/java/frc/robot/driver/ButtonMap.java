@@ -1,5 +1,6 @@
 package frc.robot.driver;
 
+import java.security.DigestException;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -233,7 +234,39 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.WristUsePower,
             UserInputDevice.Codriver,
-            UserInputDeviceButton.XBONE_LEFT_STICK_BUTTON,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ForceStop,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ArmUsePID,
+            UserInputDevice.Codriver,
+            0,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.ArmUsePower,
+            UserInputDevice.Codriver,
+            0,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.ForceIntake,
+            UserInputDevice.Codriver,
+            90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),

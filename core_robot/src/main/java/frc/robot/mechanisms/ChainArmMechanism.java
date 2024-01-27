@@ -140,7 +140,7 @@ public class ChainArmMechanism implements IMechanism{
             this.chainMotor.set(armPositionAdjustment);
         }
         
-        else if(this.driver.getDigital(DigitalOperation.ArmUsePercentOutput))
+        else if(this.driver.getDigital(DigitalOperation.ArmUsePower))
         {
             this.chainMotor.setControlMode(SparkMaxControlMode.PercentOutput);
             this.chainMotor.set(armPowerAdjustment);
