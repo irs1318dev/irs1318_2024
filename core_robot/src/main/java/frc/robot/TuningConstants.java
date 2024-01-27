@@ -330,7 +330,7 @@ public class TuningConstants
 
     //================================================== REV DriveTrain ==============================================================
 
-    public static final boolean REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE = false;
+    public static final boolean REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE = true;
 
     public static final boolean REVDRIVETRAIN_USE_ODOMETRY = true;
     public static final boolean REVDRIVETRAIN_RESET_ON_ROBOT_START = true;
@@ -366,8 +366,8 @@ public class TuningConstants
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KI = 0.0;
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KD = 0.0;
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KF = 0.0;
-    public static final int REVDRIVETRAIN_STEER_MOTORS_TMP_PID_CRUISE_VELOC = 60; // deg/sec
-    public static final int REVDRIVETRAIN_STEER_MOTORS_TMP_PID_ACCEL = 60; // deg/sec/sec
+    public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_CRUISE_VELOC = 1440.0; // deg/sec
+    public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_ACCEL = 360 * 32; // 4 * 360; // deg/sec/sec
 
     // Velocity PID (drive) per-module
     public static final double REVDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 208.0; // 208.0 was highest speed at full throttle FF on blocks. this is inches/second

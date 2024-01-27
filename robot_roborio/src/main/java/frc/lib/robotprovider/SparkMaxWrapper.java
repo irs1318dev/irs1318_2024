@@ -136,6 +136,18 @@ public class SparkMaxWrapper implements ISparkMax
             case Status2:
                 type = CANSparkLowLevel.PeriodicFrame.kStatus2;
                 break;
+            case Status4:
+                type = CANSparkLowLevel.PeriodicFrame.kStatus3;
+                break;
+            case Status3:
+                type = CANSparkLowLevel.PeriodicFrame.kStatus4;
+                break;
+            case Status5:
+                type = CANSparkLowLevel.PeriodicFrame.kStatus5;
+                break;
+            case Status6:
+                type = CANSparkLowLevel.PeriodicFrame.kStatus6;
+                break;
         }
 
         RevErrorCodeHelper.printError(
