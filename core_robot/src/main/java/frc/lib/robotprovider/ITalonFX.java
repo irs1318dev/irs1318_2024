@@ -38,7 +38,6 @@ public interface ITalonFX extends ITalonXBase
         boolean reverseReset,
         double reverseResetPosition);
 
-
     void setVoltageCompensation(boolean enabled, double maxVoltage);
 
     void stop();

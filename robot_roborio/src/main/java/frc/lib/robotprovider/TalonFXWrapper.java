@@ -1,12 +1,12 @@
 package frc.lib.robotprovider;
 
-import java.util.function.Consumer;
-
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.*;
+
+import frc.lib.helpers.ExceptionHelpers;
 
 public class TalonFXWrapper implements ITalonFX
 {
@@ -51,24 +51,40 @@ public class TalonFXWrapper implements ITalonFX
 
     public void set(double value)
     {
-        this.internalSet(this.controlMode, this.selectedSlot, value);
+        this.internalSet(this.controlMode, this.selectedSlot, value, 0.0);
+    }
+
+    public void set(double value, double feedForward)
+    {
+        this.internalSet(this.controlMode, this.selectedSlot, value, feedForward);
     }
 
     public void set(TalonFXControlMode mode, double value)
     {
-        this.internalSet(mode, this.selectedSlot, value);
+        this.internalSet(mode, this.selectedSlot, value, 0.0);
+    }
+
+    public void set(TalonFXControlMode mode, double value, double feedForward)
+    {
+        this.internalSet(mode, this.selectedSlot, value, feedForward);
     }
 
     public void set(TalonFXControlMode mode, int slotId, double value)
     {
-        this.internalSet(mode, slotId, value);
+        this.internalSet(mode, slotId, value, 0.0);
     }
 
-    private void internalSet(TalonFXControlMode mode, int slotId, double value)
+    public void set(TalonFXControlMode mode, int slotId, double value, double feedForward)
+    {
+        this.internalSet(mode, slotId, value, feedForward);
+    }
+
+    private void internalSet(TalonFXControlMode mode, int slotId, double value, double feedForward)
     {
         switch (mode)
         {
             case PercentOutput:
+                ExceptionHelpers.Assert(feedForward == 0.0, "Don't expect to see feedForward for PercentOutput");
                 if (this.useVoltageCompensation)
                 {
                     VoltageOut voRequest;
@@ -116,7 +132,7 @@ public class TalonFXWrapper implements ITalonFX
                         pvRequest = new PositionVoltage(value);
                     }
 
-                    pvRequest.withFeedForward(this.maxVoltage);
+                    pvRequest.withFeedForward(feedForward);
                     pvRequest.withSlot(slotId);
                     this.wrappedObject.setControl(pvRequest);
                 }
@@ -133,6 +149,7 @@ public class TalonFXWrapper implements ITalonFX
                         pdcRequest = new PositionDutyCycle(value);
                     }
 
+                    pdcRequest.withFeedForward(feedForward);
                     pdcRequest.withSlot(slotId);
                     this.wrappedObject.setControl(pdcRequest);
                 }
@@ -153,7 +170,7 @@ public class TalonFXWrapper implements ITalonFX
                         vvRequest = new VelocityVoltage(value);
                     }
 
-                    vvRequest.withFeedForward(this.maxVoltage);
+                    vvRequest.withFeedForward(feedForward);
                     vvRequest.withSlot(slotId);
                     this.wrappedObject.setControl(vvRequest);
                 }
@@ -170,6 +187,7 @@ public class TalonFXWrapper implements ITalonFX
                         vdcRequest = new VelocityDutyCycle(value);
                     }
 
+                    vdcRequest.withFeedForward(feedForward);
                     vdcRequest.withSlot(slotId);
                     this.wrappedObject.setControl(vdcRequest);
                 }
@@ -190,7 +208,7 @@ public class TalonFXWrapper implements ITalonFX
                         mmvRequest = new MotionMagicVoltage(value);
                     }
 
-                    mmvRequest.withFeedForward(this.maxVoltage);
+                    mmvRequest.withFeedForward(feedForward);
                     mmvRequest.withSlot(slotId);
                     this.wrappedObject.setControl(mmvRequest);
                 }
@@ -207,6 +225,7 @@ public class TalonFXWrapper implements ITalonFX
                         mmdcRequest = new MotionMagicDutyCycle(value);
                     }
 
+                    mmdcRequest.withFeedForward(feedForward);
                     mmdcRequest.withSlot(slotId);
                     this.wrappedObject.setControl(mmdcRequest);
                 }
@@ -214,6 +233,7 @@ public class TalonFXWrapper implements ITalonFX
                 break;
 
             case Coast:
+                ExceptionHelpers.Assert(feedForward == 0.0, "Don't expect to see feedForward for Coast");
                 CoastOut coRequest;
                 if (this.currentControlRequest instanceof CoastOut)
                 {
@@ -228,6 +248,7 @@ public class TalonFXWrapper implements ITalonFX
                 break;
 
             case StaticBrake:
+                ExceptionHelpers.Assert(feedForward == 0.0, "Don't expect to see feedForward for StaticBrake");
                 StaticBrake sbRequest;
                 if (this.currentControlRequest instanceof StaticBrake)
                 {
@@ -243,6 +264,7 @@ public class TalonFXWrapper implements ITalonFX
 
             default:
             case Neutral:
+                ExceptionHelpers.Assert(feedForward == 0.0, "Don't expect to see feedForward for Neutral/default");
                 NeutralOut noRequest;
                 if (this.currentControlRequest instanceof NeutralOut)
                 {
