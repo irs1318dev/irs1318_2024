@@ -87,8 +87,8 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.FlywheelMotorPower,
             UserInputDevice.Codriver,
-            AnalogAxis.XBONE_LSY,
-            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            AnalogAxis.XBONE_RT,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
             0.0,
             0.2),
 
@@ -99,7 +99,9 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.PositionChainArm,
             UserInputDevice.Codriver,
-            AnalogAxis.INVERT_XBONE_LEFT_X_AXIS,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
@@ -107,7 +109,9 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.PowerChainArm,
             UserInputDevice.Codriver,
-            AnalogAxis.XBONE_RSX,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
@@ -115,9 +119,9 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.WristPositionChainArm,
             UserInputDevice.Codriver,
-            AnalogAxis.INVERT_XBONE_LEFT_TRIGGER,
-            Shift.CodriverDebug,
-
+            AnalogAxis.XBONE_RSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
@@ -125,7 +129,9 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.WristPowerChainArm,
             UserInputDevice.Codriver,
-            AnalogAxis.INVERT_XBONE_RIGHT_TRIGGER,
+            AnalogAxis.XBONE_RSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),

@@ -90,14 +90,9 @@ public class ElectronicsConstants
     public static final int FLYWHEEL_FOLLOWER_MOTOR_CAN_ID = 23;
     public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 24;
 
-    //================================================== LinearActuarorArm ===============================================================
-
-    public static final int LEFT_LINEAR_ACTUATOR_CAN_ID = 10;
-    public static final int RIGHT_LINEAR_ACTUATOR_CAN_ID = 11;
-
     //================================================== ChainArm =========================================================================
 
-    public static final int LEFT_CHAIN_MOTOR_CAN_ID = 12;
-    public static final int RIGHT_CHAIN_MOTOR_CAN_ID = 13;
+    public static final int CHAIN_MOTOR_CAN_ID = 12;
+    public static final int CHAIN_FOLLOWER_MOTOR_CAN_ID = 13;
     public static final int WRIST_CHAIN_MOTOR_CAN_ID = 14;
 }

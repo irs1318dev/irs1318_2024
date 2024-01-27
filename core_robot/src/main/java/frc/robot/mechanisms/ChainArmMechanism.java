@@ -4,12 +4,16 @@ import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.*;
 import frc.lib.robotprovider.ILogger;
 import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.ISparkMax;
 import frc.lib.robotprovider.ITalonFX;
 import frc.lib.robotprovider.ITalonSRX;
 import frc.lib.robotprovider.MotorNeutralMode;
+import frc.lib.robotprovider.SparkMaxControlMode;
+import frc.lib.robotprovider.SparkMaxMotorType;
 import frc.lib.robotprovider.TalonSRXControlMode;
 import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
+import frc.robot.HardwareConstants;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
@@ -24,12 +28,15 @@ import com.google.inject.Singleton;
 public class ChainArmMechanism implements IMechanism{
 
     private static final int defaultPidSlotId = 0;
+    private static final int SMPidSlotId = 1;
 
     private final IDriver driver;
     private final ILogger logger;
+
     private double chainMotorPosition;
     private double chainMotorVelocity;
-    private final ITalonSRX chainMotor;
+
+    private final ISparkMax chainMotor;
     private double gearRatio;
     /* 
     private double minAngle;
@@ -49,9 +56,10 @@ public class ChainArmMechanism implements IMechanism{
     {
         this.driver = driver;
         this.logger = logger;
-        this.
 
-        this.chainMotor = provider.getTalonSRX(ElectronicsConstants.LEFT_CHAIN_MOTOR_CAN_ID);
+        this.gearRatio = HardwareConstants.CHAINARM_TICKS_TO_ANGLE;
+
+        this.chainMotor = provider.getSparkMax(ElectronicsConstants.CHAIN_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         this.wristMotor = provider.getTalonSRX(ElectronicsConstants.WRIST_CHAIN_MOTOR_CAN_ID);
 
         this.chainMotor.setPIDF(
@@ -68,42 +76,44 @@ public class ChainArmMechanism implements IMechanism{
             TuningConstants.WRIST_ARM_MOTOR_PID_KF, 
             ChainArmMechanism.defaultPidSlotId);
 
+        this.chainMotor.setRelativeEncoder();
+        this.chainMotor.setInvertSensor(TuningConstants.CHAIN_MOTOR_INVERT_SENSOR);
+        this.chainMotor.setPositionConversionFactor(this.gearRatio);
+        this.chainMotor.setInvertOutput(TuningConstants.CHAIN_MOTOR_INVERT_OUTPUT);
+        this.chainMotor.setNeutralMode(MotorNeutralMode.Brake);
         this.chainMotor.setSelectedSlot(defaultPidSlotId);
-        this.chainMotor.setSensorType(TalonSRXFeedbackDevice.None);
-        this.chainMotor.setPosition(0.0);
-        this.chainMotor.setMotorOutputSettings(TuningConstants.CHAIN_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
-        this.chainMotor.setControlMode(TalonSRXControlMode.PercentOutput);
+
+        if (TuningConstants.SHOULDER_USE_PERCENT_OUTPUT)
+        {
+            this.chainMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+        }
+
+        else
+        {
+            this.chainMotor.setControlMode(SparkMaxControlMode.Position);
+        }
+
+        this.chainMotor.burnFlash();
 
         this.wristMotor.setSelectedSlot(defaultPidSlotId);
-        this.wristMotor.setSensorType(TalonSRXFeedbackDevice.None);
+        this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.wristMotor.setPosition(0.0);
         this.wristMotor.setMotorOutputSettings(TuningConstants.WRIST_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
         
 
-        ITalonSRX rightMotor = provider.getTalonSRX(ElectronicsConstants.RIGHT_CHAIN_MOTOR_CAN_ID);
-        rightMotor.setMotorOutputSettings(TuningConstants.CHAIN_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
-<<<<<<< Updated upstream
-        rightMotor.follow(this.leftMotor);
-        rightMotor.follow(this.leftMotor);
+        ISparkMax rightMotor = provider.getSparkMax(ElectronicsConstants.CHAIN_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
+        rightMotor.setInvertOutput(TuningConstants.CHAIN_MOTOR_FOLLOWER_INVERT_OUTPUT);
+        rightMotor.setNeutralMode(MotorNeutralMode.Brake);
+        rightMotor.follow(this.chainMotor);
 
-=======
-        rightMotor.follow(this.chainMotor);
-        rightMotor.follow(this.chainMotor);
->>>>>>> Stashed changes
+        rightMotor.burnFlash();
+
     }
     
     @Override
     public void readSensors()
     {
-<<<<<<< Updated upstream
-        this.leftMotorPosition = leftMotor.getPosition();
-        this.leftMotorVelocity = leftMotor.getVelocity();
-        this.armAngle = (leftMotorPosition) * HardwareConstants.CHAINARM_TICKS_TO_ANGLE;
-        this.logger.logNumber(LoggingKey.LeftMotorPosition, this.leftMotorPosition);
-        this.logger.logNumber(LoggingKey.LeftMotorVelocity, this.leftMotorVelocity);
-        this.logger.logNumber(LoggingKey.ArmAngle, this.armAngle);
-=======
         this.chainMotorPosition = chainMotor.getPosition();
         this.chainMotorVelocity = chainMotor.getVelocity();
         this.wristMotorPosition = wristMotor.getPosition();
@@ -113,7 +123,6 @@ public class ChainArmMechanism implements IMechanism{
         this.logger.logNumber(LoggingKey.ChainMotorVelocity, this.chainMotorVelocity);
         this.logger.logNumber(LoggingKey.WristMotorPosition, this.wristMotorPosition);
         this.logger.logNumber(LoggingKey.WristMotorVelocity, this.wristMotorVelocity);
->>>>>>> Stashed changes
     }
 
     @Override
@@ -127,42 +136,27 @@ public class ChainArmMechanism implements IMechanism{
 
         if(this.driver.getDigital(DigitalOperation.ArmUsePID))
         {
-            this.chainMotor.set(TalonSRXControlMode.Position, armPositionAdjustment);
+            this.chainMotor.setControlMode(SparkMaxControlMode.Position);
+            this.chainMotor.set(armPositionAdjustment);
         }
         
         else if(this.driver.getDigital(DigitalOperation.ArmUsePercentOutput))
         {
-            this.chainMotor.set(TalonSRXControlMode.PercentOutput, armPowerAdjustment);
+            this.chainMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+            this.chainMotor.set(armPowerAdjustment);
         }
-<<<<<<< Updated upstream
-//==================================== Arm Calculations ====================================
-
-        /*
-        if(this.armAngle > (TuningConstants.CHAINARM_MAX_ANGLE - 1.0))
-=======
         
         if(this.driver.getDigital(DigitalOperation.WristUsePID))
->>>>>>> Stashed changes
         {
-            this.chainMotor.set(TalonSRXControlMode.PercentOutput, wristPositionAdjustment);
+            this.wristMotor.setControlMode(TalonSRXControlMode.Position);
+            this.wristMotor.set(wristPositionAdjustment);
         }
-<<<<<<< Updated upstream
-        else if(this.armAngle < (TuningConstants.CHAINARM_MIN_ANGLE + 1.0))
-        {
-            this.leftMotor.set(0.1);
-            new WaitTask(500);
-            this.leftMotor.set(0);
-=======
->>>>>>> Stashed changes
 
         else if(this.driver.getDigital(DigitalOperation.WristUsePower)) 
         {
-            this.chainMotor.set(TalonSRXControlMode.Position, wristPowerAdjustment);
+            this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
+            this.wristMotor.set(wristPowerAdjustment);
         }
-
-        TODO: This is supposed to make sure the arm is not overextending. Wrong use of waittask.
-
-        */
     }
 
     @Override
