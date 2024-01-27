@@ -6,6 +6,7 @@ public interface ITalonSRX extends ITalonXBase
     void follow(IVictorSPX victorSPX);
     void set(TalonSRXControlMode mode, double value);
     void setControlMode(TalonSRXControlMode mode);
+    void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId);
     void setSensorType(TalonSRXFeedbackDevice feedbackDevice);
     void setGeneralFramePeriod(int periodMS);
     void setFeedbackFramePeriod(int periodMS);

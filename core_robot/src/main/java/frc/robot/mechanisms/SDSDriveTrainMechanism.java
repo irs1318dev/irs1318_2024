@@ -231,13 +231,15 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD,
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF,
                 SDSDriveTrainMechanism.defaultPidSlotId);
-            this.steerMotors[i].setMotionMagicPIDF(
+            this.steerMotors[i].setMotionMagicPIDVS(
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP,
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI,
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD,
-                TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KF,
+                TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KV,
+                TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KS,
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC,
                 TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL,
+                TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_MM_PID_JERK,
                 SDSDriveTrainMechanism.secondaryPidSlotId);
             this.steerMotors[i].setVoltageCompensation(
                 TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED,

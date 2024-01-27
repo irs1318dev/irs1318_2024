@@ -580,7 +580,7 @@ public class TalonFXWrapper implements ITalonFX
         }
     }
 
-    public void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId)
+    public void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId)
     {
         this.ensureConfigurator();
 
@@ -591,10 +591,11 @@ public class TalonFXWrapper implements ITalonFX
                 slot0Configs.kP = p;
                 slot0Configs.kI = i;
                 slot0Configs.kD = d;
-                slot0Configs.kV = f;
+                slot0Configs.kV = v;
+                slot0Configs.kS = s;
                 CTREStatusCodeHelper.printError(
                     this.currentConfigurator.apply(slot0Configs, TalonFXWrapper.timeoutSecs),
-                    "TalonFXWrapper.setMotionMagicPIDF-PID");
+                    "TalonFXWrapper.setMotionMagicPIDVS-PID");
                 break;
 
             case 1:
@@ -602,10 +603,11 @@ public class TalonFXWrapper implements ITalonFX
                 slot1Configs.kP = p;
                 slot1Configs.kI = i;
                 slot1Configs.kD = d;
-                slot1Configs.kV = f;
+                slot1Configs.kV = v;
+                slot1Configs.kS = s;
                 CTREStatusCodeHelper.printError(
                     this.currentConfigurator.apply(slot1Configs, TalonFXWrapper.timeoutSecs),
-                    "TalonFXWrapper.setMotionMagicPIDF-PID");
+                    "TalonFXWrapper.setMotionMagicPIDVS-PID");
                 break;
 
             default:
@@ -614,19 +616,21 @@ public class TalonFXWrapper implements ITalonFX
                 slot2Configs.kP = p;
                 slot2Configs.kI = i;
                 slot2Configs.kD = d;
-                slot2Configs.kV = f;
+                slot2Configs.kV = v;
+                slot2Configs.kS = s;
                 CTREStatusCodeHelper.printError(
                     this.currentConfigurator.apply(slot2Configs, TalonFXWrapper.timeoutSecs),
-                    "TalonFXWrapper.setMotionMagicPIDF-PID");
+                    "TalonFXWrapper.setMotionMagicPIDVS-PID");
                 break;
         }
 
         MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
-        motionMagicConfigs.MotionMagicCruiseVelocity = velocity;
-        motionMagicConfigs.MotionMagicAcceleration = acceleration;
+        motionMagicConfigs.MotionMagicCruiseVelocity = cruiseVelocity;
+        motionMagicConfigs.MotionMagicAcceleration = maxAcceleration;
+        motionMagicConfigs.MotionMagicJerk = maxJerk;
         CTREStatusCodeHelper.printError(
             this.currentConfigurator.apply(motionMagicConfigs, TalonFXWrapper.timeoutSecs),
-            "TalonFXWrapper.setMotionMagicPIDF-MM");
+            "TalonFXWrapper.setMotionMagicPIDVS-MM");
     }
 
     public void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean reverseEnabled, boolean reverseNormallyOpen)
