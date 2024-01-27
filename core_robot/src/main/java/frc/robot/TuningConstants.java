@@ -34,7 +34,6 @@ public class TuningConstants
     //================================================== Autonomous ==============================================================
 
     public static final boolean TRAJECTORY_FORCE_BUILD = false;
-    public static final boolean IS_RED = false; //Red is negative, Blue is positive
 
     //================================================= Power ======================================================
 
