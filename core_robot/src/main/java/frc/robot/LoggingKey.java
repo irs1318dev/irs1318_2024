@@ -123,7 +123,15 @@ public enum LoggingKey
     DriveTrainSteerPositionGoal4("dt.steer_goal4", 1),
     DriveTrainSteerPositionGoal4b("dt.steer_goal4b", 1),
 
-    CompressorPreassure("com.pres");
+    CompressorPreassure("com.pres"),
+
+    // Arm Stuff
+    // chm = Chain Motor
+    ChainMotorPosition("chm.position"),
+    ChainMotorVelocity("chm.velocity"),
+    WristMotorPosition("wr.position"),
+    WristMotorVelocity("wr.velocity");
+
 
     public final String value;
     public final int loggingFrequency;

@@ -84,11 +84,15 @@ public class ElectronicsConstants
     public static final int REVDRIVETRAIN_STEER_MOTOR_4_CAN_ID = 8;
 
     //================================================== EndEffector ==============================================================
-    
+
     public static final int INTAKE_MOTOR_CAN_ID = 21; // set this to something
     public static final int FLYWHEEL_MOTOR_CAN_ID = 22; // set this to something
     public static final int FLYWHEEL_FOLLOWER_MOTOR_CAN_ID = 23;
     public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 24;
 
+    //================================================== ChainArm =========================================================================
 
+    public static final int CHAIN_MOTOR_CAN_ID = 12;
+    public static final int CHAIN_FOLLOWER_MOTOR_CAN_ID = 13;
+    public static final int WRIST_CHAIN_MOTOR_CAN_ID = 14;
 }
