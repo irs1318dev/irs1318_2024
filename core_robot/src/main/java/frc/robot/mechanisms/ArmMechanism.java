@@ -130,7 +130,7 @@ public class ArmMechanism implements IMechanism
             this.wristMotor.setControlMode(TalonSRXControlMode.Position);
             this.wristMotor.set(wristPositionAdjustment);
         }
-        else if (this.driver.getDigital(DigitalOperation.ArmWristUsePower)) 
+        else if (this.driver.getDigital(DigitalOperation.ArmWristUsePower))
         {
             this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
             this.wristMotor.set(wristPowerAdjustment);
