@@ -37,19 +37,17 @@ public class ChainArmMechanism implements IMechanism{
     private double chainMotorVelocity;
 
     private final ISparkMax chainMotor;
-    private double gearRatio;
-    /* 
-    private double minAngle;
-    private double maxAngle;
-    These can be accessed by tuning constants CHAIN_ARM_MIN_ANGLE and CHAIN_ARM_MAX_ANGLE
-    */
 
-    private double armAngle;
+    private double armGearRatio;
+    private double wristGearRatio;
     
-
     private final ITalonSRX wristMotor;
     private double wristMotorPosition;
     private double wristMotorVelocity;
+
+    private double theta_3;
+    private double theta_1;
+    private double theta_4;
 
     @Inject
     public ChainArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
@@ -57,7 +55,8 @@ public class ChainArmMechanism implements IMechanism{
         this.driver = driver;
         this.logger = logger;
 
-        this.gearRatio = HardwareConstants.CHAINARM_TICKS_TO_ANGLE;
+        this.armGearRatio= HardwareConstants.CHAINARM_TICKS_TO_ANGLE;
+        this.wristGearRatio = HardwareConstants.CHAIN_WRIST_TICKS_TO_ANGLE;
 
         this.chainMotor = provider.getSparkMax(ElectronicsConstants.CHAIN_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         this.wristMotor = provider.getTalonSRX(ElectronicsConstants.WRIST_CHAIN_MOTOR_CAN_ID);
@@ -78,7 +77,7 @@ public class ChainArmMechanism implements IMechanism{
 
         this.chainMotor.setRelativeEncoder();
         this.chainMotor.setInvertSensor(TuningConstants.CHAIN_MOTOR_INVERT_SENSOR);
-        this.chainMotor.setPositionConversionFactor(this.gearRatio);
+        this.chainMotor.setPositionConversionFactor(this.armGearRatio);
         this.chainMotor.setInvertOutput(TuningConstants.CHAIN_MOTOR_INVERT_OUTPUT);
         this.chainMotor.setNeutralMode(MotorNeutralMode.Brake);
         this.chainMotor.setSelectedSlot(defaultPidSlotId);
@@ -98,15 +97,16 @@ public class ChainArmMechanism implements IMechanism{
         this.wristMotor.setSelectedSlot(defaultPidSlotId);
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.wristMotor.setPosition(0.0);
+        this.wristMotor.setPositionConversionFactor(this.wristGearRatio);
         this.wristMotor.setMotorOutputSettings(TuningConstants.WRIST_ARM_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
+        this.wristMotor.burnFlash();
         
 
         ISparkMax rightMotor = provider.getSparkMax(ElectronicsConstants.CHAIN_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         rightMotor.setInvertOutput(TuningConstants.CHAIN_MOTOR_FOLLOWER_INVERT_OUTPUT);
         rightMotor.setNeutralMode(MotorNeutralMode.Brake);
         rightMotor.follow(this.chainMotor);
-
         rightMotor.burnFlash();
 
     }
@@ -114,9 +114,9 @@ public class ChainArmMechanism implements IMechanism{
     @Override
     public void readSensors()
     {
-        this.chainMotorPosition = chainMotor.getPosition();
+        this.chainMotorPosition = chainMotor.getPosition() * armGearRatio;
         this.chainMotorVelocity = chainMotor.getVelocity();
-        this.wristMotorPosition = wristMotor.getPosition();
+        this.wristMotorPosition = wristMotor.getPosition() * wristGearRatio;
         this.wristMotorVelocity = wristMotor.getVelocity();
 
         this.logger.logNumber(LoggingKey.ChainMotorPosition, this.chainMotorPosition);
@@ -157,6 +157,36 @@ public class ChainArmMechanism implements IMechanism{
             this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
             this.wristMotor.set(wristPowerAdjustment);
         }
+    }
+
+    private double[] angleToOffsetIKConversion(double armAngle, double wristAngle) 
+    {
+        double X1_Offset = HardwareConstants.CHAIN_ARM_LENGTH * Math.cos(armAngle);
+        double Y1_Offset = HardwareConstants.CHAIN_ARM_LENGTH * Math.sin(armAngle);
+        theta_3 = 180 - armAngle;
+        theta_4 = 360 - wristAngle - theta_3;
+        double X2_Offset = Math.cos(theta_4) * HardwareConstants.CHAIN_ARM_WRIST_LENGTH;
+        double Y2_Offset = Math.sin(theta_4) * HardwareConstants.CHAIN_ARM_WRIST_LENGTH;
+
+        double[][] absOffset = {
+            X2_Offset + X1_Offset + HardwareConstants.CAMERA_TO_ARM_X_OFFSET, // May need to subtract camera offset instead
+            Y2_Offset + Y2_Offset + HardwareConstants.CAMERA_TO_ARM_Y_OFFSET};
+        return absOffset;
+    }
+
+    public double getTheta3()
+    {
+        return this.theta_3;
+    }
+    
+    public double getTheta1()
+    {
+        return this.theta_1;
+    }
+
+    public double getTheta4()
+    {
+        return this.theta_4;
     }
 
     @Override

@@ -84,6 +84,15 @@ public class HardwareConstants
     public static final double REVDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE = HardwareConstants.REVDRIVETRAIN_VERTICAL_WHEEL_SEPERATION_DISTANCE / 2.0; // (in inches)
 
     //=============================================== Arm =====================================================================//
+    
+    public static final double CHAIN_ARM_TICKS_TO_ANGLE = 0.5; // Ratio of Arm Gear to Drive Gear
+    public static final double CHAIN_ARM_TICK_DISTANCE = 0;
+    public static final double CHAIN_WRIST_TICKS_TO_ANGLE = 0;
+    public static final double CHAIN_WRIST_TICK_DISTANCE = 0;
+    public static final double CHAIN_ARM_LENGTH = 36.0;
+    public static final double CHAIN_ARM_WRIST_LENGTH = 18.0;
 
-    public static final double CHAINARM_TICKS_TO_ANGLE = 0.5; // Ratio of Arm Gear to Drive Gear
+    //=============================================== Vision ==================================================================//
+    public static final double CAMERA_TO_ARM_X_OFFSET = 20;
+    public static final double CAMERA_TO_ARM_Y_OFFSET = 20;
 }
