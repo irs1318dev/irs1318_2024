@@ -125,12 +125,10 @@ public enum LoggingKey
 
     CompressorPreassure("com.pres"),
 
-    // Arm Stuff
-    // chm = Chain Motor
-    ArmShoulderPosition("chm.position"),
-    ArmShoulderVelocity("chm.velocity"),
-    ArmWristPosition("wr.position"),
-    ArmWristVelocity("wr.velocity");
+    ArmShoulderPosition("arm.sh.pos"),
+    ArmShoulderVelocity("arm.sh.vel"),
+    ArmWristPosition("arm.wr.pos"),
+    ArmWristVelocity("arm.wr.vel");
 
 
     public final String value;

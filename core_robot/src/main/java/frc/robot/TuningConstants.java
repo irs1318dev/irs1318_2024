@@ -516,4 +516,6 @@ public class TuningConstants
     public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
 
     public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = 0.0;
+
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
 }

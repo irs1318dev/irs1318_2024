@@ -93,9 +93,10 @@ public class HardwareConstants
 
     public static final double ARM_HUMERUS_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
-
+    public static final double ARM_SHOOTER_RETRACT_X_POS = 100; 
+    public static final double ARM_SHOOTER_RETRACT_Z_POS = 100;
     //=============================================== Vision ==================================================================//
 
     public static final double CAMERA_TO_ARM_X_OFFSET = 20;
-    public static final double CAMERA_TO_ARM_Y_OFFSET = 20;
+    public static final double CAMERA_TO_ARM_Z_OFFSET = 20;
 }

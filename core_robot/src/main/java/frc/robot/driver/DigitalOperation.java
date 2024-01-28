@@ -43,8 +43,6 @@ public enum DigitalOperation implements IOperation
     ForceIntake,
 
     // Arm operations:
-    ArmShoulderUsePID,
-    ArmShoulderUsePower,
-    ArmWristUsePID,
-    ArmWristUsePower,
+    ArmEnableSimpleMode,
+    ArmDisasbleSimpleMode,
 }
