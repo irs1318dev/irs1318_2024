@@ -91,8 +91,8 @@ public class HardwareConstants
     public static final double ARM_WRIST_TICK_DISTANCE = 1.0;
     public static final double ARM_WRIST_TICKS_PER_DEGREE = 1.0;
 
-    public static final double ARM_UPPER_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
-    public static final double ARM_LOWER_LENGTH = 18.0; // length of arm section between wrist joint and end effector ("ulna")
+    public static final double ARM_HUMERUS_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
+    public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
     //=============================================== Vision ==================================================================//
 

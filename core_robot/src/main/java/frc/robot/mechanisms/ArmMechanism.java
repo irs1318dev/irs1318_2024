@@ -139,16 +139,16 @@ public class ArmMechanism implements IMechanism
 
     private double[] angleToOffsetIKConversion(double armAngle, double wristAngle) 
     {
-        double X1_Offset = HardwareConstants.ARM_UPPER_LENGTH * Math.cos(armAngle);
-        double Y1_Offset = HardwareConstants.ARM_UPPER_LENGTH * Math.sin(armAngle);
+        double X1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.cos(armAngle);
+        double Y1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.sin(armAngle);
         theta_3 = 180 - armAngle;
         theta_4 = 360 - wristAngle - theta_3;
-        double X2_Offset = Math.cos(theta_4) * HardwareConstants.ARM_LOWER_LENGTH;
-        double Y2_Offset = Math.sin(theta_4) * HardwareConstants.ARM_LOWER_LENGTH;
+        double X2_Offset = Math.cos(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
+        double Y2_Offset = Math.sin(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
 
         double[] absOffset = {
             X2_Offset + X1_Offset + HardwareConstants.CAMERA_TO_ARM_X_OFFSET, // May need to subtract camera offset instead
-            Y2_Offset + Y2_Offset + HardwareConstants.CAMERA_TO_ARM_Y_OFFSET};
+            Y2_Offset + Y1_Offset + HardwareConstants.CAMERA_TO_ARM_Y_OFFSET};
         return absOffset;
     }
 
