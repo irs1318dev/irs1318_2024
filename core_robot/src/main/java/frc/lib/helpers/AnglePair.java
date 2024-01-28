@@ -57,9 +57,11 @@ public class AnglePair
      * Note: prefers the same direction if equivalent
      * @param desiredAngle desired angle in degrees (between -180 and 180)
      * @param currentAngle current angle in degrees (between 0 and 360)
+     * @param currentReversed whether we are currently driving in the reverse direction
+     * @param allowReverse whether to allow driving in the reverse or not
      * @return pair containing closest angle fitting desired angle from current angle in degrees
      */
-    public static AnglePair getClosestAngleAbsolute(double desiredAngle, double currentAngle, boolean allowReverse)
+    public static AnglePair getClosestAngleAbsolute(double desiredAngle, double currentAngle, boolean currentReversed, boolean allowReverse)
     {
         if (!Helpers.WithinRange(desiredAngle, -180.0, 180.0))
         {
@@ -99,9 +101,19 @@ public class AnglePair
         // get the difference in degrees between -180 and 180
         double difference = Helpers.updateAngleRange180(desiredAngle - currentAngle);
 
-        if (difference < -90.0 || difference > 90.0)
+        if (currentReversed)
         {
-            return new AnglePair((desiredAngle + 180.0 % 360.0), true);
+            if (difference < -88.0 || difference > 88.0)
+            {
+                return new AnglePair((desiredAngle + 180.0) % 360.0, true);
+            }
+        }
+        else
+        {
+            if (difference < -92.0 || difference > 92.0)
+            {
+                return new AnglePair((desiredAngle + 180.0) % 360.0, true);
+            }
         }
 
         return new AnglePair(desiredAngle, false);

@@ -477,7 +477,7 @@ public class SDSDriveTrainMechanismTests
         }
 
         @Override
-        public void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId)
+        public void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId)
         {
         }
 

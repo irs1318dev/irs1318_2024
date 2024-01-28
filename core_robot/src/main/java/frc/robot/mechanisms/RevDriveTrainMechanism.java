@@ -28,6 +28,7 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
     private static final LoggingKey[] STEER_ANGLE_LOGGING_KEYS = { LoggingKey.DriveTrainSteerAngle1, LoggingKey.DriveTrainSteerAngle2, LoggingKey.DriveTrainSteerAngle3, LoggingKey.DriveTrainSteerAngle4 };
     private static final LoggingKey[] DRIVE_GOAL_LOGGING_KEYS = { LoggingKey.DriveTrainDriveVelocityGoal1, LoggingKey.DriveTrainDriveVelocityGoal2, LoggingKey.DriveTrainDriveVelocityGoal3, LoggingKey.DriveTrainDriveVelocityGoal4 };
     private static final LoggingKey[] STEER_GOAL_LOGGING_KEYS = { LoggingKey.DriveTrainSteerPositionGoal1, LoggingKey.DriveTrainSteerPositionGoal2, LoggingKey.DriveTrainSteerPositionGoal3, LoggingKey.DriveTrainSteerPositionGoal4 };
+    private static final LoggingKey[] STEER_GOAL_LOGGING_KEYS_B = { LoggingKey.DriveTrainSteerPositionGoal1b, LoggingKey.DriveTrainSteerPositionGoal2b, LoggingKey.DriveTrainSteerPositionGoal3b, LoggingKey.DriveTrainSteerPositionGoal4b };
 
     private static final AnalogOperation[] STEER_SETPOINT_OPERATIONS = new AnalogOperation[] { AnalogOperation.DriveTrainPositionSteer1, AnalogOperation.DriveTrainPositionSteer2, AnalogOperation.DriveTrainPositionSteer3, AnalogOperation.DriveTrainPositionSteer4 };
     private static final AnalogOperation[] DRIVE_SETPOINT_OPERATIONS = new AnalogOperation[] { AnalogOperation.DriveTrainPositionDrive1, AnalogOperation.DriveTrainPositionDrive2, AnalogOperation.DriveTrainPositionDrive3, AnalogOperation.DriveTrainPositionDrive4 };
@@ -246,6 +247,7 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
                 TuningConstants.REVDRIVETRAIN_STEER_MOTORS_POSITION_PID_WRAPPING_ENABLED,
                 TuningConstants.REVDRIVETRAIN_STEER_MOTORS_POSITION_PID_WRAPPING_MIN,
                 TuningConstants.REVDRIVETRAIN_STEER_MOTORS_POSITION_PID_WRAPPING_MAX);
+            this.steerMotors[i].setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status5, 10);
             this.steerMotors[i].setControlMode(SparkMaxControlMode.Position);
 
             if (TuningConstants.REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE)
@@ -503,7 +505,8 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
                 this.driveMotors[i].stop();
             }
 
-            if (steerSetpoint != null)
+            if (steerSetpoint != null ||
+                TuningConstants.REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE)
             {
                 this.logger.logNumber(RevDriveTrainMechanism.STEER_GOAL_LOGGING_KEYS[i], steerSetpoint);
                 if (TuningConstants.REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE)
@@ -511,7 +514,8 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
                     TrapezoidProfile.State curr = this.steerTMPCurrState[i];
                     TrapezoidProfile.State goal = this.steerTMPGoalState[i];
 
-                    if (goal.updatePosition((double)steerSetpoint))
+                    if (steerSetpoint != null &&
+                        goal.updatePosition((double)steerSetpoint))
                     {
                         // NOTE: we only update based on current positions if we are changing the goal
                         // otherwise we may fail to actually get the "oomph" to start moving because the
@@ -535,7 +539,7 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
                             curr.updatePosition(this.steerAngles[i]);
                         }
 
-                        curr.setVelocity(this.steerVelocities[i]);
+                        // curr.setVelocity(this.steerVelocities[i]);
                     }
 
                     if (this.steerTrapezoidMotionProfile[i].update(this.deltaT, curr, goal))
@@ -544,7 +548,11 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
                     }
                 }
 
-                this.steerMotors[i].set(steerSetpoint);
+                if (steerSetpoint != null)
+                {
+                    this.logger.logNumber(RevDriveTrainMechanism.STEER_GOAL_LOGGING_KEYS_B[i], steerSetpoint);
+                    this.steerMotors[i].set(steerSetpoint);
+                }
             }
         }
     }
@@ -627,7 +635,7 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
 
                 double moduleSteerPositionGoal = this.driver.getAnalog(RevDriveTrainMechanism.STEER_SETPOINT_OPERATIONS[i]);
                 double currentAngle = this.steerAngles[i];
-                AnglePair anglePair = AnglePair.getClosestAngleAbsolute(moduleSteerPositionGoal, currentAngle, true);
+                AnglePair anglePair = AnglePair.getClosestAngleAbsolute(moduleSteerPositionGoal, currentAngle, this.isDirectionSwapped[i], true);
                 moduleSteerPositionGoal = anglePair.getAngle();
                 this.isDirectionSwapped[i] = anglePair.getSwapDirection();
 
@@ -827,7 +835,7 @@ public class RevDriveTrainMechanism implements IDriveTrainMechanism
 
                 moduleSteerPositionGoal = Helpers.atan2d(-moduleVelocityRight, moduleVelocityForward);
                 double currentAngle = this.steerAngles[i];
-                AnglePair anglePair = AnglePair.getClosestAngleAbsolute(moduleSteerPositionGoal, currentAngle, true);
+                AnglePair anglePair = AnglePair.getClosestAngleAbsolute(moduleSteerPositionGoal, currentAngle, this.isDirectionSwapped[i], true);
                 moduleSteerPositionGoal = anglePair.getAngle();
                 this.isDirectionSwapped[i] = anglePair.getSwapDirection();
 
