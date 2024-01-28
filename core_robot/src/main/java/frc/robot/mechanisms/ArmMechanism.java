@@ -15,7 +15,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ChainArmMechanism implements IMechanism{
+public class ArmMechanism implements IMechanism{
 
     private static final int defaultPidSlotId = 0;
     private static final int SMPidSlotId = 1;
@@ -35,7 +35,7 @@ public class ChainArmMechanism implements IMechanism{
     private double wristVelocity;
 
     @Inject
-    public ChainArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
+    public ArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
     {
         this.driver = driver;
         this.logger = logger;
@@ -48,14 +48,14 @@ public class ChainArmMechanism implements IMechanism{
             TuningConstants.ARM_SHOULDER_MOTOR_PID_KI, 
             TuningConstants.ARM_SHOULDER_MOTOR_PID_KD, 
             TuningConstants.ARM_SHOULDER_MOTOR_PID_KF, 
-            ChainArmMechanism.defaultPidSlotId);
+            ArmMechanism.defaultPidSlotId);
         
         this.wristMotor.setPIDF(
             TuningConstants.ARM_WRIST_MOTOR_PID_KP, 
             TuningConstants.ARM_WRIST_MOTOR_PID_KI, 
             TuningConstants.ARM_WRIST_MOTOR_PID_KD, 
             TuningConstants.ARM_WRIST_MOTOR_PID_KF, 
-            ChainArmMechanism.defaultPidSlotId);
+            ArmMechanism.defaultPidSlotId);
 
         this.shoulderMotor.setRelativeEncoder();
         // this.shoulderMotor.setInvertSensor(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_SENSOR);
@@ -63,7 +63,7 @@ public class ChainArmMechanism implements IMechanism{
         this.shoulderMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_OUTPUT);
         this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION);
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
-        this.shoulderMotor.setSelectedSlot(ChainArmMechanism.defaultPidSlotId);
+        this.shoulderMotor.setSelectedSlot(ArmMechanism.defaultPidSlotId);
 
         if (TuningConstants.ARM_SHOULDER_USE_PERCENT_OUTPUT)
         {
@@ -76,7 +76,7 @@ public class ChainArmMechanism implements IMechanism{
 
         this.shoulderMotor.burnFlash();
 
-        this.wristMotor.setSelectedSlot(ChainArmMechanism.defaultPidSlotId);
+        this.wristMotor.setSelectedSlot(ArmMechanism.defaultPidSlotId);
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.wristMotor.setInvertSensor(TuningConstants.ARM_WRIST_MOTOR_INVERT_SENSOR);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
