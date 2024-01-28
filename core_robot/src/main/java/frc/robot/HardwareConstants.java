@@ -85,5 +85,7 @@ public class HardwareConstants
 
     //=============================================== Arm =====================================================================//
 
-    public static final double CHAINARM_TICKS_TO_ANGLE = 0.5; // Ratio of Arm Gear to Drive Gear
+    // NOTE: "tick distance" is how far one tick is in degrees, multiply by this to get angle in degrees from ticks.
+    public static final double ARM_SHOULDER_TICKS_DISTANCE = 0.5;
+    public static final double ARM_WRIST_TICKS_DISTANCE = 0.5;
 }

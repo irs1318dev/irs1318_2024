@@ -92,7 +92,7 @@ public class ElectronicsConstants
 
     //================================================== ChainArm =========================================================================
 
-    public static final int CHAIN_MOTOR_CAN_ID = 12;
-    public static final int CHAIN_FOLLOWER_MOTOR_CAN_ID = 13;
-    public static final int WRIST_CHAIN_MOTOR_CAN_ID = 14;
+    public static final int ARM_SHOULDER_MOTOR_CAN_ID = 12;
+    public static final int ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID = 13;
+    public static final int ARM_WRIST_MOTOR_CAN_ID = 14;
 }

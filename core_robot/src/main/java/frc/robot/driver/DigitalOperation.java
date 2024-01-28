@@ -42,11 +42,9 @@ public enum DigitalOperation implements IOperation
     ForceStop,
     ForceIntake,
 
-    //Chain Arm operations:
-    ArmUsePID,
-    ArmUsePower,
-
-    WristUsePID,
-    WristUsePower,
-
+    // Arm operations:
+    ArmShoulderUsePID,
+    ArmShoulderUsePower,
+    ArmWristUsePID,
+    ArmWristUsePower,
 }

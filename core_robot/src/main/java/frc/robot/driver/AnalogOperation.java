@@ -30,12 +30,13 @@ public enum AnalogOperation implements IOperation
     DriveTrainStartingXPosition,
     DriveTrainStartingYPosition,
 
+    // EndEffector operations
     FlywheelMotorPower, // set by analog axis
     FlywheelVelocityGoal, // Set by Macros
 
-    PositionChainArm,
-    PowerChainArm,
-    WristPositionChainArm,
-    WristPowerChainArm,
-
+    // Arm operations
+    ArmShoulderPosition,
+    ArmShoulderPower,
+    ArmWristPosition,
+    ArmWristPower,
 }

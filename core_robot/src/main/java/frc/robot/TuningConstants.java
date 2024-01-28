@@ -494,24 +494,26 @@ public class TuningConstants
 
     //==================================================== ChainAndSprocketArm ==============================================================
 
-    public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
-    public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
-    public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
-    public static final double CHAIN_ARM_MOTOR_PID_KF = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KD = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KF = 0.3;
 
-    public static final boolean CHAIN_MOTOR_INVERT_OUTPUT = false;
-    public static final boolean CHAIN_MOTOR_INVERT_SENSOR = false;
+    public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
+    // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
 
-    public static final boolean SHOULDER_USE_PERCENT_OUTPUT = false;
-    public static final double GEAR_RATIO = 10;
-    public static final double MIN_ROM = 0;
-    public static final double MAX_ROM = 130;
+    public static final boolean ARM_SHOULDER_USE_PERCENT_OUTPUT = false;
+    public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = 0.0;
 
-    public static final boolean CHAIN_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
 
-    public static final double WRIST_ARM_MOTOR_PID_KP = 0.3;
-    public static final double WRIST_ARM_MOTOR_PID_KI = 0.3;
-    public static final double WRIST_ARM_MOTOR_PID_KD = 0.3;
-    public static final double WRIST_ARM_MOTOR_PID_KF = 0.3;
-    public static final boolean WRIST_ARM_MOTOR_INVER_OUTPUT = false;
+    public static final double ARM_WRIST_MOTOR_PID_KP = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KI = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KD = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KF = 0.3;
+
+    public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = false;
+    public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
+
+    public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = 0.0;
 }

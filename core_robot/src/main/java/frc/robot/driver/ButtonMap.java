@@ -98,7 +98,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.PositionChainArm,
+            AnalogOperation.ArmShoulderPosition,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -108,7 +108,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
 
         new AnalogOperationDescription(
-            AnalogOperation.PowerChainArm,
+            AnalogOperation.ArmShoulderPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -118,7 +118,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         
         new AnalogOperationDescription(
-            AnalogOperation.WristPositionChainArm,
+            AnalogOperation.ArmWristPosition,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -128,7 +128,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
 
         new AnalogOperationDescription(
-            AnalogOperation.WristPowerChainArm,
+            AnalogOperation.ArmWristPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -224,7 +224,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.WristUsePID,
+            DigitalOperation.ArmWristUsePID,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -232,7 +232,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.WristUsePower,
+            DigitalOperation.ArmWristUsePower,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -248,7 +248,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.ArmUsePID,
+            DigitalOperation.ArmShoulderUsePID,
             UserInputDevice.Codriver,
             0,
             EnumSet.of(Shift.CodriverDebug),
@@ -256,7 +256,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
         
         new DigitalOperationDescription(
-            DigitalOperation.ArmUsePower,
+            DigitalOperation.ArmShoulderUsePower,
             UserInputDevice.Codriver,
             0,
             EnumSet.of(Shift.CodriverDebug),
