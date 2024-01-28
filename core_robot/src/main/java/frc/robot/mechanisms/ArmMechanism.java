@@ -15,8 +15,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ArmMechanism implements IMechanism{
-
+public class ArmMechanism implements IMechanism
+{
     private static final int defaultPidSlotId = 0;
     private static final int SMPidSlotId = 1;
 
@@ -26,13 +26,15 @@ public class ArmMechanism implements IMechanism{
     private final ISparkMax shoulderMotor;
     private final ITalonSRX wristMotor;
 
-    private double armAngle;
-
     private double shoulderPosition;
     private double shoulderVelocity;
 
     private double wristPosition;
     private double wristVelocity;
+
+    private double theta_3;
+    private double theta_1;
+    private double theta_4;
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
@@ -49,7 +51,7 @@ public class ArmMechanism implements IMechanism{
             TuningConstants.ARM_SHOULDER_MOTOR_PID_KD, 
             TuningConstants.ARM_SHOULDER_MOTOR_PID_KF, 
             ArmMechanism.defaultPidSlotId);
-        
+
         this.wristMotor.setPIDF(
             TuningConstants.ARM_WRIST_MOTOR_PID_KP, 
             TuningConstants.ARM_WRIST_MOTOR_PID_KI, 
@@ -59,7 +61,7 @@ public class ArmMechanism implements IMechanism{
 
         this.shoulderMotor.setRelativeEncoder();
         // this.shoulderMotor.setInvertSensor(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_SENSOR);
-        this.shoulderMotor.setPositionConversionFactor(HardwareConstants.ARM_SHOULDER_TICKS_DISTANCE);
+        this.shoulderMotor.setPositionConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
         this.shoulderMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_OUTPUT);
         this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION);
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
@@ -78,7 +80,6 @@ public class ArmMechanism implements IMechanism{
 
         this.wristMotor.setSelectedSlot(ArmMechanism.defaultPidSlotId);
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
-        this.wristMotor.setInvertSensor(TuningConstants.ARM_WRIST_MOTOR_INVERT_SENSOR);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
         this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
         this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
@@ -87,22 +88,21 @@ public class ArmMechanism implements IMechanism{
         shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
         shoulderFollowerMotor.setNeutralMode(MotorNeutralMode.Brake);
         shoulderFollowerMotor.follow(this.shoulderMotor);
-
         shoulderFollowerMotor.burnFlash();
     }
-
+    
     @Override
     public void readSensors()
     {
         this.shoulderPosition = shoulderMotor.getPosition();
         this.shoulderVelocity = shoulderMotor.getVelocity();
-        this.wristPosition = wristMotor.getPosition();
+        this.wristPosition = wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE;
         this.wristVelocity = wristMotor.getVelocity();
 
-        this.logger.logNumber(LoggingKey.ChainMotorPosition, this.shoulderPosition);
-        this.logger.logNumber(LoggingKey.ChainMotorVelocity, this.shoulderVelocity);
-        this.logger.logNumber(LoggingKey.WristMotorPosition, this.wristPosition);
-        this.logger.logNumber(LoggingKey.WristMotorVelocity, this.wristVelocity);
+        this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
+        this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
+        this.logger.logNumber(LoggingKey.ArmWristPosition, this.wristPosition);
+        this.logger.logNumber(LoggingKey.ArmWristVelocity, this.wristVelocity);
     }
 
     @Override
@@ -130,11 +130,41 @@ public class ArmMechanism implements IMechanism{
             this.wristMotor.setControlMode(TalonSRXControlMode.Position);
             this.wristMotor.set(wristPositionAdjustment);
         }
-        else if (this.driver.getDigital(DigitalOperation.ArmWristUsePower))
+        else if (this.driver.getDigital(DigitalOperation.ArmWristUsePower)) 
         {
             this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
             this.wristMotor.set(wristPowerAdjustment);
         }
+    }
+
+    private double[] angleToOffsetIKConversion(double armAngle, double wristAngle) 
+    {
+        double X1_Offset = HardwareConstants.ARM_UPPER_LENGTH * Math.cos(armAngle);
+        double Y1_Offset = HardwareConstants.ARM_UPPER_LENGTH * Math.sin(armAngle);
+        theta_3 = 180 - armAngle;
+        theta_4 = 360 - wristAngle - theta_3;
+        double X2_Offset = Math.cos(theta_4) * HardwareConstants.ARM_LOWER_LENGTH;
+        double Y2_Offset = Math.sin(theta_4) * HardwareConstants.ARM_LOWER_LENGTH;
+
+        double[] absOffset = {
+            X2_Offset + X1_Offset + HardwareConstants.CAMERA_TO_ARM_X_OFFSET, // May need to subtract camera offset instead
+            Y2_Offset + Y2_Offset + HardwareConstants.CAMERA_TO_ARM_Y_OFFSET};
+        return absOffset;
+    }
+
+    public double getTheta3()
+    {
+        return this.theta_3;
+    }
+    
+    public double getTheta1()
+    {
+        return this.theta_1;
+    }
+
+    public double getTheta4()
+    {
+        return this.theta_4;
     }
 
     @Override

@@ -86,6 +86,16 @@ public class HardwareConstants
     //=============================================== Arm =====================================================================//
 
     // NOTE: "tick distance" is how far one tick is in degrees, multiply by this to get angle in degrees from ticks.
-    public static final double ARM_SHOULDER_TICKS_DISTANCE = 0.5;
-    public static final double ARM_WRIST_TICKS_DISTANCE = 0.5;
+    public static final double ARM_SHOULDER_TICK_DISTANCE = 1.0;
+    public static final double ARM_SHOULDER_TICKS_PER_DEGREE = 1.0;
+    public static final double ARM_WRIST_TICK_DISTANCE = 1.0;
+    public static final double ARM_WRIST_TICKS_PER_DEGREE = 1.0;
+
+    public static final double ARM_UPPER_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
+    public static final double ARM_LOWER_LENGTH = 18.0; // length of arm section between wrist joint and end effector ("ulna")
+
+    //=============================================== Vision ==================================================================//
+
+    public static final double CAMERA_TO_ARM_X_OFFSET = 20;
+    public static final double CAMERA_TO_ARM_Y_OFFSET = 20;
 }
