@@ -216,30 +216,32 @@ public class TuningConstants
     // Position PID (angle) per-module
     public static final double SDSDRIVETRAIN_STEER_MOTOR_POSITION_PID_KS = HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = 0.5;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KI = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF = 0.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = 1.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KF = 0.05;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KV= 0.05 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KS= 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
     public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC = 1.0;
     public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL = 1.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_JERK = 9999.0;
 
     // Velocity PID (drive) per-module
     public static final double SDSDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 88.0; // RPM ~110.0 was highest speed at full throttle FF on blocks
 
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = 0.02;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI = 0.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = 0.00909; // 100% control authority (on blocks)
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = 0.02 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = 0.00909 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION); // 100% control authority (on blocks)
 
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KP = 22.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KI = 0.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KD = 0.0;
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KF = 0.0;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KP = 2.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? 1.0 : TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
 
     public static final double SDSDRIVETRAIN_OMEGA_POSITION_PID_KP = 0.1;
     public static final double SDSDRIVETRAIN_OMEGA_POSITION_PID_KI = 0.0;
@@ -278,14 +280,14 @@ public class TuningConstants
     public static final double SDSDRIVETRAIN_OVERCURRENT_HIGH_ADJUSTMENT = 0.5;
 
     public static final boolean SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED = false;
-    public static final double SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION = 11.0;
+    public static final double SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION = 12.0;
     public static final boolean SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_LIMITING_ENABLED = true;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_MAX = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_CURRENT = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_DURATION = 0.25;
 
     public static final boolean SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED = false;
-    public static final double SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION = 11.0;
+    public static final double SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION = 12.0;
     public static final boolean SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_LIMITING_ENABLED = true;
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_MAX = 20.0;
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_CURRENT = 30.0;
@@ -330,7 +332,7 @@ public class TuningConstants
 
     //================================================== REV DriveTrain ==============================================================
 
-    public static final boolean REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE = false;
+    public static final boolean REVDRIVETRAIN_STEER_MOTORS_USE_TRAPEZOIDAL_MOTION_PROFILE = true;
 
     public static final boolean REVDRIVETRAIN_USE_ODOMETRY = true;
     public static final boolean REVDRIVETRAIN_RESET_ON_ROBOT_START = true;
@@ -366,8 +368,8 @@ public class TuningConstants
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KI = 0.0;
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KD = 0.0;
     public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_KF = 0.0;
-    public static final int REVDRIVETRAIN_STEER_MOTORS_TMP_PID_CRUISE_VELOC = 60; // deg/sec
-    public static final int REVDRIVETRAIN_STEER_MOTORS_TMP_PID_ACCEL = 60; // deg/sec/sec
+    public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_CRUISE_VELOC = 1440.0; // deg/sec
+    public static final double REVDRIVETRAIN_STEER_MOTORS_TMP_PID_ACCEL = 360 * 32; // 4 * 360; // deg/sec/sec
 
     // Velocity PID (drive) per-module
     public static final double REVDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 208.0; // 208.0 was highest speed at full throttle FF on blocks. this is inches/second
@@ -487,5 +489,29 @@ public class TuningConstants
     public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
     
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
+
     public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
+
+    //==================================================== ChainAndSprocketArm ==============================================================
+
+    public static final double CHAIN_ARM_MOTOR_PID_KP = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KI = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KD = 0.3;
+    public static final double CHAIN_ARM_MOTOR_PID_KF = 0.3;
+
+    public static final boolean CHAIN_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean CHAIN_MOTOR_INVERT_SENSOR = false;
+
+    public static final boolean SHOULDER_USE_PERCENT_OUTPUT = false;
+    public static final double GEAR_RATIO = 10;
+    public static final double MIN_ROM = 0;
+    public static final double MAX_ROM = 130;
+
+    public static final boolean CHAIN_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+
+    public static final double WRIST_ARM_MOTOR_PID_KP = 0.3;
+    public static final double WRIST_ARM_MOTOR_PID_KI = 0.3;
+    public static final double WRIST_ARM_MOTOR_PID_KD = 0.3;
+    public static final double WRIST_ARM_MOTOR_PID_KF = 0.3;
+    public static final boolean WRIST_ARM_MOTOR_INVER_OUTPUT = false;
 }

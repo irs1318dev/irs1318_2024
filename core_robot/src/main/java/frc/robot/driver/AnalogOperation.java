@@ -32,4 +32,10 @@ public enum AnalogOperation implements IOperation
 
     FlywheelMotorPower, // set by analog axis
     FlywheelVelocityGoal, // Set by Macros
+
+    PositionChainArm,
+    PowerChainArm,
+    WristPositionChainArm,
+    WristPowerChainArm,
+
 }

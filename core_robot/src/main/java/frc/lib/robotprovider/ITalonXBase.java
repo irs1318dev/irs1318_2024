@@ -4,7 +4,6 @@ public interface ITalonXBase extends IMotor
 {
     void setSelectedSlot(int slotId);
     void setPIDF(double p, double i, double d, double f, int slotId);
-    void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId);
     void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean reverseEnabled, boolean reverseNormallyOpen);
     void setMotorOutputSettings(boolean invert, MotorNeutralMode neutralMode);
     void setVoltageCompensation(boolean enabled, double maxVoltage);

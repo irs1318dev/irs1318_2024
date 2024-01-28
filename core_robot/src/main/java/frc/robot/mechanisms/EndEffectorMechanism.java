@@ -23,7 +23,7 @@ public class EndEffectorMechanism implements IMechanism
 
     private double prevTime;
 
-    private final ISparkMax intakeMotor;
+    private final ITalonSRX intakeMotor;
     private final ISparkMax flywheelMotor;
 
     private final IAnalogInput throughBeamSensor;
@@ -67,12 +67,9 @@ public class EndEffectorMechanism implements IMechanism
         this.powerManager = powerManager;
 
         // INTAKE MOTOR
-        this.intakeMotor = provider.getSparkMax(ElectronicsConstants.INTAKE_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
-        this.intakeMotor.setInvertOutput(TuningConstants.INTAKE_MOTOR_INVERT_OUTPUT);
-        this.intakeMotor.setNeutralMode(MotorNeutralMode.Brake);
-        this.intakeMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-
-        this.intakeMotor.burnFlash();
+        this.intakeMotor = provider.getTalonSRX(ElectronicsConstants.INTAKE_MOTOR_CAN_ID);
+        this.intakeMotor.setMotorOutputSettings(TuningConstants.INTAKE_MOTOR_INVERT_OUTPUT, MotorNeutralMode.Brake);
+        this.intakeMotor.setControlMode(TalonSRXControlMode.PercentOutput);
 
         // FLYWHEEL MOTOR
         this.flywheelMotor = provider.getSparkMax(ElectronicsConstants.FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);

@@ -204,5 +204,11 @@ public class TrapezoidProfile
         {
             this.velocity = velocity;
         }
+
+        @Override
+        public String toString()
+        {
+            return "(p:" + this.position + " v:" + this.velocity + ")";
+        }
     }
 }

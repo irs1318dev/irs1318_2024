@@ -26,7 +26,7 @@ public interface ITalonFX extends ITalonXBase
 
     void setPIDF(double p, double i, double d, double f, int slotId);
 
-    void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId);
+    void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId);
 
     void updateLimitSwitchConfig(
         boolean forwardEnabled,
@@ -38,7 +38,6 @@ public interface ITalonFX extends ITalonXBase
         boolean reverseReset,
         double reverseResetPosition);
 
-
     void setVoltageCompensation(boolean enabled, double maxVoltage);
 
     void stop();
@@ -48,7 +47,6 @@ public interface ITalonFX extends ITalonXBase
     double getVelocity();
     double getError();
     TalonXLimitSwitchStatus getLimitSwitchStatus();
-
 
     void setSupplyCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime);
 }

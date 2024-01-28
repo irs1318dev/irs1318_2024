@@ -1,5 +1,6 @@
 package frc.robot.driver;
 
+import java.security.DigestException;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -87,15 +88,55 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.FlywheelMotorPower,
             UserInputDevice.Codriver,
-            AnalogAxis.XBONE_LSY,
-            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            AnalogAxis.XBONE_RT,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
             0.0,
             0.2),
 
         new AnalogOperationDescription(
             AnalogOperation.FlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
-    };
+
+        new AnalogOperationDescription(
+            AnalogOperation.PositionChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+
+        new AnalogOperationDescription(
+            AnalogOperation.PowerChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+        
+        new AnalogOperationDescription(
+            AnalogOperation.WristPositionChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_RSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+
+        new AnalogOperationDescription(
+            AnalogOperation.WristPowerChainArm,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_RSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
+            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
+            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+        };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
@@ -182,6 +223,54 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
+        new DigitalOperationDescription(
+            DigitalOperation.WristUsePID,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.WristUsePower,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ForceStop,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ArmUsePID,
+            UserInputDevice.Codriver,
+            0,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.ArmUsePower,
+            UserInputDevice.Codriver,
+            0,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.ForceIntake,
+            UserInputDevice.Codriver,
+            90,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+
         // Test operations:
         new DigitalOperationDescription(
             DigitalOperation.VisionEnableAprilTagProcessing,
@@ -190,6 +279,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle),
+        
         new DigitalOperationDescription(
             DigitalOperation.VisionEnableRetroreflectiveProcessing,
             UserInputDevice.Test1,
@@ -197,6 +287,8 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Toggle),
+
+        
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
