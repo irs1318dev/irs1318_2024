@@ -99,10 +99,10 @@ public class ArmMechanism implements IMechanism{
         this.wristPosition = wristMotor.getPosition();
         this.wristVelocity = wristMotor.getVelocity();
 
-        this.logger.logNumber(LoggingKey.ChainMotorPosition, this.shoulderPosition);
-        this.logger.logNumber(LoggingKey.ChainMotorVelocity, this.shoulderVelocity);
-        this.logger.logNumber(LoggingKey.WristMotorPosition, this.wristPosition);
-        this.logger.logNumber(LoggingKey.WristMotorVelocity, this.wristVelocity);
+        this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
+        this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
+        this.logger.logNumber(LoggingKey.ArmWristPosition, this.wristPosition);
+        this.logger.logNumber(LoggingKey.ArmWristVelocity, this.wristVelocity);
     }
 
     @Override

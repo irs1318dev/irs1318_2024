@@ -127,10 +127,10 @@ public enum LoggingKey
 
     // Arm Stuff
     // chm = Chain Motor
-    ChainMotorPosition("chm.position"),
-    ChainMotorVelocity("chm.velocity"),
-    WristMotorPosition("wr.position"),
-    WristMotorVelocity("wr.velocity");
+    ArmShoulderPosition("chm.position"),
+    ArmShoulderVelocity("chm.velocity"),
+    ArmWristPosition("wr.position"),
+    ArmWristVelocity("wr.velocity");
 
 
     public final String value;
