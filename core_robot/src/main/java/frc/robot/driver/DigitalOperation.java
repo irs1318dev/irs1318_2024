@@ -44,5 +44,5 @@ public enum DigitalOperation implements IOperation
 
     // Arm operations:
     ArmEnableSimpleMode,
-    ArmDisasbleSimpleMode,
+    ArmDisableSimpleMode,
 }

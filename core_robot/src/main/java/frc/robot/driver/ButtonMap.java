@@ -214,7 +214,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.ArmDisasbleSimpleMode,
+            DigitalOperation.ArmDisableSimpleMode,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),

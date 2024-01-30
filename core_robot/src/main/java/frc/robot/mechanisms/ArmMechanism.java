@@ -38,11 +38,10 @@ public class ArmMechanism implements IMechanism
     private double armAngle;
     private double wristAngle;
 
-    private double[] shooter_Offset;
-    private double shooter_X_Offset;
-    private double shooter_Z_Offset;
+    private double shooterXOffset;
+    private double shooterZOffset;
 
-    private double inSimpleMode;
+    private boolean inSimpleMode;
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger)
@@ -89,8 +88,8 @@ public class ArmMechanism implements IMechanism
         shoulderFollowerMotor.follow(this.shoulderMotor);
         shoulderFollowerMotor.burnFlash();
 
-        this.X_Offset = HardwareConstants.ARM_SHOOTER_RETRACT_X_POS;
-        this.Z_Offset = HardwareConstants.ARM_SHOOTER_RETRACT_Z_POS;
+        this.shooterXOffset = HardwareConstants.ARM_SHOOTER_RETRACT_X_POS;
+        this.shooterZOffset = HardwareConstants.ARM_SHOOTER_RETRACT_Z_POS;
     }
     
     @Override
@@ -101,6 +100,8 @@ public class ArmMechanism implements IMechanism
         this.wristPosition = wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE;
         this.wristVelocity = wristMotor.getVelocity();
 
+        this.angleToShooterOffsetFK(this.armAngle, this.wristAngle);
+
         this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
         this.logger.logNumber(LoggingKey.ArmWristPosition, this.wristPosition);
@@ -110,31 +111,24 @@ public class ArmMechanism implements IMechanism
     @Override
     public void update()
     {
-        if (this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode)) 
+        if (this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
             this.inSimpleMode = true;
         }
-        else if(this.driver.getDigital(DigitalOperation.ArmDisasbleSimpleMode))
+        else if(this.driver.getDigital(DigitalOperation.ArmDisableSimpleMode))
         {
             this.inSimpleMode = false;
-            this.shoulderMotor.setSelectedSlot(ArmMechanism.defaultPidSlotId);
-            this.wristMotor.setSelectedSlot(ArmMechanism.defaultPidSlotId);
         }
-        
+
         double armPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPosition);
         double wristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPosition);
 
-        double armPower = shoulderPosition;
-        double wristPower = wristPosition;
-
-        this.shooter_Offset = angleToShooterOffsetFK(armAngle, wristAngle);
-        this.shooter_X_Offset = Shooter_Offset[0];
-        this.shooter_Z_Offset = Shooter_Offset[1];
-
+        double armPower = this.shoulderPosition;
+        double wristPower = this.wristPosition;
 
         boolean useSimpleMode = false;
 
-        if (this.inSimpleMode) 
+        if (this.inSimpleMode)
         {
             useSimpleMode = true;
             armPower = armPositionAdjustment;
@@ -148,10 +142,9 @@ public class ArmMechanism implements IMechanism
                 armPower = armPositionAdjustment;
                 wristPower = wristPositionAdjustment;
             }
-            else 
+            else
             {
-                if (
-                    armPositionAdjustment != TuningConstants.MAGIC_NULL_VALUE 
+                if (armPositionAdjustment != TuningConstants.MAGIC_NULL_VALUE
                     && wristPositionAdjustment != TuningConstants.MAGIC_NULL_VALUE)
                 {
                     armPower = armPositionAdjustment;
@@ -171,11 +164,11 @@ public class ArmMechanism implements IMechanism
         {
             this.shoulderMotor.setControlMode(SparkMaxControlMode.Position);
             this.shoulderMotor.set(armPower);
-            this.wrist.set(TalonSRXControlMode.Position, wristPower);
+            this.wristMotor.set(TalonSRXControlMode.Position, wristPower);
         }
     }
 
-    private double[] angleToShooterOffsetFK(double armAngle, double wristAngle) 
+    private void angleToShooterOffsetFK(double armAngle, double wristAngle) 
     {
         double X1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.cos(armAngle);
         double Z1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.sin(armAngle);
@@ -184,10 +177,8 @@ public class ArmMechanism implements IMechanism
         double X2_Offset = Math.cos(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
         double Z2_Offset = Math.sin(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
 
-        double[] absOffset = {
-            X2_Offset + X1_Offset + HardwareConstants.CAMERA_TO_ARM_X_OFFSET, // May need to subtract camera offset instead
-            Z2_Offset + Z1_Offset + HardwareConstants.CAMERA_TO_ARM_Z_OFFSET};
-        return absOffset;
+        this.shooterXOffset = X2_Offset + X1_Offset + HardwareConstants.CAMERA_TO_ARM_X_OFFSET;
+        this.shooterZOffset = Z2_Offset + Z1_Offset + HardwareConstants.CAMERA_TO_ARM_Z_OFFSET;
     }
 
     public double getTheta3()
@@ -207,12 +198,12 @@ public class ArmMechanism implements IMechanism
 
     public double getXOffset()
     {
-        return this.shooter_X_Offset;
+        return this.shooterXOffset;
     }
     
     public double getZOffset()
     {
-        return this.shooter_Z_Offset;
+        return this.shooterZOffset;
     }
 
     @Override
