@@ -1,4 +1,4 @@
-
+/* 
 @Singleton
 
 
@@ -60,3 +60,4 @@ public class AutonLocManager {
         }
     }
 }
+*/

@@ -95,6 +95,8 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(0.0, 0.0, 270.0, 0.0),
                 new PathPlannerWaypoint(0.0, -22.0, 270.0, 0.0)),
                 "goRight22in");
+
+        
     }
 
     public static void generateTrajectories(boolean isRed, TrajectoryManager trajectoryManager, IPathPlanner pathPlanner)
@@ -145,6 +147,24 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P5, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
                 "P3toP5");
+
+        // SOURCE SIDE
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                0.0,
+                new PathPlannerWaypoint(P3, isRed ? 0 : 180, 180),
+                new PathPlannerWaypoint(P7M, isRed ? 0 : 180, 180),
+                new PathPlannerWaypoint(P7, isRed ? 0 : 180, 0.0),
+                new PathPlannerWaypoint(P3, isRed ? 0 : 180 , 0.0)), //EXAMPLE OF 2024 FORMAT (headings and orientations not right)
+                isRed ? "AmpEdgeTo7BackRed" : "AmpEdgeTo7BackBlue");
+
+        // AMP SIDE
     }
 
     
