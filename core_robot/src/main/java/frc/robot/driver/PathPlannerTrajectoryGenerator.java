@@ -99,8 +99,8 @@ public class PathPlannerTrajectoryGenerator
 
     public static void generateTrajectories(boolean isRed, TrajectoryManager trajectoryManager, IPathPlanner pathPlanner)
     {
-        //Red is negative
-        //Blue is postive
+        //Red is positive
+        //Blue is negative
 
         //Y field length: 323in
         //X field length: 653in
@@ -112,21 +112,40 @@ public class PathPlannerTrajectoryGenerator
         Point2d P2 = new Point2d(getXPosition(isRed, 312 - 0) , 177); //-30 degrees heading
         Point2d P3 = new Point2d(getXPosition(isRed, 250.5 + halfFramePreremetere), 306 - halfFramePreremetere);
         Point2d P4 = new Point2d(getXPosition(isRed, 288 - halfFramePreremetere), 239 - halfFramePreremetere);
+
         Point2d P5 = new Point2d(getXPosition(isRed, 212), 162);
         Point2d P5M = new Point2d(getXPosition(isRed, P5.x + 20), 162);
+
         Point2d P6 = new Point2d(getXPosition(isRed, 212), 219);
-        Point2d P6M = new Point2d(getXPosition(isRed, P6.x + 20), 219);    
+        Point2d P6M = new Point2d(getXPosition(isRed, P6.x + 20), 219);
+
         Point2d P7 = new Point2d(getXPosition(isRed, 212), 276);
         Point2d P7M = new Point2d(getXPosition(isRed, P7.x + 20), 160.888409);
+
         Point2d P8 = new Point2d(getXPosition(isRed, 0), 29.64);
+        Point2d P8M = new Point2d(getXPosition(isRed, P8.x + 20), 29.64);
+
         Point2d P9 = new Point2d(getXPosition(isRed, 0), 95.64);
+        Point2d P9M = new Point2d(getXPosition(isRed, P9.x + 20), 95.64);
+
         Point2d P10 = new Point2d(getXPosition(isRed, 0), 161.64);
+        Point2d P10M = new Point2d(getXPosition(isRed, P10.x + 20), 161.64);
+        
         Point2d P11 = new Point2d(getXPosition(isRed, 0), 227.64);
+        Point2d P11M = new Point2d(getXPosition(isRed, P11.x + 20), 227.64);
+
         Point2d P12 = new Point2d(getXPosition(isRed, 0), 293.64);
+        Point2d P12M = new Point2d(getXPosition(isRed, P12.x + 20), 293.64);
+
         //ToDO fix 13 14
         Point2d P13 = new Point2d(getXPosition(isRed, 0), 93.154754 - halfFramePreremetere);
         Point2d P14 = new Point2d(getXPosition(isRed, 0), 231.777 + halfFramePreremetere);
-        //ToDo : add p15
+        //ToDo : add p15, p16, p17
+        Point2d P15 = new Point2d(0,0);//Might use
+
+
+        Point2d P16 = new Point2d(getXPosition(isRed, 172.955),  93.154754 - halfFramePreremetere);
+        Point2d P17 = new Point2d(getXPosition(isRed, 172.955),  231.777 + halfFramePreremetere);
 
 
         addTrajectory(
@@ -144,6 +163,23 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P5, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
+                "P3toP5");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                0.0,
+                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 330)),
+                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P5, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 202.5)),
+                new PathPlannerWaypoint(P16, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 202.5)),
+                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 135)),
+                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
                 "P3toP5");
     }
 
