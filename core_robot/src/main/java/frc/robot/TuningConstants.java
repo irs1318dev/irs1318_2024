@@ -35,6 +35,9 @@ public class TuningConstants
 
     public static final boolean TRAJECTORY_FORCE_BUILD = false;
 
+    public static final double AMP_OT = 90.0;
+    public static final double SOURCE_OT = 290;
+
     //================================================= Power ======================================================
 
     public static final double POWER_OVERCURRENT_TRACKING_DURATION = 5.0; // duration of time to keep track of the average current
