@@ -95,4 +95,9 @@ public class ElectronicsConstants
     public static final int ARM_SHOULDER_MOTOR_CAN_ID = 12;
     public static final int ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID = 13;
     public static final int ARM_WRIST_MOTOR_CAN_ID = 14;
+
+    public static final int ARM_SHOULDER_PDH_CHANNEL = 16;
+    public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = 17;
+    public static final int ARM_WRIST_PDH_CHANNEL = 18;
+    
 }

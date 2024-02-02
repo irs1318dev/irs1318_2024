@@ -35,6 +35,8 @@ public enum AnalogOperation implements IOperation
     FlywheelVelocityGoal, // Set by Macros
 
     // Arm operations
-    ArmShoulderPosition,
-    ArmWristPosition,
+    ArmShoulderPower,
+    ArmWristPower,
+    ArmShoulderPositionSetpoint,
+    ArmWristPositionSetpoint,
 }

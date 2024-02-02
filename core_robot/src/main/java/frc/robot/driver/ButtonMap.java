@@ -98,7 +98,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.ArmShoulderPosition,
+            AnalogOperation.ArmShoulderPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -108,7 +108,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         
         new AnalogOperationDescription(
-            AnalogOperation.ArmWristPosition,
+            AnalogOperation.ArmWristPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -117,7 +117,13 @@ public class ButtonMap implements IButtonMap
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
 
-       
+        new AnalogOperationDescription(
+            AnalogOperation.ArmShoulderPositionSetpoint,
+            TuningConstants.MAGIC_NULL_VALUE),
+            
+        new AnalogOperationDescription(
+            AnalogOperation.ArmWristPositionSetpoint,
+            TuningConstants.MAGIC_NULL_VALUE),       
         };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]

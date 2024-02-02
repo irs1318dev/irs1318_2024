@@ -494,28 +494,60 @@ public class TuningConstants
 
     //==================================================== ChainAndSprocketArm ==============================================================
 
-    public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.3;
-    public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.3;
-    public static final double ARM_SHOULDER_MOTOR_PID_KD = 0.3;
-    public static final double ARM_SHOULDER_MOTOR_PID_KF = 0.3;
-
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
 
-    public static final boolean ARM_SHOULDER_USE_PERCENT_OUTPUT = false;
     public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = 0.0;
 
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
-
-    public static final double ARM_WRIST_MOTOR_PID_KP = 0.3;
-    public static final double ARM_WRIST_MOTOR_PID_KI = 0.3;
-    public static final double ARM_WRIST_MOTOR_PID_KD = 0.3;
-    public static final double ARM_WRIST_MOTOR_PID_KF = 0.3;
 
     public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = false;
     public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
 
     public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = 0.0;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = false;
+    public static final boolean ARM_USE_SIMPLE_MODE = true;
+    public static final boolean ARM_USE_MM = false;
+
+    public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KD = 0.3;
+    public static final double ARM_SHOULDER_MOTOR_PID_KF = 0.3;
+
+    public static final double ARM_SHOULDER_POSITION_TMP_PID_KP = 0.7;
+    public static final double ARM_SHOULDER_POSITION_TMP_PID_KI = 0.7;
+    public static final double ARM_SHOULDER_POSITION_TMP_PID_KD = 0.7;
+    public static final double ARM_SHOULDER_POSITION_TMP_PID_KF = 0.7;
+    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 6000;
+    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 600;
+
+    public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.1;
+    public static final double ARM_WRIST_POSITION_MM_PID_KI = 0.1;
+    public static final double ARM_WRIST_POSITION_MM_PID_KD = 0.1;
+    public static final double ARM_WRIST_POSITION_MM_PID_KF = 0.1;
+    public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 2000;
+    public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 200;
+
+    public static final double ARM_WRIST_MOTOR_PID_KP = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KI = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KD = 0.3;
+    public static final double ARM_WRIST_MOTOR_PID_KF = 0.3;
+
+    public static final boolean ARM_STALL_PROTECTION_ENABLED = false;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 3.5;
+    public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
+    public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
+    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 8.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 1.5;
+    public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
+    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 4.0;
+    
+
+
+    public static final double ARM_POWER_TRACKING_DURATION = 0.250;
+    public static final double ARM_POWER_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND;
+    public static final double ARM_VELOCITY_TRACKING_DURATION = ARM_POWER_TRACKING_DURATION;
+    public static final double ARM_VELOCITY_SAMPLES_PER_SECOND = ARM_POWER_SAMPLES_PER_SECOND;
+    
+
 }

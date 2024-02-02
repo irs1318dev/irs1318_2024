@@ -128,8 +128,17 @@ public enum LoggingKey
     ArmShoulderPosition("arm.sh.pos"),
     ArmShoulderVelocity("arm.sh.vel"),
     ArmWristPosition("arm.wr.pos"),
-    ArmWristVelocity("arm.wr.vel");
-
+    ArmWristVelocity("arm.wr.vel"),
+    ArmShoulderVelocityAverage("arm.sh_vel_avg"),
+    ArmWristVelocityAverage("arm.wr_vel_avg"),
+    ArmShoulderError("arm.sh_err"),
+    ArmWristError("arm.wr_err"),
+    ArmShoulderPowerAverage("arm.sh_pw_avg"),
+    ArmWristPowerAverage("arm.wr_pw_avg"),
+    ArmShoulderStalled("arm.sh_stalled"),
+    ArmWristStalled("arm.wr_stalled"),
+    ArmShoulderSetpoint("arm.sh_setpoint"),
+    ArmWristSetpoint("arm.wr_setpoint");
 
     public final String value;
     public final int loggingFrequency;
