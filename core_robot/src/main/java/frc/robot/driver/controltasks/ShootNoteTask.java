@@ -12,8 +12,7 @@ import frc.robot.mechanisms.*;
  */
 public class ShootNoteTask extends ControlTaskBase
 {
-
-    private final ChainArmMechanism chainArm;
+    private final ArmMechanism arm;
     private final EndEffectorMechanism endEffector;
 
     private final double desiredVelocity;
@@ -24,7 +23,7 @@ public class ShootNoteTask extends ControlTaskBase
 
     public ShootNoteTask()
     {
-        this.chainArm = this.getInjector().getInstance(ChainArmMechanism.class);
+        this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
         
         //TODO get the correct X and Y offsets, based on arm length and shoulder rotation

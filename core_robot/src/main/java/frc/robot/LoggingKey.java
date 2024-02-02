@@ -50,18 +50,6 @@ public enum LoggingKey
     NavxY("navx.y"),
     NavxZ("navx.z"),
 
-    IntakeMotorVelocity("ee.int_vel"),
-    IntakeMotorPercentOutput("ee.int_per_out)"),
-    ShooterFlywheelPosition("ee.fw_pos"),
-    ShooterFlywheelVelocity("ee.fw_vel"),
-    ShooterFlywheelError("ee.fw_err"),
-    IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
-    IntakeThroughBeamBroken("ee.thr_bem_brk"),
-    FlywheelPower("ee_fw_pow"),
-    FlywheelDesiredVelocity("ee.fw_vel_setpt"),
-
-
-
     DriveTrainDesiredAngle("dt.angle_goal", 1),
     DriveTrainAngle("dt.angle", 1),
     DriveTrainXPosition("dt.xpos", 1, true),
@@ -125,13 +113,40 @@ public enum LoggingKey
 
     CompressorPreassure("com.pres"),
 
-    // Arm Stuff
-    // chm = Chain Motor
-    ChainMotorPosition("chm.position"),
-    ChainMotorVelocity("chm.velocity"),
-    WristMotorPosition("wr.position"),
-    WristMotorVelocity("wr.velocity");
+    // End Effector stuff
+    IntakeMotorVelocity("ee.int_vel"),
+    IntakeMotorPercentOutput("ee.int_per_out)"),
 
+    ShooterNearFlywheelPosition("ee.nr_fly_pos"),
+    ShooterNearFlywheelVelocity("ee.nr_fly_vel"),
+    ShooterNearFlywheelError("ee.nr_fly_err"),
+
+    ShooterFarFlywheelPosition("ee.fr_fly_pos"),
+    ShooterFarFlywheelVelocity("ee.fr_fly_vel"),
+    ShooterFarFlywheelError("ee.fr_fly_err"),
+
+    IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
+    IntakeThroughBeamBroken("ee.thr_bem_brk"),
+
+    ShooterFlywheelPower("ee_fw_pow"),
+    ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
+    ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
+
+    // Arm stuff
+    ArmShoulderPosition("arm.sh.pos"),
+    ArmShoulderVelocity("arm.sh.vel"),
+    ArmWristPosition("arm.wr.pos"),
+    ArmWristVelocity("arm.wr.vel"),
+    ArmShoulderVelocityAverage("arm.sh_vel_avg"),
+    ArmWristVelocityAverage("arm.wr_vel_avg"),
+    ArmShoulderError("arm.sh_err"),
+    ArmWristError("arm.wr_err"),
+    ArmShoulderPowerAverage("arm.sh_pw_avg"),
+    ArmWristPowerAverage("arm.wr_pw_avg"),
+    ArmShoulderStalled("arm.sh_stalled"),
+    ArmWristStalled("arm.wr_stalled"),
+    ArmShoulderSetpoint("arm.sh_setpoint"),
+    ArmWristSetpoint("arm.wr_setpoint");
 
     public final String value;
     public final int loggingFrequency;

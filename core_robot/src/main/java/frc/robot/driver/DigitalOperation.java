@@ -38,15 +38,11 @@ public enum DigitalOperation implements IOperation
     // EndEffector operations:
     IntakeIn,
     IntakeOut,
-    FeedRing,
-    ForceStop,
-    ForceIntake,
+    ShooterFeedRing,
+    IntakeForceStop,
+    IntakeForceIn,
 
-    //Chain Arm operations:
-    ArmUsePID,
-    ArmUsePower,
-
-    WristUsePID,
-    WristUsePower,
-
+    // Arm operations:
+    ArmEnableSimpleMode,
+    ArmDisableSimpleMode,
 }
