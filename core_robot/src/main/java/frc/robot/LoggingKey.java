@@ -114,25 +114,23 @@ public enum LoggingKey
     CompressorPreassure("com.pres"),
 
     // End Effector Stuff
-
     IntakeMotorVelocity("ee.int_vel"),
     IntakeMotorPercentOutput("ee.int_per_out)"),
 
-    NearShooterFlywheelPosition("ee.nr_fly_pos"),
-    NearShooterFlywheelVelocity("ee.nr_fly_vel"),
-    NearShooterFlywheelError("ee.nr_fly_err"),
+    ShooterNearFlywheelPosition("ee.nr_fly_pos"),
+    ShooterNearFlywheelVelocity("ee.nr_fly_vel"),
+    ShooterNearFlywheelError("ee.nr_fly_err"),
 
-    FarShooterFlywheelPosition("ee.fr_fly_pos"),
-    FarShooterFlywheelVelocity("ee.fr_fly_vel"),
-    FarShooterFlywheelError("ee.fr_fly_err"),
+    ShooterFarFlywheelPosition("ee.fr_fly_pos"),
+    ShooterFarFlywheelVelocity("ee.fr_fly_vel"),
+    ShooterFarFlywheelError("ee.fr_fly_err"),
 
     IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
     IntakeThroughBeamBroken("ee.thr_bem_brk"),
 
-    FlywheelPower("ee_fw_pow"),
-    NearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
-    FarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
-    
+    ShooterFlywheelPower("ee_fw_pow"),
+    ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
+    ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
 
     // Arm Stuff
     // chm = Chain Motor
@@ -140,7 +138,6 @@ public enum LoggingKey
     ArmShoulderVelocity("chm.velocity"),
     ArmWristPosition("wr.position"),
     ArmWristVelocity("wr.velocity");
-
 
     public final String value;
     public final int loggingFrequency;
