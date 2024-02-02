@@ -94,8 +94,12 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.FlywheelVelocityGoal,
+            AnalogOperation.NearFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
+
+        new AnalogOperationDescription(
+            AnalogOperation.FarFlywheelVelocityGoal,
+            TuningConstants.MAGIC_NULL_VALUE),  
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderPosition,

@@ -24,20 +24,28 @@ public class EndEffectorMechanism implements IMechanism
     private double prevTime;
 
     private final ITalonSRX intakeMotor;
-    private final ISparkMax flywheelMotor;
+
+    private final ISparkMax nearFlywheelMotor;
+    private final ISparkMax farFlywheelMotor;
 
     private final IAnalogInput throughBeamSensor;
 
     private double intakeMotorVelocity;
 
-    private double flywheelPosition;
-    private double flywheelVelocity;
-    private double flywheelError;
+    private double nearFlywheelPosition;
+    private double nearFlywheelVelocity;
+    private double nearFlywheelError;
+
+    private double farFlywheelPosition;
+    private double farFlywheelVelocity;
+    private double farFlywheelError;
 
     private double throughBeamSensorValue;
     private boolean throughBeamBroken;
 
-    private double flywheelSetpoint;
+    private double nearFlywheelSetpoint;
+    private double farFlywheelSetpoint;
+    
 
     private enum EffectorState
     {
@@ -71,35 +79,47 @@ public class EndEffectorMechanism implements IMechanism
         this.intakeMotor.setMotorOutputSettings(TuningConstants.INTAKE_MOTOR_INVERT_OUTPUT, MotorNeutralMode.Brake);
         this.intakeMotor.setControlMode(TalonSRXControlMode.PercentOutput);
 
-        // FLYWHEEL MOTOR
-        this.flywheelMotor = provider.getSparkMax(ElectronicsConstants.FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
-        this.flywheelMotor.setRelativeEncoder();
-        this.flywheelMotor.setInvertSensor(TuningConstants.SHOOTER_MOTOR_INVERT_SENSOR);
-        this.flywheelMotor.setInvertOutput(TuningConstants.SHOOTER_MOTOR_INVERT_OUTPUT);
-        this.flywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
+        // NEAR FLYWHEEL MOTOR
+        this.nearFlywheelMotor = provider.getSparkMax(ElectronicsConstants.NEAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
+        // this.nearFlywheelMotor.setRelativeEncoder();
+        // this.nearFlywheelMotor.setInvertSensor(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_SENSOR);
+        this.nearFlywheelMotor.setInvertOutput(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_OUTPUT);
+        this.nearFlywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
 
-        this.flywheelMotor.setPIDF(
+        this.nearFlywheelMotor.setPIDF(
             TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KP, 
             TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KI, 
             TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KD, 
             TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KF, 
             DefaultPidSlotId);
 
-        this.flywheelMotor.setVelocityConversionFactor(TuningConstants.SHOOTER_FLYWHEEL_CONVERSION_FACTOR);
-        this.flywheelMotor.setCurrentLimit(TuningConstants.FLYWHEEL_STALL_LIMIT, TuningConstants.FLYWHEEL_FREE_LIMIT, TuningConstants.FLYWHEEL_RPM_LIMIT);
-        this.flywheelMotor.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_SENSOR_FRAME_PERIOD_MS);
-        this.flywheelMotor.setSelectedSlot(DefaultPidSlotId);
+        this.nearFlywheelMotor.setVelocityConversionFactor(TuningConstants.SHOOTER_FLYWHEEL_CONVERSION_FACTOR);
+        this.nearFlywheelMotor.setCurrentLimit(TuningConstants.FLYWHEEL_STALL_LIMIT, TuningConstants.FLYWHEEL_FREE_LIMIT, TuningConstants.FLYWHEEL_RPM_LIMIT);
+        this.nearFlywheelMotor.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_SENSOR_FRAME_PERIOD_MS);
+        this.nearFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
         
-        this.flywheelMotor.burnFlash();
+        this.nearFlywheelMotor.burnFlash();
 
-        // FLYWHEEL FOLLOWER
-        ISparkMax flywheelFollower = provider.getSparkMax(ElectronicsConstants.FLYWHEEL_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
-        flywheelFollower.setInvertOutput(TuningConstants.SHOOTER_MOTOR_FOLLOWER_INVERT_OUTPUT);
-        flywheelFollower.setNeutralMode(MotorNeutralMode.Coast);
-        flywheelFollower.follow(flywheelMotor);
-        flywheelFollower.setCurrentLimit(TuningConstants.FLYWHEEL_FOLLOWER_STALL_LIMIT, TuningConstants.FLYWHEEL_FOLLOWER_FREE_LIMIT, TuningConstants.FLYWHEEL_FOLLOWER_RPM_LIMIT);
+        // FAR FLYWHEEL MOTOR
+        this.farFlywheelMotor = provider.getSparkMax(ElectronicsConstants.FAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
+        // this.farFlywheelMotor.setRelativeEncoder();
+        // this.farFlywheelMotor.setInvertSensor(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_SENSOR);
+        this.farFlywheelMotor.setInvertOutput(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_OUTPUT);
+        this.farFlywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
 
-        flywheelFollower.burnFlash();
+        this.farFlywheelMotor.setPIDF(
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KP, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KI, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KD, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_PID_KF, 
+            DefaultPidSlotId);
+
+        this.farFlywheelMotor.setVelocityConversionFactor(TuningConstants.SHOOTER_FLYWHEEL_CONVERSION_FACTOR);
+        this.farFlywheelMotor.setCurrentLimit(TuningConstants.FLYWHEEL_STALL_LIMIT, TuningConstants.FLYWHEEL_FREE_LIMIT, TuningConstants.FLYWHEEL_RPM_LIMIT);
+        this.farFlywheelMotor.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_SENSOR_FRAME_PERIOD_MS);
+        this.farFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
+        
+        this.farFlywheelMotor.burnFlash();
 
         // THROUGH BEAM
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
@@ -116,13 +136,21 @@ public class EndEffectorMechanism implements IMechanism
     {
         this.intakeMotorVelocity = this.intakeMotor.getVelocity();
 
-        this.flywheelPosition = this.flywheelMotor.getPosition();
-        this.flywheelVelocity = this.flywheelMotor.getVelocity();
-        this.flywheelError = this.flywheelMotor.getOutput() - this.flywheelSetpoint;
+        this.nearFlywheelPosition = this.nearFlywheelMotor.getPosition();
+        this.nearFlywheelVelocity = this.nearFlywheelMotor.getVelocity();
+        this.nearFlywheelError = this.nearFlywheelMotor.getOutput() - this.nearFlywheelSetpoint;
 
-        this.logger.logNumber(LoggingKey.ShooterFlywheelPosition, this.flywheelPosition);
-        this.logger.logNumber(LoggingKey.ShooterFlywheelVelocity, this.flywheelVelocity);
-        this.logger.logNumber(LoggingKey.ShooterFlywheelError, this.flywheelError);
+        this.logger.logNumber(LoggingKey.NearShooterFlywheelPosition, this.nearFlywheelPosition);
+        this.logger.logNumber(LoggingKey.NearShooterFlywheelVelocity, this.nearFlywheelVelocity);
+        this.logger.logNumber(LoggingKey.NearShooterFlywheelError, this.nearFlywheelError);
+
+        this.farFlywheelPosition = this.farFlywheelMotor.getPosition();
+        this.farFlywheelVelocity = this.farFlywheelMotor.getVelocity();
+        this.farFlywheelError = this.farFlywheelMotor.getOutput() - this.farFlywheelSetpoint;
+
+        this.logger.logNumber(LoggingKey.FarShooterFlywheelPosition, this.farFlywheelPosition);
+        this.logger.logNumber(LoggingKey.FarShooterFlywheelVelocity, this.farFlywheelVelocity);
+        this.logger.logNumber(LoggingKey.FarShooterFlywheelError, this.farFlywheelError);
 
         this.throughBeamSensorValue = this.throughBeamSensor.getVoltage();
         this.throughBeamBroken = this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF;
@@ -144,30 +172,50 @@ public class EndEffectorMechanism implements IMechanism
 
         // FLYWHEEL LOGIC
         double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.FlywheelMotorPower);
-        double flywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.FlywheelVelocityGoal); // This value should be calculated and in RPM
+        double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.NearFlywheelVelocityGoal); // This value should be calculated and in RPM
+        double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.FarFlywheelVelocityGoal); // This value should be calculated and in RPM
+        
 
         if (flywheelMotorPower != TuningConstants.MAGIC_NULL_VALUE)
         {
-            this.flywheelSetpoint = this.flywheelVelocity;
-            this.flywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.flywheelMotor.set(flywheelMotorPower);
+            this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
+            this.farFlywheelSetpoint = this.farFlywheelVelocity;
+
+            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+
+            this.nearFlywheelMotor.set(flywheelMotorPower);
+            this.farFlywheelMotor.set(flywheelMotorPower);
+
             this.logger.logNumber(LoggingKey.FlywheelPower, flywheelMotorPower);
         }
-        else if (flywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
+        else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
         {
-            this.flywheelSetpoint = flywheelVelocityGoal;
-            this.flywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-            this.flywheelMotor.set(this.flywheelSetpoint);
+            this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
+            this.farFlywheelSetpoint = farFlywheelVelocityGoal;
+
+            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
+            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
+
+            this.nearFlywheelMotor.set(this.nearFlywheelSetpoint);
+            this.farFlywheelMotor.set(this.farFlywheelSetpoint);
+            
             this.logger.logNumber(LoggingKey.FlywheelPower, -1318.0);
         }
         else
         {
-            this.flywheelSetpoint = TuningConstants.MAGIC_NULL_VALUE;
-            this.flywheelMotor.stop();
+            this.nearFlywheelSetpoint = TuningConstants.MAGIC_NULL_VALUE;
+            this.farFlywheelSetpoint = TuningConstants.MAGIC_NULL_VALUE;
+            
+            this.nearFlywheelMotor.stop();
+            this.farFlywheelMotor.stop();
+            
             this.logger.logNumber(LoggingKey.FlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
         }
 
-        this.logger.logNumber(LoggingKey.FlywheelDesiredVelocity, this.flywheelSetpoint);
+        this.logger.logNumber(LoggingKey.NearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
+        this.logger.logNumber(LoggingKey.FarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
+        
 
         // STATE SWITCHING
 
@@ -306,19 +354,28 @@ public class EndEffectorMechanism implements IMechanism
     public void stop()
     {
         this.intakeMotor.stop();
-        this.flywheelMotor.stop();
+        this.nearFlywheelMotor.stop();
+        this.farFlywheelMotor.stop();
 
         this.outTakeStartTime = 0.0;
     }
 
-    public double getFlywheelSetpoint()
+    public double getNearFlywheelSetpoint()
     {
-        return this.flywheelSetpoint;
+        return this.nearFlywheelSetpoint;
+    }
+
+    public double getFarFlywheelSetpoint()
+    {
+        return this.farFlywheelSetpoint;
     }
 
     public boolean isFlywheelSpunUp()
     {
-        return this.flywheelSetpoint > 0.0 && Math.abs(this.flywheelError) <= TuningConstants.FLYWHEEL_ALLOWABLE_ERROR_RANGE;
+        return (this.farFlywheelSetpoint > 0.0) &&
+                (this.nearFlywheelSetpoint > 0.0) &&
+                (Math.abs(this.farFlywheelError) <= TuningConstants.FLYWHEEL_ALLOWABLE_ERROR_RANGE) &&
+                (Math.abs(this.nearFlywheelError) <= TuningConstants.FLYWHEEL_ALLOWABLE_ERROR_RANGE);
     }
 
     public boolean hasGamePiece()
