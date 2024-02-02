@@ -32,7 +32,8 @@ public enum AnalogOperation implements IOperation
 
     // EndEffector operations
     FlywheelMotorPower, // set by analog axis
-    FlywheelVelocityGoal, // Set by Macros
+    NearFlywheelVelocityGoal, // Set by Macros
+    FarFlywheelVelocityGoal, // Set by Macros 
 
     // Arm operations
     ArmShoulderPower,

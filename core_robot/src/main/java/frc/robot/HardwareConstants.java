@@ -95,8 +95,14 @@ public class HardwareConstants
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
     public static final double ARM_SHOOTER_RETRACT_X_POS = 100; 
     public static final double ARM_SHOOTER_RETRACT_Z_POS = 100;
+
     //=============================================== Vision ==================================================================//
 
     public static final double CAMERA_TO_ARM_X_OFFSET = 20;
     public static final double CAMERA_TO_ARM_Z_OFFSET = 20;
+
+    //=============================================== Shooter =====================================================================//
+
+    public static final double SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE = 1.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
 }

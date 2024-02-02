@@ -467,30 +467,32 @@ public class TuningConstants
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
-    public static final boolean SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean SHOOTER_MOTOR_INVERT_OUTPUT = false;
-    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KP = 0.5;
-    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KI = 0.5;
-    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KD = 0.5;
-    public static final double SHOOTER_FLYWHEEL_MOTOR_PID_KF = 0.5;
-    public static final double SHOOTER_FLYWHEEL_CONVERSION_FACTOR = 360;
+    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
+    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+
     public static final int FLYWHEEL_STALL_LIMIT = 100;
     public static final int FLYWHEEL_FREE_LIMIT = 100;
     public static final int FLYWHEEL_RPM_LIMIT = 2000;
     public static final int FLYWHEEL_SENSOR_FRAME_PERIOD_MS = 10;
-    
-    public static final boolean SHOOTER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
-    public static final int FLYWHEEL_FOLLOWER_STALL_LIMIT = 100;
-    public static final int FLYWHEEL_FOLLOWER_FREE_LIMIT = 100;
-    public static final int FLYWHEEL_FOLLOWER_RPM_LIMIT = 2000;
-    public static final int FLYWHEEL_FOLLOWER_SENSOR_FRAME_PERIOD_MS = 10;
 
     public static final double INTAKE_THROUGHBEAM_CUTOFF = 2.7;
     public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
-    
-    public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
-
     public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
+
+    public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
     //==================================================== ChainAndSprocketArm ==============================================================
 

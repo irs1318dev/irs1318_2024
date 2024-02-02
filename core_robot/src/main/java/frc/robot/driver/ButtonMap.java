@@ -94,7 +94,11 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.FlywheelVelocityGoal,
+            AnalogOperation.NearFlywheelVelocityGoal,
+            TuningConstants.MAGIC_NULL_VALUE),
+
+        new AnalogOperationDescription(
+            AnalogOperation.FarFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
@@ -204,7 +208,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.FeedRing,
+            DigitalOperation.ShooterFeedRing,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -228,7 +232,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.ForceStop,
+            DigitalOperation.IntakeForceStop,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -236,7 +240,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
         
         new DigitalOperationDescription(
-            DigitalOperation.ForceIntake,
+            DigitalOperation.IntakeForceIn,
             UserInputDevice.Codriver,
             90,
             EnumSet.of(Shift.CodriverDebug),

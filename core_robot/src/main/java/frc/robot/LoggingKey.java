@@ -50,18 +50,6 @@ public enum LoggingKey
     NavxY("navx.y"),
     NavxZ("navx.z"),
 
-    IntakeMotorVelocity("ee.int_vel"),
-    IntakeMotorPercentOutput("ee.int_per_out)"),
-    ShooterFlywheelPosition("ee.fw_pos"),
-    ShooterFlywheelVelocity("ee.fw_vel"),
-    ShooterFlywheelError("ee.fw_err"),
-    IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
-    IntakeThroughBeamBroken("ee.thr_bem_brk"),
-    FlywheelPower("ee_fw_pow"),
-    FlywheelDesiredVelocity("ee.fw_vel_setpt"),
-
-
-
     DriveTrainDesiredAngle("dt.angle_goal", 1),
     DriveTrainAngle("dt.angle", 1),
     DriveTrainXPosition("dt.xpos", 1, true),
@@ -125,6 +113,26 @@ public enum LoggingKey
 
     CompressorPreassure("com.pres"),
 
+    // End Effector stuff
+    IntakeMotorVelocity("ee.int_vel"),
+    IntakeMotorPercentOutput("ee.int_per_out)"),
+
+    ShooterNearFlywheelPosition("ee.nr_fly_pos"),
+    ShooterNearFlywheelVelocity("ee.nr_fly_vel"),
+    ShooterNearFlywheelError("ee.nr_fly_err"),
+
+    ShooterFarFlywheelPosition("ee.fr_fly_pos"),
+    ShooterFarFlywheelVelocity("ee.fr_fly_vel"),
+    ShooterFarFlywheelError("ee.fr_fly_err"),
+
+    IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
+    IntakeThroughBeamBroken("ee.thr_bem_brk"),
+
+    ShooterFlywheelPower("ee_fw_pow"),
+    ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
+    ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
+
+    // Arm stuff
     ArmShoulderPosition("arm.sh.pos"),
     ArmShoulderVelocity("arm.sh.vel"),
     ArmWristPosition("arm.wr.pos"),
