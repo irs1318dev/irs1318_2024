@@ -265,6 +265,23 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
                 //Possible Note Pickup
                 "P3toP8");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.REVDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.REVDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.REVDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.REVDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                0.0,
+                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 135), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 157.5), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 165), getOrientationOrHeading(isRed,0)),
+                new PathPlannerWaypoint(P14, getOrientationOrHeading(isRed, 200), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 215), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
+                "P2toP10");
+                
     }
 
     
