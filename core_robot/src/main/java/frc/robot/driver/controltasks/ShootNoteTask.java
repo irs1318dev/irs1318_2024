@@ -108,25 +108,6 @@ public class ShootNoteTask extends ControlTaskBase
     }
 
     /*
-     * gets the required velocity to pass the x-coord of the target 
-     * with an upwards velocity with a given angle
-     */
-    private double getVelocityFromAngleUpwards(double theta) {
-        theta *= Helpers.DEGREES_TO_RADIANS;
-
-        //x distance to target, end effector offsets included
-        double xDistAdjusted = pivotToTargetXDist - 
-        HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * Math.cos(theta) + 
-        HardwareConstants.END_EFFECTOR_PIVOT_AXIS_OFFSET * Math.sin(theta);
-        
-        double topTerm = TuningConstants.GRAVITY_CONSTANT * xDistAdjusted;
-        double bottomTerm = Math.sin(theta) * Math.cos(theta);
-
-        double result = Math.sqrt(topTerm / bottomTerm);
-        return result;
-    }
-
-    /*
      * gets the difference between the upwards required velocity and
      * the intersecting required velocity
      * 
