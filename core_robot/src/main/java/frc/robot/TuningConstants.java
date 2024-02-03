@@ -497,7 +497,7 @@ public class TuningConstants
     //==================================================== ShootNoteTask =====================================================
 
     //TODO get the actual values here
-    public static final double GRAVITY_CONSTANT = 192; // inches per second per second
+    public static final double GRAVITY_CONSTANT = 384; // inches per second per second
 
     public static final double APRILTAG_TARGET_OFFSET_X = 0; // inches
     public static final double APRILTAG_TARGET_OFFSET_Y = 48; // inches

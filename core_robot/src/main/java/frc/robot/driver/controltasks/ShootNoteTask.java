@@ -33,8 +33,8 @@ public class ShootNoteTask extends ControlTaskBase
         pivotToTargetYDist = 120; //inches
 
         //find the intersection of upwards velocity and hitting the target
-        double leftBound = Math.atan(pivotToTargetYDist / pivotToTargetXDist) + TuningConstants.SHOOTER_ANGLE_ASYMPTOTE_DISTANCE;
-        double rightBound = 90 - TuningConstants.SHOOTER_ANGLE_ASYMPTOTE_DISTANCE;
+        double leftBound = 0;
+        double rightBound = 90;
         double midpoint = (leftBound + rightBound) * 0.5;
         for (int i = 0; i < TuningConstants.ANGLE_FINDING_ITERATIONS; i++) {
             if (getVelocityFromAngleIntersection(midpoint) < 0) {
@@ -91,12 +91,17 @@ public class ShootNoteTask extends ControlTaskBase
      */
     private double getVelocityFromAngleTarget(double theta) {
         theta *= Helpers.DEGREES_TO_RADIANS;
+        double sinTheta = Math.sin(theta);
+        double cosTheta = Math.cos(theta);
 
-        double xDistAdjusted = pivotToTargetXDist - HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * Math.cos(theta);
+        double xDistAdjusted = pivotToTargetXDist - 
+        HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * cosTheta + 
+        HardwareConstants.END_EFFECTOR_PIVOT_AXIS_OFFSET * sinTheta;
         
         double topTerm = -TuningConstants.GRAVITY_CONSTANT * xDistAdjusted * xDistAdjusted;
-        double bottomTerm = 2 * Math.pow(Math.cos(theta), 2) * 
-        (pivotToTargetYDist - pivotToTargetXDist * Math.tan(theta));
+        double bottomTerm = 2 * cosTheta *
+        (pivotToTargetYDist * cosTheta - pivotToTargetXDist * sinTheta - 
+        HardwareConstants.END_EFFECTOR_PIVOT_AXIS_OFFSET);
 
         double result = Math.sqrt(topTerm / bottomTerm);
         return result;
@@ -109,7 +114,10 @@ public class ShootNoteTask extends ControlTaskBase
     private double getVelocityFromAngleUpwards(double theta) {
         theta *= Helpers.DEGREES_TO_RADIANS;
 
-        double xDistAdjusted = pivotToTargetXDist - HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * Math.cos(theta);
+        //x distance to target, end effector offsets included
+        double xDistAdjusted = pivotToTargetXDist - 
+        HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * Math.cos(theta) + 
+        HardwareConstants.END_EFFECTOR_PIVOT_AXIS_OFFSET * Math.sin(theta);
         
         double topTerm = TuningConstants.GRAVITY_CONSTANT * xDistAdjusted;
         double bottomTerm = Math.sin(theta) * Math.cos(theta);
@@ -130,7 +138,7 @@ public class ShootNoteTask extends ControlTaskBase
         double cosTheta = Math.cos(theta);
 
         double difference = 2 * cosTheta * pivotToTargetYDist - sinTheta * pivotToTargetXDist
-        - HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * sinTheta * cosTheta;
+        - HardwareConstants.END_EFFECTOR_PIVOT_LENGTH * sinTheta * cosTheta - HardwareConstants.END_EFFECTOR_PIVOT_AXIS_OFFSET * (cosTheta * cosTheta + 1);
         return difference;
     }
 

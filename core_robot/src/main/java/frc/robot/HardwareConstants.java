@@ -102,8 +102,10 @@ public class HardwareConstants
     public static final double CAMERA_TO_ARM_Z_OFFSET = 20;
 
     //=============================================== EndEffector =====================================================================//
+    //TODO get acutal offsets
 
-    public static final double END_EFFECTOR_PIVOT_LENGTH = 24; // inches
+    public static final double END_EFFECTOR_PIVOT_LENGTH = 18; // inches
+    public static final double END_EFFECTOR_PIVOT_AXIS_OFFSET = 4; //inches
 
     public static final double SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE = 1.0;
     public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
