@@ -245,7 +245,24 @@ public class ButtonMap implements IButtonMap
             90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
 
         // Test operations:
         new DigitalOperationDescription(
