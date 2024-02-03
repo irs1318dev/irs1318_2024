@@ -90,7 +90,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RT,
             ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
-            0.0,
+            -1.0,
             0.2),
 
         new AnalogOperationDescription(

@@ -79,7 +79,7 @@ public class ArmMechanism implements IMechanism
     private boolean inSimpleMode;
 
     @Inject
-    public ArmMechanism(IRobotProvider provider, IDriver driver, ILogger logger, ITimer timer, PowerManager powerManager)
+    public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
     {
         this.driver = driver;
         this.logger = logger;
@@ -90,6 +90,18 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         this.wristMotor = provider.getTalonSRX(ElectronicsConstants.ARM_WRIST_MOTOR_CAN_ID);
+
+        this.shoulderMotor.setRelativeEncoder();
+        // this.shoulderMotor.setInvertSensor(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_SENSOR);
+        this.shoulderMotor.setPositionConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
+        this.shoulderMotor.setVelocityConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
+        this.shoulderMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_OUTPUT);
+        this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION);
+        this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
+
+        this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
+        this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -125,14 +137,6 @@ public class ArmMechanism implements IMechanism
                 TuningConstants.ARM_WRIST_MOTOR_PID_KF,
                 ArmMechanism.DefaultPidSlotId);
         }
-
-        this.shoulderMotor.setRelativeEncoder();
-        // this.shoulderMotor.setInvertSensor(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_SENSOR);
-        this.shoulderMotor.setPositionConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
-        this.shoulderMotor.setVelocityConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
-        this.shoulderMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_OUTPUT);
-        this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION);
-        this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -174,15 +178,11 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderMotor.burnFlash();
 
-        this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
-        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
-        this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
-
-        ISparkMax shoulderFollowerMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
-        shoulderFollowerMotor.setNeutralMode(MotorNeutralMode.Brake);
-        shoulderFollowerMotor.follow(this.shoulderMotor);
-        shoulderFollowerMotor.burnFlash();
+        // ISparkMax shoulderFollowerMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
+        // shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
+        // shoulderFollowerMotor.setNeutralMode(MotorNeutralMode.Brake);
+        // shoulderFollowerMotor.follow(this.shoulderMotor);
+        // shoulderFollowerMotor.burnFlash();
 
         this.shoulderPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_POWER_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_POWER_SAMPLES_PER_SECOND);
         this.wristPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION, TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND);

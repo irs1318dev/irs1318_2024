@@ -462,7 +462,7 @@ public class TuningConstants
 
     //================================================== EndEffector ==============================================================
 
-    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
@@ -471,7 +471,7 @@ public class TuningConstants
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = true;
 
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
