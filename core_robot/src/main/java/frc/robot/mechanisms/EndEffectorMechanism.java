@@ -52,7 +52,6 @@ public class EndEffectorMechanism implements IMechanism
     private EffectorState currentEffectorState;
 
     private boolean useShootAnywayMode;
-    private double outTakeStartTime;
     private double shootingStartTime;
 
     @Inject
@@ -117,7 +116,6 @@ public class EndEffectorMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
 
         this.useShootAnywayMode = false;
-        this.outTakeStartTime = 0.0;
         this.shootingStartTime = 0.0;
 
         this.currentEffectorState = EffectorState.Off;
@@ -202,26 +200,43 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
 
+        if(this.driver.getDigital(DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE))
+        {
+            this.useShootAnywayMode = true;
+        }
+        else if (this.driver.getDigital(DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE))
+        {
+            this.useShootAnywayMode = false;
+        }
+
         // STATE SWITCHING
         switch (this.currentEffectorState)
         {
             case Off:
+
+                // Stay off if told to
+                if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
                 // Start intaking when told to
                 if (this.driver.getDigital(DigitalOperation.IntakeIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
+
                 // Start shooting if told to, and flywheel is spun up or we don't care about spun up
                 else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode) )
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;
                 }
+
                 // Start outtaking when told to
                 else if (this.driver.getDigital(DigitalOperation.IntakeOut))
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
-                    this.outTakeStartTime = currTime;
                 }
 
                 break;
@@ -232,20 +247,32 @@ public class EndEffectorMechanism implements IMechanism
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
+
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn) && (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)) )
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+
                 // shoot if told to, and were not intaking
-                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && !this.driver.getDigital(DigitalOperation.IntakeIn) && (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;
                 }
+
                 // outtake if told to
                 else if (this.driver.getDigital(DigitalOperation.IntakeOut))
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
-                    this.outTakeStartTime = currTime;
                 }
+
                 // if through beam broken, and we can stop intake when desired then stop
                 else if (this.throughBeamBroken && !this.driver.getDigital(DigitalOperation.IntakeForceIn))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
+                else
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
@@ -258,8 +285,24 @@ public class EndEffectorMechanism implements IMechanism
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
+
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (currTime -  this.shootingStartTime <= TuningConstants.EFFECTOR_SHOOTING_DURATION))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                }
+
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+
                 // if through beam is not broken, and we've passed expected shoot time
-                else if (this.shootingStartTime + TuningConstants.EFFECTOR_SHOOTING_DURATION < currTime && !this.throughBeamBroken)
+                else if (this.shootingStartTime + TuningConstants.EFFECTOR_SHOOTING_DURATION < currTime && !(this.throughBeamBroken ||  this.useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
@@ -267,24 +310,32 @@ public class EndEffectorMechanism implements IMechanism
                 break;
 
             case Outtaking:
+
                 // stop if forced to
                 if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
+
                 // intake if told to
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
+
                 // feed ring if told to
                 else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;
                 }
-                // Turn off if outtake time has passed and through beam is no longer broken
-                else if (this.outTakeStartTime + TuningConstants.EFFECTOR_OUTTAKE_DURATION < currTime && !this.throughBeamBroken)
+
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+
+                else
                 {
                     this.currentEffectorState = EffectorState.Off;
                 }
@@ -326,7 +377,6 @@ public class EndEffectorMechanism implements IMechanism
         this.farFlywheelMotor.stop();
 
         this.shootingStartTime = 0.0;
-        this.outTakeStartTime = 0.0;
     }
 
     public double getNearFlywheelSetpoint()
