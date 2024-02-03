@@ -107,7 +107,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         

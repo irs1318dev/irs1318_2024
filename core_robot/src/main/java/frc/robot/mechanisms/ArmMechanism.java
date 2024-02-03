@@ -178,11 +178,11 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderMotor.burnFlash();
 
-        // ISparkMax shoulderFollowerMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        // shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
-        // shoulderFollowerMotor.setNeutralMode(MotorNeutralMode.Brake);
-        // shoulderFollowerMotor.follow(this.shoulderMotor);
-        // shoulderFollowerMotor.burnFlash();
+        ISparkMax shoulderFollowerMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
+        shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
+        shoulderFollowerMotor.setNeutralMode(MotorNeutralMode.Brake);
+        shoulderFollowerMotor.follow(this.shoulderMotor);
+        shoulderFollowerMotor.burnFlash();
 
         this.shoulderPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_POWER_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_POWER_SAMPLES_PER_SECOND);
         this.wristPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION, TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND);
