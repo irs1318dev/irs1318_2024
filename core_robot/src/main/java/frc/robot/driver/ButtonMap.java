@@ -90,35 +90,29 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RT,
             ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
-            0.0,
+            -1.0,
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.FlywheelVelocityGoal,
+            AnalogOperation.NearFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.PositionChainArm,
-            UserInputDevice.Codriver,
-            AnalogAxis.XBONE_LSY,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
-            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
-            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+            AnalogOperation.FarFlywheelVelocityGoal,
+            TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.PowerChainArm,
+            AnalogOperation.ArmShoulderPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            EnumSet.of(Shift.CodriverDebug),
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         
         new AnalogOperationDescription(
-            AnalogOperation.WristPositionChainArm,
+            AnalogOperation.ArmWristPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
@@ -128,14 +122,12 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
 
         new AnalogOperationDescription(
-            AnalogOperation.WristPowerChainArm,
-            UserInputDevice.Codriver,
-            AnalogAxis.XBONE_RSY,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
-            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
-            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+            AnalogOperation.ArmShoulderPositionSetpoint,
+            TuningConstants.MAGIC_NULL_VALUE),
+            
+        new AnalogOperationDescription(
+            AnalogOperation.ArmWristPositionSetpoint,
+            TuningConstants.MAGIC_NULL_VALUE),       
         };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -216,7 +208,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.FeedRing,
+            DigitalOperation.ShooterFeedRing,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -224,7 +216,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.WristUsePID,
+            DigitalOperation.ArmEnableSimpleMode,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -232,7 +224,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.WristUsePower,
+            DigitalOperation.ArmDisableSimpleMode,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -240,36 +232,37 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.ForceStop,
+            DigitalOperation.IntakeForceStop,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
-
-        new DigitalOperationDescription(
-            DigitalOperation.ArmUsePID,
-            UserInputDevice.Codriver,
-            0,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
         
         new DigitalOperationDescription(
-            DigitalOperation.ArmUsePower,
-            UserInputDevice.Codriver,
-            0,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Simple),
-        
-        new DigitalOperationDescription(
-            DigitalOperation.ForceIntake,
+            DigitalOperation.IntakeForceIn,
             UserInputDevice.Codriver,
             90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
 
         // Test operations:
         new DigitalOperationDescription(
@@ -598,7 +591,29 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionEnableAprilTagProcessing,
                 DigitalOperation.VisionEnableRetroreflectiveProcessing,
                 DigitalOperation.VisionForceDisable,
-            })
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition1,
+            UserInputDevice.Codriver, 
+            0,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(1.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition2,
+            UserInputDevice.Codriver, 
+            270,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(4.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
     };
 
     @Override

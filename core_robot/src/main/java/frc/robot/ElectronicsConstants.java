@@ -85,14 +85,19 @@ public class ElectronicsConstants
 
     //================================================== EndEffector ==============================================================
 
-    public static final int INTAKE_MOTOR_CAN_ID = 21; // set this to something
-    public static final int FLYWHEEL_MOTOR_CAN_ID = 22; // set this to something
-    public static final int FLYWHEEL_FOLLOWER_MOTOR_CAN_ID = 23;
-    public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 24;
+    public static final int INTAKE_MOTOR_CAN_ID = 21;
+    public static final int SHOOTER_NEAR_FLYWHEEL_MOTOR_CAN_ID = 22;
+    public static final int SHOOTER_FAR_FLYWHEEL_MOTOR_CAN_ID = 23;
+    public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 1;
 
     //================================================== ChainArm =========================================================================
 
-    public static final int CHAIN_MOTOR_CAN_ID = 12;
-    public static final int CHAIN_FOLLOWER_MOTOR_CAN_ID = 13;
-    public static final int WRIST_CHAIN_MOTOR_CAN_ID = 14;
+    public static final int ARM_SHOULDER_MOTOR_CAN_ID = 12;
+    public static final int ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID = 13;
+    public static final int ARM_WRIST_MOTOR_CAN_ID = 14;
+
+    public static final int ARM_SHOULDER_PDH_CHANNEL = 16;
+    public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = 17;
+    public static final int ARM_WRIST_PDH_CHANNEL = 18;
+    
 }
