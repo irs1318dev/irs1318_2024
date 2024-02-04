@@ -12,6 +12,9 @@ public enum MacroOperation implements IOperation
     FaceForward,
     FaceBackward,
 
+    ArmPosition1,
+    ArmPosition2,
+
     // Vision operations
 
     // Path testing:

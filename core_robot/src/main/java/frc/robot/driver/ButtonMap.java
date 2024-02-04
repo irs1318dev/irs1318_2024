@@ -591,7 +591,29 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionEnableAprilTagProcessing,
                 DigitalOperation.VisionEnableRetroreflectiveProcessing,
                 DigitalOperation.VisionForceDisable,
-            })
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition1,
+            UserInputDevice.Codriver, 
+            0,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(1.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition2,
+            UserInputDevice.Codriver, 
+            270,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(4.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
     };
 
     @Override
