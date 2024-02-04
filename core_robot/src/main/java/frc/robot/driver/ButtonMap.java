@@ -90,7 +90,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RT,
             ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
-            0.0,
+            -1.0,
             0.2),
 
         new AnalogOperationDescription(
@@ -107,7 +107,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSY,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
         
@@ -245,7 +245,24 @@ public class ButtonMap implements IButtonMap
             90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE,
+            UserInputDevice.Codriver,
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Simple),
+
 
         // Test operations:
         new DigitalOperationDescription(
@@ -574,7 +591,29 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionEnableAprilTagProcessing,
                 DigitalOperation.VisionEnableRetroreflectiveProcessing,
                 DigitalOperation.VisionForceDisable,
-            })
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition1,
+            UserInputDevice.Codriver, 
+            0,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(1.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition2,
+            UserInputDevice.Codriver, 
+            270,
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(4.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
     };
 
     @Override

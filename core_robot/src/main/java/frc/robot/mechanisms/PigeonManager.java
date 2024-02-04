@@ -20,7 +20,7 @@ public class PigeonManager implements IPositionManager
     private final IDriver driver;
     private final ILogger logger;
 
-    private final IPigeon2 pigeon;
+    private final IPigeonIMU pigeon;
 
     private final double[] ypr_deg; // shared array to avoid extra allocations
     private final double[] xyz_dps; // shared array to avoid extra allocations
@@ -54,10 +54,10 @@ public class PigeonManager implements IPositionManager
         this.driver = driver;
         this.logger = logger;
 
-        this.pigeon = provider.getPigeon2(ElectronicsConstants.PIGEON_IMU_CAN_ID);
+        this.pigeon = provider.getPigeonIMU(ElectronicsConstants.PIGEON_IMU_CAN_ID);
         this.pigeon.setYaw(0.0);
-        this.pigeon.setYPRUpdateFrequency(200);
-        this.pigeon.setRPYRateUpdateFrequency(200);
+        // this.pigeon.setYPRUpdateFrequency(200);
+        // this.pigeon.setRPYRateUpdateFrequency(200);
 
         this.ypr_deg = new double[3];
         this.xyz_dps = new double[3];
@@ -90,10 +90,10 @@ public class PigeonManager implements IPositionManager
         this.pitch = this.ypr_deg[1];
         this.roll = this.ypr_deg[2];
 
-        this.pigeon.getRollPitchYawRates(this.xyz_dps);
-        this.yawRate = this.xyz_dps[2];
-        this.pitchRate = this.xyz_dps[1];
-        this.rollRate = this.xyz_dps[0];
+        // this.pigeon.getRollPitchYawRates(this.xyz_dps);
+        // this.yawRate = this.xyz_dps[2];
+        // this.pitchRate = this.xyz_dps[1];
+        // this.rollRate = this.xyz_dps[0];
 
         // log the current position and orientation
         this.logger.logNumber(LoggingKey.PigeonYaw, this.yaw);
@@ -101,9 +101,9 @@ public class PigeonManager implements IPositionManager
         this.logger.logNumber(LoggingKey.PigeonRoll, this.roll);
 
         // log the current rates change for yaw/pitch/roll
-        this.logger.logNumber(LoggingKey.PigeonYawRate, this.yawRate);
-        this.logger.logNumber(LoggingKey.PigeonPitchRate, this.pitchRate);
-        this.logger.logNumber(LoggingKey.PigeonRollRate, this.rollRate);
+        // this.logger.logNumber(LoggingKey.PigeonYawRate, this.yawRate);
+        // this.logger.logNumber(LoggingKey.PigeonPitchRate, this.pitchRate);
+        // this.logger.logNumber(LoggingKey.PigeonRollRate, this.rollRate);
 
         // log current offsets
         this.logger.logNumber(LoggingKey.PigeonStartingYaw, this.startYaw);
