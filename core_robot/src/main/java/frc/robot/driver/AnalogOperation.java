@@ -40,4 +40,8 @@ public enum AnalogOperation implements IOperation
     ArmWristPower,
     ArmShoulderPositionSetpoint,
     ArmWristPositionSetpoint,
+
+    // Climber operations
+    ClimberShoulderPower,
+    
 }

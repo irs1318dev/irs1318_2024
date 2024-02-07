@@ -281,6 +281,7 @@ public class ArmMechanism implements IMechanism
             this.shoulderSetpointChangedTime = currTime;
             this.wristSetpointChangedTime = currTime;
 
+
             this.shoulderStalled = false;
             this.wristStalled = false;
         }
