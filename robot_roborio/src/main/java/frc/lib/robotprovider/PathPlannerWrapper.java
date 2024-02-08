@@ -1,6 +1,7 @@
 package frc.lib.robotprovider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.pathplanner.lib.path.*;
@@ -58,8 +59,8 @@ public class PathPlannerWrapper implements IPathPlanner
             new PathPlannerPath(
                 translations,
                 quad.second,
-                null,
-                null,
+                Collections.emptyList(),
+                Collections.emptyList(),
                 constraints,
                 new GoalEndState(0.0, Rotation2d.fromDegrees(quad.fourth)),
                 false);
