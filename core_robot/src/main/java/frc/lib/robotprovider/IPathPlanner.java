@@ -27,8 +27,7 @@ public interface IPathPlanner
      * @param maxAcceleration in inches per second
      * @param maxAngularVelocity in degrees per second
      * @param maxAngularAcceleration in degrees per second
-     * @param endRotation the final rotation of the robot
-     * @param waypoints the set of waypoints
+     * @param goalPoints the set of waypoints for translation (and any intermediate holonomic rotations)
      * @return trajectory to follow
      */
     public ITrajectory buildTrajectory(
@@ -36,6 +35,5 @@ public interface IPathPlanner
         double maxAcceleration,
         double maxAngularVelocity,
         double maxAngularAcceleration,
-        double endRotation,
-        PathPlannerWaypoint... waypoints);
+        IPathPlannerGoal... goalPoints);
 }

@@ -212,155 +212,135 @@ public class EndEffectorMechanism implements IMechanism
         }
 
         // STATE SWITCHING
-        if (this.driver.getDigital(DigitalOperation.IntakeIn))
+        switch (this.currentEffectorState)
         {
-            this.currentEffectorState = EffectorState.Intaking;
+            case Off:
+                // Stay off if told to
+                if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+                // Start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
+                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+                // Start shooting if told to, and flywheel is spun up or we don't care about spun up
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
+                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                    this.shootingStartTime = currTime;
+                }
+                // Start outtaking when told to
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+                // otherwise, remain in off state
+                else
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
+                break;
+
+            case Intaking:
+                // Stop if forced to
+                if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+                // continue intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
+                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+                // shoot if told to, and were not intaking
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
+                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                    this.shootingStartTime = currTime;
+                }
+                // outtake if told to
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+                // if no button is pressed, through-beam is broken (and not forcing), switch to off
+                else // if (this.throughBeamBroken && !this.driver.getDigital(DigitalOperation.IntakeForceIn))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
+                break;
+
+            case Shooting:
+                // stop if forced to
+                if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+                // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
+                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+                // continue shooting if told to (and were not intaking)
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
+                    (currTime -  this.shootingStartTime <= TuningConstants.EFFECTOR_SHOOTING_DURATION))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                }
+                // outtake if told to
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+                // if no button is pressed, or our shooting duration has expired, switch to off
+                else
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
+                break;
+
+            case Outtaking:
+                // stop if forced to
+                if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+                // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
+                else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
+                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                {
+                    this.currentEffectorState = EffectorState.Intaking;
+                }
+                // feed ring if told to
+                else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
+                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                {
+                    this.currentEffectorState = EffectorState.Shooting;
+                    this.shootingStartTime = currTime;
+                }
+                // outtake if told to
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                {
+                    this.currentEffectorState = EffectorState.Outtaking;
+                }
+                // if no button is pressed, switch to off
+                else
+                {
+                    this.currentEffectorState = EffectorState.Off;
+                }
+
+                break;
         }
-        else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing))
-        {
-            this.currentEffectorState = EffectorState.Shooting;
-        }
-        else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        {
-            this.currentEffectorState = EffectorState.Outtaking;
-        }
-        else
-        {
-            this.currentEffectorState = EffectorState.Off;
-        }
-
-        // switch (this.currentEffectorState)
-        // {
-        //     case Off:
-
-        //         // Stay off if told to
-        //         if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         // Start intaking when told to
-        //         if (this.driver.getDigital(DigitalOperation.IntakeIn))
-        //         {
-        //             this.currentEffectorState = EffectorState.Intaking;
-        //         }
-
-        //         // Start shooting if told to, and flywheel is spun up or we don't care about spun up
-        //         else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode) )
-        //         {
-        //             this.currentEffectorState = EffectorState.Shooting;
-        //             this.shootingStartTime = currTime;
-        //         }
-
-        //         // Start outtaking when told to
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        //         {
-        //             this.currentEffectorState = EffectorState.Outtaking;
-        //         }
-
-        //         break;
-
-        //     case Intaking:
-        //         // Stop if forced to
-        //         if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeIn) && (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)) )
-        //         {
-        //             this.currentEffectorState = EffectorState.Intaking;
-        //         }
-
-        //         // shoot if told to, and were not intaking
-        //         else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode))
-        //         {
-        //             this.currentEffectorState = EffectorState.Shooting;
-        //             this.shootingStartTime = currTime;
-        //         }
-
-        //         // outtake if told to
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        //         {
-        //             this.currentEffectorState = EffectorState.Outtaking;
-        //         }
-
-        //         // if through beam broken, and we can stop intake when desired then stop
-        //         else if (this.throughBeamBroken && !this.driver.getDigital(DigitalOperation.IntakeForceIn))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         else
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         break;
-
-        //     case Shooting:
-        //         // stop if forced to
-        //         if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeIn))
-        //         {
-        //             this.currentEffectorState = EffectorState.Intaking;
-        //         }
-
-        //         else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (currTime -  this.shootingStartTime <= TuningConstants.EFFECTOR_SHOOTING_DURATION))
-        //         {
-        //             this.currentEffectorState = EffectorState.Shooting;
-        //         }
-
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        //         {
-        //             this.currentEffectorState = EffectorState.Outtaking;
-        //         }
-
-        //         // if through beam is not broken, and we've passed expected shoot time
-        //         else if (this.shootingStartTime + TuningConstants.EFFECTOR_SHOOTING_DURATION < currTime && !(this.throughBeamBroken ||  this.useShootAnywayMode))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         break;
-
-        //     case Outtaking:
-
-        //         // stop if forced to
-        //         if (this.driver.getDigital(DigitalOperation.IntakeForceStop))
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         // intake if told to
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeIn))
-        //         {
-        //             this.currentEffectorState = EffectorState.Intaking;
-        //         }
-
-        //         // feed ring if told to
-        //         else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) && (this.isFlywheelSpunUp() || this.useShootAnywayMode))
-        //         {
-        //             this.currentEffectorState = EffectorState.Shooting;
-        //             this.shootingStartTime = currTime;
-        //         }
-
-        //         else if (this.driver.getDigital(DigitalOperation.IntakeOut))
-        //         {
-        //             this.currentEffectorState = EffectorState.Outtaking;
-        //         }
-
-        //         else
-        //         {
-        //             this.currentEffectorState = EffectorState.Off;
-        //         }
-
-        //         break;
-        // }
 
         // STATE CONTROL
         double intakePower;
