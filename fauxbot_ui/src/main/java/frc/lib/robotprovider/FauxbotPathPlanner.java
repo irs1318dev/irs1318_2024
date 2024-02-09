@@ -24,8 +24,7 @@ public class FauxbotPathPlanner implements IPathPlanner
         double maxAcceleration,
         double maxAngularVelocity,
         double maxAngularAcceleration,
-        double endRotation,
-        PathPlannerWaypoint... waypoints)
+        IPathPlannerGoal... waypoints)
     {
         return null;
     }
