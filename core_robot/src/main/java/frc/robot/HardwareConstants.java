@@ -43,14 +43,15 @@ public class HardwareConstants
     public static final double SDSDRIVETRAIN_HORIZONTAL_WHEEL_CENTER_DISTANCE = HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_SEPERATION_DISTANCE / 2.0; // (in inches)
     public static final double SDSDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE = HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_SEPERATION_DISTANCE / 2.0; // (in inches)
 
-
     //=============================================== Arm =====================================================================//
 
     // NOTE: "tick distance" is how far one tick is in degrees, multiply by this to get angle in degrees from ticks.
-    public static final double ARM_SHOULDER_TICK_DISTANCE = 1.0;
-    public static final double ARM_SHOULDER_TICKS_PER_DEGREE = 1.0;
-    public static final double ARM_WRIST_TICK_DISTANCE = 1.0;
-    public static final double ARM_WRIST_TICKS_PER_DEGREE = 1.0;
+    public static final double ARM_SHOULDER_GEAR_RATIO = 12.75 * 4.0; // 51:1 --> 12.75:1 in toughbox, 4:1 between chain sprockets.
+    public static final double ARM_SHOULDER_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_SHOULDER_GEAR_RATIO; // degrees per rotation
+    public static final double ARM_SHOULDER_TICKS_PER_DEGREE = HardwareConstants.ARM_SHOULDER_GEAR_RATIO / 360.0; // rotations per degree
+    public static final double ARM_WRIST_GEAR_RATIO = 90.0 * 2.0; // 180:1 --> 90:1 in gearbox, 2:1 between chain sprockets.
+    public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_WRIST_GEAR_RATIO; // degrees per rotation 
+    public static final double ARM_WRIST_TICKS_PER_DEGREE = HardwareConstants.ARM_WRIST_GEAR_RATIO / 360.0; // rotations per degree
 
     public static final double ARM_HUMERUS_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
