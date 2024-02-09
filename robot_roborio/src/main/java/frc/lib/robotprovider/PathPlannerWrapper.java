@@ -100,7 +100,7 @@ public class PathPlannerWrapper implements IPathPlanner
                 return null;
             }
 
-            poses.add(new Pose2d(firstWaypoint.x * Helpers.INCHES_PER_METER, firstWaypoint.y * Helpers.INCHES_PER_METER, Rotation2d.fromDegrees(firstWaypoint.heading)));
+            poses.add(new Pose2d(firstWaypoint.x * Helpers.METERS_PER_INCH, firstWaypoint.y * Helpers.METERS_PER_INCH, Rotation2d.fromDegrees(firstWaypoint.heading)));
             firstRotation = firstWaypoint.orientation.getAsDouble();
         }
 
@@ -112,7 +112,7 @@ public class PathPlannerWrapper implements IPathPlanner
                 if (currentGoalPoint instanceof PathPlannerWaypoint)
                 {
                     PathPlannerWaypoint waypoint = (PathPlannerWaypoint)currentGoalPoint;
-                    poses.add(new Pose2d(waypoint.x * Helpers.INCHES_PER_METER, waypoint.y * Helpers.INCHES_PER_METER, Rotation2d.fromDegrees(waypoint.heading)));
+                    poses.add(new Pose2d(waypoint.x * Helpers.METERS_PER_INCH, waypoint.y * Helpers.METERS_PER_INCH, Rotation2d.fromDegrees(waypoint.heading)));
                     currentWaypointIdx++;
                     if (waypoint.orientation.isPresent())
                     {
@@ -150,7 +150,7 @@ public class PathPlannerWrapper implements IPathPlanner
                 return null;
             }
 
-            poses.add(new Pose2d(lastWaypoint.x * Helpers.INCHES_PER_METER, lastWaypoint.y * Helpers.INCHES_PER_METER, Rotation2d.fromDegrees(lastWaypoint.heading)));
+            poses.add(new Pose2d(lastWaypoint.x * Helpers.METERS_PER_INCH, lastWaypoint.y * Helpers.METERS_PER_INCH, Rotation2d.fromDegrees(lastWaypoint.heading)));
             lastRotation = lastWaypoint.orientation.getAsDouble();
         }
 
