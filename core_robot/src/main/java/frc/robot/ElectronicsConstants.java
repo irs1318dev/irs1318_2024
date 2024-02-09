@@ -1,6 +1,5 @@
 package frc.robot;
 
-import frc.lib.robotprovider.PneumaticsModuleType;
 import frc.lib.robotprovider.PowerDistributionModuleType;
 
 /**
@@ -37,17 +36,6 @@ public class ElectronicsConstants
 
     public static final String CANIVORE_NAME = "CANIVORE1"; // Module A
 
-    public static final int PNEUMATICS_MODULE_A = 1; // Module A
-    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE_A = PneumaticsModuleType.PneumaticsHub; // Module A
-
-    public static final int PNEUMATICS_MODULE_B = 2; // Module B
-    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE_B = PneumaticsModuleType.PneumaticsHub; // Module B
-
-    public static final boolean PNEUMATICS_USE_HYBRID = false;
-    public static final boolean PNEUMATICS_USE_ANALOG = false;
-    public static final double PNEUMATICS_MIN_PSI = 110.0;
-    public static final double PNEUMATICS_MAX_PSI = 120.0;
-
     //================================================== IMU ==============================================================
 
     public static final int PIGEON_IMU_CAN_ID = 42;
@@ -71,17 +59,6 @@ public class ElectronicsConstants
     public static final int SDSDRIVETRAIN_ABSOLUTE_ENCODER_2_CAN_ID = 2;
     public static final int SDSDRIVETRAIN_ABSOLUTE_ENCODER_3_CAN_ID = 3;
     public static final int SDSDRIVETRAIN_ABSOLUTE_ENCODER_4_CAN_ID = 4;
-
-    //================================================== RevDriveTrain ==============================================================
-
-    public static final int REVDRIVETRAIN_DRIVE_MOTOR_1_CAN_ID = 1;
-    public static final int REVDRIVETRAIN_STEER_MOTOR_1_CAN_ID = 2;
-    public static final int REVDRIVETRAIN_DRIVE_MOTOR_2_CAN_ID = 3;
-    public static final int REVDRIVETRAIN_STEER_MOTOR_2_CAN_ID = 4;
-    public static final int REVDRIVETRAIN_DRIVE_MOTOR_3_CAN_ID = 5;
-    public static final int REVDRIVETRAIN_STEER_MOTOR_3_CAN_ID = 6;
-    public static final int REVDRIVETRAIN_DRIVE_MOTOR_4_CAN_ID = 7;
-    public static final int REVDRIVETRAIN_STEER_MOTOR_4_CAN_ID = 8;
 
     //================================================== EndEffector ==============================================================
 
