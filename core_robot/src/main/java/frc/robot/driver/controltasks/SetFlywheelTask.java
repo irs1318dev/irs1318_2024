@@ -1,5 +1,6 @@
 package frc.robot.driver.controltasks;
 
+import frc.robot.HardwareConstants;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
 
@@ -62,7 +63,7 @@ public class SetFlywheelTask extends ControlTaskBase
     private double getRPMfromDesiredSpeed(double desiredExitVelocity)
     {
         //TODO math to get correct rotations per minute from inches per second
-        return desiredExitVelocity;
+        return desiredExitVelocity * 60 / (2 * Math.PI * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) ;
     }
 
 }

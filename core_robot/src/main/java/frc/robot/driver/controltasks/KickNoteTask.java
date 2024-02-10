@@ -49,13 +49,7 @@ public class KickNoteTask extends ControlTaskBase
     @Override
     public boolean hasCompleted()
     {
-        return endEffector.isFlywheelSpunUp();
-    }
-
-    private double getRPMfromDesiredSpeed(double desiredExitVelocity)
-    {
-        //TODO math to get correct rotations per minute from inches per second
-        return desiredExitVelocity;
+        return !endEffector.hasGamePiece();
     }
 
 }

@@ -22,4 +22,7 @@ public enum MacroOperation implements IOperation
     FollowPathTest2,
     FollowPathTest3,
     FollowPathTest4,
+
+    // Shooter Operations
+    ShootNote,
 }

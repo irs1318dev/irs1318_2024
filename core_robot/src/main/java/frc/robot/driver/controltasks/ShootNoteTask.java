@@ -1,6 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.robot.TuningConstants;
+import frc.robot.FieldConstants;
 import frc.robot.HardwareConstants;
 
 import java.util.EnumMap;
@@ -22,6 +23,7 @@ public class ShootNoteTask extends DecisionSequentialTask
 {
     private ArmMechanism arm;
     private EndEffectorMechanism endEffector;
+    private OffboardVisionManager visionManager;
 
     private double desiredVelocity;
     private double desiredAngle;
@@ -47,6 +49,7 @@ public class ShootNoteTask extends DecisionSequentialTask
     {
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
+        this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
         this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, true);
         this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering));
@@ -57,10 +60,14 @@ public class ShootNoteTask extends DecisionSequentialTask
     {
         super.finishedTask(finishedTask);
 
-        if (finishedTask instanceof VisionAprilTagTranslateTask) {
-            //TODO get vision offsets
-            double distToTargetX = 240;
-            double distToTargetY = 40;
+        if (finishedTask instanceof VisionTurningTask) {
+            //TODO finalize math and offsets correct
+            double distToTargetX = visionManager.getAprilTagXOffset() 
+            + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
+            - arm.getXOffset();
+            double distToTargetY = visionManager.getAprilTagZOffset()
+            + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
+            - arm.getZOffset();
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;
@@ -72,6 +79,10 @@ public class ShootNoteTask extends DecisionSequentialTask
             ));
 
             this.AppendTask(new KickNoteTask());
+        }
+
+        if (finishedTask instanceof KickNoteTask) {
+            hasCompleted = true;
         }
     }
 

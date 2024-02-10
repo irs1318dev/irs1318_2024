@@ -10,14 +10,12 @@ import frc.robot.mechanisms.*;
 public class SetEndEffectorAngleTask extends ControlTaskBase
 {
 
-    private final ArmMechanism armMechanism;
+    private ArmMechanism armMechanism;
 
-    private final double desiredEndEffectorAngle;
+    private double desiredEndEffectorAngle;
 
     public SetEndEffectorAngleTask(double desiredEndEffectorAngle)
     {
-        this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
-
         this.desiredEndEffectorAngle = desiredEndEffectorAngle;
     }
 
@@ -29,6 +27,9 @@ public class SetEndEffectorAngleTask extends ControlTaskBase
     @Override
     public void begin()
     {
+
+        this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
+
         this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, desiredEndEffectorAngle);
     }
 

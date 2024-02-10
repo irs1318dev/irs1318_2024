@@ -10,4 +10,7 @@ public class FieldConstants
 {
     public static final double FIELD_WIDTH = -1318;
     public static final double FIELD_LENGTH = -1318;
+
+    public static final double APRILTAG_TO_SPEAKER_TARGET_X = 0;
+    public static final double APRILTAG_TO_SPEAKER_TARGET_Y = 30;
 }
