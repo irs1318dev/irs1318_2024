@@ -155,7 +155,7 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P3, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 135)),
+                new PathPlannerWaypoint(P3, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P7M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P7, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
@@ -171,16 +171,14 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 330), getOrientationOrHeading(isRed, 330)),
-                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 180)),
-                new PathPlannerWaypoint(P5, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 180)),
-                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 202.5), getOrientationOrHeading(isRed, 202.5)),
-                new PathPlannerWaypoint(P16, getOrientationOrHeading(isRed, 202.5), getOrientationOrHeading(isRed, 202.5)),
-                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 135), getOrientationOrHeading(isRed, 135)),
-                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 180))),
+                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)), // fix orientation
+                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P5, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P5M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P16, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
                 "P2toP8");
-
-        
 
         addTrajectory(
             trajectoryManager,
@@ -189,15 +187,14 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P4, getOrientationOrHeading(isRed, 330), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P17, getOrientationOrHeading(isRed, 202.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P18, getOrientationOrHeading(isRed, 202.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
+                new PathPlannerWaypoint(P4, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P18, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
                 "P4toP11");
 
 
@@ -208,17 +205,17 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P1, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P9M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P9, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P12M, getOrientationOrHeading(isRed, 112.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P12, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
+                new PathPlannerWaypoint(P1, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P9M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P9, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P12M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P12, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
             "P1toP12");
 
         addTrajectory(
@@ -228,25 +225,25 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P3, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P7M, getOrientationOrHeading(isRed, 200), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P7, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P3, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P7M, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P7, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 //Stop for Note Pickup
-                new PathPlannerWaypoint(P7, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P12M, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P12, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P7, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P12M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P12, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 //Possible Note Pickup
-                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 247.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P11M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P11, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 //Possible Note Pickup
-                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 247.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 //Possible Note Pickup
-                new PathPlannerWaypoint(P9M, getOrientationOrHeading(isRed, 247.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P9, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0)),
+                new PathPlannerWaypoint(P9M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P9, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
                 //Possible Note Pickup
-                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 247.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
+                new PathPlannerWaypoint(P8M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P8, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
                 //Possible Note Pickup
                 "P3toP8");
 
@@ -257,14 +254,13 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 135), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 157.5), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 165), getOrientationOrHeading(isRed,0)),
-                new PathPlannerWaypoint(P14, getOrientationOrHeading(isRed, 200), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 215), getOrientationOrHeading(isRed, 0)),
-                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 180), getOrientationOrHeading(isRed, 0))),
-                "P2toP10");
-                
+                new PathPlannerWaypoint(P2, getOrientationOrHeading(isRed, 315), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P6M, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P6, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P14, getOrientationOrHeading(isRed, 315), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10M, getOrientationOrHeading(isRed, 45), getOrientationOrHeading(isRed, 180)),
+                new PathPlannerWaypoint(P10, getOrientationOrHeading(isRed, 0), getOrientationOrHeading(isRed, 180))),
+                "P2toP10");  
     }
 
     
@@ -311,3 +307,4 @@ public class PathPlannerTrajectoryGenerator
         }
     }
 }
+// Big Yush Was Also Here
