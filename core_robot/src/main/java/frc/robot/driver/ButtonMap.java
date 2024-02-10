@@ -265,6 +265,18 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple),
 
+        new DigitalOperationDescription(
+            DigitalOperation.ServoUp,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ServoDown,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            ButtonType.Simple),
+
 
         // Test operations:
         new DigitalOperationDescription(
@@ -282,6 +294,22 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Toggle),
+
+        // new DigitalOperationDescription(
+        //     DigitalOperation.ServoUp,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_B_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Toggle),
+
+        // new DigitalOperationDescription(
+        //     DigitalOperation.ServoDown,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_LEFT_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Toggle),
 
         
     };

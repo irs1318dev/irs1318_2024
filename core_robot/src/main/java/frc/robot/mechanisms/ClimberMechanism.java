@@ -26,23 +26,29 @@ public class ClimberMechanism implements IMechanism
     private final ISparkMax climberMotor;
     private final ISparkMax followClimberMotor;
 
-    // do not know how to add a logger if we need it.
+    private final ILogger logger;
+    
+    private final IServo servo;
     
     @Inject
-    public ClimberMechanism(IRobotProvider provider, IDriver driver)
+    public ClimberMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger)
     {
         this.driver = driver;
 
         this.climberMotor = provider.getSparkMax(ElectronicsConstants.CLIMBER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        this.followClimberMotor = provider.getSparkMax(ElectronicsConstants.FOLLOWER_CLIMBER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-
+        this.climberMotor.setControlMode(SparkMaxControlMode.PercentOutput);
         this.climberMotor.setNeutralMode(MotorNeutralMode.Brake);
-        this.followClimberMotor.setNeutralMode(MotorNeutralMode.Brake);
-
         this.climberMotor.burnFlash();
-        this.followClimberMotor.burnFlash();
+        this.climberMotor.setInvertOutput(false);
 
-        followClimberMotor.follow(this.climberMotor);
+        this.followClimberMotor = provider.getSparkMax(ElectronicsConstants.FOLLOWER_CLIMBER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
+        this.followClimberMotor.setNeutralMode(MotorNeutralMode.Brake);
+        this.followClimberMotor.burnFlash();
+        this.followClimberMotor.setInvertOutput(true);
+        this.followClimberMotor.follow(this.climberMotor);
+
+        this.servo = provider.getServo();
+        this.logger = logger;
 
         
 
@@ -58,10 +64,17 @@ public class ClimberMechanism implements IMechanism
     public void update()
     {
         double climberPowerAdjustment = this.driver.getAnalog(AnalogOperation.ClimberShoulderPower);
-
-        double climberPower = 0.0;
         
-        climberPower = climberPowerAdjustment;
+        this.climberMotor.set(climberPowerAdjustment);
+
+        if (this.driver.getDigital(DigitalOperation.ServoUp)) 
+        {
+            this.servo.set(1.0);
+        }
+        else if (this.driver.getDigital(DigitalOperation.ServoDown)) 
+        {
+            this.servo.set(-1.0);
+        }
 
     }
 
@@ -69,7 +82,6 @@ public class ClimberMechanism implements IMechanism
     public void stop()
     {
         this.climberMotor.stop();
-        this.followClimberMotor.stop();
     }
     
 }
