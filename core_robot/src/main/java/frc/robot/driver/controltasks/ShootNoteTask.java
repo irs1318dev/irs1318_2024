@@ -2,6 +2,14 @@ package frc.robot.driver.controltasks;
 
 import frc.robot.TuningConstants;
 import frc.robot.HardwareConstants;
+
+import java.util.EnumMap;
+
+import com.google.inject.Injector;
+
+import frc.lib.driver.IControlTask;
+import frc.lib.driver.states.AnalogOperationState;
+import frc.lib.driver.states.DigitalOperationState;
 import frc.lib.helpers.Helpers;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
@@ -10,47 +18,26 @@ import frc.robot.mechanisms.*;
  * Task that calculates desired angle and velocity to shoot note
  * @author FWJK35 (Calvin)
  */
-public class ShootNoteTask extends ControlTaskBase
+public class ShootNoteTask extends DecisionSequentialTask
 {
-    private final ArmMechanism arm;
-    private final EndEffectorMechanism endEffector;
+    private ArmMechanism arm;
+    private EndEffectorMechanism endEffector;
 
-    private final double desiredVelocity;
-    private final double desiredAngle;
+    private double desiredVelocity;
+    private double desiredAngle;
 
-    private final double pivotToTargetXDist;
-    private final double pivotToTargetYDist;
+    private double pivotToTargetXDist;
+    private double pivotToTargetYDist;
+
+    private boolean hasCompleted;
 
     public ShootNoteTask()
     {
-        this.arm = this.getInjector().getInstance(ArmMechanism.class);
-        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
-        
-        //TODO get the correct X and Y offsets, based on arm length and shoulder rotation
-        //get current X offset
-        //get current Y offset
-        pivotToTargetXDist = 240; //inches
-        pivotToTargetYDist = 120; //inches
+        super();
 
-        //find the intersection of upwards velocity and hitting the target
-        double leftBound = 0;
-        double rightBound = 90;
-        double midpoint = (leftBound + rightBound) * 0.5;
-        for (int i = 0; i < TuningConstants.ANGLE_FINDING_ITERATIONS; i++) {
-            if (getVelocityFromAngleIntersection(midpoint) < 0) {
-                rightBound = midpoint;
-            }
-            else {
-                leftBound = midpoint;
-            }
-            midpoint = (leftBound + rightBound) * 0.5;
-        }
-        desiredAngle = midpoint + TuningConstants.SHOOTER_FINAL_ANGLE_OFFSET;
-        desiredVelocity = getVelocityFromAngleTarget(desiredAngle);
+        hasCompleted = false;
 
     }
-
-
 
     /**
      * Begin the current task
@@ -58,8 +45,34 @@ public class ShootNoteTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        //TODO set the wrist angle and flywheel velocity
+        this.arm = this.getInjector().getInstance(ArmMechanism.class);
+        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
 
+        this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, true);
+        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering));
+    }
+
+    @Override
+    protected void finishedTask(IControlTask finishedTask)
+    {
+        super.finishedTask(finishedTask);
+
+        if (finishedTask instanceof VisionAprilTagTranslateTask) {
+            //TODO get vision offsets
+            double distToTargetX = 240;
+            double distToTargetY = 40;
+
+            pivotToTargetXDist = distToTargetX;
+            pivotToTargetYDist = distToTargetY;
+            setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
+            
+            this.AppendTask(ConcurrentTask.AllTasks(
+                new SetFlywheelTask(desiredVelocity),
+                new SetEndEffectorAngleTask(desiredAngle)
+            ));
+
+            this.AppendTask(new KickNoteTask());
+        }
     }
 
     /*
@@ -68,7 +81,7 @@ public class ShootNoteTask extends ControlTaskBase
     @Override
     public void update()
     {
-
+        
     }
 
     /**
@@ -83,7 +96,24 @@ public class ShootNoteTask extends ControlTaskBase
     @Override
     public boolean hasCompleted()
     {
-        return true;
+        return hasCompleted;
+    }
+
+    private void setDesiredAngleFromXYOffsets(double pivotToTargetXDist, double pivotToTargetYDist) {
+        double leftBound = 0;
+        double rightBound = 90;
+        double midpoint = (leftBound + rightBound) * 0.5;
+        for (int i = 0; i < TuningConstants.ANGLE_FINDING_ITERATIONS; i++) {
+            if (getVelocityFromAngleIntersection(midpoint) < 0) {
+                rightBound = midpoint;
+            }
+            else {
+                leftBound = midpoint;
+            }
+            midpoint = (leftBound + rightBound) * 0.5;
+        }
+        this.desiredAngle = midpoint + TuningConstants.SHOOTER_FINAL_ANGLE_OFFSET;
+        this.desiredVelocity = getVelocityFromAngleTarget(desiredAngle);
     }
 
     /*

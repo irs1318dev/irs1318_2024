@@ -379,6 +379,8 @@ public class TuningConstants
     public static final double SHOOTER_ANGLE_ASYMPTOTE_DISTANCE = 1; //degrees
     public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees
 
+    public static final double SHOOTER_MAX_VELOCITY = 1000; //inches per second
+
     //==================================================== ChainAndSprocketArm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;

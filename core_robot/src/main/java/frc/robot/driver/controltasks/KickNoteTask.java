@@ -12,7 +12,7 @@ public class KickNoteTask extends ControlTaskBase
 
     private final EndEffectorMechanism endEffector;
 
-    public KickNoteTask(double desiredExitVelocity)
+    public KickNoteTask()
     {
         this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
     }
