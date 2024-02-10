@@ -198,6 +198,8 @@ public class TuningConstants
     //================================================== SDS DriveTrain ==============================================================
 
     public static final boolean SDSDRIVETRAIN_STEER_MOTORS_USE_MOTION_MAGIC = true;
+    public static final boolean SDSDRIVETRAIN_USE_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION = false;
+    public static final double SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP = 0.02;
 
     public static final boolean SDSDRIVETRAIN_USE_ODOMETRY = true;
     public static final boolean SDSDRIVETRAIN_RESET_ON_ROBOT_START = true;

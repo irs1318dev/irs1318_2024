@@ -13,7 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
-import frc.lib.helpers.Quadruple;
+import frc.lib.helpers.ImmutableQuadruple;
 
 public class PathPlannerWrapper implements IPathPlanner
 {
@@ -48,7 +48,7 @@ public class PathPlannerWrapper implements IPathPlanner
             maxAngularVelocity * Helpers.DEGREES_TO_RADIANS,
             maxAngularAcceleration * Helpers.DEGREES_TO_RADIANS);
 
-        Quadruple<List<Pose2d>, List<RotationTarget>, Double, Double> quad = this.convertGoalPointsToPosesAndRotationTargets(goalPoints);
+        ImmutableQuadruple<List<Pose2d>, List<RotationTarget>, Double, Double> quad = this.convertGoalPointsToPosesAndRotationTargets(goalPoints);
         if (quad == null)
         {
             return PathPlannerTrajectoryWrapper.Empty;
@@ -69,7 +69,7 @@ public class PathPlannerWrapper implements IPathPlanner
             new PathPlannerTrajectory(path, new ChassisSpeeds(), Rotation2d.fromDegrees(quad.third)));
     }
 
-    private Quadruple<List<Pose2d>, List<RotationTarget>, Double, Double> convertGoalPointsToPosesAndRotationTargets(IPathPlannerGoal[] goalPoints)
+    private ImmutableQuadruple<List<Pose2d>, List<RotationTarget>, Double, Double> convertGoalPointsToPosesAndRotationTargets(IPathPlannerGoal[] goalPoints)
     {
         if (goalPoints == null || goalPoints.length < 2)
         {
@@ -154,7 +154,7 @@ public class PathPlannerWrapper implements IPathPlanner
             lastRotation = lastWaypoint.orientation.getAsDouble();
         }
 
-        return new Quadruple<List<Pose2d>, List<RotationTarget>, Double, Double>(poses, rotations, firstRotation, lastRotation);
+        return new ImmutableQuadruple<List<Pose2d>, List<RotationTarget>, Double, Double>(poses, rotations, firstRotation, lastRotation);
     }
 
     private static class PathPlannerTrajectoryWrapper implements ITrajectory
