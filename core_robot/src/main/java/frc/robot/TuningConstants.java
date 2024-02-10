@@ -364,7 +364,7 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
-    //==================================================== ChainAndSprocketArm ==============================================================
+    //==================================================== Arm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
@@ -426,4 +426,12 @@ public class TuningConstants
     public static final double ARM_WRIST_POWER_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND;
     public static final double ARM_WRIST_VELOCITY_TRACKING_DURATION = TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION;
     public static final double ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND = TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND;
+
+    //==================================================== Climber ==============================================================
+
+    public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+
+    public static final double CLIMBER_SERVO_DOWN_POWER = 0.0;
+    public static final double CLIMBER_SERVO_UP_POWER = 1.0;
 }

@@ -146,7 +146,11 @@ public enum LoggingKey
     ArmShoulderStalled("arm.sh_stalled"),
     ArmWristStalled("arm.wr_stalled"),
     ArmShoulderSetpoint("arm.sh_setpoint"),
-    ArmWristSetpoint("arm.wr_setpoint");
+    ArmWristSetpoint("arm.wr_setpoint"),
+
+    // Climber stuff
+    ClimberMotorPower("cl.motor"),
+    ClimberServoPower("cl.servo", 1);
 
     public final String value;
     public final int loggingFrequency;

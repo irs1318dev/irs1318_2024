@@ -79,7 +79,7 @@ public class ElectronicsConstants
 
     //================================================= ClimberMotor ====================================================================
     public static final int CLIMBER_MOTOR_CAN_ID = 0;
-    public static final int FOLLOWER_CLIMBER_MOTOR_CAN_ID = 0;
+    public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 0;
     public static final int CLIMBER_SERVO_MOTOR_CAN_ID = 1;
 
 }
