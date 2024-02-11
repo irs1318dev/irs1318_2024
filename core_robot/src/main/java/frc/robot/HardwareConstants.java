@@ -53,10 +53,26 @@ public class HardwareConstants
     public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_WRIST_GEAR_RATIO; // degrees per rotation 
     public static final double ARM_WRIST_TICKS_PER_DEGREE = HardwareConstants.ARM_WRIST_GEAR_RATIO / 360.0; // rotations per degree
 
-    public static final double ARM_HUMERUS_LENGTH = 36.0; // length of arm section between shoulder joint and wrist joint ("humerus")
+    public static final double ARM_HUMERUS_LENGTH = 24.5; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
-    public static final double ARM_SHOOTER_RETRACT_X_POS = 100; 
-    public static final double ARM_SHOOTER_RETRACT_Z_POS = 100;
+
+    public static final double ARM_WRIST_TO_SHOOTER_X = 4.94;
+    public static final double ARM_WRIST_TO_SHOOTER_Y = 8.31;
+    public static final double ARM_WRIST_TO_INTAKE_X = 12.59;
+    public static final double ARM_WRIST_TO_INTAKE_Y = 7.31;
+    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, 2));
+    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Y, 2));
+    
+    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, HardwareConstants.ARM_WRIST_TO_SHOOTER_Y);
+    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Y, HardwareConstants.ARM_WRIST_TO_INTAKE_Y);
+
+
+    public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
+    public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
+
+    public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -10.5;
+    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = -5;
+    
 
     //=============================================== Vision ==================================================================//
 
