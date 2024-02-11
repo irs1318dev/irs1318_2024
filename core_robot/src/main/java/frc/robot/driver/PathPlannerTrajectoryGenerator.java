@@ -118,7 +118,7 @@ public class PathPlannerTrajectoryGenerator
         Point2d P6M = new Point2d(getXPosition(isRed, P6.x + 20), 219);
 
         Point2d P7 = new Point2d(getXPosition(isRed, 212), 276);
-        Point2d P7M = new Point2d(getXPosition(isRed, P7.x + 20), 160.888409);
+        Point2d P7M = new Point2d(getXPosition(isRed, P7.x + 20), 276);
 
         Point2d P8 = new Point2d(getXPosition(isRed, 0), 29.64);
         Point2d P8M = new Point2d(getXPosition(isRed, P8.x + 20), 29.64);
