@@ -71,7 +71,7 @@ public class EndEffectorMechanism implements IMechanism
         this.intakeMotor.setControlMode(TalonSRXControlMode.PercentOutput);
 
         // NEAR FLYWHEEL MOTOR
-        this.nearFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
+        this.nearFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         // this.nearFlywheelMotor.setRelativeEncoder();
         // this.nearFlywheelMotor.setInvertSensor(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_SENSOR);
         this.nearFlywheelMotor.setInvertOutput(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_OUTPUT);
@@ -93,7 +93,7 @@ public class EndEffectorMechanism implements IMechanism
         this.nearFlywheelMotor.burnFlash();
 
         // FAR FLYWHEEL MOTOR
-        this.farFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushed);
+        this.farFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         // this.farFlywheelMotor.setRelativeEncoder();
         // this.farFlywheelMotor.setInvertSensor(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_SENSOR);
         this.farFlywheelMotor.setInvertOutput(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_OUTPUT);
