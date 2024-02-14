@@ -644,6 +644,23 @@ public class ButtonMap implements IButtonMap
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
             }),
+
+        new MacroOperationDescription(
+            MacroOperation.ClimbMacro,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Toggle, 
+            () -> SequentialTask(
+                new OrientationTask(180),
+                new VisionAprilTagTranslateTask(),
+                new 
+            )
+            
+
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
     };
 
     @Override
