@@ -110,7 +110,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
-        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
+        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
         this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
 
         if (TuningConstants.ARM_USE_MM)
@@ -250,7 +250,7 @@ public class ArmMechanism implements IMechanism
         }
         else if (this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmDisableSimpleMode))
         {
-            this.inSimpleMode = false;
+            // this.inSimpleMode = false;
 
             if (TuningConstants.ARM_USE_MM)
             {
@@ -276,7 +276,7 @@ public class ArmMechanism implements IMechanism
         // ---------------> MAIN ARM CONTROL <------------------------
 
         double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower);
-        double wristPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPower);
+        double wristPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPower) * 0.6;
 
         double shoulderPower = 0.0;
         double wristPower = 0.0;
@@ -415,7 +415,7 @@ public class ArmMechanism implements IMechanism
             {
                 this.wristMotor.set(
                     TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
-                    this.desiredShoulderPosition);
+                    this.desiredShoulderPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
             }
         }
         else
@@ -429,7 +429,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 
         this.logger.logNumber(LoggingKey.ArmShoulderSetpoint, this.desiredShoulderPosition);
-        this.logger.logNumber(LoggingKey.ArmWristSetpoint, this.desiredWristPosition);
+        this.logger.logNumber(LoggingKey.ArmWristSetpoint, wristPowerAdjustment);
 
         this.prevTime = currTime;
     }

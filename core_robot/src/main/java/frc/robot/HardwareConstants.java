@@ -47,9 +47,10 @@ public class HardwareConstants
     public static final double ARM_SHOULDER_GEAR_RATIO = 12.75 * 4.0; // 51:1 --> 12.75:1 in toughbox, 4:1 between chain sprockets.
     public static final double ARM_SHOULDER_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_SHOULDER_GEAR_RATIO; // degrees per rotation
     public static final double ARM_SHOULDER_TICKS_PER_DEGREE = HardwareConstants.ARM_SHOULDER_GEAR_RATIO / 360.0; // rotations per degree
+    public static final double ARM_WRIST_ENCODER_COUNTS_PER_ROTATION = 4096.0; // count per rotation of axle - VersaPlanetary Integrated Encoder
     public static final double ARM_WRIST_GEAR_RATIO = 90.0 * 2.0; // 180:1 --> 90:1 in gearbox, 2:1 between chain sprockets.
-    public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_WRIST_GEAR_RATIO; // degrees per rotation 
-    public static final double ARM_WRIST_TICKS_PER_DEGREE = HardwareConstants.ARM_WRIST_GEAR_RATIO / 360.0; // rotations per degree
+    public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation 
+    public static final double ARM_WRIST_TICKS_PER_DEGREE = (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
 
     public static final double ARM_HUMERUS_LENGTH = 24.5; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
