@@ -127,8 +127,13 @@ public class ButtonMap implements IButtonMap
             
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPositionSetpoint,
-            TuningConstants.MAGIC_NULL_VALUE),       
-        };
+            TuningConstants.MAGIC_NULL_VALUE),      
+
+        new AnalogOperationDescription(
+            AnalogOperation.AbsWristAngle,
+            TuningConstants.MAGIC_NULL_VALUE),
+        
+    };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
