@@ -86,7 +86,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_TURN),
 
         new AnalogOperationDescription(
-            AnalogOperation.FlywheelMotorPower,
+            AnalogOperation.EndEffectorFlywheelMotorPower,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_RT,
             ElectronicsConstants.INVERT_XBONE_RIGHT_TRIGGER,
@@ -94,11 +94,11 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.NearFlywheelVelocityGoal,
+            AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
-            AnalogOperation.FarFlywheelVelocityGoal,
+            AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
@@ -108,8 +108,10 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
-            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X,
-            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_X),
+            -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
+            TuningConstants.ARM_SHOULDER_DEAD_ZONE,
+            TuningConstants.ARM_SHOULDER_POWER_STRENGTH,
+            TuningConstants.ARM_POWER_EXPONENTIAL),
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPower,
@@ -118,8 +120,10 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
-            -TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_Y,
-            TuningConstants.SDSDRIVETRAIN_DEAD_ZONE_VELOCITY_Y),
+            -TuningConstants.ARM_WRIST_DEAD_ZONE,
+            TuningConstants.ARM_WRIST_DEAD_ZONE,
+            TuningConstants.ARM_WRIST_POWER_STRENGTH,
+            TuningConstants.ARM_POWER_EXPONENTIAL),
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderPositionSetpoint,
@@ -130,7 +134,7 @@ public class ButtonMap implements IButtonMap
             TuningConstants.MAGIC_NULL_VALUE),      
 
         new AnalogOperationDescription(
-            AnalogOperation.AbsWristAngle,
+            AnalogOperation.ArmAbsWristAngle,
             TuningConstants.MAGIC_NULL_VALUE),
         
     };
@@ -640,9 +644,9 @@ public class ButtonMap implements IButtonMap
             () -> new ShooterSpinTask(3000.0),
             new IOperation[]
             {
-                AnalogOperation.FarFlywheelVelocityGoal,
-                AnalogOperation.NearFlywheelVelocityGoal,
-                AnalogOperation.FlywheelMotorPower,
+                AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorFlywheelMotorPower,
             }),
     };
 

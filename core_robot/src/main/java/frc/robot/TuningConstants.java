@@ -373,6 +373,12 @@ public class TuningConstants
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
 
+    public static final double ARM_SHOULDER_POWER_STRENGTH = 1.0;
+    public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
+    public static final double ARM_POWER_EXPONENTIAL = 1.0;
+    public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
+    public static final double ARM_WRIST_DEAD_ZONE = 0.1;
+
     public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = -25.0; // in degrees
     public static final double ARM_SHOULDER_MIN_POSITION = -25.0; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 60.0; // in degrees
