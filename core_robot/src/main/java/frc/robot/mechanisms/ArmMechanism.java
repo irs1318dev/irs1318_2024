@@ -285,6 +285,24 @@ public class ArmMechanism implements IMechanism
 
         // ---------------> MAIN ARM CONTROL <------------------------
 
+        if (this.driver.getDigital(DigitalOperation.ArmForceReset))
+        {
+            this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION);
+            this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
+
+            this.shoulderPosition = TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION; // Fully Retracted
+            this.wristPosition = TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION;; // Fully Retracted
+
+            this.desiredShoulderPosition = this.shoulderPosition;
+            this.desiredWristPosition = this.wristPosition;
+
+            this.shoulderSetpointChangedTime = currTime;
+            this.wristSetpointChangedTime = currTime;
+
+            this.shoulderStalled = false;
+            this.wristStalled = false;
+        }
+
         double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower);
         double wristPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPower) * 0.6;
 
