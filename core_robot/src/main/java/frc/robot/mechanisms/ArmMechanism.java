@@ -97,11 +97,6 @@ public class ArmMechanism implements IMechanism
     private double intakeBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_5) * L3x;
     private double intakeTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_9) * L3;
     private double intakeTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_9) * L3;
-     
-    
-
-    private double shooterXOffset;
-    private double shooterZOffset;
 
     private boolean inSimpleMode;
 
@@ -216,10 +211,6 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_VELOCITY_SAMPLES_PER_SECOND);
         this.wristVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND);
-
-        this.shooterXOffset = HardwareConstants.ARM_SHOOTER_STARTING_X_POS;
-        this.shooterZOffset = HardwareConstants.ARM_SHOOTER_STARTING_Z_POS;
-
         
         // setting initial IK variables
         updateIKVars(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION, TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
@@ -234,8 +225,6 @@ public class ArmMechanism implements IMechanism
         this.wristPosition = this.wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations to degrees
         this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations/sec to degrees/sec
         this.wristError = this.wristMotor.getError();
-
-        this.angleToShooterOffsetFK(this.shoulderPosition, this.wristPosition);
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
         double shoulderFollowerCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_PDH_CHANNEL);
@@ -353,6 +342,13 @@ public class ArmMechanism implements IMechanism
             {
                 double newDesiredShoulderPosition = this.driver.getAnalog(AnalogOperation.ArmShoulderPositionSetpoint);
                 double newDesiredWristPosition = this.driver.getAnalog(AnalogOperation.ArmWristPositionSetpoint);
+                if(newDesiredWristPosition == TuningConstants.MAGIC_NULL_VALUE)
+                {
+                    if(this.driver.getAnalog(AnalogOperation.AbsWristAngle) != TuningConstants.MAGIC_NULL_VALUE)
+                    {
+                        newDesiredWristPosition = switchToTheta2(this.driver.getAnalog(AnalogOperation.AbsWristAngle));
+                    }
+                }
 
                 if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE ||
                     newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE)
@@ -472,17 +468,13 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.stop();
     }
 
-    private void angleToShooterOffsetFK(double armAngle, double wristAngle)
+    public double[] wristJointAbsPosition()
     {
-        double X1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.cos(armAngle);
-        double Z1_Offset = HardwareConstants.ARM_HUMERUS_LENGTH * Math.sin(armAngle);
-        theta_3 = 180 - armAngle;
-        theta_4 = 360 - wristAngle - theta_3;
-        double X2_Offset = Math.cos(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
-        double Z2_Offset = Math.sin(theta_4) * HardwareConstants.ARM_ULNA_LENGTH;
-
-        this.shooterXOffset = X2_Offset + X1_Offset + HardwareConstants.ARM_TO_CENTER_ROBOT_X_OFFSET;
-        this.shooterZOffset = Z2_Offset + Z1_Offset + HardwareConstants.ARM_TO_CENTER_ROBOT_Z_OFFSET;
+        double[] absWristPosition = new double[2];
+        absWristPosition[0] = this.wristAbsPosX;
+        absWristPosition[1] = this.wristAbsPosZ;
+        
+        return absWristPosition;
     }
 
     private void updateIKVars(double shoulderAngle, double wristAngle)
@@ -625,28 +617,19 @@ public class ArmMechanism implements IMechanism
         return positions;
     }
 
-    public double getTheta3()
-    {
-        return this.theta_3;
-    }
-
     public double getTheta1()
     {
         return this.theta_1;
     }
 
-    public double getTheta4()
+    public double getAbsoluteAngleOfShot()
     {
         return this.theta_4;
     }
 
-    public double getXOffset()
+    private double switchToTheta2(double desiredAbsWrist)
     {
-        return this.shooterXOffset;
+        return 180 + this.theta_1 - desiredAbsWrist;
     }
 
-    public double getZOffset()
-    {
-        return this.shooterZOffset;
-    }
 }
