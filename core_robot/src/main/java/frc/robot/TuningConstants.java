@@ -387,6 +387,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = true;
     public static final boolean ARM_USE_MM = false;
+    public static final boolean USE_IK_CONSTRAINTS = false;
 
     public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.6;
     public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.0;

@@ -8,8 +8,9 @@ package frc.robot;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 78.0; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 48.0; // inches, max extension beyond frame perimeter
+    public static final double MAX_ROBOT_HEIGHT = 48.0; // inches, max overall height
+    public static final double MAX_ROBOT_EXTENSION = 12.0; // inches, max extension beyond frame perimeter
+    public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
 
     //================================================== DriveTrain ==============================================================
 
@@ -56,21 +57,23 @@ public class HardwareConstants
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
     public static final double ARM_WRIST_TO_SHOOTER_X = 4.94;
-    public static final double ARM_WRIST_TO_SHOOTER_Y = 8.31;
+    public static final double ARM_WRIST_TO_SHOOTER_Z = 8.31;
     public static final double ARM_WRIST_TO_INTAKE_X = 12.59;
-    public static final double ARM_WRIST_TO_INTAKE_Y = 7.31;
-    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, 2));
-    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Y, 2));
+    public static final double ARM_WRIST_TO_INTAKE_Z = 7.31;
+    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
+    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
-    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, HardwareConstants.ARM_WRIST_TO_SHOOTER_Y);
-    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Y, HardwareConstants.ARM_WRIST_TO_INTAKE_Y);
+    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_Z);
+    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_Z);
 
 
     public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
     public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
 
     public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -10.5;
-    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = -5;
+    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 21;
+
+    public static final double MIN_USABLE_HEIGHT = 5; // belly-pan height
     
 
     //=============================================== Vision ==================================================================//

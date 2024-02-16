@@ -81,7 +81,24 @@ public class ArmMechanism implements IMechanism
     private double L2 = HardwareConstants.ARM_WRIST_TO_SHOOTER_EDGE; // wrist to shooter top
     private double L3 = HardwareConstants.ARM_WRIST_TO_INTAKE_EDGE; // wirst to intake top
     private double L2x = HardwareConstants.ARM_WRIST_TO_SHOOTER_X; // wrist to shooter bottom
+    private double L2z = HardwareConstants.ARM_WRIST_TO_INTAKE_Z; // intake height
     private double L3x = HardwareConstants.ARM_WRIST_TO_INTAKE_X; // wrist to intake bottom
+    private double L3z = HardwareConstants.ARM_WRIST_TO_SHOOTER_Z; // shooter height
+
+    private double shoulderJointAbsPosX = HardwareConstants.ARM_TO_CENTER_ROBOT_X_OFFSET;
+    private double shoulderJointAbsPosZ = HardwareConstants.ARM_TO_CENTER_ROBOT_Z_OFFSET;
+    private double wristAbsPosX = this.shoulderJointAbsPosX + Helpers.cosd(this.theta_1) * L1;
+    private double wristAbsPosZ = this.shoulderJointAbsPosZ + Helpers.sind(this.theta_1) * L1;
+    private double shooterBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_4) * L2x;
+    private double shooterBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_4) * L2x;
+    private double shooterTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_8) * L2;
+    private double shooterTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_8) * L2;
+    private double intakeBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_5) * L3x;
+    private double intakeBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_5) * L3x;
+    private double intakeTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_9) * L3;
+    private double intakeTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_9) * L3;
+     
+    
 
     private double shooterXOffset;
     private double shooterZOffset;
@@ -202,6 +219,10 @@ public class ArmMechanism implements IMechanism
 
         this.shooterXOffset = HardwareConstants.ARM_SHOOTER_STARTING_X_POS;
         this.shooterZOffset = HardwareConstants.ARM_SHOOTER_STARTING_Z_POS;
+
+        
+        // setting initial IK variables
+        updateIKVars(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION, TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION);
     }
 
     @Override
@@ -375,6 +396,16 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        if(TuningConstants.USE_IK_CONSTRAINTS)
+        {
+            double[] angles = limitedAngles(this.desiredShoulderPosition, this.desiredWristPosition);
+
+            this.desiredShoulderPosition = angles[0];
+            this.desiredWristPosition = angles[1];
+        }
+
+        updateIKVars(this.desiredShoulderPosition, this.desiredWristPosition);
+
         if (!useSimpleMode)
         {
             if (this.shoulderStalled)
@@ -452,6 +483,146 @@ public class ArmMechanism implements IMechanism
 
         this.shooterXOffset = X2_Offset + X1_Offset + HardwareConstants.ARM_TO_CENTER_ROBOT_X_OFFSET;
         this.shooterZOffset = Z2_Offset + Z1_Offset + HardwareConstants.ARM_TO_CENTER_ROBOT_Z_OFFSET;
+    }
+
+    private void updateIKVars(double shoulderAngle, double wristAngle)
+    {
+        this.theta_1 = shoulderAngle;
+        this.theta_2 = wristAngle;
+        this.theta_3 = 180.0 - this.theta_1;
+        this.theta_4 = 360 - this.theta_3 - this.theta_2;
+        this.theta_5 = this.theta_4 - 170.0;
+        this.theta_8 = this.theta_4 - this.theta_6;
+        this.theta_9 = this.theta_5 + this.theta_7; 
+
+        shoulderJointAbsPosX = HardwareConstants.ARM_TO_CENTER_ROBOT_X_OFFSET;
+        shoulderJointAbsPosZ = HardwareConstants.ARM_TO_CENTER_ROBOT_Z_OFFSET;
+        wristAbsPosX = this.shoulderJointAbsPosX + Helpers.cosd(this.theta_1) * L1;
+        wristAbsPosZ = this.shoulderJointAbsPosZ + Helpers.sind(this.theta_1) * L1;
+        shooterBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_4) * L2x;
+        shooterBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_4) * L2x;
+        shooterTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_8) * L2;
+        shooterTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_8) * L2;  
+        intakeBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_5) * L3x;
+        intakeBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_5) * L3x;
+        intakeTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_9) * L3;
+        intakeTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_9) * L3;
+    }
+
+    private double[] limitedAngles(double desShoulder, double desWrist)
+    {
+        updateIKVars(desShoulder, desWrist);
+        double[] positions = new double[2];
+
+        boolean extensionTop = this.intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || 
+            this.shooterTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT;
+        boolean extensionFront = this.intakeTopAbsPosX > HardwareConstants.MAX_ROBOT_EXTENSION + HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0
+            || this.intakeBottomAbsPosX > HardwareConstants.MAX_ROBOT_EXTENSION + HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0;
+        boolean extensionBack = -this.intakeBottomAbsPosX > HardwareConstants.MAX_ROBOT_EXTENSION + HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0
+            || -this.intakeBottomAbsPosX > HardwareConstants.MAX_ROBOT_EXTENSION + HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0;
+
+        // Instant limiting
+        if(extensionBack)
+        {
+            positions[0] = this.shoulderPosition;
+            positions[1] = this.wristPosition;
+        }
+        
+        else if(this.intakeBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || this.shooterBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT)
+        {
+            positions[0] = this.shoulderPosition;
+            positions[1] = this.wristPosition;
+        }
+        
+        // hiting robot
+        else if( (this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION)
+            || (this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION)
+            || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION)
+            || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION))
+        {
+            positions[0] = this.shoulderPosition;
+            positions[1] = this.wristPosition;
+        }
+
+        // continous limiting top
+        else if(extensionTop)
+        {
+            boolean intakeSide = intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT;
+            boolean shooterSide = shooterTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT;
+            double desiredDistance = HardwareConstants.MAX_ROBOT_HEIGHT - this.wristAbsPosZ;
+
+            if(intakeSide && shooterSide)
+            {
+                positions[0] = this.shoulderPosition;
+                positions[1] = this.wristPosition;
+            }
+
+            else if(intakeSide && intakeTopAbsPosX > wristAbsPosX)
+            {
+                double temp_theta_9 = -Helpers.asind(desiredDistance / L3); // meant to return a positive value, negative added since asin(0.5) is negative
+                double temp_theta_4 = temp_theta_9 - this.theta_7 + 180.0;
+                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4; 
+                positions[0] = desShoulder;
+                positions[1] = temp_wrist_angle;
+            }
+
+            else if(shooterSide && shooterTopAbsPosX > wristAbsPosX)
+            {
+                double temp_theta_8 = -Helpers.asind(desiredDistance / L2); // meant to return a positive value, negative added since asin(0.5) is negative
+                double temp_theta_4 = temp_theta_8 + this.theta_6;
+                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
+                positions[0] = desShoulder;
+                positions[1] = temp_wrist_angle;
+            }
+
+            else
+            {
+                positions[0] = this.shoulderPosition;
+                positions[1] = this.wristPosition;
+                
+            }
+        }
+
+        // continous limiting front
+        else if(extensionFront)
+        {
+            boolean intakeTop = intakeTopAbsPosX > HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0 + HardwareConstants.MAX_ROBOT_EXTENSION;
+            boolean intakeBottom = intakeBottomAbsPosX > HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0 + HardwareConstants.MAX_ROBOT_EXTENSION;
+            double desiredDistance = HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0 + HardwareConstants.MAX_ROBOT_EXTENSION - this.wristAbsPosX;
+
+            if(intakeTop && intakeBottom)
+            {
+                positions[0] = this.shoulderPosition;
+                positions[1] = this.wristPosition;
+            }
+
+            else if(intakeTop && intakeTopAbsPosZ < wristAbsPosZ)
+            {
+                double temp_theta_9 = -Helpers.acosd(desiredDistance / L3); // meant to return a negative value, negative added since acos(0.5) is positive
+                double temp_theta_4 = temp_theta_9 - this.theta_7 + 180.0;
+                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
+                positions[0] = desShoulder;
+                positions[1] = temp_wrist_angle;
+            }
+
+            else if(intakeBottom)
+            {
+                double temp_theta_5 = Helpers.acosd(desiredDistance / L3x);
+                double temp_theta_4 = temp_theta_5 + 180.0;
+                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
+                positions[0] = desShoulder;
+                positions[1] = temp_wrist_angle;
+            }
+
+            else
+            {
+                positions[0] = this.shoulderPosition;
+                positions[1] = this.wristPosition;
+                
+            }
+        }
+
+        return positions;
     }
 
     public double getTheta3()
