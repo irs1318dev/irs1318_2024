@@ -15,6 +15,8 @@ public enum MacroOperation implements IOperation
     ArmPosition1,
     ArmPosition2,
 
+    ShooterSpin,
+
     // Vision operations
 
     // Path testing:

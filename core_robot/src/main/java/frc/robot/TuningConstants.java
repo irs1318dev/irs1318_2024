@@ -203,10 +203,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.142090; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.154053; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.278321; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.355225; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.14502; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.14770; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.27759; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.33667; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -343,17 +343,19 @@ public class TuningConstants
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = true;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = 5300.0; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.00040;
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 0.00018868;
 
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MAX_VELOCITY = 5000.0; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.00032;
     public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 0.0002;
 
     public static final int FLYWHEEL_STALL_LIMIT = 100;
     public static final int FLYWHEEL_FREE_LIMIT = 100;
@@ -388,12 +390,12 @@ public class TuningConstants
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
 
-    public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = 0.0; // in degrees
-    public static final double ARM_SHOULDER_MIN_POSITION = -30.0; // in degrees
-    public static final double ARM_SHOULDER_MAX_POSITION = 90.0; // in degrees
-    public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = 0.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -160.0; // in degrees
-    public static final double ARM_WRIST_MAX_POSITION = 160.0; // in degrees
+    public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = -25.0; // in degrees
+    public static final double ARM_SHOULDER_MIN_POSITION = -25.0; // in degrees
+    public static final double ARM_SHOULDER_MAX_POSITION = 60.0; // in degrees
+    public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = -103.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
+    public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
 
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
 
@@ -402,6 +404,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = true;
     public static final boolean ARM_USE_MM = false;
+    public static final boolean USE_IK_CONSTRAINTS = false;
 
     public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.6;
     public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.0;

@@ -117,13 +117,13 @@ public enum LoggingKey
     IntakeMotorVelocity("ee.int_vel"),
     IntakeMotorPercentOutput("ee.int_per_out)"),
 
-    ShooterNearFlywheelPosition("ee.nr_fly_pos"),
-    ShooterNearFlywheelVelocity("ee.nr_fly_vel"),
-    ShooterNearFlywheelError("ee.nr_fly_err"),
+    ShooterNearFlywheelPosition("ee.nr_fly_pos", 1),
+    ShooterNearFlywheelVelocity("ee.nr_fly_vel", 1),
+    ShooterNearFlywheelError("ee.nr_fly_err", 1),
 
-    ShooterFarFlywheelPosition("ee.fr_fly_pos"),
-    ShooterFarFlywheelVelocity("ee.fr_fly_vel"),
-    ShooterFarFlywheelError("ee.fr_fly_err"),
+    ShooterFarFlywheelPosition("ee.fr_fly_pos", 1),
+    ShooterFarFlywheelVelocity("ee.fr_fly_vel", 1),
+    ShooterFarFlywheelError("ee.fr_fly_err", 1),
 
     IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
     IntakeThroughBeamBroken("ee.thr_bem_brk"),
