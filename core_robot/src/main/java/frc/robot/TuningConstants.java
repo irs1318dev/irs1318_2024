@@ -376,7 +376,7 @@ public class TuningConstants
     public static final double CAMERA_SHOOTER_PIVOT_OFFSET_X = 12; // inches
     public static final double CAMERA_SHOOTER_PIVOT_OFFSET_Y = 24; // inches
 
-    public static final int ANGLE_FINDING_ITERATIONS = 10;
+    public static final int ANGLE_FINDING_ITERATIONS = 20;
 
     public static final double SHOOTER_ANGLE_ASYMPTOTE_DISTANCE = 1; //degrees
     public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees

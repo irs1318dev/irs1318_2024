@@ -4,13 +4,7 @@ import frc.robot.TuningConstants;
 import frc.robot.FieldConstants;
 import frc.robot.HardwareConstants;
 
-import java.util.EnumMap;
-
-import com.google.inject.Injector;
-
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.states.AnalogOperationState;
-import frc.lib.driver.states.DigitalOperationState;
 import frc.lib.helpers.Helpers;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
@@ -22,7 +16,6 @@ import frc.robot.mechanisms.*;
 public class ShootNoteTask extends DecisionSequentialTask
 {
     private ArmMechanism arm;
-    private EndEffectorMechanism endEffector;
     private OffboardVisionManager visionManager;
 
     private double desiredVelocity;
@@ -48,7 +41,6 @@ public class ShootNoteTask extends DecisionSequentialTask
     public void begin()
     {
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
-        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
         this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, true);
@@ -61,13 +53,12 @@ public class ShootNoteTask extends DecisionSequentialTask
         super.finishedTask(finishedTask);
 
         if (finishedTask instanceof VisionTurningTask) {
-            //TODO finalize math and offsets correct
             double distToTargetX = visionManager.getAprilTagXOffset() 
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
-            - arm.getXOffset();
+            + arm.wristJointAbsPosition()[0];
             double distToTargetY = visionManager.getAprilTagZOffset()
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
-            - arm.getZOffset();
+            - arm.wristJointAbsPosition()[1];
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;
