@@ -133,20 +133,21 @@ public enum LoggingKey
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
 
     // Arm stuff
-    ArmShoulderPosition("arm.sh.pos"),
-    ArmShoulderVelocity("arm.sh.vel"),
-    ArmWristPosition("arm.wr.pos"),
-    ArmWristVelocity("arm.wr.vel"),
-    ArmShoulderVelocityAverage("arm.sh_vel_avg"),
-    ArmWristVelocityAverage("arm.wr_vel_avg"),
-    ArmShoulderError("arm.sh_err"),
-    ArmWristError("arm.wr_err"),
-    ArmShoulderPowerAverage("arm.sh_pw_avg"),
-    ArmWristPowerAverage("arm.wr_pw_avg"),
-    ArmShoulderStalled("arm.sh_stalled"),
-    ArmWristStalled("arm.wr_stalled"),
-    ArmShoulderSetpoint("arm.sh_setpoint"),
-    ArmWristSetpoint("arm.wr_setpoint");
+    ArmShoulderSetpoint("arm.shPosDesired", 1),
+    ArmShoulderPosition("arm.shPos", 1),
+    ArmShoulderVelocity("arm.shVel", 1),
+    ArmShoulderError("arm.shErr", 1),
+    ArmShoulderOutput("arm.shOutput", 1),
+    ArmShoulderPowerAverage("arm.shPowAvg", 1),
+    ArmShoulderVelocityAverage("arm.shVelAvg", 1),
+    ArmShoulderStalled("arm.shStalled", 1),
+    ArmWristSetpoint("arm.wrPosDesired", 1),
+    ArmWristPosition("arm.wrPos", 1),
+    ArmWristVelocity("arm.wrVel", 1),
+    ArmWristError("arm.wrErr", 1),
+    ArmWristVelocityAverage("arm.wrVelAvg", 1),
+    ArmWristPowerAverage("arm.wrPowAvg", 1),
+    ArmWristStalled("arm.wrStalled", 1);
 
     public final String value;
     public final int loggingFrequency;

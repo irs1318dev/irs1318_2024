@@ -14,6 +14,10 @@ public enum MacroOperation implements IOperation
 
     ArmPosition1,
     ArmPosition2,
+    ArmPosition3,
+    ArmPosition4,
+    ArmPosition5,
+    ArmPosition6,
 
     ShooterSpin,
 

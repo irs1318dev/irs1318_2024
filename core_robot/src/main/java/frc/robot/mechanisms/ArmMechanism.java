@@ -128,10 +128,10 @@ public class ArmMechanism implements IMechanism
         if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderMotor.setPIDF(
-                TuningConstants.ARM_SHOULDER_POSITION_TMP_PID_KP,
-                TuningConstants.ARM_SHOULDER_POSITION_TMP_PID_KI,
-                TuningConstants.ARM_SHOULDER_POSITION_TMP_PID_KD,
-                TuningConstants.ARM_SHOULDER_POSITION_TMP_PID_KF,
+                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP,
+                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI,
+                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD,
+                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
 
             this.wristMotor.setMotionMagicPIDF(
@@ -146,10 +146,10 @@ public class ArmMechanism implements IMechanism
         else
         {
             this.shoulderMotor.setPIDF(
-                TuningConstants.ARM_SHOULDER_MOTOR_PID_KP,
-                TuningConstants.ARM_SHOULDER_MOTOR_PID_KI,
-                TuningConstants.ARM_SHOULDER_MOTOR_PID_KD,
-                TuningConstants.ARM_SHOULDER_MOTOR_PID_KF,
+                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP,
+                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI,
+                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD,
+                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF,
                 ArmMechanism.DefaultPidSlotId);
 
             this.wristMotor.setPIDF(
@@ -475,6 +475,8 @@ public class ArmMechanism implements IMechanism
             this.wristMotor.set(TalonSRXControlMode.PercentOutput, wristPower);
         }
 
+        this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.shoulderMotor.getOutput());
+        // this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.wristMotor.getOutput());
         this.logger.logBoolean(LoggingKey.ArmShoulderStalled, this.shoulderStalled);
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 
