@@ -1,6 +1,5 @@
 package frc.robot.driver;
 
-import java.security.DigestException;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;

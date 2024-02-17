@@ -53,12 +53,12 @@ public class BilinearInterpolator
         {
             if (this.ySamplePoints[i] > y)
             {
-                row2 = i;
+                col2 = i;
                 break;
             }
             else if (this.ySamplePoints[i] <= y)
             {
-                row1 = i;
+                col1 = i;
             }
         }
 
