@@ -7,6 +7,8 @@ import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.*;
 
+import java.util.Optional;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -45,6 +47,8 @@ public class OffboardVisionManager implements IMechanism
     private int missedHeartbeats;
     private long prevHeartbeat;
 
+    private final IDriverStation ds;
+
     /**
      * Initializes a new OffboardVisionManager
      * @param driver for obtaining operations
@@ -56,6 +60,7 @@ public class OffboardVisionManager implements IMechanism
     {
         this.driver = driver;
         this.logger = logger;
+        this.ds = provider.getDriverStation();
 
         this.networkTable = provider.getNetworkTableProvider();
         this.atXOffsetSubscriber = this.networkTable.getDoubleSubscriber("at.xOffset", TuningConstants.MAGIC_NULL_VALUE);
@@ -141,6 +146,7 @@ public class OffboardVisionManager implements IMechanism
         this.logger.logInteger(LoggingKey.OffboardVisionAprilTagId, this.atId);
         this.logger.logNumber(LoggingKey.OffboardVisionRRTargetDistance, this.rrDistance);
         this.logger.logNumber(LoggingKey.OffboardVisionRRTargetHorizontalAngle, this.rrAngle);
+        
     }
 
     @Override
@@ -150,6 +156,11 @@ public class OffboardVisionManager implements IMechanism
         boolean enableVideoStream = false; //!this.driver.getDigital(DigitalOperation.VisionDisableStream);
         boolean enableAprilTagProcessing = this.driver.getDigital(DigitalOperation.VisionEnableAprilTagProcessing);
         boolean enableRetroreflectiveProcessing = this.driver.getDigital(DigitalOperation.VisionEnableRetroreflectiveProcessing);
+        
+        Optional<Alliance> alliance = this.ds.getAlliance();
+        boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
+
+        
 
         double visionProcessingMode = 0.0;
         if (enableVision)
@@ -166,6 +177,20 @@ public class OffboardVisionManager implements IMechanism
 
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, enableVideoStream);
         this.logger.logNumber(LoggingKey.OffboardVisionProcessingMode, visionProcessingMode);
+        
+        if (enableAprilTagProcessing == false)
+        {
+            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, 0);
+        }
+        else if (isRed == true)
+        {
+            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID);
+        }
+        else if (isRed == false)
+        {
+            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
+        }
+
     }
 
     @Override

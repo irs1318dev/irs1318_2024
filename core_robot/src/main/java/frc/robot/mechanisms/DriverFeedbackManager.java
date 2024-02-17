@@ -8,6 +8,8 @@ import frc.robot.driver.DigitalOperation;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.robot.mechanisms.PowerManager.CurrentLimiting;
 
+import java.util.Optional;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -51,7 +51,7 @@ public class TuningConstants
     public static final int APRILTAG_RED_SPEAKER_CENTER_ID = 4;
     public static final int APRILTAG_RED_AMP_ID = 5;
     public static final int APRILTAG_BLUE_AMP_ID = 6;
-    public static final int APRILTAG_BLUESPEAKER_CENTER_ID = 7;
+    public static final int APRILTAG_BLUE_SPEAKER_CENTER_ID = 7;
     public static final int APRILTAG_BLUE_SPEAKER_OFFCENTER_ID = 8;
     public static final int ARPILTAG_RED_SOURCE_RIGHT_ID = 9;
     public static final int APRILTAG_RED_SOURCE_LEFT_ID = 10;
