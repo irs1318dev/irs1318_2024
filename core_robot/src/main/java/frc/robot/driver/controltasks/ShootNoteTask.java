@@ -65,14 +65,17 @@ public class ShootNoteTask extends DecisionSequentialTask
             setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
             
             this.AppendTask(ConcurrentTask.AllTasks(
-                new SetFlywheelTask(desiredVelocity),
+                new SetFlywheelTask(desiredVelocity * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
                 new SetEndEffectorAngleTask(desiredAngle)
             ));
 
-            this.AppendTask(new KickNoteTask());
+            this.AppendTask(SequentialTask.Sequence(
+                new IntakeControlTask(false, TuningConstants.KICK_OUTTAKE_TIME),
+                new IntakeControlTask(true, TuningConstants.KICK_INTAKE_TIME)
+            ));
         }
 
-        if (finishedTask instanceof KickNoteTask) {
+        if (finishedTask instanceof SequentialTask) {
             hasCompleted = true;
         }
     }

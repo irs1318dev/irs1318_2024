@@ -385,6 +385,11 @@ public class TuningConstants
 
     public static final double SHOOTER_MAX_VELOCITY = 1000; //inches per second
 
+    public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
+    public static final double KICK_INTAKE_TIME = 0.5; //seconds
+
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+
     //==================================================== ChainAndSprocketArm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
