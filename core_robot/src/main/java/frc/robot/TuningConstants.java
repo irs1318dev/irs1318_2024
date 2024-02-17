@@ -386,6 +386,13 @@ public class TuningConstants
     public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
 
+    public static final double ARM_SHOULDER_POSITION_LOW_UNIV = -27.0; // in degrees 
+    public static final double ARM_SHOULDER_POSITION_UP_UNIV = 27.0; // in degrees
+    public static final double ARM_WRIST_POSITION_STOWED = -99.0; // in degrees
+
+    public static final double ARM_WRIST_GOAL_THRESHOLD = 0.5;
+    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 0.5;
+
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
 
     public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = false;

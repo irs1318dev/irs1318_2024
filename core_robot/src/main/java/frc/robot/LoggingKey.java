@@ -146,7 +146,8 @@ public enum LoggingKey
     ArmShoulderStalled("arm.sh_stalled"),
     ArmWristStalled("arm.wr_stalled"),
     ArmShoulderSetpoint("arm.sh_setpoint"),
-    ArmWristSetpoint("arm.wr_setpoint");
+    ArmWristSetpoint("arm.wr_setpoint"),
+    ArmExtensionBreaking("arm.extension_broken");
 
     public final String value;
     public final int loggingFrequency;

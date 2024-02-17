@@ -98,6 +98,8 @@ public class ArmMechanism implements IMechanism
     private double intakeTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_9) * L3;
     private double intakeTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_9) * L3;
 
+    private boolean stuckInPosition;
+
     private boolean inSimpleMode;
 
     @Inject
@@ -237,6 +239,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderVelocityAverage = this.shoulderVelocityAverageCalculator.update(Math.abs(this.shoulderVelocity));
         this.wristVelocityAverage = this.wristVelocityAverageCalculator.update(Math.abs(this.wristVelocity));
 
+        this.logger.logBoolean(LoggingKey.ArmExtensionBreaking, this.stuckInPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocityAverage, this.shoulderVelocityAverage);
@@ -489,6 +492,7 @@ public class ArmMechanism implements IMechanism
     {
         this.shoulderMotor.stop();
         this.wristMotor.stop();
+        this.prevTime = 0.0;
     }
 
     private void updateIKVars(double shoulderAngle, double wristAngle)
@@ -622,12 +626,25 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        if(positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
+        {
+            this.stuckInPosition = true;
+        }
+        else
+        {
+            this.stuckInPosition = false;
+        }
         return positions;
     }
 
     public double getTheta1()
     {
         return this.theta_1;
+    }
+
+    public double getTheta2()
+    {
+        return this.theta_2;
     }
 
     public double getAbsoluteAngleOfShot()
@@ -647,5 +664,10 @@ public class ArmMechanism implements IMechanism
         absWristPosition[1] = this.wristAbsPosZ;
         
         return absWristPosition;
+    }
+
+    public boolean getStuckInPosition()
+    {
+        return this.stuckInPosition;
     }
 }
