@@ -111,6 +111,18 @@ public class ButtonMap implements IButtonMap
             TuningConstants.ARM_SHOULDER_DEAD_ZONE,
             TuningConstants.ARM_SHOULDER_POWER_STRENGTH,
             TuningConstants.ARM_POWER_EXPONENTIAL),
+
+        new AnalogOperationDescription(
+            AnalogOperation.ArmShoulderAdjustment,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
+            TuningConstants.ARM_SHOULDER_DEAD_ZONE,
+            TuningConstants.ARM_SHOULDER_POWER_STRENGTH,
+            TuningConstants.ARM_POWER_EXPONENTIAL),
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPower,
@@ -118,6 +130,18 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
+            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            -TuningConstants.ARM_WRIST_DEAD_ZONE,
+            TuningConstants.ARM_WRIST_DEAD_ZONE,
+            TuningConstants.ARM_WRIST_POWER_STRENGTH,
+            TuningConstants.ARM_POWER_EXPONENTIAL),
+        
+            new AnalogOperationDescription(
+            AnalogOperation.ArmWristAdjustment,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_RSY,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_DEAD_ZONE,

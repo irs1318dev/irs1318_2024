@@ -374,6 +374,12 @@ public class ArmMechanism implements IMechanism
                     }
                 }
 
+                double newShoulderPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderAdjustment) * TuningConstants.ARM_SHOULDER_PID_ADJUST_VEL * elapsedTime;
+                double newWristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristAdjustment) * TuningConstants.ARM_WRIST_PID_ADJUST_VEL * elapsedTime;
+                
+                this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
+                this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
+
                 if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE ||
                     newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE)
                 {
@@ -396,6 +402,9 @@ public class ArmMechanism implements IMechanism
                         this.desiredWristPosition = newDesiredWristPosition;
                     }
                 }
+
+                desiredShoulderPosition += newShoulderPositionAdjustment;
+                // newDesiredWristPosition += newWristPositionAdjustment;
                 
                 // potentially add stuff for IK and FK setting
             }

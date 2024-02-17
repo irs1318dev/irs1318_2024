@@ -41,4 +41,6 @@ public enum AnalogOperation implements IOperation
     ArmShoulderPositionSetpoint,
     ArmWristPositionSetpoint,
     ArmAbsWristAngle,
+    ArmShoulderAdjustment,
+    ArmWristAdjustment,
 }

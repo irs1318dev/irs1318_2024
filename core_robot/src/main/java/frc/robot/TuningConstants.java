@@ -203,10 +203,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.14502; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.14770; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.27759; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.33667; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.0179;//14502; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = -0.122;//0.14770; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = 0.978;//-0.27759; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.84;//-0.33667; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -401,6 +401,9 @@ public class TuningConstants
     public static final boolean ARM_USE_SIMPLE_MODE = true;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
+
+    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 0.1;
 
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;

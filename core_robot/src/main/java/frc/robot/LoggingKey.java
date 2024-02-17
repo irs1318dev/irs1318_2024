@@ -148,7 +148,9 @@ public enum LoggingKey
     ArmWristVelocityAverage("arm.wrVelAvg", 1),
     ArmWristPowerAverage("arm.wrPowAvg", 1),
     ArmWristStalled("arm.wrStalled", 1),
-    ArmExtensionBreaking("arm.exten_broken", 1);
+    ArmExtensionBreaking("arm.exten_broken", 1),
+    ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),
+    ArmWristPosAdjustment("arm.wr_pos_adj", 1);
 
     public final String value;
     public final int loggingFrequency;
