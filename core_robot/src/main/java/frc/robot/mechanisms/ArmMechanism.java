@@ -312,11 +312,15 @@ public class ArmMechanism implements IMechanism
 
         double shoulderPower = 0.0;
         double wristPower = 0.0;
-        boolean useSimpleMode = false;
+        boolean useWristSimpleMode = false;
+        boolean useShoulderSimpleMode = false;
+        
 
         if (this.inSimpleMode)
         {
-            useSimpleMode = true;
+            useWristSimpleMode = true;
+            useShoulderSimpleMode = true;
+            
             shoulderPower = shoulderPowerAdjustment;
             wristPower = wristPowerAdjustment;
 
@@ -328,35 +332,34 @@ public class ArmMechanism implements IMechanism
         }
         else
         {
-            if (shoulderPowerAdjustment != 0.0 || wristPowerAdjustment != 0.0)
+            if (shoulderPowerAdjustment != 0.0)
             {
-                useSimpleMode = true;
+                useShoulderSimpleMode = true;
 
-                if (shoulderPowerAdjustment != 0.0)
-                {
-                    // Updated desired to current position
-                    this.desiredShoulderPosition = this.shoulderPosition;
+                // Updated desired to current position
+                this.desiredShoulderPosition = this.shoulderPosition;
 
-                    // Update changed time and stalled constants
-                    this.shoulderSetpointChangedTime = currTime;
-                    this.shoulderStalled = false;
+                // Update changed time and stalled constants
+                this.shoulderSetpointChangedTime = currTime;
+                this.shoulderStalled = false;
 
-                    // Update this power value
-                    shoulderPower = shoulderPowerAdjustment;
-                }
+                // Update this power value
+                shoulderPower = shoulderPowerAdjustment;
+            }
 
-                if (wristPowerAdjustment != 0.0)
-                {
-                    // Updated desired to current position
-                    this.desiredWristPosition = this.wristPosition;
+            if (wristPowerAdjustment != 0.0)
+            {
+                useWristSimpleMode = true;
 
-                    // Update changed time and stalled constants
-                    this.wristSetpointChangedTime = currTime;
-                    this.wristStalled = false;
+                // Updated desired to current position
+                this.desiredWristPosition = this.wristPosition;
 
-                    // Update this power value
-                    wristPower = wristPowerAdjustment;
-                }
+                // Update changed time and stalled constants
+                this.wristSetpointChangedTime = currTime;
+                this.wristStalled = false;
+
+                // Update this power value
+                wristPower = wristPowerAdjustment;
             }
             else
             {
@@ -447,8 +450,8 @@ public class ArmMechanism implements IMechanism
         }
 
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
-
-        if (!useSimpleMode)
+            
+        if(!useShoulderSimpleMode)
         {
             if (this.shoulderStalled)
             {
@@ -459,7 +462,10 @@ public class ArmMechanism implements IMechanism
                 this.shoulderMotor.setControlMode(SparkMaxControlMode.Position);
                 this.shoulderMotor.set(currentDesiredShoulderPosition);
             }
-
+        }
+        
+        if(!useWristSimpleMode)
+        {
             if (this.wristStalled)
             {
                 this.wristMotor.stop();
@@ -471,10 +477,15 @@ public class ArmMechanism implements IMechanism
                     currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
             }
         }
-        else
+
+        if (useShoulderSimpleMode)
         {
             this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
             this.shoulderMotor.set(shoulderPower);
+        }
+        
+        if (useWristSimpleMode)
+        {
             this.wristMotor.set(TalonSRXControlMode.PercentOutput, wristPower);
         }
 
