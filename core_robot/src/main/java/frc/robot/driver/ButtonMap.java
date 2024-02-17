@@ -1,6 +1,5 @@
 package frc.robot.driver;
 
-import java.security.DigestException;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -217,6 +216,22 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
+            DigitalOperation.IntakeForceInOn,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Click),
+
+        new DigitalOperationDescription(
+            DigitalOperation.IntakeForceInOff,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Click),
+    
+        new DigitalOperationDescription(
             DigitalOperation.ShooterFeedRing,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_A_BUTTON,
@@ -247,27 +262,11 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
-        
-        new DigitalOperationDescription(
-            DigitalOperation.IntakeForceInOn,
-            UserInputDevice.Codriver,
-            90,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
-
-        new DigitalOperationDescription(
-            DigitalOperation.IntakeForceInOff,
-            UserInputDevice.Codriver,
-            90,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Simple),
 
         new DigitalOperationDescription(
             DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE,
             UserInputDevice.Codriver,
-            180,
+            90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
@@ -275,7 +274,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE,
             UserInputDevice.Codriver,
-            180,
+            90,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple),
@@ -615,7 +614,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver, 
             0,
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(1.0),
+            () -> new ArmShoulderPositionTask(0.0),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
@@ -628,12 +627,38 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(4.0),
+            () -> new ArmShoulderPositionTask(30.0),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
             }),
 
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition3,
+            UserInputDevice.Codriver, 
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmPosition4,
+            UserInputDevice.Codriver, 
+            180,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Toggle, 
+            () -> new ArmShoulderPositionTask(-15.0),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint
+            }),
+    
         new MacroOperationDescription(
             MacroOperation.ShooterSpin,
             UserInputDevice.Codriver, 

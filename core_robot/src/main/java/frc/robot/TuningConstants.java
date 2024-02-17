@@ -381,7 +381,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = -25.0; // in degrees
     public static final double ARM_SHOULDER_MIN_POSITION = -25.0; // in degrees
-    public static final double ARM_SHOULDER_MAX_POSITION = 60.0; // in degrees
+    public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
     public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = -103.0; // in degrees
     public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
@@ -399,20 +399,20 @@ public class TuningConstants
     public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
 
     public static final boolean ARM_USE_SIMPLE_MODE = true;
-    public static final boolean ARM_USE_MM = false;
+    public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
 
-    public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.6;
-    public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KP = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KF = 0.0;
-    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 1.0;
-    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 1.0;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
+    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
 
     public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.0;
     public static final double ARM_WRIST_POSITION_MM_PID_KI = 0.0;
