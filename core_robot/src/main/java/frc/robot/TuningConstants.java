@@ -45,6 +45,23 @@ public class TuningConstants
 
     //================================================= Macros/Vision ======================================================
 
+    public static final int APRILTAG_BLUE_SOURCE_RIGHT_ID = 1;
+    public static final int APRILTAG_BLUE_SOURCE_LEFT_ID = 2;
+    public static final int APRILTAG_RED_SPEAKER_OFFCENTER_ID = 3;
+    public static final int APRILTAG_RED_SPEAKER_CENTER_ID = 4;
+    public static final int APRILTAG_RED_AMP_ID = 5;
+    public static final int APRILTAG_BLUE_AMP_ID = 6;
+    public static final int APRILTAG_BLUESPEAKER_CENTER_ID = 7;
+    public static final int APRILTAG_BLUE_SPEAKER_OFFCENTER_ID = 8;
+    public static final int ARPILTAG_RED_SOURCE_RIGHT_ID = 9;
+    public static final int APRILTAG_RED_SOURCE_LEFT_ID = 10;
+    public static final int APRILTAG_RED_STAGE_LEFT_ID = 11;
+    public static final int APRILTAG_RED_CENTER_STAGE_ID = 12;
+    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 13;
+    public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
+    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
+    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+
     // Finding AprilTags to determine if theres enough valid data to translate 
     public static final int TAGS_MISSED_THRESHOLD = 30;
     public static final int TAGS_FOUND_THRESHOLD = 5;
