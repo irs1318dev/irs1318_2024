@@ -175,6 +175,11 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
         return 0.0;
     }
 
+    public double getOutput()
+    {
+        return 0.0;
+    }
+
     public TalonXLimitSwitchStatus getLimitSwitchStatus()
     {
         return new TalonXLimitSwitchStatus(false, false);

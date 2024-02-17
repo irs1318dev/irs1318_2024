@@ -403,10 +403,8 @@ public class ArmMechanism implements IMechanism
                     }
                 }
 
-                desiredShoulderPosition += newShoulderPositionAdjustment;
-                // newDesiredWristPosition += newWristPositionAdjustment;
-                
-                // potentially add stuff for IK and FK setting
+                this.desiredShoulderPosition += newShoulderPositionAdjustment;
+                this.desiredWristPosition += newWristPositionAdjustment;
             }
         }
 
@@ -460,7 +458,7 @@ public class ArmMechanism implements IMechanism
 
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
             
-        if(!useShoulderSimpleMode)
+        if (!useShoulderSimpleMode)
         {
             if (this.shoulderStalled)
             {
@@ -472,8 +470,13 @@ public class ArmMechanism implements IMechanism
                 this.shoulderMotor.set(currentDesiredShoulderPosition);
             }
         }
+        else
+        {
+            this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+            this.shoulderMotor.set(shoulderPower);
+        }
         
-        if(!useWristSimpleMode)
+        if (!useWristSimpleMode)
         {
             if (this.wristStalled)
             {
@@ -486,20 +489,13 @@ public class ArmMechanism implements IMechanism
                     currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
             }
         }
-
-        if (useShoulderSimpleMode)
-        {
-            this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.shoulderMotor.set(shoulderPower);
-        }
-        
-        if (useWristSimpleMode)
+        else
         {
             this.wristMotor.set(TalonSRXControlMode.PercentOutput, wristPower);
         }
 
         this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.shoulderMotor.getOutput());
-        // this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.wristMotor.getOutput());
+        this.logger.logNumber(LoggingKey.ArmWristOutput, this.wristMotor.getOutput());
         this.logger.logBoolean(LoggingKey.ArmShoulderStalled, this.shoulderStalled);
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 

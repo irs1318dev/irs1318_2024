@@ -20,7 +20,7 @@ public class ButtonMap implements IButtonMap
         new ShiftDescription(
             Shift.DriverDebug,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_SELECT_BUTTON),
+            UserInputDeviceButton.XBONE_LEFT_BUTTON),
         new ShiftDescription(
             Shift.CodriverDebug,
             UserInputDevice.Codriver,
@@ -130,7 +130,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
-            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_POWER_STRENGTH,
@@ -142,7 +142,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_RSY,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
-            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_POWER_STRENGTH,
@@ -638,7 +638,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver, 
             0,
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(0.0),
+            () -> new ArmWristPositionTask(0.0),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
@@ -664,7 +664,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_STARTING_CONFIGURATION_POSITION),
+            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
@@ -677,7 +677,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(-15.0),
+            () -> new ArmWristPositionTask(-30.0),//new ArmShoulderPositionTask(-15.0),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint
