@@ -32,27 +32,33 @@ public class BilinearInterpolator
 
     public double sample(double x, double y)
     {
-        int row1 = -1;
+        int row1 = 0;
         int row2 = -1;
-        for (int i = 0; i < this.xSamplePoints.length - 1; i++)
+        for (int i = 1; i < this.xSamplePoints.length; i++)
         {
-            if (this.xSamplePoints[i] < x && this.xSamplePoints[i + 1] > x)
+            if (this.xSamplePoints[i] > x)
+            {
+                row2 = i;
+                break;
+            }
+            else if (this.xSamplePoints[i] <= x)
             {
                 row1 = i;
-                row2 = i + 1;
-                break;
             }
         }
 
-        int col1 = -1;
+        int col1 = 0;
         int col2 = -1;
-        for (int i = 0; i < this.ySamplePoints.length - 1; i++)
+        for (int i = 1; i < this.ySamplePoints.length; i++)
         {
-            if (this.ySamplePoints[i] < y && this.ySamplePoints[i + 1] > y)
+            if (this.ySamplePoints[i] > y)
+            {
+                row2 = i;
+                break;
+            }
+            else if (this.ySamplePoints[i] <= y)
             {
                 row1 = i;
-                row2 = i + 1;
-                break;
             }
         }
 
