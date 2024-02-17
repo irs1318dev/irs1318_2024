@@ -62,8 +62,36 @@ public class BilinearInterpolator
             }
         }
 
-        if (col1 != -1 && col2 != -1 && row1 != -1 && row2 != -1)
+        if (row2 == -1 && col2 == -1)
         {
+            // case: grab the closest sample at the beginnings/ends
+            return this.samples[row1][col1];
+        }
+        else if (row2 == -1)
+        {
+            // linear interpolation in the y direction at an x end
+            double y1 = this.ySamplePoints[col1];
+            double y2 = this.ySamplePoints[col2];
+
+            double sample1 = this.samples[row1][col1];
+            double sample2 = this.samples[row1][col2];
+
+            return (1.0 / (y2 - y1)) * (sample1 * (y2 - y) + sample2 * (y - y1));
+        }
+        else if (col2 == -1)
+        {
+            // linear interpolation in the x direction at a y end
+            double x1 = this.xSamplePoints[row1];
+            double x2 = this.xSamplePoints[row2];
+
+            double sample1 = this.samples[row1][col1];
+            double sample2 = this.samples[row2][col1];
+
+            return (1.0 / (x2 - x1)) * (sample1 * (x2 - x) + sample2 * (x - x1));
+        }
+        else
+        {
+            // bilinear interpolation
             double x1 = this.xSamplePoints[row1];
             double x2 = this.xSamplePoints[row2];
             double y1 = this.ySamplePoints[col1];
@@ -74,13 +102,11 @@ public class BilinearInterpolator
             double sample21 = this.samples[row2][col1];
             double sample22 = this.samples[row2][col2];
 
-            return (1 / ((x2 - x1) * (y2 - y1))) *
+            return (1.0 / ((x2 - x1) * (y2 - y1))) *
                 (sample11 * (x2 - x) * (y2 - y) +
                  sample21 * (x - x1) * (y2 - y) +
                  sample12 * (x2 - x) * (y - y1) +
                  sample22 * (x - x1) * (y - y1));
         }
-
-        throw new RuntimeException("Couldn't find row/col!!");
     }
 }
