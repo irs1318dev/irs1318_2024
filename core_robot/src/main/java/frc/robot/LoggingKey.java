@@ -134,6 +134,7 @@ public enum LoggingKey
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
 
     // Arm stuff
+    ArmClamped("arm.clamped", 1),
     ArmShoulderSetpoint("arm.shPosDesired", 1),
     ArmShoulderPosition("arm.shPos", 1),
     ArmShoulderVelocity("arm.shVel", 1),

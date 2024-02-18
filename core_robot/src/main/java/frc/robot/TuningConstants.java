@@ -348,17 +348,17 @@ public class TuningConstants
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
 
-    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.0;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 143.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 7.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 116.0;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 25.0;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 75.0;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 22.0;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 63.0;
 
-    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
-    public static final double ARM_WRIST_POSITION_AMP_SCORE = 60.0;
+    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 108.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
@@ -403,7 +403,7 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 10.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP;
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI;

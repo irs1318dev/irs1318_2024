@@ -733,6 +733,20 @@ public class ButtonMap implements IButtonMap
                AnalogOperation.ArmShoulderPositionSetpoint,
                AnalogOperation.ArmWristPositionSetpoint,
            }),
+        
+        new MacroOperationDescription(
+            MacroOperation.ArmWristPosition5,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_SELECT_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle, 
+            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+            }),
     
         new MacroOperationDescription(
             MacroOperation.ShooterSpinSpeed1,

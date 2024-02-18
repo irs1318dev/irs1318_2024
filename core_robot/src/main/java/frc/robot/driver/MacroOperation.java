@@ -12,6 +12,7 @@ public enum MacroOperation implements IOperation
     FaceForward,
     FaceBackward,
 
+    // Arm operations:
     ArmShoulderPosition1,
     ArmShoulderPosition2,
     ArmShoulderPosition3,
@@ -20,7 +21,9 @@ public enum MacroOperation implements IOperation
     ArmWristPosition2,
     ArmWristPosition3,
     ArmWristPosition4,
+    ArmWristPosition5,
 
+    // EndEffector operations:
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
 
