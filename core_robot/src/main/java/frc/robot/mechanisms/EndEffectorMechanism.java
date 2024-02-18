@@ -202,11 +202,11 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
 
-        if (this.driver.getDigital(DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE))
+        if (this.driver.getDigital(DigitalOperation.ShooterEnableShootAnywayMode))
         {
             this.useShootAnywayMode = true;
         }
-        else if (this.driver.getDigital(DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE))
+        else if (this.driver.getDigital(DigitalOperation.ShooterDisableShootAnywayMode))
         {
             this.useShootAnywayMode = false;
         }

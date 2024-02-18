@@ -280,7 +280,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE,
+            DigitalOperation.ShooterEnableShootAnywayMode,
             UserInputDevice.Codriver,
             90,
             EnumSet.of(Shift.CodriverDebug),
@@ -288,7 +288,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE,
+            DigitalOperation.ShooterDisableShootAnywayMode,
             UserInputDevice.Codriver,
             90,
             EnumSet.of(Shift.CodriverDebug),
