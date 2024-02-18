@@ -3,6 +3,7 @@ package frc.robot.mechanisms;
 import frc.lib.controllers.TrapezoidProfile;
 import frc.lib.driver.IDriver;
 import frc.lib.filters.FloatingAverageCalculator;
+import frc.lib.helpers.BilinearInterpolator;
 import frc.lib.helpers.Helpers;
 import frc.lib.mechanisms.*;
 import frc.lib.robotprovider.*;
@@ -101,6 +102,12 @@ public class ArmMechanism implements IMechanism
     private boolean stuckInPosition;
 
     private boolean inSimpleMode;
+
+    //Gravity Compensation
+    double[] ySamplePoints = {0,1,2,3,4};
+    double[] xSamplePoints = {0,1,2,3,4};
+    double[][] samples = {{1,2,3,4,5}};
+    BilinearInterpolator interpolator = new BilinearInterpolator(ySamplePoints, xSamplePoints, samples);
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
@@ -465,16 +472,24 @@ public class ArmMechanism implements IMechanism
             {
                 this.shoulderMotor.stop();
             }
+            else if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
+            {
+                this.shoulderMotor.set(
+                    SparkMaxControlMode.Position,
+                    currentDesiredShoulderPosition,
+                    interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition)); // feedForward
+            }
             else
             {
-                this.shoulderMotor.setControlMode(SparkMaxControlMode.Position);
-                this.shoulderMotor.set(currentDesiredShoulderPosition);
+                this.shoulderMotor.set(
+                    SparkMaxControlMode.Position,
+                    currentDesiredShoulderPosition,
+                    0.0);
             }
         }
         else
         {
-            this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.shoulderMotor.set(shoulderPower);
+            this.shoulderMotor.set(SparkMaxControlMode.PercentOutput, shoulderPower);
         }
         
         if (!useWristSimpleMode)
@@ -483,11 +498,19 @@ public class ArmMechanism implements IMechanism
             {
                 this.wristMotor.stop();
             }
+            else if(TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
+            {
+                this.wristMotor.set(
+                    TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
+                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE, 
+                    interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition));
+            }
             else
             {
                 this.wristMotor.set(
                     TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
-                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
+                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE, 
+                    0.0);
             }
         }
         else
