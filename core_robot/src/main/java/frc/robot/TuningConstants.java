@@ -395,11 +395,11 @@ public class TuningConstants
 
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
 
-    public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = false;
-    public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
+    public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = true;
+    public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = true;
 
     public static final boolean ARM_USE_SIMPLE_MODE = true;
-    public static final boolean ARM_USE_MM = false;
+    public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5;
@@ -417,17 +417,17 @@ public class TuningConstants
     public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
     public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
 
-    public static final double ARM_WRIST_MOTOR_PID_KP = 0.1;
+    public static final double ARM_WRIST_MOTOR_PID_KP = 0.08;
     public static final double ARM_WRIST_MOTOR_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.0;
+    public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.08;
     public static final double ARM_WRIST_POSITION_MM_PID_KI = 0.0;
     public static final double ARM_WRIST_POSITION_MM_PID_KD = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_PID_KF = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 1.0;
-    public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 1.0;
+    public static final double ARM_WRIST_POSITION_MM_PID_KF = 0.0176; // 1023 / 58000
+    public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 36864.0;
+    public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 36864.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = false;
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 3.5;

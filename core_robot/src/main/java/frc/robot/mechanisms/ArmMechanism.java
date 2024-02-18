@@ -126,6 +126,7 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
         this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
+        this.wristMotor.setInvertSensor(TuningConstants.ARM_WRIST_MOTOR_INVERT_SENSOR);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -225,7 +226,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderVelocity = this.shoulderMotor.getVelocity(); // in degrees/sec (conversion to degrees included in setVelocityConversionFactor)
         this.shoulderError = this.shoulderPosition - this.desiredShoulderPosition;
         this.wristPosition = this.wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations to degrees
-        this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations/sec to degrees/sec
+        this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE * 10.0; // convert ticks/100ms to degrees/sec
         this.wristError = this.wristMotor.getError();
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
@@ -500,7 +501,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 
         this.logger.logNumber(LoggingKey.ArmShoulderSetpoint, this.desiredShoulderPosition);
-        this.logger.logNumber(LoggingKey.ArmWristSetpoint, wristPowerAdjustment);
+        this.logger.logNumber(LoggingKey.ArmWristSetpoint, this.desiredWristPosition);
 
         this.prevTime = currTime;
     }
