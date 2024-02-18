@@ -258,6 +258,7 @@ public class ArmMechanism implements IMechanism
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
+        boolean jumpAdjustment = false;
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
@@ -400,6 +401,7 @@ public class ArmMechanism implements IMechanism
                         this.wristStalled = false;
 
                         this.desiredWristPosition = newDesiredWristPosition;
+                        jumpAdjustment = true;
                     }
                 }
 
@@ -432,7 +434,7 @@ public class ArmMechanism implements IMechanism
             TrapezoidProfile.State curr = this.shoulderTMPCurrState;
             TrapezoidProfile.State goal = this.shoulderTMPGoalState;
 
-            if (goal.updatePosition(desiredShoulderPosition))
+            if (goal.updatePosition(desiredShoulderPosition) && jumpAdjustment)
             {
                 curr.updatePosition(this.shoulderPosition);
             }
