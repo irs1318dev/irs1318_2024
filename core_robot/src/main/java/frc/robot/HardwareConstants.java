@@ -73,7 +73,6 @@ public class HardwareConstants
     public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 21;
 
     public static final double MIN_USABLE_HEIGHT = 5; // belly-pan height
-    
 
     //=============================================== Vision ==================================================================//
 
