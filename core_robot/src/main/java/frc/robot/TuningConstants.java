@@ -396,32 +396,76 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = -25.0; // in degrees
     public static final double ARM_SHOULDER_MIN_POSITION = -25.0; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = -103.0; // in degrees
     public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
 
-    public static final double ARM_SHOULDER_POSITION_LOW_UNIV = -27.0; // in degrees 
-    public static final double ARM_SHOULDER_POSITION_UP_UNIV = 27.0; // in degrees
-    public static final double ARM_WRIST_POSITION_STOWED = -99.0; // in degrees
+    // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.0;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -103.0;
 
-    public static final double ARM_WRIST_GOAL_THRESHOLD = 0.5;
-    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 0.5;
+    public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
+
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 143.0;
+
+    public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
+    public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
+
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 25.0;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 75.0;
+
+    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 60.0;
+
+    public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
+    public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
+
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0; 
+    public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -97.0;
+
+    public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
+    public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 135.0;
+
+    public static final double ARM_WRIST_GOAL_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 1.0;
+
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
+    public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
+    public static final double TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
+    public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
+
+    // ----------------> OTHER THINGS <----------------
 
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
 
     public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = true;
     public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = true;
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 10.0;
 
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;

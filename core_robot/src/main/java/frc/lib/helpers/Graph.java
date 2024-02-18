@@ -39,6 +39,11 @@ public abstract class Graph<TGraphNode extends GraphNode>
         node2.addLink(new GraphLink(node2, node1, weight));
     }
 
+    public Set<TGraphNode> getNodes()
+    {
+        return this.nodes;
+    }
+
     public void precalculateOptimalPaths()
     {
         for (TGraphNode node : this.nodes)
