@@ -2,6 +2,7 @@ package frc.robot.driver.controltasks;
 
 import java.util.List;
 
+import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Graph;
 import frc.lib.helpers.GraphNode;
 import frc.lib.helpers.Helpers;
@@ -134,10 +135,9 @@ public class ArmGraphTask extends ControlTaskBase
     private double wristGoalPos;
 
     private ArmMechanism arm;
-
     private List<ArmGraphNode> path;
-
-    private boolean hasCompleted = false;
+    private int currPos;
+    private boolean hasCompleted;
 
     public ArmGraphTask(double shoulderGoalPos, double wristGoalPos)
     {
@@ -148,23 +148,46 @@ public class ArmGraphTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        ArmGraphNode goalArmGraphNode = getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
-        ArmGraphNode startArmGraphNode = getClosestArmNode(this.arm.getTheta1(), this.arm.getTheta2());
+        this.arm = this.getInjector().getInstance(ArmMechanism.class);
+
+        ArmGraphNode goalArmGraphNode = this.getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
+        ArmGraphNode startArmGraphNode = this.getClosestArmNode(this.arm.getTheta1(), this.arm.getTheta2());
 
         this.path = ArmGraphTask.graph.getOptimalPath(startArmGraphNode, goalArmGraphNode);
+        this.currPos = 0;
+
+        ExceptionHelpers.Assert(this.path != null, "The provided start node is not reachable from the provided end node.");
+        if (this.path != null)
+        {
+            this.hasCompleted = false;
+
+            ArmGraphNode currNode = this.path.get(this.currPos);
+            ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
+            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
+        }
+        else
+        {
+            this.hasCompleted = true;
+
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
+            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
+        }
     }
 
     @Override
     public void update()
     {
-        int curPos = 0;
-
-        if ( Helpers.RoughEquals(this.path.get(curPos).shoulderAngle, this.arm.getTheta1(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) 
-            && Helpers.RoughEquals(this.path.get(curPos).wristAngle, this.arm.getTheta2(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD) )
+        ArmGraphNode currNode = this.path.get(this.currPos);
+        ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
+        if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getTheta1(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+            Helpers.RoughEquals(currNode.wristAngle, this.arm.getTheta2(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
         {
-            if (curPos != this.path.size())
+            if (this.currPos < this.path.size())
             {
-                curPos += 1;
+                this.currPos++;
+                currNode = this.path.get(this.currPos);
+                ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
             }
             else
             {
@@ -172,9 +195,8 @@ public class ArmGraphTask extends ControlTaskBase
             }
         }
 
-        this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.path.get(curPos).shoulderAngle);
-        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.path.get(curPos).wristAngle);
-        
+        this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
+        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
     }
 
     @Override
@@ -192,18 +214,19 @@ public class ArmGraphTask extends ControlTaskBase
 
     public ArmGraphNode getClosestArmNode(double shoulderPos, double wristPos)
     {
-        double diff = 100;
-        ArmGraphNode nearest = new ArmGraphNode(1000, 1000);
+        double diff = Double.POSITIVE_INFINITY;
+        ArmGraphNode nearest = null;
 
-        for (ArmGraphNode cur : ArmGraphTask.graph.getNodes())
+        for (ArmGraphNode curr : ArmGraphTask.graph.getNodes())
         {
-            if ((Math.abs(cur.shoulderAngle - shoulderPos) * TuningConstants.ARM_SHOULDER_WEIGHT_MULTIPLIER
-                + Math.abs(cur.wristAngle - wristPos) * TuningConstants.ARM_WRIST_WEIGHT_MULTIPLIER)
-                < diff)
+            double newDiff =
+                Math.abs(curr.shoulderAngle - shoulderPos) * TuningConstants.ARM_SHOULDER_WEIGHT_MULTIPLIER +
+                Math.abs(curr.wristAngle - wristPos) * TuningConstants.ARM_WRIST_WEIGHT_MULTIPLIER;
+
+            if (diff > newDiff)
             {
-                nearest = cur;
-                diff = (Math.abs(cur.shoulderAngle - shoulderPos) * TuningConstants.ARM_SHOULDER_WEIGHT_MULTIPLIER
-                    + Math.abs(cur.wristAngle - wristPos) * TuningConstants.ARM_WRIST_WEIGHT_MULTIPLIER);
+                nearest = curr;
+                diff = newDiff;
             }
         }
 
