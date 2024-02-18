@@ -261,6 +261,11 @@ public class TalonSRXWrapper implements ITalonSRX
         return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.pidIdx);
     }
 
+    public double getOutput()
+    {
+        return this.wrappedObject.getMotorOutputPercent();
+    }
+
     public TalonXLimitSwitchStatus getLimitSwitchStatus()
     {
         SensorCollection collection = this.wrappedObject.getSensorCollection();

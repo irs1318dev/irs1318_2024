@@ -126,6 +126,7 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
         this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
+        this.wristMotor.setInvertSensor(TuningConstants.ARM_WRIST_MOTOR_INVERT_SENSOR);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -225,7 +226,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderVelocity = this.shoulderMotor.getVelocity(); // in degrees/sec (conversion to degrees included in setVelocityConversionFactor)
         this.shoulderError = this.shoulderPosition - this.desiredShoulderPosition;
         this.wristPosition = this.wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations to degrees
-        this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations/sec to degrees/sec
+        this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE * 10.0; // convert ticks/100ms to degrees/sec
         this.wristError = this.wristMotor.getError();
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
@@ -257,6 +258,7 @@ public class ArmMechanism implements IMechanism
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
+        boolean jumpAdjustment = false;
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
@@ -314,7 +316,6 @@ public class ArmMechanism implements IMechanism
         double wristPower = 0.0;
         boolean useWristSimpleMode = false;
         boolean useShoulderSimpleMode = false;
-        
 
         if (this.inSimpleMode)
         {
@@ -400,13 +401,12 @@ public class ArmMechanism implements IMechanism
                         this.wristStalled = false;
 
                         this.desiredWristPosition = newDesiredWristPosition;
+                        jumpAdjustment = true;
                     }
                 }
 
-                desiredShoulderPosition += newShoulderPositionAdjustment;
-                // newDesiredWristPosition += newWristPositionAdjustment;
-                
-                // potentially add stuff for IK and FK setting
+                this.desiredShoulderPosition += newShoulderPositionAdjustment;
+                this.desiredWristPosition += newWristPositionAdjustment;
             }
         }
 
@@ -434,7 +434,7 @@ public class ArmMechanism implements IMechanism
             TrapezoidProfile.State curr = this.shoulderTMPCurrState;
             TrapezoidProfile.State goal = this.shoulderTMPGoalState;
 
-            if (goal.updatePosition(desiredShoulderPosition))
+            if (goal.updatePosition(desiredShoulderPosition) && jumpAdjustment)
             {
                 curr.updatePosition(this.shoulderPosition);
             }
@@ -445,10 +445,9 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        double[] angles = this.limitedAngles(currentDesiredShoulderPosition, this.desiredWristPosition);
         if (TuningConstants.USE_IK_CONSTRAINTS)
         {
-            double[] angles = this.limitedAngles(currentDesiredShoulderPosition, this.desiredWristPosition);
-
             currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
             if (!TuningConstants.ARM_USE_MM)
@@ -460,7 +459,7 @@ public class ArmMechanism implements IMechanism
 
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
             
-        if(!useShoulderSimpleMode)
+        if (!useShoulderSimpleMode)
         {
             if (this.shoulderStalled)
             {
@@ -472,8 +471,13 @@ public class ArmMechanism implements IMechanism
                 this.shoulderMotor.set(currentDesiredShoulderPosition);
             }
         }
+        else
+        {
+            this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
+            this.shoulderMotor.set(shoulderPower);
+        }
         
-        if(!useWristSimpleMode)
+        if (!useWristSimpleMode)
         {
             if (this.wristStalled)
             {
@@ -486,25 +490,18 @@ public class ArmMechanism implements IMechanism
                     currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
             }
         }
-
-        if (useShoulderSimpleMode)
-        {
-            this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.shoulderMotor.set(shoulderPower);
-        }
-        
-        if (useWristSimpleMode)
+        else
         {
             this.wristMotor.set(TalonSRXControlMode.PercentOutput, wristPower);
         }
 
         this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.shoulderMotor.getOutput());
-        // this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.wristMotor.getOutput());
+        this.logger.logNumber(LoggingKey.ArmWristOutput, this.wristMotor.getOutput());
         this.logger.logBoolean(LoggingKey.ArmShoulderStalled, this.shoulderStalled);
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 
         this.logger.logNumber(LoggingKey.ArmShoulderSetpoint, this.desiredShoulderPosition);
-        this.logger.logNumber(LoggingKey.ArmWristSetpoint, wristPowerAdjustment);
+        this.logger.logNumber(LoggingKey.ArmWristSetpoint, this.desiredWristPosition);
 
         this.prevTime = currTime;
     }
@@ -648,7 +645,7 @@ public class ArmMechanism implements IMechanism
             }
         }
 
-        if(positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
+        if (positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
         {
             this.stuckInPosition = true;
         }
@@ -656,6 +653,7 @@ public class ArmMechanism implements IMechanism
         {
             this.stuckInPosition = false;
         }
+
         return positions;
     }
 

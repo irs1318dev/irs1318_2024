@@ -15,4 +15,5 @@ public interface ITalonSRX extends ITalonXBase
     void configureAllowableClosedloopError(int slotId, int error);
     void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId);
     void setInvertSensor(boolean flip);
+    double getOutput();
 }

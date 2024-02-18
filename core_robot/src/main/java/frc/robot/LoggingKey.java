@@ -146,6 +146,7 @@ public enum LoggingKey
     ArmWristPosition("arm.wrPos", 1),
     ArmWristVelocity("arm.wrVel", 1),
     ArmWristError("arm.wrErr", 1),
+    ArmWristOutput("arm.wrOutput", 1),
     ArmWristVelocityAverage("arm.wrVelAvg", 1),
     ArmWristPowerAverage("arm.wrPowAvg", 1),
     ArmWristStalled("arm.wrStalled", 1),
