@@ -652,7 +652,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_STARTING_CONFIGURATION_POSITION),
+            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,

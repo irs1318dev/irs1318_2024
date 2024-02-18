@@ -51,11 +51,11 @@ public class ArmPositionTask extends ControlTaskBase
         double curShoulderAngle = this.arm.getTheta1();
         double curWristAngle = this.arm.getTheta2();
 
-        this.curMoveToLowerUniv = Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV)
-            < Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV);
+        this.curMoveToLowerUniv = Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL)
+            < Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);
             
-        this.goalMoveToLowerUniv = Math.abs(shoulderGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV)
-            < Math.abs(wristGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV);
+        this.goalMoveToLowerUniv = Math.abs(shoulderGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL)
+            < Math.abs(wristGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);
 
         this.curWristToStowed = !(this.goalMoveToLowerUniv == this.curMoveToLowerUniv);
             
@@ -90,7 +90,7 @@ public class ArmPositionTask extends ControlTaskBase
 
         else if (this.currentArmState == ArmState.MoveToInitialUniversal)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV : TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.MoveToFinalUniversal;
             }
@@ -103,7 +103,7 @@ public class ArmPositionTask extends ControlTaskBase
 
         else if (this.currentArmState == ArmState.MoveToFinalUniversal)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV : TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.TargetWrist;
             }
@@ -147,11 +147,11 @@ public class ArmPositionTask extends ControlTaskBase
                 break;
 
             case MoveToInitialUniversal:
-                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV : TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV));
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL));
                 break;
 
             case MoveToFinalUniversal:
-                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOW_UNIV : TuningConstants.ARM_SHOULDER_POSITION_UP_UNIV));
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL));
                 break;
 
             case TargetWrist:
