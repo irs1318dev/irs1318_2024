@@ -92,22 +92,36 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
         this.resetPID();
     }
 
-    @Override
-    public void set(double newValue)
+    public void set(double value)
     {
-        this.set(this.currentMode, newValue);
+        this.set(this.currentMode, value);
     }
 
-    public void set(TalonSRXControlMode mode, double newValue)
+    public void set(double value, double feedForward)
+    {
+        this.set(this.currentMode, value, feedForward);
+    }
+
+    public void set(TalonSRXControlMode mode, double value)
+    {
+        this.set(mode, value, 0.0);
+    }
+
+    public void set(TalonSRXControlMode mode, double value, double feedForward)
     {
         if (mode == TalonSRXControlMode.Follower)
         {
-            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)newValue));
+            if (feedForward != 0.0)
+            {
+                throw new RuntimeException("Follower mode does not support feed forward");
+            }
+
+            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)value));
             if (actuator != null && actuator instanceof FauxbotAdvancedMotorBase)
             {
                 FauxbotAdvancedMotorBase advancedMotor = (FauxbotAdvancedMotorBase)actuator;
                 advancedMotor.currentPowerProperty.addListener(
-                    (observable, oldValue, value) -> { this.currentPowerProperty.set((Double)value); });
+                    (observable, oldValue, val) -> { this.currentPowerProperty.set((Double)val); });
             }
             else
             {
@@ -116,15 +130,20 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
         }
         else if (mode == TalonSRXControlMode.Velocity && this.pidHandler != null)
         {
-            super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
+            super.set(this.pidHandler.calculateVelocity(value, innerEncoder.getRate()) + feedForward);
         }
         else if (mode == TalonSRXControlMode.Position && this.pidHandler != null)
         {
-            super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
+            super.set(this.pidHandler.calculatePosition(value, innerEncoder.get()) + feedForward);
         }
         else
         {
-            super.set(newValue);
+            if (feedForward != 0.0)
+            {
+                throw new RuntimeException("PercentOutput mode does not support feed forward");
+            }
+
+            super.set(value);
         }
     }
 
@@ -171,6 +190,11 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
     }
 
     public double getError()
+    {
+        return 0.0;
+    }
+
+    public double getOutput()
     {
         return 0.0;
     }

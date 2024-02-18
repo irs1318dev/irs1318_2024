@@ -532,13 +532,31 @@ public class SDSDriveTrainMechanismTests
         }
 
         @Override
+        public void set(double value, double feedForward)
+        {
+            this.currentValue = value;
+        }
+
+        @Override
         public void set(TalonFXControlMode mode, double value)
         {
             this.currentValue = value;
         }
 
         @Override
+        public void set(TalonFXControlMode mode, double value, double feedForward)
+        {
+            this.currentValue = value;
+        }
+
+        @Override
         public void set(TalonFXControlMode mode, int slotId, double value)
+        {
+            this.currentValue = value;
+        }
+
+        @Override
+        public void set(TalonFXControlMode mode, int slotId, double value, double feedForward)
         {
             this.currentValue = value;
         }

@@ -25,6 +25,7 @@ public enum LoggingKey
     OffboardVisionAprilTagId("vision.atId"),
     OffboardVisionProcessingMode("vision.processingMode"),
     OffboardVisionEnableStream("vision.enableStream"),
+    OffboardVisionDesiredTarget("vision.desireTarget"),
     OffboardVisionMissedHeartbeats("vision.missedHeartbeats"),
     PowerCurrent("power.curr"),
     PowerCurrentFloatingAverage("power.currFltAvg"),
@@ -117,13 +118,13 @@ public enum LoggingKey
     IntakeMotorVelocity("ee.int_vel"),
     IntakeMotorPercentOutput("ee.int_per_out)"),
 
-    ShooterNearFlywheelPosition("ee.nr_fly_pos"),
-    ShooterNearFlywheelVelocity("ee.nr_fly_vel"),
-    ShooterNearFlywheelError("ee.nr_fly_err"),
+    ShooterNearFlywheelPosition("ee.nr_fly_pos", 1),
+    ShooterNearFlywheelVelocity("ee.nr_fly_vel", 1),
+    ShooterNearFlywheelError("ee.nr_fly_err", 1),
 
-    ShooterFarFlywheelPosition("ee.fr_fly_pos"),
-    ShooterFarFlywheelVelocity("ee.fr_fly_vel"),
-    ShooterFarFlywheelError("ee.fr_fly_err"),
+    ShooterFarFlywheelPosition("ee.fr_fly_pos", 1),
+    ShooterFarFlywheelVelocity("ee.fr_fly_vel", 1),
+    ShooterFarFlywheelError("ee.fr_fly_err", 1),
 
     IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
     IntakeThroughBeamBroken("ee.thr_bem_brk"),
@@ -133,20 +134,25 @@ public enum LoggingKey
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
 
     // Arm stuff
-    ArmShoulderPosition("arm.sh.pos"),
-    ArmShoulderVelocity("arm.sh.vel"),
-    ArmWristPosition("arm.wr.pos"),
-    ArmWristVelocity("arm.wr.vel"),
-    ArmShoulderVelocityAverage("arm.sh_vel_avg"),
-    ArmWristVelocityAverage("arm.wr_vel_avg"),
-    ArmShoulderError("arm.sh_err"),
-    ArmWristError("arm.wr_err"),
-    ArmShoulderPowerAverage("arm.sh_pw_avg"),
-    ArmWristPowerAverage("arm.wr_pw_avg"),
-    ArmShoulderStalled("arm.sh_stalled"),
-    ArmWristStalled("arm.wr_stalled"),
-    ArmShoulderSetpoint("arm.sh_setpoint"),
-    ArmWristSetpoint("arm.wr_setpoint");
+    ArmShoulderSetpoint("arm.shPosDesired", 1),
+    ArmShoulderPosition("arm.shPos", 1),
+    ArmShoulderVelocity("arm.shVel", 1),
+    ArmShoulderError("arm.shErr", 1),
+    ArmShoulderOutput("arm.shOutput", 1),
+    ArmShoulderPowerAverage("arm.shPowAvg", 1),
+    ArmShoulderVelocityAverage("arm.shVelAvg", 1),
+    ArmShoulderStalled("arm.shStalled", 1),
+    ArmWristSetpoint("arm.wrPosDesired", 1),
+    ArmWristPosition("arm.wrPos", 1),
+    ArmWristVelocity("arm.wrVel", 1),
+    ArmWristError("arm.wrErr", 1),
+    ArmWristOutput("arm.wrOutput", 1),
+    ArmWristVelocityAverage("arm.wrVelAvg", 1),
+    ArmWristPowerAverage("arm.wrPowAvg", 1),
+    ArmWristStalled("arm.wrStalled", 1),
+    ArmExtensionBreaking("arm.exten_broken", 1),
+    ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),
+    ArmWristPosAdjustment("arm.wr_pos_adj", 1);
 
     public final String value;
     public final int loggingFrequency;

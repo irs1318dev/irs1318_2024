@@ -99,9 +99,6 @@ public class PowerManager implements IMechanism
     @Override
     public void update()
     {
-        boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
-        boolean enableRetroreflectiveProcessing = this.driver.getDigital(DigitalOperation.VisionEnableRetroreflectiveProcessing);
-        this.powerDistribution.setSwitchableChannel(enableVision && enableRetroreflectiveProcessing);
     }
 
     @Override
@@ -109,8 +106,6 @@ public class PowerManager implements IMechanism
     {
         this.currentFloatingAverage = 0.0;
         this.currentAverageCalculator.reset();
-
-        this.powerDistribution.setSwitchableChannel(false);
         this.batteryVoltageFilter.reset();
     }
 }

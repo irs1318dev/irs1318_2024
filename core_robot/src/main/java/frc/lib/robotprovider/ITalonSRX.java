@@ -2,9 +2,12 @@ package frc.lib.robotprovider;
 
 public interface ITalonSRX extends ITalonXBase
 {
+    void set(double value);
+    void set(double value, double feedForward);
+    void set(TalonSRXControlMode mode, double value);
+    void set(TalonSRXControlMode mode, double value, double feedForward);
     void follow(ITalonSRX talonSRX);
     void follow(IVictorSPX victorSPX);
-    void set(TalonSRXControlMode mode, double value);
     void setControlMode(TalonSRXControlMode mode);
     void setMotionMagicPIDF(double p, double i, double d, double f, double velocity, double acceleration, int slotId);
     void setSensorType(TalonSRXFeedbackDevice feedbackDevice);
@@ -15,4 +18,5 @@ public interface ITalonSRX extends ITalonXBase
     void configureAllowableClosedloopError(int slotId, int error);
     void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId);
     void setInvertSensor(boolean flip);
+    double getOutput();
 }

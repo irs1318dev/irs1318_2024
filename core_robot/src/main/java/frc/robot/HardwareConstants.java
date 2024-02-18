@@ -8,10 +8,9 @@ package frc.robot;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 78.0; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 48.0; // inches, max extension beyond frame perimeter
-    public static final double FRAME_PERIMETER = 34; //With bumpers
-    public static final double HALF_FRAME_PERIMETER = FRAME_PERIMETER / 2;
+    public static final double MAX_ROBOT_HEIGHT = 48.0; // inches, max overall height
+    public static final double MAX_ROBOT_EXTENSION = 12.0; // inches, max extension beyond frame perimeter
+    public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
 
     //================================================== DriveTrain ==============================================================
 
@@ -49,29 +48,31 @@ public class HardwareConstants
     public static final double ARM_SHOULDER_GEAR_RATIO = 12.75 * 4.0; // 51:1 --> 12.75:1 in toughbox, 4:1 between chain sprockets.
     public static final double ARM_SHOULDER_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_SHOULDER_GEAR_RATIO; // degrees per rotation
     public static final double ARM_SHOULDER_TICKS_PER_DEGREE = HardwareConstants.ARM_SHOULDER_GEAR_RATIO / 360.0; // rotations per degree
+    public static final double ARM_WRIST_ENCODER_COUNTS_PER_ROTATION = 4096.0; // count per rotation of axle - VersaPlanetary Integrated Encoder
     public static final double ARM_WRIST_GEAR_RATIO = 90.0 * 2.0; // 180:1 --> 90:1 in gearbox, 2:1 between chain sprockets.
-    public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / HardwareConstants.ARM_WRIST_GEAR_RATIO; // degrees per rotation 
-    public static final double ARM_WRIST_TICKS_PER_DEGREE = HardwareConstants.ARM_WRIST_GEAR_RATIO / 360.0; // rotations per degree
+    public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation 
+    public static final double ARM_WRIST_TICKS_PER_DEGREE = (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
 
     public static final double ARM_HUMERUS_LENGTH = 24.5; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
     public static final double ARM_WRIST_TO_SHOOTER_X = 4.94;
-    public static final double ARM_WRIST_TO_SHOOTER_Y = 8.31;
+    public static final double ARM_WRIST_TO_SHOOTER_Z = 8.31;
     public static final double ARM_WRIST_TO_INTAKE_X = 12.59;
-    public static final double ARM_WRIST_TO_INTAKE_Y = 7.31;
-    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, 2));
-    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Y, 2));
+    public static final double ARM_WRIST_TO_INTAKE_Z = 7.31;
+    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
+    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
-    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Y, HardwareConstants.ARM_WRIST_TO_SHOOTER_Y);
-    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Y, HardwareConstants.ARM_WRIST_TO_INTAKE_Y);
-
+    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_Z);
+    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_Z);
 
     public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
     public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
 
     public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -10.5;
-    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = -5;
+    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 21;
+
+    public static final double MIN_USABLE_HEIGHT = 5; // belly-pan height
     
 
     //=============================================== Vision ==================================================================//
