@@ -402,8 +402,8 @@ public class TuningConstants
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
 
-    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 0.1;
+    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 5.0;
 
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;

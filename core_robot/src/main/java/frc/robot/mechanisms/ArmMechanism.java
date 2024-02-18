@@ -315,7 +315,6 @@ public class ArmMechanism implements IMechanism
         double wristPower = 0.0;
         boolean useWristSimpleMode = false;
         boolean useShoulderSimpleMode = false;
-        
 
         if (this.inSimpleMode)
         {
@@ -444,10 +443,9 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        double[] angles = this.limitedAngles(currentDesiredShoulderPosition, this.desiredWristPosition);
         if (TuningConstants.USE_IK_CONSTRAINTS)
         {
-            double[] angles = this.limitedAngles(currentDesiredShoulderPosition, this.desiredWristPosition);
-
             currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
             if (!TuningConstants.ARM_USE_MM)
@@ -645,7 +643,7 @@ public class ArmMechanism implements IMechanism
             }
         }
 
-        if(positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
+        if (positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
         {
             this.stuckInPosition = true;
         }
@@ -653,6 +651,7 @@ public class ArmMechanism implements IMechanism
         {
             this.stuckInPosition = false;
         }
+
         return positions;
     }
 
