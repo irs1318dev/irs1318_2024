@@ -398,12 +398,8 @@ public class ArmMechanism implements IMechanism
                     }
                 }
 
-                double newShoulderPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderAdjustment) * TuningConstants.ARM_SHOULDER_PID_ADJUST_VEL * elapsedTime;
-                double newWristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristAdjustment) * TuningConstants.ARM_WRIST_PID_ADJUST_VEL * elapsedTime;
-
-                this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
-                this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
-
+                double newShoulderPositionAdjustment = 0.0;
+                double newWristPositionAdjustment = 0.0;
                 if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE ||
                     newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE)
                 {
@@ -427,9 +423,25 @@ public class ArmMechanism implements IMechanism
                         jumpAdjustment = true;
                     }
                 }
+                else
+                {
+                    newShoulderPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderAdjustment) * TuningConstants.ARM_SHOULDER_PID_ADJUST_VEL * elapsedTime;
+                    newWristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristAdjustment) * TuningConstants.ARM_WRIST_PID_ADJUST_VEL * elapsedTime;
 
-                this.desiredShoulderPosition += newShoulderPositionAdjustment;
-                this.desiredWristPosition += newWristPositionAdjustment;
+                    newDesiredShoulderPosition = this.desiredShoulderPosition + newShoulderPositionAdjustment;
+                    newDesiredWristPosition = this.desiredWristPosition + newWristPositionAdjustment;
+                }
+
+                this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
+                this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
+
+                // clamp the values to the allowed ranges
+                double updatedDesiredShoulderPosition = Helpers.EnforceRange(newDesiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION);
+                double updatedDesiredWristPosition = Helpers.EnforceRange(newDesiredWristPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION);
+                this.logger.logBoolean(LoggingKey.ArmClamped, updatedDesiredShoulderPosition != newDesiredShoulderPosition || updatedDesiredWristPosition != newDesiredWristPosition);
+
+                this.desiredShoulderPosition = updatedDesiredShoulderPosition;
+                this.desiredWristPosition = updatedDesiredWristPosition;
             }
         }
 
