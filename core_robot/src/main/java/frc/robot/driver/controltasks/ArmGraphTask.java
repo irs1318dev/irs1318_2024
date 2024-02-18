@@ -131,8 +131,8 @@ public class ArmGraphTask extends ControlTaskBase
             TuningConstants.TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
     }
 
-    private double shoulderGoalPos;
-    private double wristGoalPos;
+    private final double shoulderGoalPos;
+    private final double wristGoalPos;
 
     private ArmMechanism arm;
     private List<ArmGraphNode> path;
