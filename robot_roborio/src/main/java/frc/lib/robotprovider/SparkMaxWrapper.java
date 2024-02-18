@@ -4,6 +4,7 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.SparkPIDController.AccelStrategy;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 public class SparkMaxWrapper implements ISparkMax
 {
@@ -78,7 +79,22 @@ public class SparkMaxWrapper implements ISparkMax
 
     public void set(double value)
     {
-        if (this.currentMode == SparkMaxControlMode.PercentOutput)
+        this.set(this.currentMode, value, 0.0);
+    }
+
+    public void set(double value, double feedForward)
+    {
+        this.set(this.currentMode, value, feedForward);
+    }
+
+    public void set(SparkMaxControlMode controlMode, double value)
+    {
+        this.set(controlMode, value, 0.0);
+    }
+
+    public void set(SparkMaxControlMode controlMode, double value, double feedForward)
+    {
+        if (controlMode == SparkMaxControlMode.PercentOutput)
         {
             this.wrappedObject.set(value);
             return;
@@ -87,7 +103,7 @@ public class SparkMaxWrapper implements ISparkMax
         this.ensurePidController();
 
         CANSparkBase.ControlType controlType;
-        switch (this.currentMode)
+        switch (controlMode)
         {
             case Position:
                 controlType = CANSparkBase.ControlType.kPosition;
@@ -107,11 +123,11 @@ public class SparkMaxWrapper implements ISparkMax
 
             default:
             case PercentOutput:
-                throw new RuntimeException("unexpected control mode " + this.currentMode);
+                throw new RuntimeException("unexpected control mode " + controlMode);
         }
 
         RevErrorCodeHelper.printError(
-            this.pidController.setReference(value, controlType, this.selectedSlot),
+            this.pidController.setReference(value, controlType, selectedSlot, feedForward, ArbFFUnits.kPercentOut),
             "SparkMaxWrapper.set");
     }
 
