@@ -175,7 +175,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.DriveTrainReset,
             UserInputDevice.Driver,
-            0,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
             EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Click),
@@ -400,6 +400,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainSpinLeft,
                 AnalogOperation.DriveTrainSpinRight,
             }),
+
         new MacroOperationDescription(
             MacroOperation.FaceBackward,
             UserInputDevice.Driver,

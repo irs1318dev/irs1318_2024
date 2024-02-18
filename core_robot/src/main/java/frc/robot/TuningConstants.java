@@ -443,7 +443,7 @@ public class TuningConstants
     public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = true;
     public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = true;
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
 
