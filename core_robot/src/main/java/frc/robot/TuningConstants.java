@@ -462,10 +462,20 @@ public class TuningConstants
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
-    public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
+    public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 10.0;
+
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF;
+
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF;
 
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;
@@ -476,6 +486,17 @@ public class TuningConstants
     public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
     public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
+
     public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
     public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
 
