@@ -128,7 +128,7 @@ public class ArmGraphTask extends ControlTaskBase
         ArmGraphTask.graph.connect(
             ArmGraphTask.tuckedGroundTransition, 
             ArmGraphTask.groundPickup, 
-            TuningConstants.TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
+            TuningConstants.TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
     }
 
     private final double shoulderGoalPos;
