@@ -434,7 +434,23 @@ public class TuningConstants
     public static final double ARM_WRIST_GOAL_THRESHOLD = 0.5;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 0.5;
 
-    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 3.0;
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
+    public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
+    public static final double TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
+    public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
 
     // ----------------> OTHER THINGS <----------------
 
