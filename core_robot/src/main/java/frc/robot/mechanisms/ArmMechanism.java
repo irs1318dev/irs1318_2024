@@ -135,10 +135,10 @@ public class ArmMechanism implements IMechanism
         if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderMotor.setPIDF(
-                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP,
-                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI,
-                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD,
-                TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF,
+                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KP,
+                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KI,
+                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KD,
+                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
 
             this.wristMotor.setMotionMagicPIDF(
@@ -153,10 +153,10 @@ public class ArmMechanism implements IMechanism
         else
         {
             this.shoulderMotor.setPIDF(
-                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP,
-                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI,
-                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD,
-                TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_PID_KD,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_PID_KF,
                 ArmMechanism.DefaultPidSlotId);
 
             this.wristMotor.setPIDF(
