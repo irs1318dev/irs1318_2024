@@ -94,22 +94,45 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
     }
 
     @Override
+    public void set(double value, double feedForward)
+    {
+        this.set(this.currentMode, value, feedForward);
+    }
+
+    @Override
     public void set(TalonFXControlMode mode, double newValue)
     {
-        this.set(this.currentMode, newValue);
+        this.set(this.currentMode, 0, newValue);
+    }
+
+    @Override
+    public void set(TalonFXControlMode mode, double value, double feedForward)
+    {
+        this.set(this.currentMode, 0, value, feedForward);
     }
 
     @Override
     public void set(TalonFXControlMode mode, int slotId, double newValue)
     {
+        this.set(mode, slotId, newValue, 0.0);
+    }
+
+    @Override
+    public void set(TalonFXControlMode mode, int slotId, double value, double feedForward)
+    {
         if (mode == TalonFXControlMode.Follower)
         {
-            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)newValue));
+            if (feedForward != 0.0)
+            {
+                throw new RuntimeException("Follower mode does not support feed forward");
+            }
+
+            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)value));
             if (actuator != null && actuator instanceof FauxbotAdvancedMotorBase)
             {
                 FauxbotAdvancedMotorBase advancedMotor = (FauxbotAdvancedMotorBase)actuator;
                 advancedMotor.currentPowerProperty.addListener(
-                    (observable, oldValue, value) -> { this.currentPowerProperty.set((Double)value); });
+                    (observable, oldValue, val) -> { this.currentPowerProperty.set((Double)val); });
             }
             else
             {
@@ -118,15 +141,20 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
         }
         else if (mode == TalonFXControlMode.Velocity && this.pidHandler != null)
         {
-            super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
+            super.set(this.pidHandler.calculateVelocity(value, innerEncoder.getRate()));
         }
         else if (mode == TalonFXControlMode.Position && this.pidHandler != null)
         {
-            super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
+            super.set(this.pidHandler.calculatePosition(value, innerEncoder.get()));
         }
         else
         {
-            super.set(newValue);
+            if (feedForward != 0.0)
+            {
+                throw new RuntimeException("PercentOutput mode does not support feed forward");
+            }
+
+            super.set(value);
         }
     }
 
