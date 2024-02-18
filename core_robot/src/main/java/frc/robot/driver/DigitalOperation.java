@@ -16,7 +16,6 @@ public enum DigitalOperation implements IOperation
     VisionForceDisable,
     VisionDisableStream,
     VisionEnableAprilTagProcessing,
-    VisionEnableRetroreflectiveProcessing,
 
     // Compressor operations:
     CompressorForceDisable,

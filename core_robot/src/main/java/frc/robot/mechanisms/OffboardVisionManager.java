@@ -22,6 +22,7 @@ public class OffboardVisionManager implements IMechanism
     private final ILogger logger;
 
     private final INetworkTableProvider networkTable;
+    private final IDriverStation ds;
 
     private IDoubleSubscriber atXOffsetSubscriber;
     private IDoubleSubscriber atYOffsetSubscriber;
@@ -47,8 +48,6 @@ public class OffboardVisionManager implements IMechanism
     private int missedHeartbeats;
     private long prevHeartbeat;
 
-    private final IDriverStation ds;
-
     /**
      * Initializes a new OffboardVisionManager
      * @param driver for obtaining operations
@@ -60,7 +59,6 @@ public class OffboardVisionManager implements IMechanism
     {
         this.driver = driver;
         this.logger = logger;
-        this.ds = provider.getDriverStation();
 
         this.networkTable = provider.getNetworkTableProvider();
         this.atXOffsetSubscriber = this.networkTable.getDoubleSubscriber("at.xOffset", TuningConstants.MAGIC_NULL_VALUE);
@@ -73,6 +71,8 @@ public class OffboardVisionManager implements IMechanism
         this.rrDistanceSubscriber = this.networkTable.getDoubleSubscriber("rr.distance", TuningConstants.MAGIC_NULL_VALUE);
         this.rrAngleSubscriber = this.networkTable.getDoubleSubscriber("rr.horizontalAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.heartbeatSubscriber = this.networkTable.getIntegerSubscriber("v.heartbeat", 0);
+
+        this.ds = provider.getDriverStation();
 
         this.atXOffset = null;
         this.atYOffset = null;
@@ -155,42 +155,31 @@ public class OffboardVisionManager implements IMechanism
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
         boolean enableVideoStream = false; //!this.driver.getDigital(DigitalOperation.VisionDisableStream);
         boolean enableAprilTagProcessing = this.driver.getDigital(DigitalOperation.VisionEnableAprilTagProcessing);
-        boolean enableRetroreflectiveProcessing = this.driver.getDigital(DigitalOperation.VisionEnableRetroreflectiveProcessing);
         
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
 
-        
-
+        int desiredTarget = 0;
         double visionProcessingMode = 0.0;
         if (enableVision)
         {
             if (enableAprilTagProcessing)
             {
                 visionProcessingMode = 1.0;
-            }
-            else if (enableRetroreflectiveProcessing)
-            {
-                visionProcessingMode = 2.0;
+                if (isRed)
+                {
+                    desiredTarget = TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID;
+                }
+                else
+                {
+                    desiredTarget = TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID;
+                }
             }
         }
 
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, enableVideoStream);
         this.logger.logNumber(LoggingKey.OffboardVisionProcessingMode, visionProcessingMode);
-        
-        if (enableAprilTagProcessing == false)
-        {
-            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, 0);
-        }
-        else if (isRed == true)
-        {
-            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID);
-        }
-        else if (isRed == false)
-        {
-            this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
-        }
-
+        this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, desiredTarget);
     }
 
     @Override
