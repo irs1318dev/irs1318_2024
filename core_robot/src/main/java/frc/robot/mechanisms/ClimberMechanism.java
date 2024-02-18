@@ -51,17 +51,17 @@ public class ClimberMechanism implements IMechanism
     @Override
     public void update()
     {
-        double climberPowerAdjustment = this.driver.getAnalog(AnalogOperation.ClimberShoulderPower);
+        double climberPowerAdjustment = this.driver.getAnalog(AnalogOperation.ClimberPower);
         this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);
         this.climberMotor.set(climberPowerAdjustment);
 
-        if (this.driver.getDigital(DigitalOperation.ServoUp))
+        if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
         {
             double climberServo = TuningConstants.CLIMBER_SERVO_UP_POWER;
             this.servo.set(climberServo);
             this.logger.logNumber(LoggingKey.ClimberServoPower, climberServo);
         }
-        else if (this.driver.getDigital(DigitalOperation.ServoDown))
+        else if (this.driver.getDigital(DigitalOperation.ClimberServoDown))
         {
             double climberServo = TuningConstants.CLIMBER_SERVO_DOWN_POWER; 
             this.servo.set(climberServo);
