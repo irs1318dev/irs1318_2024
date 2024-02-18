@@ -215,6 +215,12 @@ public class ArmMechanism implements IMechanism
         this.shoulderVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_VELOCITY_SAMPLES_PER_SECOND);
         this.wristVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND);
         
+        this.shoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+        this.wristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+        
+        this.desiredShoulderPosition = this.shoulderPosition;
+        this.desiredWristPosition = this.wristPosition;
+
         // setting initial IK variables
         this.updateIKVars(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
     }
