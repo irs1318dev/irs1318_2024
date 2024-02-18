@@ -12,14 +12,17 @@ public enum MacroOperation implements IOperation
     FaceForward,
     FaceBackward,
 
-    ArmPosition1,
-    ArmPosition2,
-    ArmPosition3,
-    ArmPosition4,
-    ArmPosition5,
-    ArmPosition6,
+    ArmShoulderPosition1,
+    ArmShoulderPosition2,
+    ArmShoulderPosition3,
+    ArmShoulderPosition4,
+    ArmWristPosition1,
+    ArmWristPosition2,
+    ArmWristPosition3,
+    ArmWristPosition4,
 
-    ShooterSpin,
+    ShooterSpinSpeed1,
+    ShooterSpinSpeed2,
 
     // Vision operations
 
