@@ -163,14 +163,20 @@ public class ArmMechanism implements IMechanism
                 ArmMechanism.DefaultPidSlotId);
         }
 
+        this.shoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+        this.wristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+
+        this.desiredShoulderPosition = this.shoulderPosition;
+        this.desiredWristPosition = this.wristPosition;
+
         if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderTrapezoidMotionProfile = new TrapezoidProfile(
                 TuningConstants.ARM_SHOULDER_TMP_PID_CRUISE_VELOC,
                 TuningConstants.ARM_SHOULDER_TMP_PID_ACCEL);
 
-            this.shoulderTMPCurrState = new TrapezoidProfile.State(0.0, 0.0);
-            this.shoulderTMPGoalState = new TrapezoidProfile.State(0.0, 0.0);
+            this.shoulderTMPCurrState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
+            this.shoulderTMPGoalState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
 
             this.shoulderMotor.setSelectedSlot(ArmMechanism.AltPidSlotId);
             this.wristMotor.setSelectedSlot(ArmMechanism.AltPidSlotId);
@@ -214,15 +220,9 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_VELOCITY_SAMPLES_PER_SECOND);
         this.wristVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND);
-        
-        this.shoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
-        this.wristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-        
-        this.desiredShoulderPosition = this.shoulderPosition;
-        this.desiredWristPosition = this.wristPosition;
 
         // setting initial IK variables
-        this.updateIKVars(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
+        this.updateIKVars(this.shoulderPosition, this.wristPosition);
     }
 
     @Override
