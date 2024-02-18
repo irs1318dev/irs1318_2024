@@ -67,12 +67,15 @@ public class ArmMechanism implements IMechanism
     private final TrapezoidProfile.State shoulderTMPCurrState;
     private final TrapezoidProfile.State shoulderTMPGoalState;
 
+    // Gravity Compensation
+    private final BilinearInterpolator interpolator;
+
     // IK VARIABLES
     private double theta_1; // Horizontal to shoulder ABS angle
     private double theta_2; // Wrist to Shoulder rel angle
     private double theta_3; // 180 - theta_1
     private double theta_4; // Horizontal to Wrist (shooter bottom) ABS angle
-    private double theta_5; // Horizontal to intake bottom ABS angle 
+    private double theta_5; // Horizontal to intake bottom ABS angle
     private double theta_6 = HardwareConstants.SHOOTER_TRIANGLE_ANGLE; // Shooter triangle angle
     private double theta_7 = HardwareConstants.INTAKE_TRIANGLE_ANGLE; // Intake triangle angle
     private double theta_8; // Horizontal to shooter top ABS angle
@@ -102,12 +105,6 @@ public class ArmMechanism implements IMechanism
     private boolean stuckInPosition;
 
     private boolean inSimpleMode;
-
-    //Gravity Compensation
-    double[] ySamplePoints = {0,1,2,3,4};
-    double[] xSamplePoints = {0,1,2,3,4};
-    double[][] samples = {{1,2,3,4,5}};
-    BilinearInterpolator interpolator = new BilinearInterpolator(ySamplePoints, xSamplePoints, samples);
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
@@ -228,6 +225,19 @@ public class ArmMechanism implements IMechanism
         this.shoulderVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_VELOCITY_SAMPLES_PER_SECOND);
         this.wristVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND);
 
+        if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
+        {
+            this.interpolator =
+                new BilinearInterpolator(
+                    TuningConstants.ARM_GRAVITY_COMPENSATION_SHOULDER_SAMPLE_LOCATIONS,
+                    TuningConstants.ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS,
+                    TuningConstants.ARM_GRAVITY_COMPENSATION_SAMPLES);
+        }
+        else
+        {
+            this.interpolator = null;
+        }
+
         // setting initial IK variables
         this.updateIKVars(this.shoulderPosition, this.wristPosition);
     }
@@ -334,7 +344,7 @@ public class ArmMechanism implements IMechanism
         {
             useWristSimpleMode = true;
             useShoulderSimpleMode = true;
-            
+
             shoulderPower = shoulderPowerAdjustment;
             wristPower = wristPowerAdjustment;
 
@@ -390,7 +400,7 @@ public class ArmMechanism implements IMechanism
 
                 double newShoulderPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderAdjustment) * TuningConstants.ARM_SHOULDER_PID_ADJUST_VEL * elapsedTime;
                 double newWristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristAdjustment) * TuningConstants.ARM_WRIST_PID_ADJUST_VEL * elapsedTime;
-                
+
                 this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
                 this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
 
@@ -471,51 +481,43 @@ public class ArmMechanism implements IMechanism
         }
 
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
-            
+
+        double feedForward = 0.0;
+        if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
+        {
+            feedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
+        }
+
         if (!useShoulderSimpleMode)
         {
             if (this.shoulderStalled)
             {
                 this.shoulderMotor.stop();
             }
-            else if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
-            {
-                this.shoulderMotor.set(
-                    SparkMaxControlMode.Position,
-                    currentDesiredShoulderPosition,
-                    interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition)); // feedForward
-            }
             else
             {
                 this.shoulderMotor.set(
                     SparkMaxControlMode.Position,
                     currentDesiredShoulderPosition,
-                    0.0);
+                    feedForward);
             }
         }
         else
         {
             this.shoulderMotor.set(SparkMaxControlMode.PercentOutput, shoulderPower);
         }
-        
+
         if (!useWristSimpleMode)
         {
             if (this.wristStalled)
             {
                 this.wristMotor.stop();
             }
-            else if(TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
-            {
-                this.wristMotor.set(
-                    TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
-                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE, 
-                    interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition));
-            }
             else
             {
                 this.wristMotor.set(
                     TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
-                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE, 
+                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE,
                     0.0);
             }
         }
@@ -551,7 +553,7 @@ public class ArmMechanism implements IMechanism
         this.theta_4 = 360 - this.theta_3 - this.theta_2;
         this.theta_5 = this.theta_4 - 170.0;
         this.theta_8 = this.theta_4 - this.theta_6;
-        this.theta_9 = this.theta_5 + this.theta_7; 
+        this.theta_9 = this.theta_5 + this.theta_7;
 
         this.shoulderJointAbsPosX = HardwareConstants.ARM_TO_CENTER_ROBOT_X_OFFSET;
         this.shoulderJointAbsPosZ = HardwareConstants.ARM_TO_CENTER_ROBOT_Z_OFFSET;
@@ -560,7 +562,7 @@ public class ArmMechanism implements IMechanism
         this.shooterBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_4) * L2x;
         this.shooterBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_4) * L2x;
         this.shooterTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_8) * L2;
-        this.shooterTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_8) * L2;  
+        this.shooterTopAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_8) * L2;
         this.intakeBottomAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_5) * L3x;
         this.intakeBottomAbsPosZ = this.wristAbsPosZ + Helpers.sind(this.theta_5) * L3x;
         this.intakeTopAbsPosX = this.wristAbsPosX + Helpers.cosd(this.theta_9) * L3;
@@ -574,8 +576,8 @@ public class ArmMechanism implements IMechanism
         positions[0] = desShoulder;
         positions[1] = desWrist;
 
-        boolean extensionTop = 
-            this.intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || 
+        boolean extensionTop =
+            this.intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT ||
             this.shooterTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT;
         boolean extensionFront =
             this.intakeTopAbsPosX > HardwareConstants.MAX_ROBOT_EXTENSION + HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0 ||
@@ -589,7 +591,7 @@ public class ArmMechanism implements IMechanism
         {
             positions[0] = this.shoulderPosition;
             positions[1] = this.wristPosition;
-        }        
+        }
         else if (this.intakeBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || this.shooterBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT)
         {
             positions[0] = this.shoulderPosition;
@@ -609,9 +611,7 @@ public class ArmMechanism implements IMechanism
         {
             positions[0] = this.shoulderPosition;
             positions[0] = this.wristPosition;
-            
         }
-
         // continous limiting top
         else if (extensionTop)
         {
@@ -628,7 +628,7 @@ public class ArmMechanism implements IMechanism
             {
                 double temp_theta_9 = -Helpers.asind(desiredDistance / L3); // meant to return a positive value, negative added since asin(0.5) is negative
                 double temp_theta_4 = temp_theta_9 - this.theta_7 + 180.0;
-                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4; 
+                double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
                 positions[0] = desShoulder;
                 positions[1] = temp_wrist_angle;
             }
@@ -678,7 +678,7 @@ public class ArmMechanism implements IMechanism
             {
                 positions[0] = this.shoulderPosition;
                 positions[1] = this.wristPosition;
-                
+
             }
         }
 
@@ -719,7 +719,7 @@ public class ArmMechanism implements IMechanism
         double[] absWristPosition = new double[2];
         absWristPosition[0] = this.wristAbsPosX;
         absWristPosition[1] = this.wristAbsPosZ;
-        
+
         return absWristPosition;
     }
 
