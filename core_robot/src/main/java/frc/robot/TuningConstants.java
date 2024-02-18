@@ -385,7 +385,7 @@ public class TuningConstants
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
     public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
-    public static final double TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
 
     public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
     public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
