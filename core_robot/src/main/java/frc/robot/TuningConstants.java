@@ -408,10 +408,10 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 20.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 10.0;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 130.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 143.0;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
@@ -464,7 +464,7 @@ public class TuningConstants
     public static final boolean USE_IK_CONSTRAINTS = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 10.0;
 
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
     public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;

@@ -218,7 +218,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.IntakeIn,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
             EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
@@ -226,7 +226,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.IntakeOut,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
             ButtonType.Simple),
@@ -250,7 +250,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.ShooterFeedRing,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
             // EnumSet.of(Shift.CodriverDebug),
             // EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
