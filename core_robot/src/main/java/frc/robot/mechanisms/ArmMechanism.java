@@ -458,7 +458,18 @@ public class ArmMechanism implements IMechanism
                 this.wristPowerAverage >= TuningConstants.ARM_WRIST_STALLED_POWER_THRESHOLD &&
                 Math.abs(this.wristVelocityAverage) <= TuningConstants.ARM_WRIST_STALLED_VELOCITY_THRESHOLD)
             {
-                this.wristStalled = true;
+                if( Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) )
+                {
+                    this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP);
+                }
+                else if ( Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+                {
+                    this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
+                }
+                else
+                {
+                    this.wristStalled = true;
+                }
             }
         }
 
