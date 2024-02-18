@@ -40,10 +40,6 @@ public class ElectronicsConstants
 
     public static final int PIGEON_IMU_CAN_ID = 42;
 
-    //================================================== Indicator Lights ==============================================================
-
-    public static final int INDICATOR_LIGHT_CANDLE_CAN_ID = 55;
-
     //================================================== SDSDriveTrain ==============================================================
 
     public static final int SDSDRIVETRAIN_DRIVE_MOTOR_1_CAN_ID = 1;
@@ -62,12 +58,13 @@ public class ElectronicsConstants
 
     //================================================== EndEffector ==============================================================
 
+    public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 3;
+
     public static final int INTAKE_MOTOR_CAN_ID = 21;
     public static final int SHOOTER_NEAR_FLYWHEEL_MOTOR_CAN_ID = 22;
     public static final int SHOOTER_FAR_FLYWHEEL_MOTOR_CAN_ID = 23;
-    public static final int INTAKE_THROUGHBEAM_ANALOG_INPUT = 3;
 
-    //================================================== ChainArm =========================================================================
+    //================================================== Arm =========================================================================
 
     public static final int ARM_SHOULDER_MOTOR_CAN_ID = 12;
     public static final int ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID = 13;
