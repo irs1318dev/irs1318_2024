@@ -24,13 +24,22 @@ public class OffboardVisionManager implements IMechanism
     private final INetworkTableProvider networkTable;
     private final IDriverStation ds;
 
-    private IDoubleSubscriber atXOffsetSubscriber;
-    private IDoubleSubscriber atYOffsetSubscriber;
-    private IDoubleSubscriber atZOffsetSubscriber;
-    private IDoubleSubscriber atYawSubscriber;
-    private IDoubleSubscriber atPitchSubscriber;
-    private IDoubleSubscriber atRollSubscriber;
-    private IIntegerSubscriber atIdSubscriber;
+    private IDoubleSubscriber atrXOffsetSubscriber;
+    private IDoubleSubscriber atrYOffsetSubscriber;
+    private IDoubleSubscriber atrZOffsetSubscriber;
+    private IDoubleSubscriber atrYawSubscriber;
+    private IDoubleSubscriber atrPitchSubscriber;
+    private IDoubleSubscriber atrRollSubscriber;
+    private IIntegerSubscriber atrIdSubscriber;
+
+    private IDoubleSubscriber atfXOffsetSubscriber;
+    private IDoubleSubscriber atfYOffsetSubscriber;
+    private IDoubleSubscriber atfZOffsetSubscriber;
+    private IDoubleSubscriber atfYawSubscriber;
+    private IDoubleSubscriber atfPitchSubscriber;
+    private IDoubleSubscriber atfRollSubscriber;
+    private IIntegerSubscriber atfIdSubscriber;
+
     private IIntegerSubscriber heartbeatSubscriber;
 
     private Double atXOffset;
@@ -40,6 +49,9 @@ public class OffboardVisionManager implements IMechanism
     private Double atPitch;
     private Double atRoll;
     private Integer atId;
+
+    private int prevMode;
+    private int prevTarget;
 
     private int missedHeartbeats;
     private long prevHeartbeat;
@@ -57,13 +69,23 @@ public class OffboardVisionManager implements IMechanism
         this.logger = logger;
 
         this.networkTable = provider.getNetworkTableProvider();
-        this.atXOffsetSubscriber = this.networkTable.getDoubleSubscriber("at.xOffset", TuningConstants.MAGIC_NULL_VALUE);
-        this.atYOffsetSubscriber = this.networkTable.getDoubleSubscriber("at.yOffset", TuningConstants.MAGIC_NULL_VALUE);
-        this.atZOffsetSubscriber = this.networkTable.getDoubleSubscriber("at.zOffset", TuningConstants.MAGIC_NULL_VALUE);
-        this.atYawSubscriber = this.networkTable.getDoubleSubscriber("at.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atPitchSubscriber = this.networkTable.getDoubleSubscriber("at.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atRollSubscriber = this.networkTable.getDoubleSubscriber("at.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atIdSubscriber = this.networkTable.getIntegerSubscriber("at.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+
+        this.atrXOffsetSubscriber = this.networkTable.getDoubleSubscriber("atr.xOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrYOffsetSubscriber = this.networkTable.getDoubleSubscriber("atr.yOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrZOffsetSubscriber = this.networkTable.getDoubleSubscriber("atr.zOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrYawSubscriber = this.networkTable.getDoubleSubscriber("atr.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrPitchSubscriber = this.networkTable.getDoubleSubscriber("atr.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrRollSubscriber = this.networkTable.getDoubleSubscriber("atr.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atrIdSubscriber = this.networkTable.getIntegerSubscriber("atr.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+
+        this.atfXOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.xOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfYOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.yOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfZOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.zOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfYawSubscriber = this.networkTable.getDoubleSubscriber("atf.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfPitchSubscriber = this.networkTable.getDoubleSubscriber("atf.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfRollSubscriber = this.networkTable.getDoubleSubscriber("atf.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.atfIdSubscriber = this.networkTable.getIntegerSubscriber("atf.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+
         this.heartbeatSubscriber = this.networkTable.getIntegerSubscriber("v.heartbeat", 0);
 
         this.ds = provider.getDriverStation();
@@ -76,6 +98,9 @@ public class OffboardVisionManager implements IMechanism
         this.atRoll = null;
         this.atId = null;
 
+        this.prevMode = 0;
+        this.prevTarget = 0;
+
         this.missedHeartbeats = 0;
         this.prevHeartbeat = 0L;
     }
@@ -86,13 +111,21 @@ public class OffboardVisionManager implements IMechanism
     @Override
     public void readSensors()
     {
-        this.atXOffset = this.atXOffsetSubscriber.get();
-        this.atYOffset = this.atYOffsetSubscriber.get();
-        this.atZOffset = this.atZOffsetSubscriber.get();
-        this.atYaw = this.atYawSubscriber.get();
-        this.atPitch = this.atPitchSubscriber.get();
-        this.atRoll = this.atRollSubscriber.get();
-        this.atId = (int)this.atIdSubscriber.get();
+        double atrXOffset = this.atrXOffsetSubscriber.get();
+        double atrYOffset = this.atrYOffsetSubscriber.get();
+        double atrZOffset = this.atrZOffsetSubscriber.get();
+        double atrYaw = this.atrYawSubscriber.get();
+        double atrPitch = this.atrPitchSubscriber.get();
+        double atrRoll = this.atrRollSubscriber.get();
+        int atrId = (int)this.atrIdSubscriber.get();
+
+        double atfXOffset = this.atfXOffsetSubscriber.get();
+        double atfYOffset = this.atfYOffsetSubscriber.get();
+        double atfZOffset = this.atfZOffsetSubscriber.get();
+        double atfYaw = this.atfYawSubscriber.get();
+        double atfPitch = this.atfPitchSubscriber.get();
+        double atfRoll = this.atfRollSubscriber.get();
+        int atfId = (int)this.atfIdSubscriber.get();
 
         long newHeartbeat = this.heartbeatSubscriber.get();
         if (this.prevHeartbeat != newHeartbeat)
@@ -109,15 +142,56 @@ public class OffboardVisionManager implements IMechanism
         boolean missedHeartbeatExceedsThreshold = this.missedHeartbeats > TuningConstants.VISION_MISSED_HEARTBEAT_THRESHOLD;
 
         // reset if we couldn't find the april tag
-        if (missedHeartbeatExceedsThreshold || this.atXOffset == TuningConstants.MAGIC_NULL_VALUE || this.atYOffset == TuningConstants.MAGIC_NULL_VALUE || this.atZOffset == TuningConstants.MAGIC_NULL_VALUE)
+        this.atXOffset = null;
+        this.atYOffset = null;
+        this.atZOffset = null;
+        this.atYaw = null;
+        this.atPitch = null;
+        this.atRoll = null;
+        this.atId = null;
+
+        if (!missedHeartbeatExceedsThreshold)
         {
-            this.atXOffset = null;
-            this.atYOffset = null;
-            this.atZOffset = null;
-            this.atYaw = null;
-            this.atPitch = null;
-            this.atRoll = null;
-            this.atId = null;
+            switch (this.prevMode)
+            {
+                case 1:
+                    if (atrXOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        atrYOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        atrZOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        (this.prevTarget == 0 || this.prevTarget == atrId))
+                    {
+                        this.atXOffset = atrXOffset;
+                        this.atYOffset = atrYOffset;
+                        this.atZOffset = atrZOffset;
+                        this.atYaw = atrYaw;
+                        this.atPitch = atrPitch;
+                        this.atRoll = atrRoll;
+                        this.atId = atrId;
+                    }
+
+                    break;
+
+                case 2:
+                    if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        (this.prevTarget == 0 || this.prevTarget == atrId))
+                    {
+                        this.atXOffset = atfXOffset;
+                        this.atYOffset = atfYOffset;
+                        this.atZOffset = atfZOffset;
+                        this.atYaw = atfYaw;
+                        this.atPitch = atfPitch;
+                        this.atRoll = atfRoll;
+                        this.atId = atfId;
+                    }
+
+                    break;
+
+                case 0:
+                default:
+                    break;
+            }
         }
 
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagXOffset, this.atXOffset);
@@ -134,18 +208,29 @@ public class OffboardVisionManager implements IMechanism
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
         boolean enableVideoStream = false; //!this.driver.getDigital(DigitalOperation.VisionDisableStream);
-        boolean enableAprilTagProcessing = this.driver.getDigital(DigitalOperation.VisionEnableAprilTagProcessing);
+        boolean enableAnyRear = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagRear);
+        boolean enableAnyFront = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagFront);
+        boolean enableSpeakerRear = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagRear);
+        boolean enableSpeakerFront = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagFront);
 
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
 
         int desiredTarget = 0;
-        double visionProcessingMode = 0.0;
+        int visionProcessingMode = 0;
         if (enableVision)
         {
-            if (enableAprilTagProcessing)
+            if (enableAnyRear || enableSpeakerRear)
             {
-                visionProcessingMode = 1.0;
+                visionProcessingMode = 1;
+            }
+            else if (enableAnyFront || enableSpeakerFront)
+            {
+                visionProcessingMode = 2;
+            }
+
+            if (enableSpeakerFront || enableSpeakerRear)
+            {
                 if (isRed)
                 {
                     desiredTarget = TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID;
@@ -157,16 +242,21 @@ public class OffboardVisionManager implements IMechanism
             }
         }
 
+        this.prevMode = visionProcessingMode;
+        this.prevTarget = desiredTarget;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, enableVideoStream);
-        this.logger.logNumber(LoggingKey.OffboardVisionProcessingMode, visionProcessingMode);
-        this.logger.logNumber(LoggingKey.OffboardVisionDesiredTarget, desiredTarget);
+        this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, visionProcessingMode);
+        this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, desiredTarget);
     }
 
     @Override
     public void stop()
     {
+        this.prevMode = 0;
+        this.prevTarget = 0;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
-        this.logger.logNumber(LoggingKey.OffboardVisionProcessingMode, 0.0);
+        this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, 0);
+        this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, 0);
     }
 
     public Double getAprilTagXOffset()
