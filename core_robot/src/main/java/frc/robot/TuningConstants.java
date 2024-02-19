@@ -48,6 +48,23 @@ public class TuningConstants
 
     //================================================= Macros/Vision ======================================================
 
+    public static final int APRILTAG_BLUE_SOURCE_RIGHT_ID = 1;
+    public static final int APRILTAG_BLUE_SOURCE_LEFT_ID = 2;
+    public static final int APRILTAG_RED_SPEAKER_OFFCENTER_ID = 3;
+    public static final int APRILTAG_RED_SPEAKER_CENTER_ID = 4;
+    public static final int APRILTAG_RED_AMP_ID = 5;
+    public static final int APRILTAG_BLUE_AMP_ID = 6;
+    public static final int APRILTAG_BLUE_SPEAKER_CENTER_ID = 7;
+    public static final int APRILTAG_BLUE_SPEAKER_OFFCENTER_ID = 8;
+    public static final int ARPILTAG_RED_SOURCE_RIGHT_ID = 9;
+    public static final int APRILTAG_RED_SOURCE_LEFT_ID = 10;
+    public static final int APRILTAG_RED_STAGE_LEFT_ID = 11;
+    public static final int APRILTAG_RED_CENTER_STAGE_ID = 12;
+    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 13;
+    public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
+    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
+    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+
     // Finding AprilTags to determine if theres enough valid data to translate 
     public static final int TAGS_MISSED_THRESHOLD = 30;
     public static final int TAGS_FOUND_THRESHOLD = 5;
@@ -133,68 +150,6 @@ public class TuningConstants
 
     public static final double ORIENTATION_TURN_THRESHOLD = 2.0; // number of degrees off at which point we give up trying to face an angle
 
-    //================================================== Indicator Lights ========================================================
-
-    public static final double INDICATOR_LIGHT_VISION_ACCEPTABLE_ANGLE_RANGE = 3.0;
-
-    public static final int CANDLE_LED_START = 0;
-    public static final int CANDLE_LED_COUNT = 8;
-    public static final int LED_STRIP_LED_START = TuningConstants.CANDLE_LED_COUNT;
-    public static final int LED_STRIP_LED_COUNT = 60; // 60 LEDs per meter-long strip from CTRE
-    public static final int CANDLE_TOTAL_NUMBER_LEDS = TuningConstants.CANDLE_LED_COUNT + TuningConstants.LED_STRIP_LED_COUNT;
-
-    public static final int CANDLE_ANIMATION_SLOT_0 = 0;
-    public static final int CANDLE_ANIMATION_SLOT_1 = 1;
-    public static final int CANDLE_ANIMATION_SLOT_2 = 2;
-    public static final int CANDLE_ANIMATION_SLOT_3 = 3;
-
-    // IRS1318 Purple color
-    public static final int INDICATOR_PURPLE_COLOR_RED = 101;
-    public static final int INDICATOR_PURPLE_COLOR_GREEN = 34;
-    public static final int INDICATOR_PURPLE_COLOR_BLUE = 129;
-    public static final int INDICATOR_PURPLE_COLOR_WHITE = 0;
-
-    // Bright Yellow color
-    public static final int INDICATOR_YELLOW_COLOR_RED = 255;
-    public static final int INDICATOR_YELLOW_COLOR_GREEN = 255;
-    public static final int INDICATOR_YELLOW_COLOR_BLUE = 0;
-    public static final int INDICATOR_YELLOW_COLOR_WHITE = 0;
-
-    // Bright Green color
-    public static final int INDICATOR_GREEN_COLOR_RED = 0;
-    public static final int INDICATOR_GREEN_COLOR_GREEN = 255;
-    public static final int INDICATOR_GREEN_COLOR_BLUE = 0;
-    public static final int INDICATOR_GREEN_COLOR_WHITE = 0;
-
-    // Bright Red color
-    public static final int INDICATOR_RED_COLOR_RED = 255;
-    public static final int INDICATOR_RED_COLOR_GREEN = 0;
-    public static final int INDICATOR_RED_COLOR_BLUE = 0;
-    public static final int INDICATOR_RED_COLOR_WHITE = 0;
-
-    // Blue
-    public static final int INDICATOR_BLUE_COLOR_RED = 0;
-    public static final int INDICATOR_BLUE_COLOR_GREEN = 0;
-    public static final int INDICATOR_BLUE_COLOR_BLUE = 255;
-    public static final int INDICATOR_BLUE_COLOR_WHITE = 0;
-
-    // Orange
-    public static final int INDICATOR_ORANGE_COLOR_RED = 255;
-    public static final int INDICATOR_ORANGE_COLOR_GREEN = 165;
-    public static final int INDICATOR_ORANGE_COLOR_BLUE = 0;
-    public static final int INDICATOR_ORANGE_COLOR_WHITE = 0;
-
-    // Rainbow
-    public static final int INDICATOR_RAINBOW_BRIGHTNESS = 1;
-    public static final double INDICATOR_RAINBOW_SPEED = 0.25;
-    public static final boolean INDICATOR_RAINBOW_REVERSE_DIRECTION = false;
-
-    // No color
-    public static final int INDICATOR_OFF_COLOR_RED = 0;
-    public static final int INDICATOR_OFF_COLOR_GREEN = 0;
-    public static final int INDICATOR_OFF_COLOR_BLUE = 0;
-    public static final int INDICATOR_OFF_COLOR_WHITE = 0;
-
     //================================================== SDS DriveTrain ==============================================================
 
     public static final boolean SDSDRIVETRAIN_STEER_MOTORS_USE_MOTION_MAGIC = true;
@@ -206,10 +161,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.142090; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.154053; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.278321; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.355225; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.17212; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.15698; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.28979; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.35327; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -346,17 +301,19 @@ public class TuningConstants
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = true;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = 5300.0; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.00040;
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 0.00018868;
 
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MAX_VELOCITY = 5000.0; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.00032;
     public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.0;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 1.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 0.0002;
 
     public static final int FLYWHEEL_STALL_LIMIT = 100;
     public static final int FLYWHEEL_FREE_LIMIT = 100;
@@ -369,49 +326,132 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
-    //==================================================== ChainAndSprocketArm ==============================================================
+    //==================================================== Arm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     // public static final boolean ARM_SHOULDER_MOTOR_INVERT_SENSOR = false; // N/A - using built-in encoder
 
-    public static final double ARM_SHOULDER_STARTING_CONFIGURATION_POSITION = 0.0; // in degrees
-    public static final double ARM_SHOULDER_MIN_POSITION = -30.0; // in degrees
-    public static final double ARM_SHOULDER_MAX_POSITION = 90.0; // in degrees
-    public static final double ARM_WRIST_STARTING_CONFIGURATION_POSITION = 0.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -160.0; // in degrees
-    public static final double ARM_WRIST_MAX_POSITION = 160.0; // in degrees
+    public static final double ARM_SHOULDER_POWER_STRENGTH = 1.0;
+    public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
+    public static final double ARM_POWER_EXPONENTIAL = 1.0;
+    public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
+    public static final double ARM_WRIST_DEAD_ZONE = 0.1;
+
+    public static final double ARM_SHOULDER_MIN_POSITION = -25.0; // in degrees
+    public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
+    public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
+
+    // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.0;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -103.0;
+
+    public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
+
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 143.0;
+
+    public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
+    public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
+
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 25.0;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 75.0;
+
+    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 60.0;
+
+    public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
+    public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
+
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0; 
+    public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -97.0;
+
+    public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
+    public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 135.0;
+
+    public static final double ARM_WRIST_GOAL_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 1.0;
+
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
+    public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
+    public static final double TUCCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
+    public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
+
+    // ----------------> OTHER THINGS <----------------
 
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
 
-    public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = false;
-    public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = false;
+    public static final boolean ARM_WRIST_MOTOR_INVER_OUTPUT = true;
+    public static final boolean ARM_WRIST_MOTOR_INVERT_SENSOR = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = true;
-    public static final boolean ARM_USE_MM = false;
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
+    public static final boolean ARM_USE_MM = true;
+    public static final boolean USE_IK_CONSTRAINTS = false;
+    public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
-    public static final double ARM_SHOULDER_MOTOR_PID_KP = 0.6;
-    public static final double ARM_SHOULDER_MOTOR_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 10.0;
 
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KP = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_POSITION_TMP_PID_KF = 0.0;
-    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 1.0;
-    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 1.0;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF;
 
-    public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_PID_KI = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_PID_KD = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_PID_KF = 0.0;
-    public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 1.0;
-    public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 1.0;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD;
+    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF;
 
-    public static final double ARM_WRIST_MOTOR_PID_KP = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
+    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
+
+    public static final double ARM_WRIST_MOTOR_PID_KP = 0.08;
     public static final double ARM_WRIST_MOTOR_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PID_KF = 0.0;
+
+    public static final double ARM_WRIST_POSITION_MM_PID_KP = 0.08;
+    public static final double ARM_WRIST_POSITION_MM_PID_KI = 0.0;
+    public static final double ARM_WRIST_POSITION_MM_PID_KD = 0.0;
+    public static final double ARM_WRIST_POSITION_MM_PID_KF = 0.0176; // 1023 / 58000
+    public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 36864.0;
+    public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 36864.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = false;
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 3.5;
@@ -431,4 +471,8 @@ public class TuningConstants
     public static final double ARM_WRIST_POWER_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND;
     public static final double ARM_WRIST_VELOCITY_TRACKING_DURATION = TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION;
     public static final double ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND = TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND;
+
+    public static final double[] ARM_GRAVITY_COMPENSATION_SHOULDER_SAMPLE_LOCATIONS = { 0, 1, 2, 3, 4 };
+    public static final double[] ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS = { 0 };
+    public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES = { { 1 }, { 2 }, { 3 }, { 4 }, { 5 } };
 }

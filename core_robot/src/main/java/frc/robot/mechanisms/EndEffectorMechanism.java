@@ -52,6 +52,7 @@ public class EndEffectorMechanism implements IMechanism
     private EffectorState currentEffectorState;
 
     private boolean useShootAnywayMode;
+    private boolean useIntakeForceIn;
     private double shootingStartTime;
 
     @Inject
@@ -72,45 +73,43 @@ public class EndEffectorMechanism implements IMechanism
 
         // NEAR FLYWHEEL MOTOR
         this.nearFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        // this.nearFlywheelMotor.setRelativeEncoder();
-        // this.nearFlywheelMotor.setInvertSensor(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_SENSOR);
+        this.nearFlywheelMotor.setRelativeEncoder();
         this.nearFlywheelMotor.setInvertOutput(TuningConstants.NEAR_SHOOTER_MOTOR_INVERT_OUTPUT);
         this.nearFlywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
         this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
 
-        // this.nearFlywheelMotor.setPIDF(
-        //     TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP,
-        //     TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI,
-        //     TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD,
-        //     TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF,
-        //     DefaultPidSlotId);
+        this.nearFlywheelMotor.setPIDF(
+            TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP,
+            TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI,
+            TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD,
+            TuningConstants.SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF,
+            DefaultPidSlotId);
 
-        // this.nearFlywheelMotor.setVelocityConversionFactor(HardwareConstants.SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE);
+        this.nearFlywheelMotor.setVelocityConversionFactor(HardwareConstants.SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE);
         this.nearFlywheelMotor.setCurrentLimit(TuningConstants.FLYWHEEL_STALL_LIMIT, TuningConstants.FLYWHEEL_FREE_LIMIT, TuningConstants.FLYWHEEL_RPM_LIMIT);
         this.nearFlywheelMotor.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_SENSOR_FRAME_PERIOD_MS);
-        // this.nearFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
+        this.nearFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
 
         this.nearFlywheelMotor.burnFlash();
 
         // FAR FLYWHEEL MOTOR
         this.farFlywheelMotor = provider.getSparkMax(ElectronicsConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        // this.farFlywheelMotor.setRelativeEncoder();
-        // this.farFlywheelMotor.setInvertSensor(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_SENSOR);
+        this.farFlywheelMotor.setRelativeEncoder();
         this.farFlywheelMotor.setInvertOutput(TuningConstants.FAR_SHOOTER_MOTOR_INVERT_OUTPUT);
         this.farFlywheelMotor.setNeutralMode(MotorNeutralMode.Coast);
         this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
 
-        // this.farFlywheelMotor.setPIDF(
-        //     TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP,
-        //     TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI,
-        //     TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD,
-        //     TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF,
-        //     DefaultPidSlotId);
+        this.farFlywheelMotor.setPIDF(
+            TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP,
+            TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI,
+            TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD,
+            TuningConstants.SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF,
+            DefaultPidSlotId);
 
-        // this.farFlywheelMotor.setVelocityConversionFactor(HardwareConstants.SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE);
+        this.farFlywheelMotor.setVelocityConversionFactor(HardwareConstants.SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE);
         this.farFlywheelMotor.setCurrentLimit(TuningConstants.FLYWHEEL_STALL_LIMIT, TuningConstants.FLYWHEEL_FREE_LIMIT, TuningConstants.FLYWHEEL_RPM_LIMIT);
         this.farFlywheelMotor.setFeedbackFramePeriod(SparkMaxPeriodicFrameType.Status0, TuningConstants.FLYWHEEL_SENSOR_FRAME_PERIOD_MS);
-        // this.farFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
+        this.farFlywheelMotor.setSelectedSlot(DefaultPidSlotId);
 
         this.farFlywheelMotor.burnFlash();
 
@@ -118,6 +117,7 @@ public class EndEffectorMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
 
         this.useShootAnywayMode = false;
+        this.useIntakeForceIn = false;
         this.shootingStartTime = 0.0;
 
         this.currentEffectorState = EffectorState.Off;
@@ -129,17 +129,17 @@ public class EndEffectorMechanism implements IMechanism
         this.intakeMotorVelocity = this.intakeMotor.getVelocity();
         this.logger.logNumber(LoggingKey.IntakeMotorVelocity, this.intakeMotorVelocity);
 
-        // this.nearFlywheelPosition = this.nearFlywheelMotor.getPosition();
-        // this.nearFlywheelVelocity = this.nearFlywheelMotor.getVelocity();
-        // this.nearFlywheelError = this.nearFlywheelMotor.getOutput() - this.nearFlywheelSetpoint;
+        this.nearFlywheelPosition = this.nearFlywheelMotor.getPosition();
+        this.nearFlywheelVelocity = this.nearFlywheelMotor.getVelocity();
+        this.nearFlywheelError = this.nearFlywheelMotor.getVelocity() - this.nearFlywheelSetpoint;
 
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelPosition, this.nearFlywheelPosition);
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelVelocity, this.nearFlywheelVelocity);
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelError, this.nearFlywheelError);
 
-        // this.farFlywheelPosition = this.farFlywheelMotor.getPosition();
-        // this.farFlywheelVelocity = this.farFlywheelMotor.getVelocity();
-        // this.farFlywheelError = this.farFlywheelMotor.getOutput() - this.farFlywheelSetpoint;
+        this.farFlywheelPosition = this.farFlywheelMotor.getPosition();
+        this.farFlywheelVelocity = this.farFlywheelMotor.getVelocity();
+        this.farFlywheelError = this.farFlywheelMotor.getVelocity() - this.farFlywheelSetpoint;
 
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelPosition, this.farFlywheelPosition);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelVelocity, this.farFlywheelVelocity);
@@ -158,13 +158,13 @@ public class EndEffectorMechanism implements IMechanism
         double currTime = this.timer.get();
 
         // FLYWHEEL LOGIC
-        double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.FlywheelMotorPower);
-        double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.NearFlywheelVelocityGoal); // This value should be calculated and in RPM
-        double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.FarFlywheelVelocityGoal); // This value should be calculated and in RPM
-// 0
-//         if (flywheelMotorPower != TuningConstants.ZERO)
-//         {
-//             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
+        double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.EndEffectorFlywheelMotorPower);
+        double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorNearFlywheelVelocityGoal); // This value should be calculated and in RPM
+        double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorFarFlywheelVelocityGoal); // This value should be calculated and in RPM
+
+        if (flywheelMotorPower != TuningConstants.ZERO)
+        {
+            this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
 
             this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
@@ -174,41 +174,50 @@ public class EndEffectorMechanism implements IMechanism
             this.farFlywheelMotor.set(flywheelMotorPower);
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, flywheelMotorPower);
-        // }
-        // else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
-        // {
-        //     this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
-        //     this.farFlywheelSetpoint = farFlywheelVelocityGoal;
+        }
+        else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
+        {
+            this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
+            this.farFlywheelSetpoint = farFlywheelVelocityGoal;
 
-        //     this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-        //     this.farFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
+            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
+            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
 
-        //     this.nearFlywheelMotor.set(this.nearFlywheelSetpoint);
-        //     this.farFlywheelMotor.set(this.farFlywheelSetpoint);
+            this.nearFlywheelMotor.set(this.nearFlywheelSetpoint);
+            this.farFlywheelMotor.set(this.farFlywheelSetpoint);
 
-        //     this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
-        // }
-        // else
-        // {
-        //     this.nearFlywheelSetpoint = TuningConstants.ZERO;
-        //     this.farFlywheelSetpoint = TuningConstants.ZERO;
+            this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
+        }
+        else
+        {
+            this.nearFlywheelSetpoint = TuningConstants.ZERO;
+            this.farFlywheelSetpoint = TuningConstants.ZERO;
 
-        //     this.nearFlywheelMotor.stop();
-        //     this.farFlywheelMotor.stop();
+            this.nearFlywheelMotor.stop();
+            this.farFlywheelMotor.stop();
 
-        //     this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
-        // }
+            this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
+        }
 
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
 
-        if(this.driver.getDigital(DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE))
+        if (this.driver.getDigital(DigitalOperation.ShooterEnableShootAnywayMode))
         {
             this.useShootAnywayMode = true;
         }
-        else if (this.driver.getDigital(DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE))
+        else if (this.driver.getDigital(DigitalOperation.ShooterDisableShootAnywayMode))
         {
             this.useShootAnywayMode = false;
+        }
+
+        if(this.driver.getDigital(DigitalOperation.IntakeForceInOn))
+        {
+            this.useIntakeForceIn = true;
+        }
+        else if(this.driver.getDigital(DigitalOperation.IntakeForceInOff))
+        {
+            this.useIntakeForceIn = false;
         }
 
         // STATE SWITCHING
@@ -222,7 +231,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // Start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                    (!this.throughBeamBroken || this.useIntakeForceIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -254,7 +263,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // continue intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                    (!this.throughBeamBroken || this.useIntakeForceIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -286,7 +295,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                    (!this.throughBeamBroken || this.useIntakeForceIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -317,7 +326,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.driver.getDigital(DigitalOperation.IntakeForceIn)))
+                    (!this.throughBeamBroken || this.useIntakeForceIn))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }

@@ -3,13 +3,13 @@ package frc.lib.robotprovider;
 public interface ITalonFX extends ITalonXBase
 {
     void set(double value);
-
+    void set(double value, double feedForward);
     void set(TalonFXControlMode mode, double value);
-
     void set(TalonFXControlMode mode, int slotId, double value);
+    void set(TalonFXControlMode mode, double value, double feedForward);
+    void set(TalonFXControlMode mode, int slotId, double value, double feedForward);
 
     void follow(ITalonFX talonFX);
-
     void follow(ITalonFX talonFX, boolean invertDirection);
 
     void setControlMode(TalonFXControlMode mode);
