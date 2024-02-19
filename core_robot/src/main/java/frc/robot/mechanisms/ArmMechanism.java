@@ -465,12 +465,12 @@ public class ArmMechanism implements IMechanism
                 this.shoulderPowerAverage >= TuningConstants.ARM_SHOULDER_STALLED_POWER_THRESHOLD &&
                 Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)
             {
-                // if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                //     Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
-                // {
-                //     this.desiredShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
-                //     this.shoulderMotor.setPosition(this.desiredShoulderPosition);
-                // }
+                if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                    Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+                {
+                    this.desiredShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+                    this.shoulderMotor.setPosition(this.desiredShoulderPosition);
+                }
 
                 this.shoulderStalled = true;
             }
@@ -479,13 +479,12 @@ public class ArmMechanism implements IMechanism
                 this.wristPowerAverage >= TuningConstants.ARM_WRIST_STALLED_POWER_THRESHOLD &&
                 Math.abs(this.wristVelocityAverage) <= TuningConstants.ARM_WRIST_STALLED_VELOCITY_THRESHOLD)
             {
-                // if (Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) &&
-                //     Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
-                // {
-                //     this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-                //     this.wristMotor.setPosition(this.desiredWristPosition);
-                //     this.wristStalled = true;
-                // }
+                if (Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) &&
+                    Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+                {
+                    this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+                    this.wristMotor.setPosition(this.desiredWristPosition);
+                }
 
                 this.wristStalled = true;
             }
