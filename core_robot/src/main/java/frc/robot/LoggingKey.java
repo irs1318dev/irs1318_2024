@@ -28,7 +28,6 @@ public enum LoggingKey
     PowerCurrent("power.curr"),
     PowerCurrentFloatingAverage("power.currFltAvg"),
     PowerBatteryVoltage("power.battV"),
-    NavxStartingAngle("navx.startingAngle"),
     PigeonState("pigeon.state"),
     PigeonYaw("pigeon.yaw"),
     PigeonPitch("pigeon.pitch"),
@@ -40,14 +39,6 @@ public enum LoggingKey
     PigeonYawRate("pigeon.yawRate"),
     PigeonPitchRate("pigeon.pitchRate"),
     PigeonRollRate("pigeon.rollRate"),
-    NavxConnected("navx.isConnected"),
-    NavxAngle("navx.angle"),
-    NavxPitch("navx.pitch"),
-    NavxRoll("navx.roll"),
-    NavxYaw("navx.yaw"),
-    NavxX("navx.x"),
-    NavxY("navx.y"),
-    NavxZ("navx.z"),
 
     DriveTrainDesiredAngle("dt.angle_goal", 1),
     DriveTrainAngle("dt.angle", 1),
@@ -110,23 +101,17 @@ public enum LoggingKey
     DriveTrainSteerPositionGoal4("dt.steer_goal4", 1),
     DriveTrainSteerPositionGoal4b("dt.steer_goal4b", 1),
 
-    CompressorPreassure("com.pres"),
-
     // End Effector stuff
     IntakeMotorVelocity("ee.int_vel"),
     IntakeMotorPercentOutput("ee.int_per_out)"),
-
     ShooterNearFlywheelPosition("ee.nr_fly_pos", 1),
     ShooterNearFlywheelVelocity("ee.nr_fly_vel", 1),
     ShooterNearFlywheelError("ee.nr_fly_err", 1),
-
     ShooterFarFlywheelPosition("ee.fr_fly_pos", 1),
     ShooterFarFlywheelVelocity("ee.fr_fly_vel", 1),
     ShooterFarFlywheelError("ee.fr_fly_err", 1),
-
     IntakeThroughBeamSensorValue("ee.thr_bem_vol"),
     IntakeThroughBeamBroken("ee.thr_bem_brk"),
-
     ShooterFlywheelPower("ee_fw_pow"),
     ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
@@ -154,8 +139,8 @@ public enum LoggingKey
     ArmWristPosAdjustment("arm.wr_pos_adj", 1),
 
     // Climber stuff
-    ClimberMotorPower("cl.motor", 1),
-    ClimberServoPosition("cl.servo", 1);
+    ClimberMotorPower("cl.motor"),
+    ClimberServoPosition("cl.servo");
 
     public final String value;
     public final int loggingFrequency;
