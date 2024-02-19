@@ -156,8 +156,8 @@ public enum LoggingKey
     ArmWristPosAdjustment("arm.wr_pos_adj", 1),
 
     // Climber stuff
-    ClimberMotorPower("cl.motor"),
-    ClimberServoPower("cl.servo", 1);
+    ClimberMotorPower("cl.motor", 1),
+    ClimberServoPosition("cl.servo", 1);
 
     public final String value;
     public final int loggingFrequency;

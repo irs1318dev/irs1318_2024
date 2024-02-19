@@ -478,6 +478,6 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
 
-    public static final double CLIMBER_SERVO_DOWN_POWER = 0.0;
-    public static final double CLIMBER_SERVO_UP_POWER = 1.0;
+    public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
+    public static final double CLIMBER_SERVO_DOWN_POSITION = 1.0;
 }

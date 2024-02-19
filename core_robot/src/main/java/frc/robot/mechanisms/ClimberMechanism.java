@@ -16,8 +16,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class ClimberMechanism implements IMechanism 
 {
-    private final ISparkMax climberMotor;
-    private final IServo servo;
+    private final ITalonSRX climberMotor;
+    private final IServo ratchetServo;
 
     private final IDriver driver;
     private final ILogger logger;
@@ -28,19 +28,16 @@ public class ClimberMechanism implements IMechanism
         this.driver = driver;
         this.logger = logger;
 
-        this.climberMotor = provider.getSparkMax(ElectronicsConstants.CLIMBER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        this.climberMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-        this.climberMotor.setNeutralMode(MotorNeutralMode.Brake);
-        this.climberMotor.setInvertOutput(TuningConstants.CLIMBER_MOTOR_INVERT_OUTPUT);
-        this.climberMotor.burnFlash();
+        this.climberMotor = provider.getTalonSRX(ElectronicsConstants.CLIMBER_MOTOR_CAN_ID);
+        this.climberMotor.setControlMode(TalonSRXControlMode.PercentOutput);
+        this.climberMotor.setMotorOutputSettings(TuningConstants.CLIMBER_MOTOR_INVERT_OUTPUT, MotorNeutralMode.Brake);
 
-        ISparkMax followClimberMotor = provider.getSparkMax(ElectronicsConstants.CLIMBER_MOTOR_FOLLOWER_CAN_ID, SparkMaxMotorType.Brushless);
-        followClimberMotor.setNeutralMode(MotorNeutralMode.Brake);
-        followClimberMotor.setInvertOutput(TuningConstants.CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT);
+        ITalonSRX followClimberMotor = provider.getTalonSRX(ElectronicsConstants.CLIMBER_MOTOR_FOLLOWER_CAN_ID);
+        followClimberMotor.setControlMode(TalonSRXControlMode.Follower);
+        followClimberMotor.setMotorOutputSettings(TuningConstants.CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT, MotorNeutralMode.Brake);
         followClimberMotor.follow(this.climberMotor);
-        followClimberMotor.burnFlash();
 
-        this.servo = provider.getServo(ElectronicsConstants.CLIMBER_SERVO_MOTOR_CAN_ID);
+        this.ratchetServo = provider.getServo(ElectronicsConstants.CLIMBER_SERVO_MOTOR_CAN_ID);
     }
 
     @Override
@@ -52,21 +49,27 @@ public class ClimberMechanism implements IMechanism
     public void update()
     {
         double climberPowerAdjustment = this.driver.getAnalog(AnalogOperation.ClimberPower);
-        this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);
+        double servoPos = TuningConstants.MAGIC_NULL_VALUE;
+        
         this.climberMotor.set(climberPowerAdjustment);
+
 
         if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
         {
-            double climberServo = TuningConstants.CLIMBER_SERVO_UP_POWER;
-            this.servo.set(climberServo);
-            this.logger.logNumber(LoggingKey.ClimberServoPower, climberServo);
+            servoPos = TuningConstants.CLIMBER_SERVO_UP_POSITION;
         }
         else if (this.driver.getDigital(DigitalOperation.ClimberServoDown))
         {
-            double climberServo = TuningConstants.CLIMBER_SERVO_DOWN_POWER; 
-            this.servo.set(climberServo);
-            this.logger.logNumber(LoggingKey.ClimberServoPower, climberServo);
+            servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
         }
+
+        if(servoPos != TuningConstants.MAGIC_NULL_VALUE)
+        {
+            this.ratchetServo.set(servoPos);
+        }
+
+        this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);
+        this.logger.logNumber(LoggingKey.ClimberServoPosition, servoPos);
     }
 
     @Override
