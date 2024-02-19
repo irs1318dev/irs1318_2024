@@ -250,8 +250,8 @@ public class ButtonMap implements IButtonMap
             DigitalOperation.ShooterFeedRing,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
-            // EnumSet.of(Shift.CodriverDebug),
-            // EnumSet.noneOf(Shift.class),
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
         new DigitalOperationDescription(
@@ -272,10 +272,10 @@ public class ButtonMap implements IButtonMap
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeForceStop,
-            UserInputDevice.Codriver,
+            UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.of(Shift.DriverDebug),
             ButtonType.Simple),
 
         new DigitalOperationDescription(
@@ -653,6 +653,20 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionForceDisable,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ResetArm,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            ButtonType.Toggle,
+            () -> new ArmZeroTask(),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+                DigitalOperation.ArmForceReset,
+                DigitalOperation.ArmStop,
             }),
 
         new MacroOperationDescription(

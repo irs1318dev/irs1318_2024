@@ -134,7 +134,35 @@ public enum LoggingKey
     ArmWristVelocityAverage("arm.wrVelAvg", 1),
     ArmWristPowerAverage("arm.wrPowAvg", 1),
     ArmWristStalled("arm.wrStalled", 1),
+
     ArmExtensionBreaking("arm.exten_broken", 1),
+    FixedWithIK("arm.fixed_with_IK", 1),
+    IntakeTopAbsX("arm.intake_top_abs_x", 1),
+    IntakeTopAbsZ("arm.intake_top_abs_z", 1),
+    HittingRobot("arm.hit_robot", 1),
+    IntakeBottomAbsX("arm.intake_bot_abs_x", 1),
+    IntakeBottomAbsZ("arm.intake_bot_abs_z", 1),
+    ShooterBottomAbsX("arm.shooter_bot_abs_x", 1),
+    ShooterBottomAbsZ("arm.shooter_bot_abs_z", 1),
+    ShooterTopAbsX("arm.shooter_top_abs_x", 1),
+    ShooterTopAbsZ("arm.shooter_top_abs_z", 1),
+    WristAbsX("arm.wrist_abs_x", 1),
+    WristAbsZ("arm.wrist_abs_z", 1),
+    
+    
+
+    Theta4("arm.theta_4", 1),
+    WristIKDesired("arm.wrist_ik_des", 1),
+    Theta9("arm.theta_9", 1),
+    Theta5("arm.theta_5", 1),
+    Theta8("arm.theta_8", 1),
+    
+    
+    
+    
+    
+    
+
     ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),
     ArmWristPosAdjustment("arm.wr_pos_adj", 1),
 
