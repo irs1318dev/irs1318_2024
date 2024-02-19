@@ -805,7 +805,7 @@ public class ButtonMap implements IButtonMap
         new MacroOperationDescription(
             MacroOperation.ShootNote,
             UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_A_BUTTON,
+            UserInputDeviceButton.XBONE_X_BUTTON,
             ButtonType.Toggle,
             () -> new ShootNoteTask(),
             new IOperation[]
@@ -844,8 +844,11 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
                 DigitalOperation.VisionDisableStream,
-                DigitalOperation.VisionEnableAprilTagProcessing,
                 DigitalOperation.VisionForceDisable,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.IntakeIn,
                 DigitalOperation.IntakeOut,
                 DigitalOperation.ShooterFeedRing,

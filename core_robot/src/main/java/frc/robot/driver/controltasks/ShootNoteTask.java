@@ -31,7 +31,6 @@ public class ShootNoteTask extends DecisionSequentialTask
         super();
 
         hasCompleted = false;
-
     }
 
     /**
@@ -43,7 +42,10 @@ public class ShootNoteTask extends DecisionSequentialTask
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
-        this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, true);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
         this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering));
     }
 
