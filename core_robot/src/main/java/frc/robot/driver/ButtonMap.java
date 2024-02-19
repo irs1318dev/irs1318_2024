@@ -663,6 +663,8 @@ public class ButtonMap implements IButtonMap
             () -> new ArmZeroTask(),
             new IOperation[]
             {
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
                 DigitalOperation.ArmForceReset,

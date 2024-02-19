@@ -488,21 +488,13 @@ public class ArmMechanism implements IMechanism
                 this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
                 this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
 
-                if (this.desiredShoulderPosition != TuningConstants.ARM_SHOULDER_POSITION_RESET &&
-                    this.desiredWristPosition != TuningConstants.ARM_WRIST_POSITION_RESET)
-                {
-                    // clamp the values to the allowed ranges
-                    double clampedDesiredShoulderPosition = Helpers.EnforceRange(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION);
-                    double clampedDesiredWristPosition = Helpers.EnforceRange(this.desiredWristPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION);
-                    this.logger.logBoolean(LoggingKey.ArmClamped, clampedDesiredShoulderPosition != this.desiredShoulderPosition || clampedDesiredWristPosition != this.desiredWristPosition);
+                // clamp the values to the allowed ranges
+                double clampedDesiredShoulderPosition = Helpers.EnforceRange(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION);
+                double clampedDesiredWristPosition = Helpers.EnforceRange(this.desiredWristPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION);
+                this.logger.logBoolean(LoggingKey.ArmClamped, clampedDesiredShoulderPosition != this.desiredShoulderPosition || clampedDesiredWristPosition != this.desiredWristPosition);
 
-                    this.desiredShoulderPosition = clampedDesiredShoulderPosition;
-                    this.desiredWristPosition = clampedDesiredWristPosition;
-                }
-                else
-                {
-                    this.logger.logBoolean(LoggingKey.ArmClamped, false);
-                }
+                this.desiredShoulderPosition = clampedDesiredShoulderPosition;
+                this.desiredWristPosition = clampedDesiredWristPosition;
             }
         }
 
@@ -841,5 +833,15 @@ public class ArmMechanism implements IMechanism
     public double getWristPowerAverage()
     {
         return this.wristPowerAverage;
+    }
+
+    public double getWristVelocityAverage()
+    {
+        return this.wristVelocityAverage;
+    }
+
+    public double getShoulderVelocityAverage()
+    {
+        return this.shoulderVelocityAverage;
     }
 }

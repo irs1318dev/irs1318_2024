@@ -343,9 +343,6 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -26.3;
     public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -110.0;
 
-    public static final double ARM_WRIST_POSITION_RESET = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-    public static final double ARM_SHOULDER_POSITION_RESET = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
-
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
@@ -457,12 +454,15 @@ public class TuningConstants
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 4.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_SHOULDER_ZEROING_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_POWER_THRESHOLD * 0.8;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 4.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_WRIST_ZEROING_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_POWER_THRESHOLD * 0.8;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
+
+    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.5;
+    public static final double ARM_WRIST_ZEROING_POWER = -0.05;
+    public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;
     public static final double ARM_SHOULDER_POWER_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND;
