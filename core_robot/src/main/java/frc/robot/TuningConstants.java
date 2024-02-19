@@ -450,14 +450,14 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_MM_CRUISE_VELOCITY = 36864.0;
     public static final double ARM_WRIST_POSITION_MM_ACCELERATION = 36864.0;
 
-    public static final boolean ARM_STALL_PROTECTION_ENABLED = false;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 3.5;
+    public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 4.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 8.0;
-    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 1.5;
+    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 4.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 4.0;
+    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;
     public static final double ARM_SHOULDER_POWER_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND;

@@ -633,7 +633,6 @@ public class ButtonMap implements IButtonMap
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
             }),
 
         new MacroOperationDescription(
@@ -647,7 +646,6 @@ public class ButtonMap implements IButtonMap
            new IOperation[]
            {
                AnalogOperation.ArmShoulderPositionSetpoint,
-               AnalogOperation.ArmWristPositionSetpoint,
            }),
 
         new MacroOperationDescription(
@@ -661,7 +659,6 @@ public class ButtonMap implements IButtonMap
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
             }),
 
         new MacroOperationDescription(
@@ -675,7 +672,6 @@ public class ButtonMap implements IButtonMap
            new IOperation[]
            {
                AnalogOperation.ArmShoulderPositionSetpoint,
-               AnalogOperation.ArmWristPositionSetpoint,
            }),
 
         new MacroOperationDescription(
@@ -688,7 +684,6 @@ public class ButtonMap implements IButtonMap
             () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
             new IOperation[]
             {
-                AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
@@ -702,7 +697,6 @@ public class ButtonMap implements IButtonMap
            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT),
            new IOperation[]
            {
-               AnalogOperation.ArmShoulderPositionSetpoint,
                AnalogOperation.ArmWristPositionSetpoint,
            }),
 
@@ -716,7 +710,6 @@ public class ButtonMap implements IButtonMap
             () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_STOWED),
             new IOperation[]
             {
-                AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
@@ -730,7 +723,6 @@ public class ButtonMap implements IButtonMap
            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_AMP_SCORE),
            new IOperation[]
            {
-               AnalogOperation.ArmShoulderPositionSetpoint,
                AnalogOperation.ArmWristPositionSetpoint,
            }),
         
@@ -744,7 +736,6 @@ public class ButtonMap implements IButtonMap
             () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
             new IOperation[]
             {
-                AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
     
