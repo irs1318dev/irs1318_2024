@@ -13,7 +13,10 @@ public enum DigitalOperation implements IOperation
     // Vision operations:
     VisionForceDisable,
     VisionDisableStream,
-    VisionEnableAprilTagProcessing,
+    VisionFindSpeakerAprilTagRear,
+    VisionFindSpeakerAprilTagFront,
+    VisionFindAnyAprilTagRear,
+    VisionFindAnyAprilTagFront,
 
     // DriveTrain operations:
     DriveTrainSlowMode,

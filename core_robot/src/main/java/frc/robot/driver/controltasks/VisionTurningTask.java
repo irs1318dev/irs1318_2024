@@ -61,7 +61,10 @@ public class VisionTurningTask extends PIDTurnTaskBase
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
-        this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, true);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, true);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
     }
 
     /**
@@ -72,7 +75,10 @@ public class VisionTurningTask extends PIDTurnTaskBase
     {
         super.end();
 
-        this.setDigitalOperationState(DigitalOperation.VisionEnableAprilTagProcessing, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
     }
 
     @Override
