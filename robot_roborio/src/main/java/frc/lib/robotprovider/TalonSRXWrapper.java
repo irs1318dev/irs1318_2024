@@ -1,6 +1,7 @@
 package frc.lib.robotprovider;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -36,9 +37,21 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.set(this.controlMode, value);
     }
 
+    public void set(double value, double feedForward)
+    {
+        ExceptionHelpers.Assert(!this.controlModeRequired, "Control mode must be specified!");
+
+        this.wrappedObject.set(this.controlMode, value, DemandType.ArbitraryFeedForward, feedForward);
+    }
+
     public void set(TalonSRXControlMode mode, double value)
     {
         this.wrappedObject.set(TalonSRXWrapper.getControlMode(mode), value);
+    }
+
+    public void set(TalonSRXControlMode mode, double value, double feedForward)
+    {
+        this.wrappedObject.set(TalonSRXWrapper.getControlMode(mode), value, DemandType.ArbitraryFeedForward, feedForward);
     }
 
     public void follow(ITalonSRX talonSRX)
@@ -259,6 +272,11 @@ public class TalonSRXWrapper implements ITalonSRX
     public double getError()
     {
         return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.pidIdx);
+    }
+
+    public double getOutput()
+    {
+        return this.wrappedObject.getMotorOutputPercent();
     }
 
     public TalonXLimitSwitchStatus getLimitSwitchStatus()

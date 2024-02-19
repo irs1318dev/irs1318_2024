@@ -158,9 +158,9 @@ public class EndEffectorMechanism implements IMechanism
         double currTime = this.timer.get();
 
         // FLYWHEEL LOGIC
-        double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.FlywheelMotorPower);
-        double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.NearFlywheelVelocityGoal); // This value should be calculated and in RPM
-        double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.FarFlywheelVelocityGoal); // This value should be calculated and in RPM
+        double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.EndEffectorFlywheelMotorPower);
+        double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorNearFlywheelVelocityGoal); // This value should be calculated and in RPM
+        double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorFarFlywheelVelocityGoal); // This value should be calculated and in RPM
 
         if (flywheelMotorPower != TuningConstants.ZERO)
         {
@@ -202,11 +202,11 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
 
-        if (this.driver.getDigital(DigitalOperation.ENABLE_SHOOT_ANYWAY_MODE))
+        if (this.driver.getDigital(DigitalOperation.ShooterEnableShootAnywayMode))
         {
             this.useShootAnywayMode = true;
         }
-        else if (this.driver.getDigital(DigitalOperation.DISABLE_SHOOT_ANYWAY_MODE))
+        else if (this.driver.getDigital(DigitalOperation.ShooterDisableShootAnywayMode))
         {
             this.useShootAnywayMode = false;
         }

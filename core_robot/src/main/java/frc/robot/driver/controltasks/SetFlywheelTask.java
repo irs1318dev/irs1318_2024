@@ -1,6 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.robot.HardwareConstants;
+import frc.robot.TuningConstants;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
 
@@ -10,21 +11,16 @@ import frc.robot.mechanisms.*;
  */
 public class SetFlywheelTask extends ControlTaskBase
 {
-
-    private final EndEffectorMechanism endEffector;
-
     private final double desiredExitVelocity;
     private final double desiredFlywheelVelocity;
 
+    private EndEffectorMechanism endEffector;
+
     public SetFlywheelTask(double desiredExitVelocity)
     {
-        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
-
         this.desiredExitVelocity = desiredExitVelocity;
-        this.desiredFlywheelVelocity = getRPMfromDesiredSpeed(this.desiredExitVelocity);
+        this.desiredFlywheelVelocity = this.getRPMfromDesiredSpeed(this.desiredExitVelocity);
     }
-
-
 
     /**
      * Begin the current task
@@ -32,8 +28,10 @@ public class SetFlywheelTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        this.setAnalogOperationState(AnalogOperation.FarFlywheelVelocityGoal, desiredFlywheelVelocity);
-        this.setAnalogOperationState(AnalogOperation.FarFlywheelVelocityGoal, desiredFlywheelVelocity);
+        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
+
+        this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.desiredFlywheelVelocity);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.desiredFlywheelVelocity);
     }
 
     /*
@@ -42,7 +40,8 @@ public class SetFlywheelTask extends ControlTaskBase
     @Override
     public void update()
     {
-
+        this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.desiredFlywheelVelocity);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.desiredFlywheelVelocity);
     }
 
     /**
@@ -51,13 +50,12 @@ public class SetFlywheelTask extends ControlTaskBase
     @Override
     public void end()
     {
-
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return endEffector.isFlywheelSpunUp();
+        return this.endEffector.isFlywheelSpunUp();
     }
 
     private double getRPMfromDesiredSpeed(double desiredExitVelocity)
@@ -65,5 +63,4 @@ public class SetFlywheelTask extends ControlTaskBase
         //TODO math to get correct rotations per minute from inches per second
         return desiredExitVelocity * 60 / (2 * Math.PI * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) ;
     }
-
 }

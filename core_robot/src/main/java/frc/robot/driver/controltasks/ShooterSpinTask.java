@@ -23,14 +23,14 @@ public class ShooterSpinTask extends TimedTask
     {
         super.begin();
 
-        this.setAnalogOperationState(AnalogOperation.NearFlywheelVelocityGoal, this.flywheelSpeed);
-        this.setAnalogOperationState(AnalogOperation.FarFlywheelVelocityGoal, this.flywheelSpeed);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.flywheelSpeed);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.flywheelSpeed);
     }
 
     @Override
     public void update()
     {
-        this.setAnalogOperationState(AnalogOperation.NearFlywheelVelocityGoal, this.flywheelSpeed);
-        this.setAnalogOperationState(AnalogOperation.FarFlywheelVelocityGoal, this.flywheelSpeed);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.flywheelSpeed);
+        this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.flywheelSpeed);
     }
 }

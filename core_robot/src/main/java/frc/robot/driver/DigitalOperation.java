@@ -9,17 +9,11 @@ public enum DigitalOperation implements IOperation
 
     // Driver interaction operations
     ForceLightDriverRumble,
-    ForcePurpleStrobe,
-    ForceRainbow,
 
     // Vision operations:
     VisionForceDisable,
     VisionDisableStream,
     VisionEnableAprilTagProcessing,
-    VisionEnableRetroreflectiveProcessing,
-
-    // Compressor operations:
-    CompressorForceDisable,
 
     // DriveTrain operations:
     DriveTrainSlowMode,
@@ -38,15 +32,19 @@ public enum DigitalOperation implements IOperation
     // EndEffector operations:
     IntakeIn,
     IntakeOut,
-    ShooterFeedRing,
     IntakeForceStop,
     IntakeForceInOn,
     IntakeForceInOff,
-    ENABLE_SHOOT_ANYWAY_MODE,
-    DISABLE_SHOOT_ANYWAY_MODE,
+    ShooterFeedRing,
+    ShooterEnableShootAnywayMode,
+    ShooterDisableShootAnywayMode,
 
     // Arm operations:
     ArmEnableSimpleMode,
     ArmDisableSimpleMode,
     ArmForceReset,
+
+    // Climber operations:
+    ClimberServoUp,
+    ClimberServoDown,
 }

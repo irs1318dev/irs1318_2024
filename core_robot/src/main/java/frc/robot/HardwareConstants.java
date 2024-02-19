@@ -66,7 +66,6 @@ public class HardwareConstants
     public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_Z);
     public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_Z);
 
-
     public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
     public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
 
@@ -74,7 +73,6 @@ public class HardwareConstants
     public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 21;
 
     public static final double MIN_USABLE_HEIGHT = 5; // belly-pan height
-    
 
     //=============================================== Vision ==================================================================//
 
