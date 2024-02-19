@@ -23,7 +23,7 @@ public enum LoggingKey
     OffboardVisionAprilTagId("vision.atId"),
     OffboardVisionProcessingMode("vision.processingMode"),
     OffboardVisionEnableStream("vision.enableStream"),
-    OffboardVisionDesiredTarget("vision.desireTarget"),
+    OffboardVisionDesiredTarget("vision.desiredTarget"),
     OffboardVisionMissedHeartbeats("vision.missedHeartbeats"),
     PowerCurrent("power.curr"),
     PowerCurrentFloatingAverage("power.currFltAvg"),
