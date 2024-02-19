@@ -10,7 +10,7 @@ import frc.lib.helpers.Helpers;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 48.0; // inches, max overall height
+    public static final double MAX_ROBOT_HEIGHT = 47.0; // inches, max overall height
     public static final double MAX_ROBOT_EXTENSION = 11.5; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
 
@@ -74,7 +74,7 @@ public class HardwareConstants
     public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -11.25;
     public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 20.75;
 
-    public static final double MIN_USABLE_HEIGHT = 6.5; // bars running across robot height
+    public static final double MIN_USABLE_HEIGHT = 5.5; // bars running across robot height
 
     //=============================================== Vision ==================================================================//
 

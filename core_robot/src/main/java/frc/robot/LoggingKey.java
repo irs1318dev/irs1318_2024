@@ -149,18 +149,8 @@ public enum LoggingKey
     WristAbsX("arm.wrist_abs_x", 1),
     WristAbsZ("arm.wrist_abs_z", 1),
     
-    
-
-    Theta4("arm.theta_4", 1),
-    WristIKDesired("arm.wrist_ik_des", 1),
-    Theta9("arm.theta_9", 1),
-    Theta5("arm.theta_5", 1),
-    Theta8("arm.theta_8", 1),
-    
-    
-    
-    
-    
+    ExtensionType("arm.extension_type", 1),
+    WristIKDesired("arm.wrist_ik_desired", 1),
     
 
     ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),

@@ -81,7 +81,10 @@ public class ArmMechanism implements IMechanism
     private double theta_8; // Horizontal to shooter top ABS angle
     private double theta_9; // Horizontal to intake top ABS angle
 
-    private double desiredWristAngle; // tester 
+    private double lastLegalWristPosition;
+
+    private double desiredWristAngle; // tester
+    private String extensionType = "";
 
     private final double L1 = HardwareConstants.ARM_HUMERUS_LENGTH; // Shoulder pivot to wrist pivot distance
     private final double L2 = HardwareConstants.ARM_WRIST_TO_SHOOTER_EDGE; // wrist to shooter top
@@ -270,6 +273,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logBoolean(LoggingKey.ArmExtensionBreaking, this.stuckInPosition);
         this.logger.logBoolean(LoggingKey.HittingRobot, this.hitingRobot);
         this.logger.logBoolean(LoggingKey.FixedWithIK, this.fixedWithIK);
+        this.logger.logString(LoggingKey.ExtensionType, this.extensionType);
 
         this.logger.logNumber(LoggingKey.IntakeTopAbsX, this.intakeTopAbsPosX);
         this.logger.logNumber(LoggingKey.IntakeTopAbsZ, this.intakeTopAbsPosZ);
@@ -280,15 +284,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterBottomAbsX, this.shooterBottomAbsPosX);
         this.logger.logNumber(LoggingKey.ShooterBottomAbsZ, this.shooterBottomAbsPosZ);
         this.logger.logNumber(LoggingKey.WristAbsX, this.wristAbsPosX);
-        this.logger.logNumber(LoggingKey.WristAbsZ, this.wristAbsPosZ);
-        
-        
-        this.logger.logNumber(LoggingKey.Theta4, this.theta_4);
-        this.logger.logNumber(LoggingKey.Theta8, this.theta_8);
-        this.logger.logNumber(LoggingKey.Theta9, this.theta_9);
-        this.logger.logNumber(LoggingKey.Theta5, this.theta_5);
-        
-        
+        this.logger.logNumber(LoggingKey.WristAbsZ, this.wristAbsPosZ);        
         
         this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
@@ -553,6 +549,7 @@ public class ArmMechanism implements IMechanism
         {
             //currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
+
         }
         this.desiredWristAngle = angles[1];
         this.logger.logNumber(LoggingKey.WristIKDesired, this.desiredWristAngle);
@@ -611,6 +608,8 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmShoulderSetpoint, this.desiredShoulderPosition);
         this.logger.logNumber(LoggingKey.ArmWristSetpoint, this.desiredWristPosition);
 
+        
+        this.lastLegalWristPosition = currentDesiredWristPosition;
         this.prevTime = currTime;
     }
 
@@ -655,6 +654,7 @@ public class ArmMechanism implements IMechanism
         this.hitingRobot = false;
         this.fixedWithIK = false;
         this.stuckInPosition = false;
+        this.extensionType = "None";
 
         boolean extensionTop =
             this.intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT ||
@@ -670,12 +670,14 @@ public class ArmMechanism implements IMechanism
         if (extensionBack)
         {
             positions[0] = this.shoulderPosition;
-            positions[1] = this.wristPosition;
+            positions[1] = this.lastLegalWristPosition;
+            this.extensionType = "Back";
         }
         else if (this.intakeBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || this.shooterBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT)
         {
             positions[0] = this.shoulderPosition;
-            positions[1] = this.wristPosition;
+            positions[1] = this.lastLegalWristPosition;
+            this.extensionType = "Top-Crazy";
         }
         // hiting robot
         else if ( (this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
@@ -684,14 +686,16 @@ public class ArmMechanism implements IMechanism
             || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
             positions[0] = this.shoulderPosition;
-            positions[1] = this.wristPosition;
+            positions[1] = this.lastLegalWristPosition;
             this.hitingRobot = true;
+            this.extensionType = "Robot";
         }
         // hitting ground
         else if ( (this.intakeTopAbsPosZ < 0) || (this.intakeBottomAbsPosZ < 0))
         {
             positions[0] = this.shoulderPosition;
-            positions[0] = this.wristPosition;
+            positions[0] = this.lastLegalWristPosition;
+            this.extensionType = "Ground";
         }
         // continous limiting top
         else if (extensionTop)
@@ -703,7 +707,7 @@ public class ArmMechanism implements IMechanism
             if (intakeSide && shooterSide)
             {
                 positions[0] = this.shoulderPosition;
-                positions[1] = this.wristPosition;
+                positions[1] = this.lastLegalWristPosition;
             }
             else if (intakeSide && intakeTopAbsPosX > wristAbsPosX)
             {
@@ -724,7 +728,7 @@ public class ArmMechanism implements IMechanism
             else
             {
                 positions[0] = this.shoulderPosition;
-                positions[1] = this.wristPosition;
+                positions[1] = this.lastLegalWristPosition;
             }
         }
         // continous limiting front
@@ -737,7 +741,7 @@ public class ArmMechanism implements IMechanism
             if (intakeTop && intakeBottom)
             {
                 positions[0] = this.shoulderPosition;
-                positions[1] = this.wristPosition;
+                positions[1] = this.lastLegalWristPosition;
             }
             else if (intakeTop && intakeTopAbsPosZ < wristAbsPosZ)
             {
@@ -758,12 +762,12 @@ public class ArmMechanism implements IMechanism
             else
             {
                 positions[0] = this.shoulderPosition;
-                positions[1] = this.wristPosition;
+                positions[1] = this.lastLegalWristPosition;
 
             }
         }
 
-        if (positions[0] == this.shoulderPosition && positions[1] == this.wristPosition)
+        if (positions[0] == this.shoulderPosition && positions[1] == this.lastLegalWristPosition)
         {
             this.stuckInPosition = true;
         }
