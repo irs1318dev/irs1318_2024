@@ -308,11 +308,32 @@ public class ButtonMap implements IButtonMap
 
         // Test operations:
         new DigitalOperationDescription(
-            DigitalOperation.VisionEnableAprilTagProcessing,
+            DigitalOperation.VisionFindSpeakerAprilTagRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindSpeakerAprilTagFront,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.of(Shift.Test1Debug),
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindAnyAprilTagRear,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindAnyAprilTagFront,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.of(Shift.Test1Debug),
             ButtonType.Toggle),
     };
 
@@ -473,7 +494,10 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
                 DigitalOperation.VisionDisableStream,
-                DigitalOperation.VisionEnableAprilTagProcessing,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -522,7 +546,10 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
                 DigitalOperation.VisionDisableStream,
-                DigitalOperation.VisionEnableAprilTagProcessing,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -570,7 +597,10 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
                 DigitalOperation.VisionDisableStream,
-                DigitalOperation.VisionEnableAprilTagProcessing,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -618,7 +648,10 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
                 DigitalOperation.VisionDisableStream,
-                DigitalOperation.VisionEnableAprilTagProcessing,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionForceDisable,
             }),
 
