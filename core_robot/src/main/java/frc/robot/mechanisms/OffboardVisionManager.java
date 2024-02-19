@@ -31,8 +31,6 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atPitchSubscriber;
     private IDoubleSubscriber atRollSubscriber;
     private IIntegerSubscriber atIdSubscriber;
-    private IDoubleSubscriber rrDistanceSubscriber;
-    private IDoubleSubscriber rrAngleSubscriber;
     private IIntegerSubscriber heartbeatSubscriber;
 
     private Double atXOffset;
@@ -42,8 +40,6 @@ public class OffboardVisionManager implements IMechanism
     private Double atPitch;
     private Double atRoll;
     private Integer atId;
-    private Double rrDistance;
-    private Double rrAngle;
 
     private int missedHeartbeats;
     private long prevHeartbeat;
@@ -68,8 +64,6 @@ public class OffboardVisionManager implements IMechanism
         this.atPitchSubscriber = this.networkTable.getDoubleSubscriber("at.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atRollSubscriber = this.networkTable.getDoubleSubscriber("at.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atIdSubscriber = this.networkTable.getIntegerSubscriber("at.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
-        this.rrDistanceSubscriber = this.networkTable.getDoubleSubscriber("rr.distance", TuningConstants.MAGIC_NULL_VALUE);
-        this.rrAngleSubscriber = this.networkTable.getDoubleSubscriber("rr.horizontalAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.heartbeatSubscriber = this.networkTable.getIntegerSubscriber("v.heartbeat", 0);
 
         this.ds = provider.getDriverStation();
@@ -81,8 +75,6 @@ public class OffboardVisionManager implements IMechanism
         this.atPitch = null;
         this.atRoll = null;
         this.atId = null;
-        this.rrDistance = null;
-        this.rrAngle = null;
 
         this.missedHeartbeats = 0;
         this.prevHeartbeat = 0L;
@@ -101,8 +93,6 @@ public class OffboardVisionManager implements IMechanism
         this.atPitch = this.atPitchSubscriber.get();
         this.atRoll = this.atRollSubscriber.get();
         this.atId = (int)this.atIdSubscriber.get();
-        this.rrDistance = this.rrDistanceSubscriber.get();
-        this.rrAngle = this.rrAngleSubscriber.get();
 
         long newHeartbeat = this.heartbeatSubscriber.get();
         if (this.prevHeartbeat != newHeartbeat)
@@ -130,13 +120,6 @@ public class OffboardVisionManager implements IMechanism
             this.atId = null;
         }
 
-        // reset if we couldn't find the retro-reflective vision target
-        if (missedHeartbeatExceedsThreshold || this.rrDistance < 0.0 || this.rrAngle == TuningConstants.MAGIC_NULL_VALUE)
-        {
-            this.rrDistance = null;
-            this.rrAngle = null;
-        }
-
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagXOffset, this.atXOffset);
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagYOffset, this.atYOffset);
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagZOffset, this.atZOffset);
@@ -144,9 +127,6 @@ public class OffboardVisionManager implements IMechanism
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagPitch, this.atPitch);
         this.logger.logNumber(LoggingKey.OffboardVisionAprilTagRoll, this.atRoll);
         this.logger.logInteger(LoggingKey.OffboardVisionAprilTagId, this.atId);
-        this.logger.logNumber(LoggingKey.OffboardVisionRRTargetDistance, this.rrDistance);
-        this.logger.logNumber(LoggingKey.OffboardVisionRRTargetHorizontalAngle, this.rrAngle);
-        
     }
 
     @Override
@@ -155,7 +135,7 @@ public class OffboardVisionManager implements IMechanism
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
         boolean enableVideoStream = false; //!this.driver.getDigital(DigitalOperation.VisionDisableStream);
         boolean enableAprilTagProcessing = this.driver.getDigital(DigitalOperation.VisionEnableAprilTagProcessing);
-        
+
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
 
@@ -187,16 +167,6 @@ public class OffboardVisionManager implements IMechanism
     {
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
         this.logger.logNumber(LoggingKey.OffboardVisionProcessingMode, 0.0);
-    }
-
-    public Double getVisionTargetHorizontalAngle()
-    {
-        return this.rrAngle;
-    }
-
-    public Double getVisionTargetDistance()
-    {
-        return this.rrDistance;
     }
 
     public Double getAprilTagXOffset()
