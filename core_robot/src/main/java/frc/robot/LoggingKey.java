@@ -14,8 +14,6 @@ public enum LoggingKey
     DriverActiveShifts("driver.activeShifts"),
     AutonomousSelection("auto.selected"),
     AutonomousDSMessage("auto.dsMessage"),
-    OffboardVisionRRTargetDistance("vision.rr_distance"),
-    OffboardVisionRRTargetHorizontalAngle("vision.rr_horizontalAngle"),
     OffboardVisionAprilTagXOffset("vision.atXOffset"),
     OffboardVisionAprilTagYOffset("vision.atYOffset"),
     OffboardVisionAprilTagZOffset("vision.atZOffset"),
