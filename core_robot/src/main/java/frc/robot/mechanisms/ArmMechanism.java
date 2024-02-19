@@ -497,7 +497,8 @@ public class ArmMechanism implements IMechanism
             TrapezoidProfile.State curr = this.shoulderTMPCurrState;
             TrapezoidProfile.State goal = this.shoulderTMPGoalState;
 
-            if (goal.updatePosition(desiredShoulderPosition) || updateCurrPosition)
+            goal.updatePosition(desiredShoulderPosition);
+            if (updateCurrPosition)
             {
                 curr.updatePosition(this.shoulderPosition);
             }
