@@ -134,6 +134,7 @@ public enum LoggingKey
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
 
     // Arm stuff
+    ArmClamped("arm.clamped", 1),
     ArmShoulderSetpoint("arm.shPosDesired", 1),
     ArmShoulderPosition("arm.shPos", 1),
     ArmShoulderVelocity("arm.shVel", 1),
@@ -152,7 +153,11 @@ public enum LoggingKey
     ArmWristStalled("arm.wrStalled", 1),
     ArmExtensionBreaking("arm.exten_broken", 1),
     ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),
-    ArmWristPosAdjustment("arm.wr_pos_adj", 1);
+    ArmWristPosAdjustment("arm.wr_pos_adj", 1),
+
+    // Climber stuff
+    ClimberMotorPower("cl.motor", 1),
+    ClimberServoPosition("cl.servo", 1);
 
     public final String value;
     public final int loggingFrequency;

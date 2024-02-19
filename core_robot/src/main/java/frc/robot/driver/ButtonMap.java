@@ -154,12 +154,11 @@ public class ButtonMap implements IButtonMap
             
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPositionSetpoint,
-            TuningConstants.MAGIC_NULL_VALUE),      
+            TuningConstants.MAGIC_NULL_VALUE),
 
         new AnalogOperationDescription(
             AnalogOperation.ArmAbsWristAngle,
             TuningConstants.MAGIC_NULL_VALUE),
-        
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -295,6 +294,17 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple),
 
+        new DigitalOperationDescription(
+            DigitalOperation.ClimberServoUp,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ClimberServoDown,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            ButtonType.Simple),
 
         // Test operations:
         new DigitalOperationDescription(
@@ -623,7 +633,6 @@ public class ButtonMap implements IButtonMap
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
             }),
 
         new MacroOperationDescription(
@@ -637,7 +646,6 @@ public class ButtonMap implements IButtonMap
            new IOperation[]
            {
                AnalogOperation.ArmShoulderPositionSetpoint,
-               AnalogOperation.ArmWristPositionSetpoint,
            }),
 
         new MacroOperationDescription(
@@ -651,7 +659,6 @@ public class ButtonMap implements IButtonMap
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
             }),
 
         new MacroOperationDescription(
@@ -665,7 +672,6 @@ public class ButtonMap implements IButtonMap
            new IOperation[]
            {
                AnalogOperation.ArmShoulderPositionSetpoint,
-               AnalogOperation.ArmWristPositionSetpoint,
            }),
 
         new MacroOperationDescription(
@@ -678,7 +684,6 @@ public class ButtonMap implements IButtonMap
             () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
             new IOperation[]
             {
-                AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
@@ -692,7 +697,6 @@ public class ButtonMap implements IButtonMap
            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT),
            new IOperation[]
            {
-               AnalogOperation.ArmShoulderPositionSetpoint,
                AnalogOperation.ArmWristPositionSetpoint,
            }),
 
@@ -706,7 +710,6 @@ public class ButtonMap implements IButtonMap
             () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_STOWED),
             new IOperation[]
             {
-                AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
@@ -720,9 +723,21 @@ public class ButtonMap implements IButtonMap
            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_AMP_SCORE),
            new IOperation[]
            {
-               AnalogOperation.ArmShoulderPositionSetpoint,
                AnalogOperation.ArmWristPositionSetpoint,
            }),
+        
+        new MacroOperationDescription(
+            MacroOperation.ArmWristPosition5,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_SELECT_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle, 
+            () -> new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
+            new IOperation[]
+            {
+                AnalogOperation.ArmWristPositionSetpoint,
+            }),
     
         new MacroOperationDescription(
             MacroOperation.ShooterSpinSpeed1,
@@ -753,6 +768,19 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFlywheelMotorPower,
             }),
+
+        // new MacroOperationDescription(
+        //     MacroOperation.ClimbMacro,
+        //     UserInputDevice.Codriver, 
+        //     UserInputDeviceButton.XBONE_A_BUTTON,
+        //     ButtonType.Toggle, 
+        //     () -> SequentialTask(
+        //         new OrientationTask(180),
+        //         new VisionAprilTagTranslateTask()),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ClimberPower,
+        //     }),
     };
 
     @Override

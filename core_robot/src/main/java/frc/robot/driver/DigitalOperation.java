@@ -43,4 +43,8 @@ public enum DigitalOperation implements IOperation
     ArmEnableSimpleMode,
     ArmDisableSimpleMode,
     ArmForceReset,
+
+    // Climber operations:
+    ClimberServoUp,
+    ClimberServoDown,
 }
