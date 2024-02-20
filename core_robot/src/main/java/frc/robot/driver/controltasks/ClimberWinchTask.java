@@ -78,14 +78,13 @@ public class ClimberWinchTask extends ControlTaskBase{
     @Override
     public void end()
     {
-        // climber servo task
-        throw new UnsupportedOperationException("Unimplemented method 'end'");
+        // don't forget to add a servo task at the end of the climb
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return (currentState == WinchState.Retracted||currentState == WinchState.Extended);
+        return (this.currentState == WinchState.Retracted||currentState == WinchState.Extended);
     }
     
 }
