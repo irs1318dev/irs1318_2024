@@ -14,6 +14,7 @@ public class PathPlannerTrajectoryGenerator
         PathPlannerTrajectoryGenerator.generateTrajectories(false, trajectoryManager, pathPlanner);
         PathPlannerTrajectoryGenerator.generateTrajectories(true, trajectoryManager, pathPlanner);
 
+        
         // ------------------------------- Macro paths --------------------------------------------
         addTrajectory(
             trajectoryManager,

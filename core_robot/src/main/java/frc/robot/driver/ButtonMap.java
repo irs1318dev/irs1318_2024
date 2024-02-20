@@ -231,7 +231,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
-            DigitalOperation.IntakeForceInOn,
+            DigitalOperation.IntakeForceSpinOn,
             UserInputDevice.Codriver,
             0,
             EnumSet.of(Shift.CodriverDebug),
@@ -239,7 +239,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Click),
 
         new DigitalOperationDescription(
-            DigitalOperation.IntakeForceInOff,
+            DigitalOperation.IntakeForceSpinOff,
             UserInputDevice.Codriver,
             0,
             EnumSet.of(Shift.CodriverDebug),

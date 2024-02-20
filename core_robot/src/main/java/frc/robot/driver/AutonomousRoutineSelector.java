@@ -20,6 +20,7 @@ public class AutonomousRoutineSelector
 {
     private final ILogger logger;
 
+    
     private final TrajectoryManager trajectoryManager;
     private final SmartDashboardSelectionManager selectionManager;
     private final IDriverStation driverStation;

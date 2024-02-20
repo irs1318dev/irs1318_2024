@@ -12,6 +12,7 @@ import frc.lib.robotprovider.Point2d;
 @Singleton
 public class AutonLocManager
 {
+    
     private boolean isRed;
     private IDriverStation driverStation;
 

@@ -63,6 +63,7 @@ public class SmartDashboardSelectionManager
 
     public StartPosition getSelectedStartPosition()
     {
+        
         return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.Mid);
     }
 
