@@ -12,7 +12,7 @@ import frc.lib.robotprovider.Point2d;
 @Singleton
 public class AutonLocManager
 {
-    
+
     private boolean isRed;
     private IDriverStation driverStation;
 
@@ -68,6 +68,11 @@ public class AutonLocManager
     public double getOrientationOrHeading(double orientationOrHeading)
     {
         return AutonLocManager.getOrientationOrHeading(this.isRed, orientationOrHeading);
+    }
+
+    public boolean getIsRed()
+    {
+        return this.isRed;
     }
 
     private void setValues()

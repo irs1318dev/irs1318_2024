@@ -372,6 +372,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
+    public static final double ARM_WRIST_POSITION_SHOT = 41.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 7.0;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 116.0;
