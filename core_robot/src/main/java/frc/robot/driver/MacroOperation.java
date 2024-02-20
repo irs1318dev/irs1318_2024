@@ -22,6 +22,7 @@ public enum MacroOperation implements IOperation
     ArmWristPosition3,
     ArmWristPosition4,
     ArmWristPosition5,
+    ResetArm,
 
     // EndEffector operations:
     ShooterSpinSpeed1,

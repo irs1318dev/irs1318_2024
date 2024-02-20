@@ -134,7 +134,26 @@ public enum LoggingKey
     ArmWristVelocityAverage("arm.wrVelAvg", 1),
     ArmWristPowerAverage("arm.wrPowAvg", 1),
     ArmWristStalled("arm.wrStalled", 1),
+
     ArmExtensionBreaking("arm.exten_broken", 1),
+    FixedWithIK("arm.fixed_with_IK", 1),
+    IntakeTopAbsX("arm.intake_top_abs_x", 1),
+    IntakeTopAbsZ("arm.intake_top_abs_z", 1),
+    HittingRobot("arm.hit_robot", 1),
+    IntakeBottomAbsX("arm.intake_bot_abs_x", 1),
+    IntakeBottomAbsZ("arm.intake_bot_abs_z", 1),
+    ShooterBottomAbsX("arm.shooter_bot_abs_x", 1),
+    ShooterBottomAbsZ("arm.shooter_bot_abs_z", 1),
+    ShooterTopAbsX("arm.shooter_top_abs_x", 1),
+    ShooterTopAbsZ("arm.shooter_top_abs_z", 1),
+    WristAbsX("arm.wrist_abs_x", 1),
+    WristAbsZ("arm.wrist_abs_z", 1),
+    
+    ExtensionType("arm.extension_type", 1),
+    WristIKDesired("arm.wrist_ik_desired",1),
+    ShoulderLastLegal("arm.sh_lst_legal_pos", 1),
+    
+
     ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),
     ArmWristPosAdjustment("arm.wr_pos_adj", 1),
 
