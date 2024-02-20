@@ -515,4 +515,7 @@ public class TuningConstants
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
     public static final double CLIMBER_SERVO_DOWN_POSITION = 1.0;
+
+    public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
+    public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
 }
