@@ -16,7 +16,7 @@ public class ArmZeroTask extends ControlTaskBase
     {
         PositionRetractWrist,
         RetractWrist,
-        Stop,
+        RetractShoulder,
         Reset,
         Completed;
     }
@@ -77,11 +77,11 @@ public class ArmZeroTask extends ControlTaskBase
                     this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
                     currTime >= this.transitionTime + 1.5))
             {
-                this.state = ArmZeroState.Stop;
+                this.state = ArmZeroState.RetractShoulder;
                 this.transitionTime = currTime;
             }
         }
-        else if (this.state == ArmZeroState.Stop)
+        else if (this.state == ArmZeroState.RetractShoulder)
         {
             if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
                 (this.arm.getShoulderVelocityAverage() < TuningConstants.ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD ||
@@ -115,7 +115,7 @@ public class ArmZeroTask extends ControlTaskBase
                 this.setDigitalOperationState(DigitalOperation.ArmStop, false);
                 break;
 
-            case Stop:
+            case RetractShoulder:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ARM_SHOULDER_ZEROING_POWER);
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
