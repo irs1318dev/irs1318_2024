@@ -48,11 +48,20 @@ public class ClimberMechanism implements IMechanism
     @Override
     public void update()
     {
-        double climberPowerAdjustment = this.driver.getAnalog(AnalogOperation.ClimberPower);
-        double servoPos = TuningConstants.MAGIC_NULL_VALUE;
-        
-        this.climberMotor.set(climberPowerAdjustment);
+        // press and hold button for climber to go down / up
+        double climberPowerAdjustment = TuningConstants.MAGIC_NULL_VALUE;
 
+        if (this.driver.getDigital(DigitalOperation.ClimberWinchUp))
+        {
+            climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_UP_POWER;
+        }
+        else if (this.driver.getDigital(DigitalOperation.ClimberWinchDown))
+        {
+            climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
+        }
+
+        // press button for servo to go down / up
+        double servoPos = TuningConstants.MAGIC_NULL_VALUE;
 
         if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
         {
@@ -63,9 +72,15 @@ public class ClimberMechanism implements IMechanism
             servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
         }
 
+
         if(servoPos != TuningConstants.MAGIC_NULL_VALUE)
         {
             this.ratchetServo.set(servoPos);
+        }
+
+        if(climberPowerAdjustment != TuningConstants.MAGIC_NULL_VALUE)
+        {            
+            this.climberMotor.set(climberPowerAdjustment);
         }
 
         this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);

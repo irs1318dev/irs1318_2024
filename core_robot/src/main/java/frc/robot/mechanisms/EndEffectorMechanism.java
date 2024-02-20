@@ -52,7 +52,7 @@ public class EndEffectorMechanism implements IMechanism
     private EffectorState currentEffectorState;
 
     private boolean useShootAnywayMode;
-    private boolean useIntakeForceIn;
+    private boolean useIntakeForceSpin;
     private double shootingStartTime;
 
     @Inject
@@ -117,7 +117,7 @@ public class EndEffectorMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
 
         this.useShootAnywayMode = false;
-        this.useIntakeForceIn = false;
+        this.useIntakeForceSpin = false;
         this.shootingStartTime = 0.0;
 
         this.currentEffectorState = EffectorState.Off;
@@ -145,6 +145,7 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelVelocity, this.farFlywheelVelocity);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelError, this.farFlywheelError);
 
+        this.logger.logBoolean(LoggingKey.ShooterSpunUp, this.isFlywheelSpunUp());
         this.throughBeamSensorValue = this.throughBeamSensor.getVoltage();
         this.throughBeamBroken = this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF;
 
@@ -211,13 +212,19 @@ public class EndEffectorMechanism implements IMechanism
             this.useShootAnywayMode = false;
         }
 
-        if(this.driver.getDigital(DigitalOperation.IntakeForceInOn))
+        if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
         {
-            this.useIntakeForceIn = true;
+            this.useIntakeForceSpin = true;
         }
-        else if(this.driver.getDigital(DigitalOperation.IntakeForceInOff))
+        else if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOff))
         {
-            this.useIntakeForceIn = false;
+            this.useIntakeForceSpin = false;
+        }
+
+        if(this.driver.getDigital(DigitalOperation.IntakeForceOnAndIntakeIn))
+        {
+            this.useIntakeForceSpin = true;
+            this.currentEffectorState = EffectorState.Intaking;
         }
 
         // STATE SWITCHING
@@ -231,7 +238,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // Start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.useIntakeForceIn))
+                    (!this.throughBeamBroken || this.useIntakeForceSpin))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -263,7 +270,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // continue intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.useIntakeForceIn))
+                    (!this.throughBeamBroken || this.useIntakeForceSpin))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -295,7 +302,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.useIntakeForceIn))
+                    (!this.throughBeamBroken || this.useIntakeForceSpin))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }
@@ -326,7 +333,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // start intaking when told to and the through-beam isn't broken, or we are ignoring through-beam
                 else if (this.driver.getDigital(DigitalOperation.IntakeIn) &&
-                    (!this.throughBeamBroken || this.useIntakeForceIn))
+                    (!this.throughBeamBroken || this.useIntakeForceSpin))
                 {
                     this.currentEffectorState = EffectorState.Intaking;
                 }

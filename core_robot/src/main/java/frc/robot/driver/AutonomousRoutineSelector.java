@@ -1,7 +1,5 @@
 package frc.robot.driver;
 
-import java.util.Optional;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -9,21 +7,27 @@ import frc.lib.driver.IControlTask;
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
+import frc.robot.AutonLocManager;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
 import frc.robot.driver.SmartDashboardSelectionManager.AutoRoutine;
+import frc.robot.driver.SmartDashboardSelectionManager.PriorityPickupSide;
 import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
+import frc.robot.driver.controltasks.VisionMoveAndTurnTaskBase.MoveType;
+import frc.robot.driver.controltasks.VisionTurningTask.TurnType;
 
 @Singleton
 public class AutonomousRoutineSelector
 {
     private final ILogger logger;
 
+
     private final TrajectoryManager trajectoryManager;
     private final SmartDashboardSelectionManager selectionManager;
     private final IDriverStation driverStation;
+    private final AutonLocManager locManager;
 
     /**
      * Initializes a new AutonomousRoutineSelector
@@ -40,6 +44,8 @@ public class AutonomousRoutineSelector
         this.selectionManager = selectionManager;
 
         this.driverStation = provider.getDriverStation();
+
+        this.locManager = new AutonLocManager(provider);
 
         RoadRunnerTrajectoryGenerator.generateTrajectories(this.trajectoryManager);
         PathPlannerTrajectoryGenerator.generateTrajectories(this.trajectoryManager, provider.getPathPlanner());
@@ -61,13 +67,56 @@ public class AutonomousRoutineSelector
 
         if (mode == RobotMode.Autonomous)
         {
+            this.locManager.updateAlliance();
             StartPosition startPosition = this.selectionManager.getSelectedStartPosition();
             AutoRoutine routine = this.selectionManager.getSelectedAutoRoutine();
+            PriorityPickupSide pickupSide = this.selectionManager.getPickupSide();
 
-            Optional<Alliance> alliance = this.driverStation.getAlliance();
-            boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
+            boolean isRed = this.locManager.getIsRed();
 
-            this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString() + "(" + (isRed ? "red" : "blue") + ")");
+            this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
+
+            if(routine == AutoRoutine.Shoot)
+            {
+                return Shoot();
+            }
+
+            if(routine == AutoRoutine.Taxi)
+            {
+                return Taxi();
+            }
+
+            if(routine == AutoRoutine.ShootTaxi)
+            {
+                return ShootTaxi();
+            }
+
+            if(startPosition == StartPosition.NearAmp)
+            {
+                if(routine == AutoRoutine.TwoNote)
+                {
+                    return AmpNearTwoNote(isRed);
+                }
+            }
+
+            else if(startPosition == StartPosition.NearSource)
+            {
+                // ALL NEAR SOURCE AUTONS GO HERE
+                return GetFillerRoutine();
+            }
+
+            else if(startPosition == StartPosition.SubwooferFront)
+            {
+                // ALL NEAR SUBWOOFER FRONT AUTONS GO HERE
+                return GetFillerRoutine();
+            }
+
+            else if(startPosition == StartPosition.SubwooferSide)
+            {
+                // ALL NEAR SUBWOOFER SIDE AUTONS GO HERE
+                return GetFillerRoutine();
+            }
+            
 
             return GetFillerRoutine();
         }
@@ -81,6 +130,59 @@ public class AutonomousRoutineSelector
     private static IControlTask GetFillerRoutine()
     {
         return new WaitTask(0.0);
+    }
+
+    private static IControlTask Shoot()
+    {
+        return SequentialTask.Sequence(
+            new ShootNoteTask()
+        );
+    }
+
+    private static IControlTask Taxi()
+    {
+        return SequentialTask.Sequence(
+            new FollowPathTask("goBackwards30in", Type.RobotRelativeFromCurrentPose)
+        );
+    }
+
+    private static IControlTask ShootTaxi()
+    {
+        return SequentialTask.Sequence(
+            new ShootNoteTask(),
+            new FollowPathTask("goBackwards30in", Type.RobotRelativeFromCurrentPose)
+        );
+    }
+
+    private static IControlTask AmpNearTwoNote(boolean isRed)
+    {
+        return SequentialTask.Sequence(
+            ConcurrentTask.AllTasks(
+                new ResetLevelTask(),
+                new PositionStartingTask(
+                    0.0,// locManager.P1.x, 
+                    0.0,// locManager.P1.y,
+                    0.0,// locManager.getOrientationOrHeading(0),
+                    true,
+                    true)
+            ),
+
+            new ShootNoteTask(),
+
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+
+            ConcurrentTask.AnyTasks(
+                new FollowPathTask("P3ToP7", Type.RobotRelativeFromCurrentPose),
+                new IntakeControlTask(true)
+            ),
+
+            ConcurrentTask.AllTasks(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_SHOT),
+                new FollowPathTask("P7ToP3", Type.RobotRelativeFromCurrentPose)
+            ),
+
+            new ShootNoteTask()
+        );
     }
 }
 

@@ -115,6 +115,7 @@ public enum LoggingKey
     ShooterFlywheelPower("ee_fw_pow"),
     ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
+    ShooterSpunUp("ee.shooter_spunup"),
 
     // Arm stuff
     ArmClamped("arm.clamped", 1),
@@ -150,7 +151,8 @@ public enum LoggingKey
     WristAbsZ("arm.wrist_abs_z", 1),
     
     ExtensionType("arm.extension_type", 1),
-    WristIKDesired("arm.wrist_ik_desired", 1),
+    WristIKDesired("arm.wrist_ik_desired",1),
+    ShoulderLastLegal("arm.sh_lst_legal_pos", 1),
     
 
     ArmShoulderPosAdjustment("arm.sh_pos_adj", 1),

@@ -28,6 +28,12 @@ public enum MacroOperation implements IOperation
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
 
+    // Shooter Operations
+    ShootNote,
+
+    // Climber
+    ClimbMacro,
+
     // Vision operations
 
     // Path testing:
@@ -35,7 +41,4 @@ public enum MacroOperation implements IOperation
     FollowPathTest2,
     FollowPathTest3,
     FollowPathTest4,
-
-    // Climber
-    ClimbMacro
 }

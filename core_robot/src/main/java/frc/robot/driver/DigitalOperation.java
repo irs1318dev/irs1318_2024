@@ -35,9 +35,10 @@ public enum DigitalOperation implements IOperation
     // EndEffector operations:
     IntakeIn,
     IntakeOut,
+    IntakeForceOnAndIntakeIn,
     IntakeForceStop,
-    IntakeForceInOn,
-    IntakeForceInOff,
+    IntakeForceSpinOn,
+    IntakeForceSpinOff,
     ShooterFeedRing,
     ShooterEnableShootAnywayMode,
     ShooterDisableShootAnywayMode,
@@ -51,4 +52,6 @@ public enum DigitalOperation implements IOperation
     // Climber operations:
     ClimberServoUp,
     ClimberServoDown,
+    ClimberWinchUp,
+    ClimberWinchDown,
 }

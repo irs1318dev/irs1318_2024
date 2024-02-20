@@ -35,6 +35,9 @@ public class TuningConstants
 
     public static final boolean TRAJECTORY_FORCE_BUILD = false;
 
+    public static final double AMP_OT = 90.0;
+    public static final double SOURCE_OT = 290;
+
     //================================================= Power ======================================================
 
     public static final double POWER_OVERCURRENT_TRACKING_DURATION = 5.0; // duration of time to keep track of the average current
@@ -323,6 +326,27 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
+    //==================================================== ShootNoteTask =====================================================
+
+    // TODO get the actual values here
+    public static final double GRAVITY_CONSTANT = 384; // inches per second per second
+
+    public static final double APRILTAG_TARGET_OFFSET_X = 0; // inches
+    public static final double APRILTAG_TARGET_OFFSET_Y = 48; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_X = 12; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_Y = 24; // inches
+
+    public static final int ANGLE_FINDING_ITERATIONS = 20;
+
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees
+
+    public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
+
+    public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
+    public static final double KICK_INTAKE_TIME = 0.5; //seconds
+
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+
     //==================================================== Arm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
@@ -334,19 +358,20 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_SHOULDER_MIN_POSITION = -26.3; // in degrees
+    public static final double ARM_SHOULDER_MIN_POSITION = -25.6; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -115.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
-    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -26.3;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -110.0;
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.6;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -115.0;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
+    public static final double ARM_WRIST_POSITION_SHOT = 41.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 7.0;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 116.0;
@@ -354,11 +379,11 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 22.0;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 63.0;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 56.0;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
-    public static final double ARM_WRIST_POSITION_AMP_SCORE = 108.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
@@ -399,7 +424,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = true;
+    public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
@@ -455,7 +480,7 @@ public class TuningConstants
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 4.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 8.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
 
@@ -484,7 +509,13 @@ public class TuningConstants
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    
+    public static final double CLIMBER_WINCH_UP_POWER = 0.9;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.9;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
     public static final double CLIMBER_SERVO_DOWN_POSITION = 1.0;
+
+    public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
+    public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
 }
