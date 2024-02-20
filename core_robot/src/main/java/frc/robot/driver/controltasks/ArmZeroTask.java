@@ -16,6 +16,7 @@ public class ArmZeroTask extends ControlTaskBase
     {
         PositionRetractWrist,
         RetractWrist,
+        PositionRetractShoulder,
         RetractShoulder,
         Reset,
         Completed;
@@ -75,6 +76,18 @@ public class ArmZeroTask extends ControlTaskBase
             if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
                 (this.arm.getWristStalled() ||
                     this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
+                    currTime >= this.transitionTime + 2.0))
+            {
+                this.state = ArmZeroState.PositionRetractShoulder;
+                this.transitionTime = currTime;
+            }
+        }
+        else if (this.state == ArmZeroState.PositionRetractShoulder)
+        {
+            if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
+                (this.arm.getShoulderStalled() ||
+                    Math.abs(this.arm.getShoulderPosition() - TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION) < TuningConstants.ARM_SHOULDER_ZEROING_POSITION_THRESHOLD ||
+                    this.arm.getShoulderVelocityAverage() < TuningConstants.ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD ||
                     currTime >= this.transitionTime + 1.5))
             {
                 this.state = ArmZeroState.RetractShoulder;
@@ -115,13 +128,22 @@ public class ArmZeroTask extends ControlTaskBase
                 this.setDigitalOperationState(DigitalOperation.ArmStop, false);
                 break;
 
+            case PositionRetractShoulder:
+                this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
+                this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
+                this.setDigitalOperationState(DigitalOperation.ArmStop, false);
+                break;
+
             case RetractShoulder:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ARM_SHOULDER_ZEROING_POWER);
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
                 this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
-                this.setDigitalOperationState(DigitalOperation.ArmStop, true);
+                this.setDigitalOperationState(DigitalOperation.ArmStop, false);
                 break;
 
             case Reset:

@@ -488,6 +488,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.5;
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 3.0;
+    public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
     public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
