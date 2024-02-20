@@ -1,7 +1,5 @@
 package frc.robot.driver;
 
-import java.util.Optional;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -16,7 +14,6 @@ import frc.robot.driver.SmartDashboardSelectionManager.AutoRoutine;
 import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
-import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -26,7 +23,7 @@ public class AutonomousRoutineSelector
     private final TrajectoryManager trajectoryManager;
     private final SmartDashboardSelectionManager selectionManager;
     private final IDriverStation driverStation;
-    private final AutonLocManager LocManager;
+    private final AutonLocManager locManager;
 
     /**
      * Initializes a new AutonomousRoutineSelector
@@ -44,7 +41,7 @@ public class AutonomousRoutineSelector
 
         this.driverStation = provider.getDriverStation();
 
-        this.LocManager = new AutonLocManager(provider);
+        this.locManager = new AutonLocManager(provider);
 
         RoadRunnerTrajectoryGenerator.generateTrajectories(this.trajectoryManager);
         PathPlannerTrajectoryGenerator.generateTrajectories(this.trajectoryManager, provider.getPathPlanner());
@@ -66,11 +63,9 @@ public class AutonomousRoutineSelector
 
         if (mode == RobotMode.Autonomous)
         {
-            this.LocManager.updateAlliance(); 
+            this.locManager.updateAlliance();
             StartPosition startPosition = this.selectionManager.getSelectedStartPosition();
             AutoRoutine routine = this.selectionManager.getSelectedAutoRoutine(); 
-
-            
 
             this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
 
