@@ -76,7 +76,7 @@ public class ArmZeroTask extends ControlTaskBase
             if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
                 (this.arm.getWristStalled() ||
                     this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
-                    currTime >= this.transitionTime + 2.0))
+                    currTime >= this.transitionTime + 4.0))
             {
                 this.state = ArmZeroState.PositionRetractShoulder;
                 this.transitionTime = currTime;

@@ -17,4 +17,13 @@ public class FeedRingTask extends CompositeOperationTask{
             FeedRingTask.possibleOperations,
             true);
     }
+
+    public FeedRingTask(boolean waitForSpunUp, double timeout)
+    {
+        super(
+            waitForSpunUp ? DigitalOperation.ShooterFeedRing : DigitalOperation.IntakeForceOnAndIntakeIn,
+            FeedRingTask.possibleOperations,
+            timeout);
+    }
+    
 }

@@ -153,6 +153,15 @@ public class ArmGraphTask extends ControlTaskBase
         ArmGraphNode goalArmGraphNode = this.getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
         ArmGraphNode startArmGraphNode = this.getClosestArmNode(this.arm.getTheta1(), this.arm.getTheta2());
 
+        System.out.println("Starting Node");
+        System.out.println(startArmGraphNode.shoulderAngle);
+        System.out.println(startArmGraphNode.wristAngle);
+
+        System.out.println("Goal Node");
+        System.out.println(goalArmGraphNode.shoulderAngle);
+        System.out.println(goalArmGraphNode.wristAngle);
+        
+
         this.path = ArmGraphTask.graph.getOptimalPath(startArmGraphNode, goalArmGraphNode);
         this.currPos = 0;
 
@@ -179,13 +188,14 @@ public class ArmGraphTask extends ControlTaskBase
     public void update()
     {
         ArmGraphNode currNode = this.path.get(this.currPos);
+
         ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
         if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getTheta1(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
             Helpers.RoughEquals(currNode.wristAngle, this.arm.getTheta2(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
         {
+            this.currPos++;
             if (this.currPos < this.path.size())
             {
-                this.currPos++;
                 currNode = this.path.get(this.currPos);
                 ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
             }

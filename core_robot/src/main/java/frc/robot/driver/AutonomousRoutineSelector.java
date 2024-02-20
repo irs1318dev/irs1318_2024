@@ -172,13 +172,13 @@ public class AutonomousRoutineSelector
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
 
             ConcurrentTask.AnyTasks(
-                new FollowPathTask("P3ToP7", Type.RobotRelativeFromCurrentPose),
+                new FollowPathTask(isRed ? "P3ToP7Red" : "P3ToP7Blue", Type.RobotRelativeFromCurrentPose),
                 new IntakeControlTask(true)
             ),
 
             ConcurrentTask.AllTasks(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_SHOT),
-                new FollowPathTask("P7ToP3", Type.RobotRelativeFromCurrentPose)
+                new FollowPathTask(isRed ? "P7ToP3Red" : "P7ToP3Blue", Type.RobotRelativeFromCurrentPose)
             ),
 
             new ShootNoteTask()

@@ -85,6 +85,7 @@ public class ArmMechanism implements IMechanism
     private double lastLegalShoulderPosition;
 
     private double desiredWristAngle; // tester
+    private double desiredShoulderAngle;
     private String extensionType = "";
 
     private final double L1 = HardwareConstants.ARM_HUMERUS_LENGTH; // Shoulder pivot to wrist pivot distance
@@ -569,6 +570,8 @@ public class ArmMechanism implements IMechanism
         }
 
         this.desiredWristAngle = angles[1];
+        this.desiredShoulderAngle = angles[0];
+        this.logger.logNumber(LoggingKey.ShoulderIKDesired, this.desiredShoulderAngle);
         this.logger.logNumber(LoggingKey.WristIKDesired, this.desiredWristAngle);
         this.logger.logNumber(LoggingKey.ShoulderLastLegal, this.lastLegalShoulderPosition);
         

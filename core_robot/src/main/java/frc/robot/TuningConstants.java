@@ -373,8 +373,8 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
     public static final double ARM_WRIST_POSITION_SHOT = 41.0;
 
-    public static final double ARM_SHOULDER_POSITION_TUCKED = 7.0;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 116.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
@@ -397,7 +397,7 @@ public class TuningConstants
     public static final double ARM_WRIST_GOAL_THRESHOLD = 1.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 1.0;
 
-    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
@@ -489,7 +489,7 @@ public class TuningConstants
     public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.5;
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_WRIST_ZEROING_POWER = -0.2;
+    public static final double ARM_WRIST_ZEROING_POWER = -0.4;
     public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;

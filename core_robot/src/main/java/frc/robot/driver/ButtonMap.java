@@ -678,24 +678,25 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL),
+            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
             }),
 
-        new MacroOperationDescription(
-           MacroOperation.ArmShoulderPosition2,
-           UserInputDevice.Codriver, 
-           UserInputDeviceButton.XBONE_X_BUTTON,
-           EnumSet.of(Shift.CodriverDebug),
-           EnumSet.of(Shift.CodriverDebug),
-           ButtonType.Toggle, 
-           () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL),
-           new IOperation[]
-           {
-               AnalogOperation.ArmShoulderPositionSetpoint,
-           }),
+        // new MacroOperationDescription(
+        //    MacroOperation.ArmShoulderPosition2,
+        //    UserInputDevice.Codriver, 
+        //    UserInputDeviceButton.XBONE_X_BUTTON,
+        //    EnumSet.of(Shift.CodriverDebug),
+        //    EnumSet.of(Shift.CodriverDebug),
+        //    ButtonType.Toggle, 
+        //    () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL),
+        //    new IOperation[]
+        //    {
+        //      AnalogOperation.ArmShoulderPositionSetpoint,
+        //    }),
 
         new MacroOperationDescription(
             MacroOperation.ArmShoulderPosition3,
