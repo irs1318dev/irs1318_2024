@@ -1,5 +1,7 @@
 package frc.robot.driver.controltasks;
 
+import frc.lib.helpers.Helpers;
+import frc.robot.TuningConstants;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
 
@@ -13,13 +15,13 @@ public class SetEndEffectorAngleTask extends ControlTaskBase
     private ArmMechanism armMechanism;
 
     private double desiredEndEffectorAngle;
+    private double currentPos;
+    private boolean hasCompleted;
 
     public SetEndEffectorAngleTask(double desiredEndEffectorAngle)
     {
         this.desiredEndEffectorAngle = desiredEndEffectorAngle;
     }
-
-
 
     /**
      * Begin the current task
@@ -30,7 +32,8 @@ public class SetEndEffectorAngleTask extends ControlTaskBase
 
         this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
 
-        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, desiredEndEffectorAngle);
+        this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, this.desiredEndEffectorAngle);
+        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
     }
 
     /*
@@ -39,7 +42,14 @@ public class SetEndEffectorAngleTask extends ControlTaskBase
     @Override
     public void update()
     {
+        this.currentPos = this.armMechanism.getAbsoluteAngleOfShot();
+        if(Helpers.RoughEquals(this.currentPos, this.desiredEndEffectorAngle, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+        {
+            this.hasCompleted = true;
+        }
 
+        this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, this.desiredEndEffectorAngle);
+        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
     }
 
     /**
@@ -48,14 +58,15 @@ public class SetEndEffectorAngleTask extends ControlTaskBase
     @Override
     public void end()
     {
-
+        this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, TuningConstants.MAGIC_NULL_VALUE);
+        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
     }
 
     @Override
     public boolean hasCompleted()
     {
-        //TODO implement arm mechanism has reached target absolute wrist goal
-        return true;
+        return this.hasCompleted;
     }
 
 }
+
