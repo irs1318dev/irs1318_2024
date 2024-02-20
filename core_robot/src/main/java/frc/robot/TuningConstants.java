@@ -334,14 +334,14 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_SHOULDER_MIN_POSITION = -26.3; // in degrees
+    public static final double ARM_SHOULDER_MIN_POSITION = -25.6; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -110.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -115.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
-    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -26.3;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -110.0;
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.6;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -115.0;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
@@ -354,11 +354,11 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 22.0;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 63.0;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 56.0;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
-    public static final double ARM_WRIST_POSITION_AMP_SCORE = 108.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
@@ -399,7 +399,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = true;
+    public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
@@ -455,7 +455,7 @@ public class TuningConstants
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 4.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 8.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
 

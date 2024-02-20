@@ -82,6 +82,7 @@ public class ArmMechanism implements IMechanism
     private double theta_9; // Horizontal to intake top ABS angle
 
     private double lastLegalWristPosition;
+    private double lastLegalShoulderPosition;
 
     private double desiredWristAngle; // tester
     private String extensionType = "";
@@ -245,6 +246,9 @@ public class ArmMechanism implements IMechanism
             this.interpolator = null;
         }
 
+        this.lastLegalShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+        this.lastLegalWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+
         // setting initial IK variables
         this.updateIKVars(this.shoulderPosition, this.wristPosition);
     }
@@ -303,7 +307,7 @@ public class ArmMechanism implements IMechanism
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
-        boolean updateCurrPosition = false;
+        boolean updateCurrPosition = this.shoulderStalled;
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
@@ -532,7 +536,7 @@ public class ArmMechanism implements IMechanism
             TrapezoidProfile.State curr = this.shoulderTMPCurrState;
             TrapezoidProfile.State goal = this.shoulderTMPGoalState;
 
-            goal.updatePosition(desiredShoulderPosition);
+            goal.updatePosition(currentDesiredShoulderPosition);
             if (updateCurrPosition)
             {
                 curr.updatePosition(this.shoulderPosition);
@@ -544,15 +548,18 @@ public class ArmMechanism implements IMechanism
             }
         }
 
-        double[] angles = this.limitedAngles(currentDesiredShoulderPosition, this.desiredWristPosition);
+        double[] angles = this.limitedAngles(currentDesiredShoulderPosition, currentDesiredWristPosition);
         if (TuningConstants.USE_IK_CONSTRAINTS)
         {
-            //currentDesiredShoulderPosition = angles[0];
+            currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
 
         }
+
         this.desiredWristAngle = angles[1];
         this.logger.logNumber(LoggingKey.WristIKDesired, this.desiredWristAngle);
+        this.logger.logNumber(LoggingKey.ShoulderLastLegal, this.lastLegalShoulderPosition);
+        
 
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
 
@@ -610,6 +617,7 @@ public class ArmMechanism implements IMechanism
 
         
         this.lastLegalWristPosition = currentDesiredWristPosition;
+        this.lastLegalShoulderPosition = currentDesiredShoulderPosition;
         this.prevTime = currTime;
     }
 
@@ -694,7 +702,7 @@ public class ArmMechanism implements IMechanism
         else if ( (this.intakeTopAbsPosZ < 0) || (this.intakeBottomAbsPosZ < 0))
         {
             positions[0] = this.shoulderPosition;
-            positions[0] = this.lastLegalWristPosition;
+            positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Ground";
         }
         // continous limiting top
