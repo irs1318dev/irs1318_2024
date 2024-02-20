@@ -459,9 +459,11 @@ public class TuningConstants
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
 
+    // Arm/shoulder zeroing
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.5;
-    public static final double ARM_WRIST_ZEROING_POWER = -0.05;
+    public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 3.0;
+    public static final double ARM_WRIST_ZEROING_POWER = -0.2;
     public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;

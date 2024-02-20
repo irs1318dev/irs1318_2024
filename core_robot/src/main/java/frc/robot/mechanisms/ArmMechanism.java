@@ -829,6 +829,11 @@ public class ArmMechanism implements IMechanism
         return this.wristStalled;
     }
 
+    public double getWristPosition()
+    {
+        return this.wristPosition;
+    }
+
     public double getShoulderPowerAverage()
     {
         return this.shoulderPowerAverage;

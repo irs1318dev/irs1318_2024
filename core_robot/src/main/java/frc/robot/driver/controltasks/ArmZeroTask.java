@@ -14,6 +14,7 @@ public class ArmZeroTask extends ControlTaskBase
     // Note: we retract wrist before shoulder to make sure that we don't crunch the intake
     private enum ArmZeroState
     {
+        PositionRetractWrist,
         RetractWrist,
         Stop,
         Reset,
@@ -45,7 +46,7 @@ public class ArmZeroTask extends ControlTaskBase
         }
         else
         {
-            this.state = ArmZeroState.RetractWrist;
+            this.state = ArmZeroState.PositionRetractWrist;
             this.transitionTime = timer.get();
         }
     }
@@ -57,7 +58,19 @@ public class ArmZeroTask extends ControlTaskBase
     public void update()
     {
         double currTime = this.timer.get();
-        if (this.state == ArmZeroState.RetractWrist)
+        if (this.state == ArmZeroState.PositionRetractWrist)
+        {
+            if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
+                (this.arm.getWristStalled() ||
+                    Math.abs(this.arm.getWristPosition() - TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) < TuningConstants.ARM_WRIST_ZEROING_POSITION_THRESHOLD ||
+                    this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
+                    currTime >= this.transitionTime + 1.5))
+            {
+                this.state = ArmZeroState.RetractWrist;
+                this.transitionTime = currTime;
+            }
+        }
+        else if (this.state == ArmZeroState.RetractWrist)
         {
             if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
                 (this.arm.getWristStalled() ||
@@ -84,9 +97,20 @@ public class ArmZeroTask extends ControlTaskBase
 
         switch (this.state)
         {
+            case PositionRetractWrist:
+                this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+                this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
+                this.setDigitalOperationState(DigitalOperation.ArmStop, false);
+                break;
+
             case RetractWrist:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ARM_WRIST_ZEROING_POWER);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
                 this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
                 this.setDigitalOperationState(DigitalOperation.ArmStop, false);
                 break;
@@ -94,6 +118,8 @@ public class ArmZeroTask extends ControlTaskBase
             case Stop:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ARM_SHOULDER_ZEROING_POWER);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
                 this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
                 this.setDigitalOperationState(DigitalOperation.ArmStop, true);
                 break;
@@ -101,6 +127,8 @@ public class ArmZeroTask extends ControlTaskBase
             case Reset:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
                 this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ZERO);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+                this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
                 this.setDigitalOperationState(DigitalOperation.ArmForceReset, true);
                 this.setDigitalOperationState(DigitalOperation.ArmStop, true);
                 break;
@@ -123,6 +151,8 @@ public class ArmZeroTask extends ControlTaskBase
     @Override
     public void end()
     {
+        this.setAnalogOperationState(AnalogOperation.ArmWristPower, TuningConstants.ZERO);
+        this.setAnalogOperationState(AnalogOperation.ArmShoulderPower, TuningConstants.ZERO);
         this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
         this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
         this.setDigitalOperationState(DigitalOperation.ArmForceReset, false);
