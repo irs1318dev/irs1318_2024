@@ -115,6 +115,7 @@ public enum LoggingKey
     ShooterFlywheelPower("ee_fw_pow"),
     ShooterNearFlywheelDesiredVelocity("ee.nr_fly_vel_setpt"),
     ShooterFarFlywheelDesiredVelocity("ee.fr_fly_vel_setpt"),
+    ShooterSpunUp("ee.shooter_spunup"),
 
     // Arm stuff
     ArmClamped("arm.clamped", 1),

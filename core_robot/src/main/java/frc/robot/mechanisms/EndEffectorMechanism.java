@@ -145,6 +145,7 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelVelocity, this.farFlywheelVelocity);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelError, this.farFlywheelError);
 
+        this.logger.logBoolean(LoggingKey.ShooterSpunUp, this.isFlywheelSpunUp());
         this.throughBeamSensorValue = this.throughBeamSensor.getVoltage();
         this.throughBeamBroken = this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF;
 

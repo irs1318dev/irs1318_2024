@@ -43,7 +43,4 @@ public enum AnalogOperation implements IOperation
     ArmAbsWristAngle,
     ArmShoulderAdjustment,
     ArmWristAdjustment,
-
-    // Climber operations
-    ClimberPower,
 }

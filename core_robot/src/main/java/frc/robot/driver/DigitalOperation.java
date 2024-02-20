@@ -51,4 +51,6 @@ public enum DigitalOperation implements IOperation
     // Climber operations:
     ClimberServoUp,
     ClimberServoDown,
+    ClimberWinchUp,
+    ClimberWinchDown,
 }

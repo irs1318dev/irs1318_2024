@@ -389,7 +389,8 @@ public class ArmMechanism implements IMechanism
         {
             useWristSimpleMode = true;
             useShoulderSimpleMode = true;
-
+            
+            //  -------------------- > should be using power adjustments <------------------------------ 
             shoulderPower = 0.0;
             wristPower = 0.0;
         }
@@ -426,8 +427,11 @@ public class ArmMechanism implements IMechanism
             }
             else
             {
+                // preset values and resetting
                 double newDesiredShoulderPosition = this.driver.getAnalog(AnalogOperation.ArmShoulderPositionSetpoint);
                 double newDesiredWristPosition = this.driver.getAnalog(AnalogOperation.ArmWristPositionSetpoint);
+
+                // shooter calculates for abs shot angle not wrist angle
                 if (newDesiredWristPosition == TuningConstants.MAGIC_NULL_VALUE)
                 {
                     double newDesiredAbsoluteWristAngle = this.driver.getAnalog(AnalogOperation.ArmAbsWristAngle);
@@ -439,6 +443,7 @@ public class ArmMechanism implements IMechanism
 
                 double newShoulderPositionAdjustment = 0.0;
                 double newWristPositionAdjustment = 0.0;
+
                 if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE ||
                     newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE)
                 {
@@ -465,8 +470,10 @@ public class ArmMechanism implements IMechanism
                         this.desiredWristPosition = newDesiredWristPosition;
                     }
                 }
+
                 else
                 {
+                    // position adjustemnt with co-driver analog axis
                     newShoulderPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderAdjustment) * TuningConstants.ARM_SHOULDER_PID_ADJUST_VEL * elapsedTime;
                     newWristPositionAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristAdjustment) * TuningConstants.ARM_WRIST_PID_ADJUST_VEL * elapsedTime;
 
@@ -500,6 +507,9 @@ public class ArmMechanism implements IMechanism
 
         if (TuningConstants.ARM_STALL_PROTECTION_ENABLED)
         {
+            // if we've past the velocity tracking duration since last desired position change we're using more power than expected and we're not moving that much
+            // then either reset position (if past & present values tell us were trying to reset) and say were stalled or just say were stalled
+
             if (currTime > this.shoulderSetpointChangedTime + TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION &&
                 this.shoulderPowerAverage >= TuningConstants.ARM_SHOULDER_STALLED_POWER_THRESHOLD &&
                 Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)
@@ -529,6 +539,7 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        // TMP
         double currentDesiredShoulderPosition = this.desiredShoulderPosition;
         double currentDesiredWristPosition = this.desiredWristPosition;
         if (TuningConstants.ARM_USE_MM)
@@ -548,6 +559,7 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        // IK adjustments
         double[] angles = this.limitedAngles(currentDesiredShoulderPosition, currentDesiredWristPosition);
         if (TuningConstants.USE_IK_CONSTRAINTS)
         {
@@ -560,14 +572,15 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.WristIKDesired, this.desiredWristAngle);
         this.logger.logNumber(LoggingKey.ShoulderLastLegal, this.lastLegalShoulderPosition);
         
-
         this.updateIKVars(currentDesiredShoulderPosition, currentDesiredWristPosition);
 
+        // GRAVITY COMPENSATION
         double feedForward = 0.0;
         if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
         {
             feedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
         }
+
 
         if (!useShoulderSimpleMode)
         {
@@ -687,6 +700,7 @@ public class ArmMechanism implements IMechanism
             positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Top-Crazy";
         }
+
         // hiting robot
         else if ( (this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
             || (this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
@@ -698,6 +712,7 @@ public class ArmMechanism implements IMechanism
             this.hitingRobot = true;
             this.extensionType = "Robot";
         }
+
         // hitting ground
         else if ( (this.intakeTopAbsPosZ < 0) || (this.intakeBottomAbsPosZ < 0))
         {
@@ -705,6 +720,7 @@ public class ArmMechanism implements IMechanism
             positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Ground";
         }
+
         // continous limiting top
         else if (extensionTop)
         {
@@ -739,6 +755,7 @@ public class ArmMechanism implements IMechanism
                 positions[1] = this.lastLegalWristPosition;
             }
         }
+
         // continous limiting front
         else if (extensionFront)
         {
@@ -775,11 +792,13 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        // position so ilegal we say shoulder must stay where it currently is so we can still stay legal
         if (positions[0] == this.shoulderPosition && positions[1] == this.lastLegalWristPosition)
         {
             this.stuckInPosition = true;
         }
 
+        // initially illegal but IK fixed it by adjusting wrist
         if (positions[0] == desShoulder && positions[1] != desWrist)
         {
             this.fixedWithIK = true;
