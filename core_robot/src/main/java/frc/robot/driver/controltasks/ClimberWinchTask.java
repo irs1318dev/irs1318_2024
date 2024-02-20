@@ -4,10 +4,12 @@ import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
 
-public class ClimberWinchTask extends ControlTaskBase{
-
+public class ClimberWinchTask extends ControlTaskBase
+{
     private ITimer timer; 
-    public enum WinchState {
+
+    public enum WinchState
+    {
         Extended,
         Retracted,
         Extending,
@@ -17,18 +19,20 @@ public class ClimberWinchTask extends ControlTaskBase{
     private double startTime;
     private double currentTime;
     private double timeSinceStart;
-    WinchState goalState;;
-    WinchState currentState = null;
 
-    public ClimberWinchTask(){
+    private WinchState goalState;
+    private WinchState currentState = null;
+
+    public ClimberWinchTask()
+    {
         this(WinchState.Retracted);
     }
 
-    public ClimberWinchTask(WinchState desiredState){
-        goalState = desiredState;
+    public ClimberWinchTask(WinchState desiredState)
+    {
+        this.goalState = desiredState;
     }
 
-    
     @Override
     public void begin()
     {
@@ -40,38 +44,36 @@ public class ClimberWinchTask extends ControlTaskBase{
     @Override
     public void update()
     {
-        //update timer and timeSinceStart every tick
+        // update timer and timeSinceStart every tick
         this.currentTime = this.timer.get();
         this.timeSinceStart = currentTime - startTime;
 
-
-        if (goalState == WinchState.Extended) {
-
-            if (this.currentTime < TuningConstants.CLIMBER_FULL_EXTEND_TIME) {
+        if (this.goalState == WinchState.Extended)
+        {
+            if (this.timeSinceStart < TuningConstants.CLIMBER_FULL_EXTEND_TIME)
+            {
                 this.currentState = WinchState.Extending;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchUp, true);
             }
-            
-            else {
+            else
+            {
                 this.currentState = WinchState.Extended;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
             }
-            
         }
-        
 
-        if (goalState == WinchState.Retracted) {
-
-            if (this.currentTime <  TuningConstants.CLIMBER_FULL_RETRACT_TIME) {
+        if (this.goalState == WinchState.Retracted)
+        {
+            if (this.timeSinceStart <  TuningConstants.CLIMBER_FULL_RETRACT_TIME)
+            {
                 this.currentState = WinchState.Retracting;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);
             }
-
-            else {
+            else
+            {
                 this.currentState = WinchState.Retracted;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
             }
-            
         }
     }
 
@@ -79,12 +81,12 @@ public class ClimberWinchTask extends ControlTaskBase{
     public void end()
     {
         // don't forget to add a servo task at the end of the climb
+        this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return (this.currentState == WinchState.Retracted||currentState == WinchState.Extended);
+        return (this.currentState == WinchState.Retracted || this.currentState == WinchState.Extended);
     }
-    
 }
