@@ -326,6 +326,28 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
 
+    //==================================================== ShootNoteTask =====================================================
+
+    // TODO get the actual values here
+    public static final double GRAVITY_CONSTANT = 384; // inches per second per second
+
+    public static final double APRILTAG_TARGET_OFFSET_X = 0; // inches
+    public static final double APRILTAG_TARGET_OFFSET_Y = 48; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_X = 12; // inches
+    public static final double CAMERA_SHOOTER_PIVOT_OFFSET_Y = 24; // inches
+
+    public static final int ANGLE_FINDING_ITERATIONS = 20;
+
+    public static final double SHOOTER_ANGLE_ASYMPTOTE_DISTANCE = 1; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees
+
+    public static final double SHOOTER_MAX_VELOCITY = 1000; //inches per second
+
+    public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
+    public static final double KICK_INTAKE_TIME = 0.5; //seconds
+
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+
     //==================================================== Arm ==============================================================
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
