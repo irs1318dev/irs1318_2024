@@ -32,13 +32,13 @@ public class ArmMechanism implements IMechanism
     private double prevTime;
 
     private final ISparkMax shoulderMotor;
-    private final ITalonSRX wristMotor;
-
-    private double shoulderPosition;
-    private double shoulderVelocity;
+    private final ISparkMax wristMotor;
 
     private double desiredShoulderPosition;
     private double desiredWristPosition;
+
+    private double shoulderPosition;
+    private double shoulderVelocity;
 
     private double wristPosition;
     private double wristVelocity;
@@ -66,6 +66,10 @@ public class ArmMechanism implements IMechanism
     private final TrapezoidProfile shoulderTrapezoidMotionProfile;
     private final TrapezoidProfile.State shoulderTMPCurrState;
     private final TrapezoidProfile.State shoulderTMPGoalState;
+
+    private final TrapezoidProfile wristTrapezoidMotionProfile;
+    private final TrapezoidProfile.State wristTMPCurrState;
+    private final TrapezoidProfile.State wristTMPGoalState;
 
     // Gravity Compensation
     private final BilinearInterpolator interpolator;
@@ -115,6 +119,7 @@ public class ArmMechanism implements IMechanism
 
     private boolean inSimpleMode;
     private boolean updateCurrWristPosition;
+    private boolean updateCurrShoulderPosition;
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
@@ -125,23 +130,24 @@ public class ArmMechanism implements IMechanism
         this.powerManager = powerManager;
 
         this.inSimpleMode = TuningConstants.ARM_USE_SIMPLE_MODE;
+        this.updateCurrShoulderPosition = true;
         this.updateCurrWristPosition = true;
 
         this.shoulderMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
-        this.wristMotor = provider.getTalonSRX(ElectronicsConstants.ARM_WRIST_MOTOR_CAN_ID);
+        this.wristMotor = provider.getSparkMax(ElectronicsConstants.ARM_WRIST_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
 
         this.shoulderMotor.setRelativeEncoder();
-        // this.shoulderMotor.setInvertSensor(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_SENSOR);
         this.shoulderMotor.setPositionConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
         this.shoulderMotor.setVelocityConversionFactor(HardwareConstants.ARM_SHOULDER_TICK_DISTANCE);
         this.shoulderMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_INVERT_OUTPUT);
         this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
-        this.wristMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
-        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
-        this.wristMotor.setMotorOutputSettings(TuningConstants.ARM_WRIST_MOTOR_INVER_OUTPUT, MotorNeutralMode.Brake);
-        this.wristMotor.setInvertSensor(TuningConstants.ARM_WRIST_MOTOR_INVERT_SENSOR);
+        this.wristMotor.setPositionConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
+        this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
+        this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
+        this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
+        this.wristMotor.setNeutralMode(MotorNeutralMode.Brake);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -152,13 +158,11 @@ public class ArmMechanism implements IMechanism
                 TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
 
-            this.wristMotor.setMotionMagicPIDF(
-                TuningConstants.ARM_WRIST_POSITION_MM_PID_KP,
-                TuningConstants.ARM_WRIST_POSITION_MM_PID_KI,
-                TuningConstants.ARM_WRIST_POSITION_MM_PID_KD,
-                TuningConstants.ARM_WRIST_POSITION_MM_PID_KF,
-                TuningConstants.ARM_WRIST_POSITION_MM_CRUISE_VELOCITY,
-                TuningConstants.ARM_WRIST_POSITION_MM_ACCELERATION,
+            this.wristMotor.setPIDF(
+                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KP,
+                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KI,
+                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KD,
+                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
         }
         else
@@ -171,10 +175,10 @@ public class ArmMechanism implements IMechanism
                 ArmMechanism.DefaultPidSlotId);
 
             this.wristMotor.setPIDF(
-                TuningConstants.ARM_WRIST_MOTOR_PID_KP,
-                TuningConstants.ARM_WRIST_MOTOR_PID_KI,
-                TuningConstants.ARM_WRIST_MOTOR_PID_KD,
-                TuningConstants.ARM_WRIST_MOTOR_PID_KF,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_PID_KP,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_PID_KI,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_PID_KD,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_PID_KF,
                 ArmMechanism.DefaultPidSlotId);
         }
 
@@ -189,11 +193,17 @@ public class ArmMechanism implements IMechanism
             this.shoulderTrapezoidMotionProfile = new TrapezoidProfile(
                 TuningConstants.ARM_SHOULDER_TMP_PID_CRUISE_VELOC,
                 TuningConstants.ARM_SHOULDER_TMP_PID_ACCEL);
-
             this.shoulderTMPCurrState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
             this.shoulderTMPGoalState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
 
             this.shoulderMotor.setSelectedSlot(ArmMechanism.AltPidSlotId);
+
+            this.wristTrapezoidMotionProfile = new TrapezoidProfile(
+                TuningConstants.ARM_WRIST_TMP_PID_CRUISE_VELOC,
+                TuningConstants.ARM_WRIST_TMP_PID_ACCEL);
+            this.wristTMPCurrState = new TrapezoidProfile.State(this.wristPosition, 0.0);
+            this.wristTMPGoalState = new TrapezoidProfile.State(this.wristPosition, 0.0);
+
             this.wristMotor.setSelectedSlot(ArmMechanism.AltPidSlotId);
         }
         else
@@ -203,26 +213,31 @@ public class ArmMechanism implements IMechanism
             this.shoulderTMPGoalState = null;
 
             this.shoulderMotor.setSelectedSlot(ArmMechanism.DefaultPidSlotId);
+
+            this.wristTrapezoidMotionProfile = null;
+            this.wristTMPCurrState = null;
+            this.wristTMPGoalState = null;
             this.wristMotor.setSelectedSlot(ArmMechanism.DefaultPidSlotId);
         }
 
         if (this.inSimpleMode)
         {
             this.shoulderMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.wristMotor.setControlMode(TalonSRXControlMode.PercentOutput);
+            this.wristMotor.setControlMode(SparkMaxControlMode.PercentOutput);
         }
         else if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderMotor.setControlMode(SparkMaxControlMode.Position);
-            this.wristMotor.setControlMode(TalonSRXControlMode.MotionMagicPosition);
+            this.wristMotor.setControlMode(SparkMaxControlMode.Position);
         }
         else
         {
             this.shoulderMotor.setControlMode(SparkMaxControlMode.Position);
-            this.wristMotor.setControlMode(TalonSRXControlMode.Position);
+            this.wristMotor.setControlMode(SparkMaxControlMode.Position);
         }
 
         this.shoulderMotor.burnFlash();
+        this.wristMotor.burnFlash();
 
         ISparkMax shoulderFollowerMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         shoulderFollowerMotor.setInvertOutput(TuningConstants.ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT);
@@ -262,9 +277,9 @@ public class ArmMechanism implements IMechanism
         this.shoulderPosition = this.shoulderMotor.getPosition(); // in degrees (conversion to degrees included in setPositionConversionFactor)
         this.shoulderVelocity = this.shoulderMotor.getVelocity(); // in degrees/sec (conversion to degrees included in setVelocityConversionFactor)
         this.shoulderError = this.shoulderPosition - this.desiredShoulderPosition;
-        this.wristPosition = this.wristMotor.getPosition() * HardwareConstants.ARM_WRIST_TICK_DISTANCE; // convert rotations to degrees
-        this.wristVelocity = this.wristMotor.getVelocity() * HardwareConstants.ARM_WRIST_TICK_DISTANCE * 10.0; // convert ticks/100ms to degrees/sec
-        this.wristError = this.wristMotor.getError();
+        this.wristPosition = this.wristMotor.getPosition(); // convert rotations to degrees
+        this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
+        this.wristError = this.wristPosition - this.desiredWristPosition;
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
         double shoulderFollowerCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_PDH_CHANNEL);
@@ -347,6 +362,7 @@ public class ArmMechanism implements IMechanism
             this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
             this.shoulderMotor.burnFlash();
             this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
+            this.wristMotor.burnFlash();
 
             this.shoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION; // Fully Retracted
             this.wristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;; // Fully Retracted
@@ -360,6 +376,7 @@ public class ArmMechanism implements IMechanism
             this.shoulderStalled = false;
             this.wristStalled = false;
 
+            this.updateCurrShoulderPosition = true;
             this.updateCurrWristPosition = true;
         }
 
@@ -391,7 +408,7 @@ public class ArmMechanism implements IMechanism
         {
             useWristSimpleMode = true;
             useShoulderSimpleMode = true;
-            
+
             //  -------------------- > should be using power adjustments <------------------------------ 
             shoulderPower = 0.0;
             wristPower = 0.0;
@@ -454,7 +471,7 @@ public class ArmMechanism implements IMechanism
                         (!Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1) ||
                          (!Helpers.RoughEquals(this.shoulderPosition, newDesiredShoulderPosition, 1.0) && this.shoulderStalled)))
                     {
-                        this.updateCurrWristPosition = this.updateCurrWristPosition || !Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1);
+                        this.updateCurrShoulderPosition = this.updateCurrShoulderPosition || !Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1);
 
                         this.shoulderSetpointChangedTime = currTime;
                         this.shoulderStalled = false;
@@ -466,13 +483,14 @@ public class ArmMechanism implements IMechanism
                         (!Helpers.RoughEquals(this.desiredWristPosition, newDesiredWristPosition, 0.1) ||
                          (!Helpers.RoughEquals(this.wristPosition, newDesiredWristPosition, 1.0) && this.wristStalled)))
                     {
+                        this.updateCurrWristPosition = this.updateCurrWristPosition || !Helpers.RoughEquals(this.desiredWristPosition, newDesiredWristPosition, 0.1);
+
                         this.wristSetpointChangedTime = currTime;
                         this.wristStalled = false;
 
                         this.desiredWristPosition = newDesiredWristPosition;
                     }
                 }
-
                 else
                 {
                     // position adjustemnt with co-driver analog axis
@@ -524,7 +542,7 @@ public class ArmMechanism implements IMechanism
                 }
 
                 this.shoulderStalled = true;
-                this.updateCurrWristPosition = true;
+                this.updateCurrShoulderPosition = true;
             }
 
             if (currTime > this.wristSetpointChangedTime + TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION &&
@@ -539,6 +557,7 @@ public class ArmMechanism implements IMechanism
                 }
 
                 this.wristStalled = true;
+                this.updateCurrWristPosition = true;
             }
         }
 
@@ -547,19 +566,36 @@ public class ArmMechanism implements IMechanism
         double currentDesiredWristPosition = this.desiredWristPosition;
         if (TuningConstants.ARM_USE_MM)
         {
-            TrapezoidProfile.State curr = this.shoulderTMPCurrState;
-            TrapezoidProfile.State goal = this.shoulderTMPGoalState;
+            // shoulder Trapezoidal Motion Profile follower
+            TrapezoidProfile.State shoulderCurr = this.shoulderTMPCurrState;
+            TrapezoidProfile.State shoulderGoal = this.shoulderTMPGoalState;
 
-            goal.updatePosition(currentDesiredShoulderPosition);
+            shoulderGoal.updatePosition(currentDesiredShoulderPosition);
+            if (this.updateCurrShoulderPosition)
+            {
+                shoulderCurr.updatePosition(this.shoulderPosition);
+                this.updateCurrShoulderPosition = false;
+            }
+
+            if (this.shoulderTrapezoidMotionProfile.update(elapsedTime, shoulderCurr, shoulderGoal))
+            {
+                currentDesiredShoulderPosition = shoulderCurr.getPosition();
+            }
+
+            // wrist Trapezoidal Motion Profile follower
+            TrapezoidProfile.State wristCurr = this.wristTMPCurrState;
+            TrapezoidProfile.State wristGoal = this.wristTMPGoalState;
+
+            wristGoal.updatePosition(currentDesiredWristPosition);
             if (this.updateCurrWristPosition)
             {
-                curr.updatePosition(this.shoulderPosition);
+                wristCurr.updatePosition(this.wristPosition);
                 this.updateCurrWristPosition = false;
             }
 
-            if (this.shoulderTrapezoidMotionProfile.update(elapsedTime, curr, goal))
+            if (this.wristTrapezoidMotionProfile.update(elapsedTime, wristCurr, wristGoal))
             {
-                currentDesiredShoulderPosition = curr.getPosition();
+                currentDesiredWristPosition = wristCurr.getPosition();
             }
         }
 
@@ -569,7 +605,6 @@ public class ArmMechanism implements IMechanism
         {
             currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
-
         }
 
         this.desiredWristAngle = angles[1];
@@ -586,7 +621,6 @@ public class ArmMechanism implements IMechanism
         {
             feedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
         }
-
 
         if (!useShoulderSimpleMode)
         {
@@ -616,14 +650,14 @@ public class ArmMechanism implements IMechanism
             else
             {
                 this.wristMotor.set(
-                    TuningConstants.ARM_USE_MM ? TalonSRXControlMode.MotionMagicPosition : TalonSRXControlMode.Position,
-                    currentDesiredWristPosition * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE,
+                    SparkMaxControlMode.Position,
+                    currentDesiredWristPosition,
                     0.0);
             }
         }
         else
         {
-            this.wristMotor.set(TalonSRXControlMode.PercentOutput, wristPower);
+            this.wristMotor.set(SparkMaxControlMode.PercentOutput, wristPower);
         }
 
         this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.shoulderMotor.getOutput());
@@ -647,6 +681,7 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.stop();
         this.prevTime = 0.0;
 
+        this.updateCurrShoulderPosition = true;
         this.updateCurrWristPosition = true;
     }
 
