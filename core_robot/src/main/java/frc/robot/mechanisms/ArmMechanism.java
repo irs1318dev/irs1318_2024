@@ -114,6 +114,7 @@ public class ArmMechanism implements IMechanism
     private boolean fixedWithIK;
 
     private boolean inSimpleMode;
+    private boolean updateCurrWristPosition;
 
     @Inject
     public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
@@ -124,6 +125,7 @@ public class ArmMechanism implements IMechanism
         this.powerManager = powerManager;
 
         this.inSimpleMode = TuningConstants.ARM_USE_SIMPLE_MODE;
+        this.updateCurrWristPosition = true;
 
         this.shoulderMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         this.wristMotor = provider.getTalonSRX(ElectronicsConstants.ARM_WRIST_MOTOR_CAN_ID);
@@ -308,7 +310,6 @@ public class ArmMechanism implements IMechanism
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
-        boolean updateCurrPosition = this.shoulderStalled;
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
@@ -359,7 +360,7 @@ public class ArmMechanism implements IMechanism
             this.shoulderStalled = false;
             this.wristStalled = false;
 
-            updateCurrPosition = true;
+            this.updateCurrWristPosition = true;
         }
 
         boolean armStop = this.driver.getDigital(DigitalOperation.ArmStop);
@@ -453,7 +454,7 @@ public class ArmMechanism implements IMechanism
                         (!Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1) ||
                          (!Helpers.RoughEquals(this.shoulderPosition, newDesiredShoulderPosition, 1.0) && this.shoulderStalled)))
                     {
-                        updateCurrPosition = this.shoulderStalled || !Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1);
+                        this.updateCurrWristPosition = this.updateCurrWristPosition || !Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1);
 
                         this.shoulderSetpointChangedTime = currTime;
                         this.shoulderStalled = false;
@@ -523,6 +524,7 @@ public class ArmMechanism implements IMechanism
                 }
 
                 this.shoulderStalled = true;
+                this.updateCurrWristPosition = true;
             }
 
             if (currTime > this.wristSetpointChangedTime + TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION &&
@@ -549,9 +551,10 @@ public class ArmMechanism implements IMechanism
             TrapezoidProfile.State goal = this.shoulderTMPGoalState;
 
             goal.updatePosition(currentDesiredShoulderPosition);
-            if (updateCurrPosition)
+            if (this.updateCurrWristPosition)
             {
                 curr.updatePosition(this.shoulderPosition);
+                this.updateCurrWristPosition = false;
             }
 
             if (this.shoulderTrapezoidMotionProfile.update(elapsedTime, curr, goal))
@@ -643,6 +646,8 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.stop();
         this.wristMotor.stop();
         this.prevTime = 0.0;
+
+        this.updateCurrWristPosition = true;
     }
 
     private void updateIKVars(double shoulderAngle, double wristAngle)

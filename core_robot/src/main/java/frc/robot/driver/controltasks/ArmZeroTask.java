@@ -65,7 +65,7 @@ public class ArmZeroTask extends ControlTaskBase
                 (this.arm.getWristStalled() ||
                     Math.abs(this.arm.getWristPosition() - TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) < TuningConstants.ARM_WRIST_ZEROING_POSITION_THRESHOLD ||
                     this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
-                    currTime >= this.transitionTime + 1.5))
+                    currTime >= this.transitionTime + 2.5))
             {
                 this.state = ArmZeroState.RetractWrist;
                 this.transitionTime = currTime;
