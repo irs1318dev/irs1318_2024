@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.lib.helpers.Helpers;
+
 /**
  * All constants describing the physical structure of the robot (distances and sizes of things).
  * 
@@ -8,8 +10,8 @@ package frc.robot;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 48.0; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 12.0; // inches, max extension beyond frame perimeter
+    public static final double MAX_ROBOT_HEIGHT = 47.0; // inches, max overall height
+    public static final double MAX_ROBOT_EXTENSION = 11.5; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
 
     //================================================== DriveTrain ==============================================================
@@ -53,26 +55,26 @@ public class HardwareConstants
     public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation 
     public static final double ARM_WRIST_TICKS_PER_DEGREE = (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
 
-    public static final double ARM_HUMERUS_LENGTH = 24.5; // length of arm section between shoulder joint and wrist joint ("humerus")
+    public static final double ARM_HUMERUS_LENGTH = 24.25; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
-    public static final double ARM_WRIST_TO_SHOOTER_X = 4.94;
-    public static final double ARM_WRIST_TO_SHOOTER_Z = 8.31;
-    public static final double ARM_WRIST_TO_INTAKE_X = 12.59;
-    public static final double ARM_WRIST_TO_INTAKE_Z = 7.31;
+    public static final double ARM_WRIST_TO_SHOOTER_X = 4.25;
+    public static final double ARM_WRIST_TO_SHOOTER_Z = 8.25;
+    public static final double ARM_WRIST_TO_INTAKE_X = 13;
+    public static final double ARM_WRIST_TO_INTAKE_Z = 8.25;
     public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
     public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
-    public static final double SHOOTER_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_Z);
-    public static final double INTAKE_TRIANGLE_ANGLE = Math.atan2( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_Z);
+    public static final double SHOOTER_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_X);
+    public static final double INTAKE_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_X);
 
     public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
     public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
 
-    public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -10.5;
-    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 21;
+    public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -11.25;
+    public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 20.75;
 
-    public static final double MIN_USABLE_HEIGHT = 5; // belly-pan height
+    public static final double MIN_USABLE_HEIGHT = 5.5; // bars running across robot height
 
     //=============================================== Vision ==================================================================//
 
