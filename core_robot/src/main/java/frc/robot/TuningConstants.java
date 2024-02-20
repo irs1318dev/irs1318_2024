@@ -370,7 +370,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 44.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
     public static final double ARM_WRIST_POSITION_SHOT = 41.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
@@ -394,16 +394,16 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
 
-    public static final double ARM_WRIST_GOAL_THRESHOLD = 1.0;
-    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_GOAL_THRESHOLD = 5.0;
+    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
-    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
     public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
@@ -424,7 +424,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = false;
+    public static final boolean USE_IK_CONSTRAINTS = true;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;

@@ -698,13 +698,13 @@ public class ArmMechanism implements IMechanism
         // Instant limiting
         if (extensionBack)
         {
-            positions[0] = this.shoulderPosition;
+            positions[0] = this.lastLegalShoulderPosition;
             positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Back";
         }
         else if (this.intakeBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || this.shooterBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT)
         {
-            positions[0] = this.shoulderPosition;
+            positions[0] = this.lastLegalShoulderPosition;
             positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Top-Crazy";
         }
@@ -715,16 +715,16 @@ public class ArmMechanism implements IMechanism
             || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
             || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
-            positions[0] = this.shoulderPosition;
+            positions[0] = this.lastLegalShoulderPosition;
             positions[1] = this.lastLegalWristPosition;
             this.hitingRobot = true;
             this.extensionType = "Robot";
         }
 
         // hitting ground
-        else if ( (this.intakeTopAbsPosZ < 0) || (this.intakeBottomAbsPosZ < 0))
+        else if ( (this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
         {
-            positions[0] = this.shoulderPosition;
+            positions[0] = this.lastLegalShoulderPosition;
             positions[1] = this.lastLegalWristPosition;
             this.extensionType = "Ground";
         }
@@ -738,7 +738,7 @@ public class ArmMechanism implements IMechanism
 
             if (intakeSide && shooterSide)
             {
-                positions[0] = this.shoulderPosition;
+                positions[0] = this.lastLegalShoulderPosition;
                 positions[1] = this.lastLegalWristPosition;
             }
             else if (intakeSide && intakeTopAbsPosX > wristAbsPosX)
@@ -759,7 +759,7 @@ public class ArmMechanism implements IMechanism
             }
             else
             {
-                positions[0] = this.shoulderPosition;
+                positions[0] = this.lastLegalShoulderPosition;
                 positions[1] = this.lastLegalWristPosition;
             }
         }
@@ -773,7 +773,7 @@ public class ArmMechanism implements IMechanism
 
             if (intakeTop && intakeBottom)
             {
-                positions[0] = this.shoulderPosition;
+                positions[0] = this.lastLegalShoulderPosition;
                 positions[1] = this.lastLegalWristPosition;
             }
             else if (intakeTop && intakeTopAbsPosZ < wristAbsPosZ)
@@ -794,20 +794,20 @@ public class ArmMechanism implements IMechanism
             }
             else
             {
-                positions[0] = this.shoulderPosition;
+                positions[0] = this.lastLegalShoulderPosition;
                 positions[1] = this.lastLegalWristPosition;
 
             }
         }
 
         // position so ilegal we say shoulder must stay where it currently is so we can still stay legal
-        if (positions[0] == this.shoulderPosition && positions[1] == this.lastLegalWristPosition)
+        if (positions[0] == this.lastLegalShoulderPosition && positions[1] == this.lastLegalWristPosition)
         {
             this.stuckInPosition = true;
         }
 
         // initially illegal but IK fixed it by adjusting wrist
-        if (positions[0] == desShoulder && positions[1] != desWrist)
+        if (positions[0] == desShoulder && positions[1] != desWrist && positions[1] != this.lastLegalWristPosition)
         {
             this.fixedWithIK = true;
         }
@@ -866,7 +866,7 @@ public class ArmMechanism implements IMechanism
 
     public double getShoulderPosition()
     {
-        return this.wristPosition;
+        return this.shoulderPosition;
     }
 
     public double getWristPosition()

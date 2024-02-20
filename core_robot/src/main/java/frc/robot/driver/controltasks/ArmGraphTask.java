@@ -173,6 +173,7 @@ public class ArmGraphTask extends ControlTaskBase
             ArmGraphNode currNode = this.path.get(this.currPos);
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
             System.out.println("Navigate to " + currNode.shoulderAngle + ", " + currNode.wristAngle);
+            System.out.println("Path Size: " + this.path.size());
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
         }
@@ -180,6 +181,7 @@ public class ArmGraphTask extends ControlTaskBase
         {
             this.hasCompleted = true;
 
+            System.out.println("Navigate to " + this.shoulderGoalPos + ", " + this.wristGoalPos);
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
         }
@@ -191,8 +193,8 @@ public class ArmGraphTask extends ControlTaskBase
         ArmGraphNode currNode = this.path.get(this.currPos);
 
         ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
-        if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getTheta1(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-            Helpers.RoughEquals(currNode.wristAngle, this.arm.getTheta2(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+        if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getShoulderPosition(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+            Helpers.RoughEquals(currNode.wristAngle, this.arm.getWristPosition(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
         {
             this.currPos++;
             if (this.currPos < this.path.size())
