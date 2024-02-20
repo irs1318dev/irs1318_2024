@@ -678,7 +678,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
+            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_AMP_SCORE, TuningConstants.ARM_WRIST_POSITION_AMP_SCORE),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,

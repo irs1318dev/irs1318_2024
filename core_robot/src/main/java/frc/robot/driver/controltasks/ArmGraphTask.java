@@ -172,6 +172,7 @@ public class ArmGraphTask extends ControlTaskBase
 
             ArmGraphNode currNode = this.path.get(this.currPos);
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
+            System.out.println("Navigate to " + currNode.shoulderAngle + ", " + currNode.wristAngle);
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
         }
@@ -197,6 +198,7 @@ public class ArmGraphTask extends ControlTaskBase
             if (this.currPos < this.path.size())
             {
                 currNode = this.path.get(this.currPos);
+                System.out.println("Navigate to " + currNode.shoulderAngle + ", " + currNode.wristAngle);
                 ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
             }
             else
