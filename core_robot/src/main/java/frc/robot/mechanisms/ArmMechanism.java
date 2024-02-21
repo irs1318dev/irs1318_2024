@@ -361,7 +361,7 @@ public class ArmMechanism implements IMechanism
         {
             this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
             this.shoulderMotor.burnFlash();
-            this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION * HardwareConstants.ARM_WRIST_TICKS_PER_DEGREE);
+            this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
             this.wristMotor.burnFlash();
 
             this.shoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION; // Fully Retracted

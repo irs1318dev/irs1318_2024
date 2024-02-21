@@ -101,10 +101,10 @@ public class AutonomousRoutineSelector
 
             if(startPosition == StartPosition.NearAmp)
             {
-                if(routine == AutoRoutine.SevenNode)
-                {
-                    return AmpNearSevenNodeAuto(locManager, isRed);
-                }
+                // if(routine == AutoRoutine.SevenNode)
+                // {
+                //     return AmpNearSevenNodeAuto(locManager, isRed);
+                // }
             }
 
             else if(startPosition == StartPosition.NearSource)
