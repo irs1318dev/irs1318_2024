@@ -678,25 +678,26 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_AMP_SCORE, TuningConstants.ARM_WRIST_POSITION_AMP_SCORE),
+            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
-        // new MacroOperationDescription(
-        //    MacroOperation.ArmShoulderPosition2,
-        //    UserInputDevice.Codriver, 
-        //    UserInputDeviceButton.XBONE_X_BUTTON,
-        //    EnumSet.of(Shift.CodriverDebug),
-        //    EnumSet.of(Shift.CodriverDebug),
-        //    ButtonType.Toggle, 
-        //    () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL),
-        //    new IOperation[]
-        //    {
-        //      AnalogOperation.ArmShoulderPositionSetpoint,
-        //    }),
+        new MacroOperationDescription(
+           MacroOperation.ArmShoulderPosition2,
+           UserInputDevice.Codriver, 
+           UserInputDeviceButton.XBONE_X_BUTTON,
+           EnumSet.of(Shift.CodriverDebug),
+           EnumSet.of(Shift.CodriverDebug),
+           ButtonType.Toggle, 
+           () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT),
+           new IOperation[]
+           {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+           }),
 
         new MacroOperationDescription(
             MacroOperation.ArmShoulderPosition3,
