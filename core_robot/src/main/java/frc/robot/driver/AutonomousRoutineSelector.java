@@ -99,6 +99,14 @@ public class AutonomousRoutineSelector
                 }
             }
 
+            if(startPosition == StartPosition.NearAmp)
+            {
+                if(routine == AutoRoutine.SevenNode)
+                {
+                    return AmpNearSevenNodeAuto(locManager, isRed);
+                }
+            }
+
             else if(startPosition == StartPosition.NearSource)
             {
                 // ALL NEAR SOURCE AUTONS GO HERE
@@ -115,8 +123,7 @@ public class AutonomousRoutineSelector
             {
                 // ALL NEAR SUBWOOFER SIDE AUTONS GO HERE
                 return GetFillerRoutine();
-            }
-            
+            }            
 
             return GetFillerRoutine();
         }
@@ -183,6 +190,73 @@ public class AutonomousRoutineSelector
 
             new ShootNoteTask()
         );
+    }
+
+    private static IControlTask AmpNearSubwooferPriority(AutonLocManager locManager, boolean isRed, int numberNotes)
+    {
+        if(numberNotes == 1)
+        {
+
+        }
+
+        if(numberNotes == 2)
+        {
+            return SequentialTask.Sequence(
+                ConcurrentTask.AllTasks(
+                    new ResetLevelTask(),
+                    new PositionStartingTask(
+                        locManager.P4,
+                        locManager.getOrientationOrHeading(0),
+                        true,
+                        true)
+            ),
+
+            new ShootNoteTask(),
+
+            ConcurrentTask.AnyTasks(
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+            new FollowPathTask(isRed ? "P3toP6MRed" : "P3toP6MBlue", Type.RobotRelativeFromCurrentPose)
+            ),
+
+            ConcurrentTask.AnyTasks(
+            new ShootNoteTask(),
+            new FollowPathTask(isRed ? "P6MtoP5MRed" : "P6MtoP5MBlue", Type.RobotRelativeFromCurrentPose)
+            ),
+
+            ConcurrentTask.AnyTasks(
+            new ShootNoteTask(),
+            new FollowPathTask(isRed ? "P5MtoP5MRed" : "P5MtoP5MBlue", Type.RobotRelativeFromCurrentPose)
+            ));
+        }
+
+        else
+        {
+            return SequentialTask.Sequence(
+            ConcurrentTask.AllTasks(
+                new ResetLevelTask(),
+                new PositionStartingTask(
+                    locManager.P4,
+                    locManager.getOrientationOrHeading(0),
+                    true,
+                    true)
+            ),
+
+            new ShootNoteTask(),
+
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+
+            new FollowPathTask(isRed ? "P3toP6MRed" : "P3toP6MBlue", Type.RobotRelativeFromCurrentPose),
+
+            new ShootNoteTask(),
+
+            new FollowPathTask(isRed ? "P6MtoP5MRed" : "P6MtoP5MBlue", Type.RobotRelativeFromCurrentPose),
+
+            new ShootNoteTask(),
+
+            new FollowPathTask(isRed ? "P5MtoP5MRed" : "P5MtoP5MBlue", Type.RobotRelativeFromCurrentPose)
+
+            );
+        }
     }
 }
 

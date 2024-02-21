@@ -1,6 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.lib.helpers.ExceptionHelpers;
+import frc.lib.robotprovider.Point2d;
 import frc.robot.driver.*;
 
 /**
@@ -42,6 +43,25 @@ public class PositionStartingTask extends UpdateCycleTask
 
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.orientationAngle = orientationAngle;
+        this.resetDriveTrain = resetDriveTrain;
+        this.resetOrientation = resetOrientation;
+    }
+
+    /**
+     * Initializes a new PositionStartingTask
+     * @param xPosition - the offset to use for the x position from the field's "origin"
+     * @param yPosition - the offset to use for the y position from the field's "origin"
+     * @param orientationAngle - offset to use from the default of facing away from the alliance driver station (in degrees)
+     * @param resetDriveTrain - whether to reset the drivetrain wheels (to read from the absolute encoders)
+     * @param resetOrientation - whether to reset the orientation of the robot
+     */
+    public PositionStartingTask(Point2d point, Double orientationAngle, boolean resetDriveTrain, boolean resetOrientation)
+    {
+        super(1);
+
+        this.xPosition = point.x;
+        this.yPosition = point.y;
         this.orientationAngle = orientationAngle;
         this.resetDriveTrain = resetDriveTrain;
         this.resetOrientation = resetOrientation;
