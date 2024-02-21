@@ -358,7 +358,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MIN_POSITION = -25.6; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
     public static final double ARM_WRIST_MIN_POSITION = -115.0; // in degrees
-    public static final double ARM_WRIST_MAX_POSITION = 210.0; // in degrees
+    public static final double ARM_WRIST_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
     public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.6;
@@ -499,9 +499,41 @@ public class TuningConstants
     public static final double ARM_WRIST_VELOCITY_TRACKING_DURATION = TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION;
     public static final double ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND = TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND;
 
-    public static final double[] ARM_GRAVITY_COMPENSATION_SHOULDER_SAMPLE_LOCATIONS = { 0, 1, 2, 3, 4 };
-    public static final double[] ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS = { 0 };
-    public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES = { { 1 }, { 2 }, { 3 }, { 4 }, { 5 } };
+    public static final double[] ARM_GRAVITY_COMPENSATION_SHOULDER_SAMPLE_LOCATIONS =
+        {
+            TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, // shoulder first position
+            -15.0, // shoulder second position
+            0.0, // shoulder third position
+            15.0, // shoulder fourth position
+            30.0, // shoulder fifth position
+            45.0, // shoulder sixth position
+        };
+
+    public static final double[] ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS =
+        {
+            TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, // wrist first position
+            -90.0, // wrist second position
+            -60.0, // wrist third position
+            -30.0, // wrist fourth position
+            0.0, // wrist fifth position
+            30.0, // wrist sixth position
+            60.0, // wrist seventh position
+            90.0, // wrist eighth position
+            120.0, // wrist ninth position
+            150.0, // wrist tenth position
+            180.0 // wrist eleventh position
+        };
+
+    // percent-output values to hold shoulder at the desired shoulder and wrist positions
+    public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES =
+        {
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder starting position
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder second position
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder third position
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder fourth position
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder fifth position
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder sixth position
+        };
 
     //==================================================== Climber ==============================================================
 
