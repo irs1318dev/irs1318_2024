@@ -143,6 +143,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
+        this.wristMotor.setRelativeEncoder();
         this.wristMotor.setPositionConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
