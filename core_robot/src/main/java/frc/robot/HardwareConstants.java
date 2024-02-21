@@ -53,7 +53,7 @@ public class HardwareConstants
     public static final double ARM_SHOULDER_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_SHOULDER_GEAR_RATIO * HardwareConstants.ARM_SHOULDER_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation
     public static final double ARM_SHOULDER_TICKS_PER_DEGREE = (HardwareConstants.ARM_SHOULDER_GEAR_RATIO * HardwareConstants.ARM_SHOULDER_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
     public static final double ARM_WRIST_ENCODER_COUNTS_PER_ROTATION = 1.0; // count per rotation of axle - integrated encoder
-    public static final double ARM_WRIST_GEAR_RATIO = 110.0 * 2.0; // 220:1 --> 110:1 in gearbox, 2:1 between chain sprockets.
+    public static final double ARM_WRIST_GEAR_RATIO = 81.0 * 2.0; // 162:1 --> 81:1 in gearbox, 2:1 between chain sprockets.
     public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation 
     public static final double ARM_WRIST_TICKS_PER_DEGREE = (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
 
@@ -64,8 +64,8 @@ public class HardwareConstants
     public static final double ARM_WRIST_TO_SHOOTER_Z = 8.25;
     public static final double ARM_WRIST_TO_INTAKE_X = 13;
     public static final double ARM_WRIST_TO_INTAKE_Z = 8.25;
-    public static final double ARM_WRIST_TO_SHOOTER_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
-    public static final double ARM_WRIST_TO_INTAKE_EDGE =  Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
+    public static final double ARM_WRIST_TO_SHOOTER_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
+    public static final double ARM_WRIST_TO_INTAKE_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
     public static final double SHOOTER_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_X);
     public static final double INTAKE_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_X);

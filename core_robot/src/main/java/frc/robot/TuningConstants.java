@@ -357,12 +357,12 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_MIN_POSITION = -25.6; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -115.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -107.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
     public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.6;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -115.0;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -107.0;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
@@ -416,10 +416,10 @@ public class TuningConstants
 
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
-    public static final boolean ARM_WRIST_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean ARM_WRIST_MOTOR_INVERT_OUTPUT = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = true;
-    public static final boolean ARM_USE_MM = false;
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
+    public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
 
@@ -459,18 +459,18 @@ public class TuningConstants
     public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
     public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
 
-    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = 0.0;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = 0.02;
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KP = 0.0;
+    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KP = 0.02;
     public static final double ARM_WRIST_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_POSITIONAL_TMP_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_TMP_PID_CRUISE_VELOC = 36864.0;
-    public static final double ARM_WRIST_TMP_PID_ACCEL = 36864.0;
+    public static final double ARM_WRIST_TMP_PID_CRUISE_VELOC = 180.0;
+    public static final double ARM_WRIST_TMP_PID_ACCEL = 180.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 4.0;
@@ -486,7 +486,7 @@ public class TuningConstants
     public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.5;
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_WRIST_ZEROING_POWER = -0.4;
+    public static final double ARM_WRIST_ZEROING_POWER = -0.3;
     public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;
