@@ -14,10 +14,10 @@ public class SmartDashboardSelectionManager
 
     public enum StartPosition
     {
-        NearAmp,
-        SubwooferFront,
-        SubwooferSide,
-        NearSource,
+        Amp,
+        WooferFront,
+        WooferSide,
+        Source,
     }
 
     public enum AutoRoutine
@@ -36,9 +36,8 @@ public class SmartDashboardSelectionManager
 
     public enum PriorityPickupSide
     {
-        NearSubwoofer,
-        MiddleAmp,
-        MiddleSource,
+        Close,
+        Center
     }
 
 
