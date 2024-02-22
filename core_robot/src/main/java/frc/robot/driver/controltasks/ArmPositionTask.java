@@ -7,11 +7,10 @@ import frc.robot.mechanisms.*;
 
 /**
  * Task that sets the Arm to the desired position using MM
- * 
+ *
  */
 public class ArmPositionTask extends ControlTaskBase
 {
-
     private enum ArmState
     {
         StowWrist,
@@ -31,8 +30,6 @@ public class ArmPositionTask extends ControlTaskBase
     boolean curWristToStowed;
     boolean curMoveToLowerUniv;
     boolean goalMoveToLowerUniv;
-    
-
 
     public ArmPositionTask(double shoulderPos, double wristPos)
     {
@@ -48,18 +45,18 @@ public class ArmPositionTask extends ControlTaskBase
     {
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
 
-        double curShoulderAngle = this.arm.getTheta1();
-        double curWristAngle = this.arm.getTheta2();
+        double curShoulderAngle = this.arm.getShoulderPosition();
+        double curWristAngle = this.arm.getWristPosition();
 
         this.curMoveToLowerUniv = Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL)
             < Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);
-            
+
         this.goalMoveToLowerUniv = Math.abs(shoulderGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL)
             < Math.abs(wristGoalPosition - TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);
 
         this.curWristToStowed = !(this.goalMoveToLowerUniv == this.curMoveToLowerUniv);
-            
-        if(curWristToStowed)
+
+        if (curWristToStowed)
         {
             currentArmState = ArmState.StowWrist;
         }
@@ -77,63 +74,54 @@ public class ArmPositionTask extends ControlTaskBase
     {
         if (this.currentArmState == ArmState.StowWrist)
         {
-            if (Helpers.RoughEquals(this.arm.getTheta2(), TuningConstants.ARM_WRIST_POSITION_STOWED, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) || this.arm.getStuckInPosition())
-            {  
+            if (Helpers.RoughEquals(this.arm.getWristPosition(), TuningConstants.ARM_WRIST_POSITION_STOWED, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) || this.arm.getStuckInPosition())
+            {
                 this.currentArmState = ArmState.MoveToInitialUniversal;
             }
-
             else
             {
                 this.currentArmState = ArmState.StowWrist;
             }
         }
-
         else if (this.currentArmState == ArmState.MoveToInitialUniversal)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            if (Helpers.RoughEquals(this.arm.getWristPosition(), (this.curMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.MoveToFinalUniversal;
             }
-
             else
             {
                 this.currentArmState = ArmState.MoveToInitialUniversal;
             }
         }
-
         else if (this.currentArmState == ArmState.MoveToFinalUniversal)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta1(), (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            if (Helpers.RoughEquals(this.arm.getWristPosition(), (this.goalMoveToLowerUniv ? TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL : TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.TargetWrist;
             }
-
             else
             {
                 this.currentArmState = ArmState.MoveToFinalUniversal;
             }
         }
-
         else if (this.currentArmState == ArmState.TargetWrist)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta2(), wristGoalPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+            if (Helpers.RoughEquals(this.arm.getWristPosition(), wristGoalPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.TargetShoulder;
             }
-
             else
             {
                 this.currentArmState = ArmState.TargetWrist;
             }
         }
-
         else if (this.currentArmState == ArmState.TargetShoulder)
         {
-            if(Helpers.RoughEquals(this.arm.getTheta1(), shoulderGoalPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            if (Helpers.RoughEquals(this.arm.getWristPosition(), shoulderGoalPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
             {
                 this.currentArmState = ArmState.Completed;
             }
-
             else
             {
                 this.currentArmState = ArmState.TargetShoulder;

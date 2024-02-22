@@ -66,10 +66,10 @@ public class ShootNoteTask extends DecisionSequentialTask
         if (finishedTask instanceof VisionTurningTask) {
             double distToTargetX = visionManager.getAprilTagXOffset() 
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
-            + arm.wristJointAbsPosition()[0];
+            + arm.getWristJointAbsPosition()[0];
             double distToTargetY = visionManager.getAprilTagZOffset()
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
-            - arm.wristJointAbsPosition()[1];
+            - arm.getWristJointAbsPosition()[1];
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;

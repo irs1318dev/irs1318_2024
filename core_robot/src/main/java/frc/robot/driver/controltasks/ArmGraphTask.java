@@ -151,7 +151,7 @@ public class ArmGraphTask extends ControlTaskBase
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
 
         ArmGraphNode goalArmGraphNode = this.getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
-        ArmGraphNode startArmGraphNode = this.getClosestArmNode(this.arm.getTheta1(), this.arm.getTheta2());
+        ArmGraphNode startArmGraphNode = this.getClosestArmNode(this.arm.getShoulderPosition(), this.arm.getWristPosition());
 
         System.out.println("Starting Node");
         System.out.println(startArmGraphNode.shoulderAngle);
