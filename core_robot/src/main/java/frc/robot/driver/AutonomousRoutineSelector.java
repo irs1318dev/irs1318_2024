@@ -194,6 +194,8 @@ public class AutonomousRoutineSelector
 
     private static IControlTask AmpStartClosePriority(AutonLocManager locManager, boolean isRed, int numberNotes)
     {
+
+        //if number of notes is 1, grab rightmost note and shoot at P6M
         if(numberNotes == 1)
         {
             return SequentialTask.Sequence(
@@ -219,6 +221,8 @@ public class AutonomousRoutineSelector
             ));
         }
 
+
+        //if number of notes is 2, grab right most note, shoot at P6M, grab center note, shoot in place.
         else if(numberNotes == 2)
         {
             return SequentialTask.Sequence(
@@ -258,6 +262,8 @@ public class AutonomousRoutineSelector
             new ShooterSpinTask(300, 1));
         }
 
+        //if number of notes is 3, grab grab right most note, shoot at P6M, grab center note, shoot in place,
+        //grab left note
         else
         {
             return SequentialTask.Sequence(
