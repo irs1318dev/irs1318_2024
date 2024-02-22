@@ -3,14 +3,32 @@ package frc.robot.mechanisms;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.Pair;
 import frc.lib.robotprovider.ILogger;
+import frc.lib.robotprovider.Point2d;
 import frc.robot.HardwareConstants;
 import frc.robot.LoggingKey;
 
 public class ArmKinematicsCalculator
 {
+    public enum ExtensionType
+    {
+        None,
+        Back,
+        Robot,
+        Ground,
+        TopCrazy,
+        TopBoth,
+        TopIntakeSide,
+        TopShooterSide,
+        TopNone,
+        FrontBoth,
+        FrontIntakeTop,
+        FrontIntakeBottom,
+        FrontNone,
+    }
+
     private double desiredWristAngle; // tester
     private double desiredShoulderAngle;
-    private String extensionType = "None";
+    private ExtensionType extensionType;
 
     private final double L1 = HardwareConstants.ARM_HUMERUS_LENGTH; // Shoulder pivot to wrist pivot distance
     private final double L2 = HardwareConstants.ARM_WRIST_TO_SHOOTER_EDGE; // wrist to shooter top
@@ -61,7 +79,7 @@ public class ArmKinematicsCalculator
         logger.logBoolean(LoggingKey.ArmExtensionBreaking, this.stuckInPosition);
         logger.logBoolean(LoggingKey.HittingRobot, this.hittingRobot);
         logger.logBoolean(LoggingKey.FixedWithIK, this.fixedWithIK);
-        logger.logString(LoggingKey.ExtensionType, this.extensionType);
+        logger.logString(LoggingKey.ExtensionType, this.extensionType.toString());
 
         logger.logNumber(LoggingKey.IntakeTopAbsX, this.intakeTopAbsPosX);
         logger.logNumber(LoggingKey.IntakeTopAbsZ, this.intakeTopAbsPosZ);
@@ -123,7 +141,7 @@ public class ArmKinematicsCalculator
         this.fixedWithIK = false;
         this.hittingRobot = false;
         this.stuckInPosition = false;
-        this.extensionType = "None";
+        this.extensionType = ExtensionType.None;
 
         boolean extensionTop =
             this.intakeTopAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT ||
@@ -138,14 +156,14 @@ public class ArmKinematicsCalculator
         // Instant limiting
         if (extensionBack)
         {
-            this.extensionType = "Back";
+            this.extensionType = ExtensionType.Back;
             this.stuckInPosition = true;
             return true;
         }
 
         if (this.intakeBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT || this.shooterBottomAbsPosZ > HardwareConstants.MAX_ROBOT_HEIGHT)
         {
-            this.extensionType = "Top-Crazy";
+            this.extensionType = ExtensionType.TopCrazy;
             this.stuckInPosition = true;
             return true;
         }
@@ -156,7 +174,7 @@ public class ArmKinematicsCalculator
             || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
             || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
-            this.extensionType = "Robot";
+            this.extensionType = ExtensionType.Robot;
             this.hittingRobot = true;
             this.stuckInPosition = true;
             return true;
@@ -165,7 +183,7 @@ public class ArmKinematicsCalculator
         // hitting ground
         if ( (this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
         {
-            this.extensionType = "Ground";
+            this.extensionType = ExtensionType.Ground;
             this.stuckInPosition = true;
             return true;
         }
@@ -179,7 +197,7 @@ public class ArmKinematicsCalculator
 
             if (intakeSide && shooterSide)
             {
-                this.extensionType = "Top-Both";
+                this.extensionType = ExtensionType.TopBoth;
                 this.stuckInPosition = true;
                 return true;
             }
@@ -194,6 +212,7 @@ public class ArmKinematicsCalculator
                     currentDesiredShoulderPosition,
                     temp_wrist_angle);
                 this.fixedWithIK = true;
+                this.extensionType = ExtensionType.TopIntakeSide;
                 return true;
             }
 
@@ -207,11 +226,12 @@ public class ArmKinematicsCalculator
                     currentDesiredShoulderPosition,
                     temp_wrist_angle);
                 this.fixedWithIK = true;
+                this.extensionType = ExtensionType.TopShooterSide;
                 return true;
             }
 
             // cannot fix
-            this.extensionType = "Top-None";
+            this.extensionType = ExtensionType.TopNone;
             this.stuckInPosition = true;
             return true;
         }
@@ -225,7 +245,7 @@ public class ArmKinematicsCalculator
 
             if (intakeTop && intakeBottom)
             {
-                this.extensionType = "Front-Both";
+                this.extensionType = ExtensionType.FrontBoth;
                 this.stuckInPosition = true;
                 return true;
             }
@@ -239,6 +259,7 @@ public class ArmKinematicsCalculator
                 kinematicsLimitedAngles.set(
                     currentDesiredShoulderPosition,
                     temp_wrist_angle);
+                this.extensionType = ExtensionType.FrontIntakeTop;
                 this.fixedWithIK = true;
                 return true;
             }
@@ -253,11 +274,12 @@ public class ArmKinematicsCalculator
                     currentDesiredShoulderPosition,
                     temp_wrist_angle);
                 this.fixedWithIK = true;
+                this.extensionType = ExtensionType.FrontIntakeBottom;
                 return true;
             }
 
             // cannot fix
-            this.extensionType = "Front-None";
+            this.extensionType = ExtensionType.FrontNone;
             this.stuckInPosition = true;
             return true;
         }
@@ -301,5 +323,30 @@ public class ArmKinematicsCalculator
     public boolean getStuckInPosition()
     {
         return this.stuckInPosition;
+    }
+
+    public ExtensionType getExtensionType()
+    {
+        return this.extensionType;
+    }
+
+    public Point2d getShooterBottomAbsPos()
+    {
+        return new Point2d(this.shooterBottomAbsPosX, this.shooterBottomAbsPosZ);
+    }
+    
+    public Point2d getShooterTopAbsPos()
+    {
+        return new Point2d(this.shooterTopAbsPosX, this.shooterTopAbsPosZ);
+    }
+
+    public Point2d getIntakeBottomAbsPos()
+    {
+        return new Point2d(this.intakeBottomAbsPosX, this.intakeBottomAbsPosZ);
+    }
+    
+    public Point2d getIntakeTopAbsPos()
+    {
+        return new Point2d(this.intakeTopAbsPosX, this.intakeTopAbsPosZ);
     }
 }
