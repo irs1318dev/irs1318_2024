@@ -30,6 +30,7 @@ public class FauxbotMenuScreen implements Screen
     private final SelectBox<Simulation> simulationSelector;
     private final TextButton simulateButton;
     private final TextButton simulateLiteButton;
+    private final TextButton drawJointSpaceReachButton;
 
     private Simulation selectedSimulation;
 
@@ -108,6 +109,21 @@ public class FauxbotMenuScreen implements Screen
             });
 
         this.table.add(this.simulateLiteButton);
+        this.table.row();
+
+        this.drawJointSpaceReachButton = new TextButton("JointSpace Reach", skin);
+        this.drawJointSpaceReachButton.addListener(
+            new ClickListener()
+            {
+                @Override 
+                public void clicked(InputEvent event, float x, float y)
+                {
+                    game.setScreen(new FauxbotJointSpaceReachScreen(game));
+                    dispose();
+                }
+            });
+
+        this.table.add(this.drawJointSpaceReachButton).colspan(2);
         this.table.row();
     }
 
