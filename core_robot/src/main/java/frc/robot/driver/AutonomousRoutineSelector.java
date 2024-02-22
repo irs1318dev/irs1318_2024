@@ -93,10 +93,7 @@ public class AutonomousRoutineSelector
 
             if(startPosition == StartPosition.Amp && pickupSide == PriorityPickupSide.Close && routine == AutoRoutine.TwoNote)
             {
-                if(routine == AutoRoutine.TwoNote)
-                {
-                    return AmpNearTwoNote(isRed);
-                }
+                return AmpStartClosePriority(locManager, isRed, 2);
             }
 
             if(startPosition == StartPosition.Amp && pickupSide == PriorityPickupSide.Close && routine == AutoRoutine.ThreeNote)
