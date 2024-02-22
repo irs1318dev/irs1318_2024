@@ -161,7 +161,8 @@ public enum LoggingKey
 
     // Climber stuff
     ClimberMotorPower("cl.motor"),
-    ClimberServoPosition("cl.servo");
+    ClimberServoPosition("cl.servo"),
+    ClimberLimitSwitch("cl.limit");
 
     public final String value;
     public final int loggingFrequency;

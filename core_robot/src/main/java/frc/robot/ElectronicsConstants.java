@@ -74,10 +74,11 @@ public class ElectronicsConstants
     public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = 7;
     public static final int ARM_WRIST_PDH_CHANNEL = 11;
 
-    //================================================= ClimberMotor ====================================================================
+    //================================================= Climber ====================================================================
+
     public static final int CLIMBER_MOTOR_CAN_ID = 0;
     public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 0;
     public static final int CLIMBER_SERVO_MOTOR_CAN_ID = 1;
-
+    public static final int CLIMBER_LIMIT_SWITCH_DIO_CHANNEL = 0;
 }
 
