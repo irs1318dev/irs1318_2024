@@ -80,6 +80,7 @@ public class ArmMechanism implements IMechanism
     private double lastLegalWristPosition;
     private double lastLegalShoulderPosition;
 
+    private boolean wasEnabled;
     private boolean inSimpleMode;
     private boolean updateCurrWristPosition;
     private boolean updateCurrShoulderPosition;
@@ -111,7 +112,7 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
-        this.wristMotor.setNeutralMode(MotorNeutralMode.Brake);
+        this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -234,6 +235,8 @@ public class ArmMechanism implements IMechanism
 
         this.lastLegalShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
         this.lastLegalWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+
+        this.wasEnabled = false;
     }
 
     @Override
@@ -305,11 +308,20 @@ public class ArmMechanism implements IMechanism
         }
 
         // ---------------> MAIN ARM CONTROL <------------------------
-
         if (this.driver.getDigital(DigitalOperation.ArmForceReset))
         {
             this.shoulderMotor.setPosition(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION);
             this.shoulderMotor.burnFlash();
+            if (!this.wasEnabled)
+            {
+                if (TuningConstants.ARM_USE_COAST_ON_DISABLE)
+                {
+                    this.wristMotor.setNeutralMode(MotorNeutralMode.Brake);
+                }
+
+                this.wasEnabled = true;
+            }
+
             this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
             this.wristMotor.burnFlash();
 
@@ -327,6 +339,17 @@ public class ArmMechanism implements IMechanism
 
             this.updateCurrShoulderPosition = true;
             this.updateCurrWristPosition = true;
+        }
+        else if (!this.wasEnabled)
+        {
+            // note - we want to avoid double-burnFlash, so anything we do here we should do within the arm force reset above
+            if (TuningConstants.ARM_USE_COAST_ON_DISABLE)
+            {
+                this.wristMotor.setNeutralMode(MotorNeutralMode.Brake);
+                this.wristMotor.burnFlash();
+            }
+
+            this.wasEnabled = true;
         }
 
         boolean armStop = this.driver.getDigital(DigitalOperation.ArmStop);
@@ -639,6 +662,14 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.stop();
         this.wristMotor.stop();
         this.prevTime = 0.0;
+
+        if (TuningConstants.ARM_USE_COAST_ON_DISABLE)
+        {
+            this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
+            this.wristMotor.burnFlash();
+        }
+
+        this.wasEnabled = false;
 
         this.updateCurrShoulderPosition = true;
         this.updateCurrWristPosition = true;
