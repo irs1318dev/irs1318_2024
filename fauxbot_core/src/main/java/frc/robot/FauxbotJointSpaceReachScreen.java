@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -32,6 +34,7 @@ import frc.lib.driver.descriptions.AnalogOperationDescription;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
+import frc.lib.helpers.Pair;
 import frc.lib.robotprovider.FauxbotActuatorBase;
 import frc.lib.robotprovider.FauxbotActuatorConnection;
 import frc.lib.robotprovider.FauxbotActuatorManager;
@@ -49,6 +52,8 @@ import frc.lib.robotprovider.FauxbotSensorConnection;
 import frc.lib.robotprovider.FauxbotSensorManager;
 import frc.lib.robotprovider.FauxbotSolenoid;
 import frc.lib.robotprovider.RobotMode;
+import frc.robot.mechanisms.ArmKinematicsCalculator;
+import frc.robot.mechanisms.ArmKinematicsCalculator.ExtensionType;
 import frc.robot.simulation.RobotSimulator;
 import frc.robot.simulation.SimulatorBase;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -135,6 +140,27 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
     public class JointSpaceDiagram extends Actor implements Disposable
     {
+        private static final Color LIGHT_SALMON = Color.SALMON.cpy().lerp(Color.WHITE, 0.5f);
+        private static final Color LIGHT_MAGENTA = Color.MAGENTA.cpy().lerp(Color.WHITE, 0.5f);
+        private static final HashMap<ExtensionType, Color> extensionTypeColors = new HashMap<ExtensionType, Color>()
+        {
+            {
+                put(ExtensionType.None, Color.GREEN);
+                put(ExtensionType.Back, Color.CORAL);
+                put(ExtensionType.Robot, Color.SCARLET);
+                put(ExtensionType.Ground, Color.RED);
+                put(ExtensionType.TopCrazy, Color.BLACK);
+                put(ExtensionType.TopBoth, Color.SALMON);
+                put(ExtensionType.TopIntakeSide, LIGHT_SALMON);
+                put(ExtensionType.TopShooterSide, LIGHT_SALMON);
+                put(ExtensionType.TopNone, Color.SALMON);
+                put(ExtensionType.FrontBoth, Color.MAGENTA);
+                put(ExtensionType.FrontIntakeTop, LIGHT_MAGENTA);
+                put(ExtensionType.FrontIntakeBottom, LIGHT_MAGENTA);
+                put(ExtensionType.FrontNone, Color.MAGENTA);
+            }
+        };
+
         private Pixmap pixMap;
         private Texture currentPixMapTexture;
 
@@ -146,6 +172,21 @@ public class FauxbotJointSpaceReachScreen implements Screen
             this.currentPixMapTexture = new Texture(this.pixMap);
 
             this.pixMap.setColor(Color.GREEN);
+
+            Pair<Double, Double> result = new Pair<Double, Double>(0.0, 0.0);
+            ArmKinematicsCalculator calculator = new ArmKinematicsCalculator(TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_WRIST_MIN_POSITION);
+            for (double shoulderPosition = TuningConstants.ARM_SHOULDER_MIN_POSITION; shoulderPosition <= TuningConstants.ARM_SHOULDER_MAX_POSITION; shoulderPosition += 0.5)
+            {
+                for (double wristPosition = TuningConstants.ARM_WRIST_MIN_POSITION; wristPosition <= TuningConstants.ARM_WRIST_MAX_POSITION; wristPosition += 1.0)
+                {
+                    boolean invalid = calculator.calculateArmLimits(shoulderPosition, wristPosition, result);
+                    // validCsvWriter.writeRow(String.valueOf(shoulderPosition), String.valueOf(wristPosition), String.valueOf(invalid), calculator.getExtensionType().toString(), String.valueOf(calculator.getShooterBottomAbsPos().x), String.valueOf(calculator.getShooterBottomAbsPos().y), String.valueOf(calculator.getShooterTopAbsPos().x), String.valueOf(calculator.getShooterTopAbsPos().y), String.valueOf(calculator.getIntakeBottomAbsPos().x), String.valueOf(calculator.getIntakeBottomAbsPos().y), String.valueOf(calculator.getIntakeTopAbsPos().x), String.valueOf(calculator.getIntakeTopAbsPos().y));
+                    if (invalid)
+                    {
+
+                    }
+                }
+            }
 
             this.setSize(2.0f * 5.0f, 2.0f * 5.0f);
         }
