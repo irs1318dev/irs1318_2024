@@ -383,7 +383,7 @@ public class ArmMechanism implements IMechanism
 
         boolean armStop = this.driver.getDigital(DigitalOperation.ArmStop);
 
-        double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower);
+        double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower) * 0.05 + 0.05;
         double wristPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPower);
 
         double shoulderPower = 0.0;
@@ -604,7 +604,7 @@ public class ArmMechanism implements IMechanism
         double[] angles = this.limitedAngles(currentDesiredShoulderPosition, currentDesiredWristPosition);
         if (TuningConstants.USE_IK_CONSTRAINTS)
         {
-            currentDesiredShoulderPosition = angles[0];
+            // currentDesiredShoulderPosition = angles[0];
             currentDesiredWristPosition = angles[1];
         }
 

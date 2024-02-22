@@ -216,18 +216,18 @@ public class ButtonMap implements IButtonMap
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeIn,
-            UserInputDevice.Codriver,
-            UserInputDeviceButton.XBONE_A_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeOut,
-            UserInputDevice.Codriver,
-            UserInputDeviceButton.XBONE_B_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.of(Shift.DriverDebug),
             ButtonType.Simple),
 
         new DigitalOperationDescription(
@@ -678,26 +678,26 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+            () -> new ArmWristPositionTask(180.0),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
-        new MacroOperationDescription(
-           MacroOperation.ArmShoulderPosition2,
-           UserInputDevice.Codriver, 
-           UserInputDeviceButton.XBONE_X_BUTTON,
-           EnumSet.of(Shift.CodriverDebug),
-           EnumSet.of(Shift.CodriverDebug),
-           ButtonType.Toggle, 
-           () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT),
-           new IOperation[]
-           {
-                AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
-           }),
+        // new MacroOperationDescription(
+        //    MacroOperation.ArmShoulderPosition2,
+        //    UserInputDevice.Codriver, 
+        //    UserInputDeviceButton.XBONE_X_BUTTON,
+        //    EnumSet.of(Shift.CodriverDebug),
+        //    EnumSet.of(Shift.CodriverDebug),
+        //    ButtonType.Toggle, 
+        //    () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT),
+        //    new IOperation[]
+        //    {
+        //         AnalogOperation.ArmShoulderPositionSetpoint,
+        //         AnalogOperation.ArmWristPositionSetpoint,
+        //    }),
 
         // new MacroOperationDescription(
             // MacroOperation.ArmShoulderPosition3,
@@ -797,7 +797,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(2500.0),
+            () -> new ShooterSpinTask(1500.0),
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,

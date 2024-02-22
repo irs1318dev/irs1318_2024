@@ -355,14 +355,14 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_SHOULDER_MIN_POSITION = -25.6; // in degrees
+    public static final double ARM_SHOULDER_MIN_POSITION = -30.1; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -107.0; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
-    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -25.6;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -107.0;
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -30.1;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -112.0;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
@@ -486,7 +486,7 @@ public class TuningConstants
     public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 10;//0.8;
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_WRIST_ZEROING_POWER = -0.5;
+    public static final double ARM_WRIST_ZEROING_POWER = -0.2;
     public static final double ARM_SHOULDER_ZEROING_POWER = -0.05;
 
     public static final double ARM_SHOULDER_POWER_TRACKING_DURATION = 0.250;
@@ -505,8 +505,7 @@ public class TuningConstants
             -15.0, // shoulder second position
             0.0, // shoulder third position
             15.0, // shoulder fourth position
-            30.0, // shoulder fifth position
-            45.0, // shoulder sixth position
+            30.0 // shoulder fifth position
         };
 
     public static final double[] ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS =
@@ -528,11 +527,10 @@ public class TuningConstants
     public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder starting position
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder second position
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder third position
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder fourth position
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder fifth position
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder sixth position
+            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, -1318, -1318, -1318, -1318 }, // shoulder second position
+            { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
+            { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
+            { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522} // shoulder fifth position
         };
 
     //==================================================== Climber ==============================================================
