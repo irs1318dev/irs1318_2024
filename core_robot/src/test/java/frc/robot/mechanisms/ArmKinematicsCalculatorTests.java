@@ -19,7 +19,7 @@ public class ArmKinematicsCalculatorTests
 
             Pair<Double, Double> result = new Pair<Double, Double>(0.0, 0.0);
             ArmKinematicsCalculator calculator = new ArmKinematicsCalculator(TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_WRIST_MIN_POSITION);
-            for (double shoulderPosition = TuningConstants.ARM_SHOULDER_MIN_POSITION; shoulderPosition <= TuningConstants.ARM_SHOULDER_MAX_POSITION; shoulderPosition += 1.0)
+            for (double shoulderPosition = TuningConstants.ARM_SHOULDER_MIN_POSITION; shoulderPosition <= TuningConstants.ARM_SHOULDER_MAX_POSITION; shoulderPosition += 0.5)
             {
                 for (double wristPosition = TuningConstants.ARM_WRIST_MIN_POSITION; wristPosition <= TuningConstants.ARM_WRIST_MAX_POSITION; wristPosition += 1.0)
                 {

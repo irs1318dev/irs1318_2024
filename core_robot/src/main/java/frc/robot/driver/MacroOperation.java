@@ -13,15 +13,15 @@ public enum MacroOperation implements IOperation
     FaceBackward,
 
     // Arm operations:
-    ArmShoulderPosition1,
-    ArmShoulderPosition2,
-    ArmShoulderPosition3,
-    ArmShoulderPosition4,
-    ArmWristPosition1,
-    ArmWristPosition2,
-    ArmWristPosition3,
-    ArmWristPosition4,
-    ArmWristPosition5,
+    ArmShoulderWristPosition1,
+    ArmShoulderWristPosition2,
+    ArmShoulderWristPosition3,
+    ArmShoulderWristPosition4,
+    ArmShoulderWristPosition5,
+    ArmShoulderWristPosition6,
+    ArmShoulderWristPosition7,
+    ArmShoulderWristPosition8,
+    //ArmWristPosition5,
     ResetArm,
 
     // EndEffector operations:

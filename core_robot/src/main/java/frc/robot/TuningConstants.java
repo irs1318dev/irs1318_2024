@@ -368,7 +368,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_SHOT = 41.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 35.72480010986328;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
@@ -377,7 +377,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
     public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 56.0;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 67.4703140258789;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
@@ -422,6 +422,7 @@ public class TuningConstants
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
+    public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -505,7 +506,8 @@ public class TuningConstants
             -15.0, // shoulder second position
             0.0, // shoulder third position
             15.0, // shoulder fourth position
-            30.0 // shoulder fifth position
+            30.0, // shoulder fifth position
+            45.0 // shoulder sixth position
         };
 
     public static final double[] ARM_GRAVITY_COMPENSATION_WRIST_SAMPLE_LOCATIONS =
@@ -530,7 +532,8 @@ public class TuningConstants
             { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, -1318, -1318, -1318, -1318 }, // shoulder second position
             { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
             { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
-            { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522} // shoulder fifth position
+            { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522}, // shoulder fifth position
+            { 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.070894494652748, 0.099978640675545, 0.119978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545} // shoulder sixth position
         };
 
     //==================================================== Climber ==============================================================
