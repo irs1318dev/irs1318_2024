@@ -502,42 +502,6 @@ public class ArmMechanism implements IMechanism
             }
         }
 
-        if (TuningConstants.ARM_STALL_PROTECTION_ENABLED)
-        {
-            // if we've past the velocity tracking duration since last desired position change we're using more power than expected and we're not moving that much
-            // then either reset position (if past & present values tell us were trying to reset) and say were stalled or just say were stalled
-
-            if (currTime > this.shoulderSetpointChangedTime + TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION &&
-                this.shoulderPowerAverage >= TuningConstants.ARM_SHOULDER_STALLED_POWER_THRESHOLD &&
-                Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)
-            {
-                if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                    Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
-                {
-                    this.desiredShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
-                    this.shoulderMotor.setPosition(this.desiredShoulderPosition);
-                }
-
-                this.shoulderStalled = true;
-                this.updateCurrShoulderPosition = true;
-            }
-
-            if (currTime > this.wristSetpointChangedTime + TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION &&
-                this.wristPowerAverage >= TuningConstants.ARM_WRIST_STALLED_POWER_THRESHOLD &&
-                Math.abs(this.wristVelocityAverage) <= TuningConstants.ARM_WRIST_STALLED_VELOCITY_THRESHOLD)
-            {
-                if (Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) &&
-                    Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
-                {
-                    this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-                    this.wristMotor.setPosition(this.desiredWristPosition);
-                }
-
-                this.wristStalled = true;
-                this.updateCurrWristPosition = true;
-            }
-        }
-
         // TMP
         double currentDesiredShoulderPosition = this.desiredShoulderPosition;
         double currentDesiredWristPosition = this.desiredWristPosition;
@@ -604,11 +568,50 @@ public class ArmMechanism implements IMechanism
         this.lastLegalWristPosition = currentDesiredWristPosition;
         this.lastLegalShoulderPosition = currentDesiredShoulderPosition;
 
+        double powerThreshold = TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE * TuningConstants.ARM_SHOULDER_STALLED_CURRENT_BUFFER;
+
         // GRAVITY COMPENSATION
         double feedForward = 0.0;
         if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
         {
             feedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
+            powerThreshold += feedForward * TuningConstants.PERCENT_OUTPUT_MULTIPLIER;
+        }
+
+        if (TuningConstants.ARM_STALL_PROTECTION_ENABLED)
+        {
+            // if we've past the velocity tracking duration since last desired position change we're using more power than expected and we're not moving that much
+            // then either reset position (if past & present values tell us were trying to reset) and say were stalled or just say were stalled
+            
+            if (currTime > this.shoulderSetpointChangedTime + TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION &&
+                this.shoulderPowerAverage >= powerThreshold &&
+                Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)
+            {
+                if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                    Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+                {
+                    this.desiredShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+                    this.shoulderMotor.setPosition(this.desiredShoulderPosition);
+                }
+
+                this.shoulderStalled = true;
+                this.updateCurrShoulderPosition = true;
+            }
+
+            if (currTime > this.wristSetpointChangedTime + TuningConstants.ARM_WRIST_VELOCITY_TRACKING_DURATION &&
+                this.wristPowerAverage >= TuningConstants.ARM_WRIST_STALLED_POWER_THRESHOLD &&
+                Math.abs(this.wristVelocityAverage) <= TuningConstants.ARM_WRIST_STALLED_VELOCITY_THRESHOLD)
+            {
+                if (Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD) &&
+                    Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+                {
+                    this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+                    this.wristMotor.setPosition(this.desiredWristPosition);
+                }
+
+                this.wristStalled = true;
+                this.updateCurrWristPosition = true;
+            }
         }
 
         if (!useShoulderSimpleMode)

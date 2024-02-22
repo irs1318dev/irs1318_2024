@@ -474,11 +474,12 @@ public class TuningConstants
     public static final double ARM_WRIST_TMP_PID_ACCEL = 180.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 4.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 5.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
-    public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
+    public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
+    //public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 8.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
 
