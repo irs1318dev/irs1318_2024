@@ -50,6 +50,8 @@ public class ArmMechanism implements IMechanism
     private double wristSetpointChangedTime;
     private boolean shoulderStalled;
     private boolean wristStalled;
+    
+    private boolean wristLimitSwitchHit;
 
     private FloatingAverageCalculator shoulderPowerAverageCalculator;
     private FloatingAverageCalculator wristPowerAverageCalculator;
@@ -108,6 +110,7 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
         this.wristMotor.setRelativeEncoder();
+        this.wristMotor.setForwardLimitSwitch(ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_ENABLED, ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN);
         this.wristMotor.setPositionConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
@@ -248,6 +251,8 @@ public class ArmMechanism implements IMechanism
         this.wristPosition = this.wristMotor.getPosition(); // convert rotations to degrees
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.desiredWristPosition;
+
+        this.wristLimitSwitchHit = this.wristMotor.getForwardLimitSwitchStatus();
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
         double shoulderFollowerCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_PDH_CHANNEL);
@@ -733,5 +738,10 @@ public class ArmMechanism implements IMechanism
     public double getShoulderVelocityAverage()
     {
         return this.shoulderVelocityAverage;
+    }
+
+    public boolean getWristLimitSwitchStatus()
+    {
+        return this.getWristLimitSwitchStatus();
     }
 }
