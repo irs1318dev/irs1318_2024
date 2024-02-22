@@ -31,4 +31,7 @@ props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ig
 
 include 'core_robot'
 include 'robot_roborio'
-include 'fauxbot_ui'
+include 'fauxbot_common'
+include 'fauxbot_core'
+include 'fauxbot_desktop'
+include 'fauxbot_javafx'
