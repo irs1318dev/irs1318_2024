@@ -383,7 +383,7 @@ public class ArmMechanism implements IMechanism
 
         boolean armStop = this.driver.getDigital(DigitalOperation.ArmStop);
 
-        double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower) * 0.05 + 0.05;
+        double shoulderPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmShoulderPower);
         double wristPowerAdjustment = this.driver.getAnalog(AnalogOperation.ArmWristPower);
 
         double shoulderPower = 0.0;
