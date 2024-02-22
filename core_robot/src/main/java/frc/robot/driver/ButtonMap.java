@@ -758,7 +758,7 @@ public class ButtonMap implements IButtonMap
         new MacroOperationDescription(
             MacroOperation.ArmShoulderWristPosition7,
             UserInputDevice.Codriver, 
-            UserInputDeviceButton.XBONE_X_BUTTON,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle, 
