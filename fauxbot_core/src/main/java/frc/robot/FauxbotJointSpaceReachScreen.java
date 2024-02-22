@@ -1,6 +1,9 @@
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -35,23 +38,7 @@ import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
 import frc.lib.helpers.Pair;
-import frc.lib.robotprovider.FauxbotActuatorBase;
-import frc.lib.robotprovider.FauxbotActuatorConnection;
-import frc.lib.robotprovider.FauxbotActuatorManager;
-import frc.lib.robotprovider.FauxbotAnalogInput;
-import frc.lib.robotprovider.FauxbotDigitalInput;
-import frc.lib.robotprovider.FauxbotDoubleSolenoid;
-import frc.lib.robotprovider.FauxbotDriverStation;
-import frc.lib.robotprovider.FauxbotEncoder;
-import frc.lib.robotprovider.FauxbotIMU;
-import frc.lib.robotprovider.FauxbotJoystick;
-import frc.lib.robotprovider.FauxbotJoystickManager;
-import frc.lib.robotprovider.FauxbotMotorBase;
-import frc.lib.robotprovider.FauxbotSensorBase;
-import frc.lib.robotprovider.FauxbotSensorConnection;
-import frc.lib.robotprovider.FauxbotSensorManager;
-import frc.lib.robotprovider.FauxbotSolenoid;
-import frc.lib.robotprovider.RobotMode;
+import frc.lib.robotprovider.Point2d;
 import frc.robot.mechanisms.ArmKinematicsCalculator;
 import frc.robot.mechanisms.ArmKinematicsCalculator.ExtensionType;
 import frc.robot.simulation.RobotSimulator;
@@ -140,6 +127,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
     public class JointSpaceDiagram extends Actor implements Disposable
     {
+        private static final Color LIGHT_RED = Color.RED.cpy().lerp(Color.WHITE, 0.5f);
         private static final Color LIGHT_SALMON = Color.SALMON.cpy().lerp(Color.WHITE, 0.5f);
         private static final Color LIGHT_MAGENTA = Color.MAGENTA.cpy().lerp(Color.WHITE, 0.5f);
         private static final HashMap<ExtensionType, Color> extensionTypeColors = new HashMap<ExtensionType, Color>()
@@ -147,9 +135,9 @@ public class FauxbotJointSpaceReachScreen implements Screen
             {
                 put(ExtensionType.None, Color.GREEN);
                 put(ExtensionType.Back, Color.CORAL);
-                put(ExtensionType.Robot, Color.SCARLET);
-                put(ExtensionType.Ground, Color.RED);
-                put(ExtensionType.TopCrazy, Color.BLACK);
+                put(ExtensionType.Robot, Color.RED);
+                put(ExtensionType.Ground, LIGHT_RED);
+                put(ExtensionType.TopCrazy, Color.BROWN);
                 put(ExtensionType.TopBoth, Color.SALMON);
                 put(ExtensionType.TopIntakeSide, LIGHT_SALMON);
                 put(ExtensionType.TopShooterSide, LIGHT_SALMON);
@@ -163,41 +151,69 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
         private Pixmap pixMap;
         private Texture currentPixMapTexture;
+        private List<Point2d> targetPoints;
+        private Texture target;
 
         public JointSpaceDiagram()
         {
-            this.pixMap = new Pixmap(5, 5, Format.RGB888);
+            double mapWidth = 2.0 * (Math.round(TuningConstants.ARM_SHOULDER_MAX_POSITION) - Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION));
+            double mapHeight = Math.round(TuningConstants.ARM_WRIST_MAX_POSITION) - Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
+
+            this.pixMap = new Pixmap((int)mapWidth, (int)mapHeight, Format.RGB888);
             this.pixMap.setColor(Color.WHITE);
             this.pixMap.fill();
             this.currentPixMapTexture = new Texture(this.pixMap);
 
-            this.pixMap.setColor(Color.GREEN);
+            this.target = new Texture(Gdx.files.internal("images/target.png"));
 
+            Color currentColor = Color.GREEN;
+            this.pixMap.setColor(currentColor);
+
+            double xOffset = -2.0 * Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION);
+            double yOffset = -1.0 * Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
             Pair<Double, Double> result = new Pair<Double, Double>(0.0, 0.0);
             ArmKinematicsCalculator calculator = new ArmKinematicsCalculator(TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_WRIST_MIN_POSITION);
-            for (double shoulderPosition = TuningConstants.ARM_SHOULDER_MIN_POSITION; shoulderPosition <= TuningConstants.ARM_SHOULDER_MAX_POSITION; shoulderPosition += 0.5)
+            for (double shoulderPosition = Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION); shoulderPosition < Math.round(TuningConstants.ARM_SHOULDER_MAX_POSITION); shoulderPosition += 0.5)
             {
-                for (double wristPosition = TuningConstants.ARM_WRIST_MIN_POSITION; wristPosition <= TuningConstants.ARM_WRIST_MAX_POSITION; wristPosition += 1.0)
+                for (double wristPosition = Math.round(TuningConstants.ARM_WRIST_MIN_POSITION); wristPosition < Math.round(TuningConstants.ARM_WRIST_MAX_POSITION); wristPosition += 1.0)
                 {
-                    boolean invalid = calculator.calculateArmLimits(shoulderPosition, wristPosition, result);
-                    // validCsvWriter.writeRow(String.valueOf(shoulderPosition), String.valueOf(wristPosition), String.valueOf(invalid), calculator.getExtensionType().toString(), String.valueOf(calculator.getShooterBottomAbsPos().x), String.valueOf(calculator.getShooterBottomAbsPos().y), String.valueOf(calculator.getShooterTopAbsPos().x), String.valueOf(calculator.getShooterTopAbsPos().y), String.valueOf(calculator.getIntakeBottomAbsPos().x), String.valueOf(calculator.getIntakeBottomAbsPos().y), String.valueOf(calculator.getIntakeTopAbsPos().x), String.valueOf(calculator.getIntakeTopAbsPos().y));
-                    if (invalid)
+                    calculator.calculateArmLimits(shoulderPosition, wristPosition, result);
+                    Color newColor = JointSpaceDiagram.extensionTypeColors.get(calculator.getExtensionType());
+                    if (newColor != currentColor)
                     {
-
+                        this.pixMap.setColor(newColor);
+                        currentColor = newColor;
                     }
+
+                    // System.out.println("Drawing " + currentColor.toString() + " pixel at (" + (int)(xOffset + shoulderPosition * 2.0) + ", " + (int)(mapHeight - (yOffset + wristPosition * 2.0)) + ")");
+                    this.pixMap.drawPixel((int)(xOffset + shoulderPosition * 2.0), (int)(mapHeight - (yOffset + wristPosition)));
                 }
             }
 
-            this.setSize(2.0f * 5.0f, 2.0f * 5.0f);
+            this.currentPixMapTexture.draw(this.pixMap, 0, 0);
+
+            Set<ArmKinematicsCalculator.ArmGraphNode> allNodes = ArmKinematicsCalculator.getAllGraphNodes();
+            int targetWidth = (int)(this.target.getWidth() / 2.0);
+            int targetHeight = (int)(this.target.getHeight() / 2.0);
+            this.targetPoints = new ArrayList<Point2d>(allNodes.size());
+            for (ArmKinematicsCalculator.ArmGraphNode node : allNodes)
+            {
+                System.out.println(node.shoulderAngle + " " + node.wristAngle);
+                this.targetPoints.add(
+                    new Point2d(
+                        xOffset + 2.0 * node.shoulderAngle - targetWidth,
+                        yOffset + 1.0 * node.wristAngle - targetHeight));
+            }
+
+            this.setSize(
+                (float)(2.0f * mapWidth),
+                (float)(2.0f * mapHeight));
         }
 
         @Override
         public void act(float delta)
         {
-            int x = (int)5.0;
-            int y = (int)5.0;
-            this.pixMap.drawPixel(x, y);
-            this.currentPixMapTexture.draw(this.pixMap, 0, 0);
+            super.act(delta);
         }
 
         /**
@@ -211,6 +227,16 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
             batch.setColor(1f, 1f, 1f, parentAlpha);
             batch.draw(this.currentPixMapTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+            for (Point2d point : this.targetPoints)
+            {
+                batch.draw(
+                    this.target,
+                    this.getX() + (float)point.x * 2.0f,
+                    this.getY() + (float)point.y * 2.0f,
+                    this.target.getWidth() * 2.0f,
+                    this.target.getHeight() * 2.0f);
+            }
         }
 
         @Override
