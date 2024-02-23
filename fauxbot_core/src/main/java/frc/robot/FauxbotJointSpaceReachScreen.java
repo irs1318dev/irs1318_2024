@@ -59,6 +59,10 @@ public class FauxbotJointSpaceReachScreen implements Screen
     private final JointSpaceDiagram jointSpaceDiagram;
     private final Label informationLabel;
     private final Label pointLabel;
+    private final Label intakeTopLocationLabel;
+    private final Label intakeBottomLocationLabel;
+    private final Label shooterTopLocationLabel;
+    private final Label shooterBottomLocationLabel;
 
     public FauxbotJointSpaceReachScreen(final FauxbotGame game)
     {
@@ -71,25 +75,55 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
         Table primaryTable = new Table(this.skin);
         primaryTable.setFillParent(true);
-        ////primaryTable.setDebug(true);
+        // primaryTable.setDebug(true);
 
         Label title = new Label("JointSpace Reach diagram", this.skin, "title");
-        primaryTable.add(title).pad(20).top();
-        primaryTable.row();
+        primaryTable.add(title).pad(20).top().colspan(2).row();
 
-        Table scrollTable = new Table(this.skin);
-        ScrollPane scrollPane = new ScrollPane(scrollTable, this.skin);
-        ////scrollTable.setDebug(true);
+        Table jsdScrollTable = new Table(this.skin);
+        ScrollPane jsdScrollPane = new ScrollPane(jsdScrollTable, this.skin);
+        // jsdScrollTable.setDebug(true);
+
+        Table dataScrollTable = new Table(this.skin);
+        ScrollPane dataScrollPane = new ScrollPane(dataScrollTable, this.skin);
+        // dataScrollTable.setDebug(true);
+
+        Label anglesLabel = new Label("Angles:", this.skin);
+        dataScrollTable.add(anglesLabel).pad(5).left();
+        this.pointLabel = new Label("", this.skin);
+        dataScrollTable.add(this.pointLabel).expandX().row();
+
+        Label nodeLabel = new Label("Node:", this.skin);
+        dataScrollTable.add(nodeLabel).pad(5).left();
+        this.informationLabel = new Label("", this.skin);
+        dataScrollTable.add(this.informationLabel).expandX().row();
+
+        Label intakeBottomLabel = new Label("Intake Bottom:", this.skin);
+        dataScrollTable.add(intakeBottomLabel).pad(5).left();
+        this.intakeBottomLocationLabel = new Label("", this.skin);
+        dataScrollTable.add(this.intakeBottomLocationLabel).expandX().row();
+
+        Label intakeTopLabel = new Label("Intake Top:", this.skin);
+        dataScrollTable.add(intakeTopLabel).pad(5).left();
+        this.intakeTopLocationLabel = new Label("", this.skin);
+        dataScrollTable.add(this.intakeTopLocationLabel).expandX().row();
+
+        Label shooterBottomLabel = new Label("Shooter Bottom:", this.skin);
+        dataScrollTable.add(shooterBottomLabel).pad(5).left();
+        this.shooterBottomLocationLabel = new Label("", this.skin);
+        dataScrollTable.add(this.shooterBottomLocationLabel).expandX().row();
+
+        Label shooterTopLabel = new Label("Shooter Top:", this.skin);
+        dataScrollTable.add(shooterTopLabel).pad(5).left();
+        this.shooterTopLocationLabel = new Label("", this.skin);
+        dataScrollTable.add(this.shooterTopLocationLabel).expandX().row();
 
         this.jointSpaceDiagram = new JointSpaceDiagram();
-        scrollTable.add(this.jointSpaceDiagram).center().expand().colspan(2).row();
+        jsdScrollTable.add(this.jointSpaceDiagram).center().expand().colspan(2).row();
 
-        this.pointLabel = new Label("", this.skin);
-        scrollTable.add(this.pointLabel).left();
-        this.informationLabel = new Label("", this.skin);
-        scrollTable.add(this.informationLabel).right().row();
+        SplitPane splitPane = new SplitPane(dataScrollPane, jsdScrollPane, false, this.skin);
+        primaryTable.add(splitPane).expand().fill().pad(5);
 
-        primaryTable.add(scrollPane).expand().pad(5).fill();
         this.stage.addActor(primaryTable);
     }
 
@@ -161,6 +195,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
             }
         };
 
+        private Point2d[][][] angleToPointsMap;
         private Pixmap pixMap;
         private Texture currentPixMapTexture;
 
@@ -178,6 +213,8 @@ public class FauxbotJointSpaceReachScreen implements Screen
             Color currentColor = Color.GREEN;
             this.pixMap.setColor(currentColor);
 
+            this.angleToPointsMap = new Point2d[(int)mapWidth][(int)mapHeight][4];
+
             double xOffset = -2.0 * Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION);
             double yOffset = -1.0 * Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
             Pair<Double, Double> result = new Pair<Double, Double>(0.0, 0.0);
@@ -194,8 +231,11 @@ public class FauxbotJointSpaceReachScreen implements Screen
                         currentColor = newColor;
                     }
 
-                    // System.out.println("Drawing " + currentColor.toString() + " pixel at (" + (int)(xOffset + shoulderPosition * 2.0) + ", " + (int)(mapHeight - (yOffset + wristPosition * 2.0)) + ")");
                     this.pixMap.drawPixel((int)(xOffset + shoulderPosition * 2.0), (int)(mapHeight - (yOffset + wristPosition)));
+                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][0] = calculator.getIntakeBottomAbsPos();
+                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][1] = calculator.getIntakeTopAbsPos();
+                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][2] = calculator.getShooterBottomAbsPos();
+                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][3] = calculator.getShooterTopAbsPos();
                 }
             }
 
@@ -234,9 +274,16 @@ public class FauxbotJointSpaceReachScreen implements Screen
                         {
                             pointLabel.setText(
                                 String.format(
-                                    "%f, %f",
+                                    "%.2f, %.2f",
                                     x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
                                     y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+
+                            int indexX = (int)(x / 4.0);
+                            int indexY = (int)(y / 2.0);
+                            intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
+                            intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
+                            shooterBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][2].toString());
+                            shooterTopLocationLabel.setText(angleToPointsMap[indexX][indexY][3].toString());
                         }
                     }
 
@@ -249,9 +296,16 @@ public class FauxbotJointSpaceReachScreen implements Screen
                         {
                             pointLabel.setText(
                                 String.format(
-                                    "%f, %f",
+                                    "%.2f, %.2f",
                                     x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
                                     y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+
+                            int indexX = (int)(x / 4.0);
+                            int indexY = (int)(y / 2.0);
+                            intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
+                            intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
+                            shooterBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][2].toString());
+                            shooterTopLocationLabel.setText(angleToPointsMap[indexX][indexY][3].toString());
                         }
 
                         return false;
@@ -266,6 +320,10 @@ public class FauxbotJointSpaceReachScreen implements Screen
                         if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
                         {
                             pointLabel.setText("");
+                            intakeBottomLocationLabel.setText("");
+                            intakeTopLocationLabel.setText("");
+                            shooterBottomLocationLabel.setText("");
+                            shooterTopLocationLabel.setText("");
                         }
                     }
                 });
