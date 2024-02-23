@@ -82,7 +82,7 @@ public class ShootNoteTask extends DecisionSequentialTask
 
             this.AppendTask(SequentialTask.Sequence(
                 new IntakeControlTask(false, TuningConstants.KICK_OUTTAKE_TIME),
-                new IntakeControlTask(true, TuningConstants.KICK_INTAKE_TIME)
+                new FeedRingTask(true, TuningConstants.KICK_INTAKE_TIME)
             ));
         }
 

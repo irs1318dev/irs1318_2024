@@ -14,10 +14,10 @@ public class SmartDashboardSelectionManager
 
     public enum StartPosition
     {
-        NearAmp,
-        SubwooferFront,
-        SubwooferSide,
-        NearSource,
+        Amp,
+        WooferFront,
+        WooferSide,
+        Source,
     }
 
     public enum AutoRoutine
@@ -36,9 +36,8 @@ public class SmartDashboardSelectionManager
 
     public enum PriorityPickupSide
     {
-        NearSubwoofer,
-        MiddleAmp,
-        MiddleSource,
+        Close,
+        Center
     }
 
 
@@ -65,23 +64,22 @@ public class SmartDashboardSelectionManager
         networkTableProvider.addChooser("Auto Routine", this.routineChooser);
 
         this.positionChooser = networkTableProvider.getSendableChooser();
-        this.positionChooser.addDefault("sub-front", StartPosition.SubwooferFront);
-        this.positionChooser.addObject("sub-side", StartPosition.SubwooferSide);
-        this.positionChooser.addObject("near-amp", StartPosition.NearAmp);
-        this.positionChooser.addObject("near-source", StartPosition.NearSource);
+        this.positionChooser.addDefault("sub-front", StartPosition.WooferFront);
+        this.positionChooser.addObject("sub-side", StartPosition.WooferSide);
+        this.positionChooser.addObject("near-amp", StartPosition.Amp);
+        this.positionChooser.addObject("near-source", StartPosition.Source);
         networkTableProvider.addChooser("Start Position", this.positionChooser);
 
         this.pickupChooser = networkTableProvider.getSendableChooser();
-        this.pickupChooser.addDefault("Near Subwoofer", PriorityPickupSide.NearSubwoofer);
-        this.pickupChooser.addObject("Mid Amp Side", PriorityPickupSide.MiddleAmp);
-        this.pickupChooser.addObject("Mid Source Side", PriorityPickupSide.MiddleSource);
+        this.pickupChooser.addDefault("Near Subwoofer", PriorityPickupSide.Close);
+        this.pickupChooser.addObject("Middle", PriorityPickupSide.Center);
         networkTableProvider.addChooser("Start Position", this.positionChooser);        
     }
 
     public StartPosition getSelectedStartPosition()
     {
 
-        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.SubwooferFront);
+        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.WooferFront);
     }
 
     public AutoRoutine getSelectedAutoRoutine()
@@ -91,7 +89,7 @@ public class SmartDashboardSelectionManager
 
     public PriorityPickupSide getPickupSide()
     {
-        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.pickupChooser, PriorityPickupSide.NearSubwoofer);
+        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.pickupChooser, PriorityPickupSide.Close);
     }
 
     private static <T> T GetSelectedOrDefault(ISendableChooser<T> chooser, T defaultValue)
