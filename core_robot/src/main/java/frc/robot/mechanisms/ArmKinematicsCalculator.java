@@ -17,7 +17,7 @@ public class ArmKinematicsCalculator
 {
     private static ArmGraph graph;
 
-    private static ArmGraphNode startUp;
+    private static ArmGraphNode startingConfiguration;
     private static ArmGraphNode groundPickup;
     private static ArmGraphNode tucked;
     private static ArmGraphNode sourcePickup;
@@ -33,57 +33,67 @@ public class ArmKinematicsCalculator
         ArmKinematicsCalculator.graph = new ArmGraph();
 
         // intialize all of the graph nodes
-        ArmKinematicsCalculator.startUp = ArmKinematicsCalculator.graph.createNode(
+        ArmKinematicsCalculator.startingConfiguration = ArmKinematicsCalculator.graph.createNode(
+            "StartingConfiguration",
             TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION,
             TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
 
         ArmKinematicsCalculator.groundPickup = ArmKinematicsCalculator.graph.createNode(
+            "groundPickup",
             TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL,
             TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP);
 
         ArmKinematicsCalculator.tucked = ArmKinematicsCalculator.graph.createNode(
+            "tucked",
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
             TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT);
 
         ArmKinematicsCalculator.sourcePickup = ArmKinematicsCalculator.graph.createNode(
+            "sourcePickup",
             TuningConstants.ARM_SHOULDER_POSITION_SOURCE_PICKUP,
             TuningConstants.ARM_WRIST_POSITION_SOURCE_PICKUP);
 
         ArmKinematicsCalculator.upperUnivShot = ArmKinematicsCalculator.graph.createNode(
+            "upperUniversalShot",
             TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL,
             TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT);
 
         ArmKinematicsCalculator.ampScore = ArmKinematicsCalculator.graph.createNode(
+            "ampScore",
             TuningConstants.ARM_SHOULDER_POSITION_AMP_SCORE,
             TuningConstants.ARM_WRIST_POSITION_AMP_SCORE);
 
         ArmKinematicsCalculator.upperIntakeFlipped = ArmKinematicsCalculator.graph.createNode(
+            "upperIntakeFlipped",
             TuningConstants.ARM_SHOULDER_POSITION_INTAKE_FLIPPED,
             TuningConstants.ARM_WRIST_POSITION_INTAKE_FLIPPED);
             
         ArmKinematicsCalculator.trapIntermediate = ArmKinematicsCalculator.graph.createNode(
+            "trapIntermediate",
             TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE,
             TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE);
 
         ArmKinematicsCalculator.upperObtuseWrist = ArmKinematicsCalculator.graph.createNode(
+            "upperObtuseWrist",
             TuningConstants.ARM_SHOULDER_POSITION_INTAKE_OBTUSE,
             TuningConstants.ARM_WRIST_POSITION_INTAKE_OBTUSE);
             
         ArmKinematicsCalculator.tuckedGroundTransition = ArmKinematicsCalculator.graph.createNode(
+            "tuckedGroundTransition",
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
             TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP);
 
         // create all of the links between the nodes
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startUp, 
+            ArmKinematicsCalculator.startingConfiguration, 
             ArmKinematicsCalculator.groundPickup, 
             TuningConstants.STARTUP_AND_GROUND_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startUp, 
+            ArmKinematicsCalculator.startingConfiguration, 
             ArmKinematicsCalculator.sourcePickup, 
             TuningConstants.STARTUP_AND_SOURCE_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startUp, 
+            ArmKinematicsCalculator.startingConfiguration, 
             ArmKinematicsCalculator.upperIntakeFlipped, 
             TuningConstants.STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
@@ -513,9 +523,9 @@ public class ArmKinematicsCalculator
             super();
         }
 
-        public ArmGraphNode createNode(double shoulderAngle, double wristAngle)
+        public ArmGraphNode createNode(String name, double shoulderAngle, double wristAngle)
         {
-            ArmGraphNode node = new ArmGraphNode(shoulderAngle, wristAngle);
+            ArmGraphNode node = new ArmGraphNode(name, shoulderAngle, wristAngle);
             this.addNode(node);
             return node;
         }
@@ -523,13 +533,15 @@ public class ArmKinematicsCalculator
 
     public static class ArmGraphNode extends GraphNode
     {
+        public final String name;
         public final double wristAngle;
         public final double shoulderAngle;
 
-        public ArmGraphNode(double shoulderAngle, double wristAngle)
+        public ArmGraphNode(String name, double shoulderAngle, double wristAngle)
         {
             super();
 
+            this.name = name;
             this.shoulderAngle = shoulderAngle;
             this.wristAngle = wristAngle;
         }
