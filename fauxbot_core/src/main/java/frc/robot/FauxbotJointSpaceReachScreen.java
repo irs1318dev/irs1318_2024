@@ -278,7 +278,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
                                     x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
                                     y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
 
-                            int indexX = (int)(x / 4.0);
+                            int indexX = (int)(x / 2.0);
                             int indexY = (int)(y / 2.0);
                             intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
                             intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
@@ -300,7 +300,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
                                     x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
                                     y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
 
-                            int indexX = (int)(x / 4.0);
+                            int indexX = (int)(x / 2.0);
                             int indexY = (int)(y / 2.0);
                             intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
                             intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
