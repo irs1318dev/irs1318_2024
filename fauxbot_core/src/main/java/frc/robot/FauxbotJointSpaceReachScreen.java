@@ -15,6 +15,9 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -38,6 +41,7 @@ import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
 import frc.lib.helpers.Pair;
+import frc.lib.robotprovider.FauxbotJoystick;
 import frc.lib.robotprovider.Point2d;
 import frc.robot.mechanisms.ArmKinematicsCalculator;
 import frc.robot.mechanisms.ArmKinematicsCalculator.ExtensionType;
@@ -47,11 +51,14 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class FauxbotJointSpaceReachScreen implements Screen
 {
+    private static final float SCALE = 2.0f;
     private final FauxbotGame game;
 
     private final Stage stage;
     private final Skin skin;
     private final JointSpaceDiagram jointSpaceDiagram;
+    private final Label informationLabel;
+    private final Label pointLabel;
 
     public FauxbotJointSpaceReachScreen(final FauxbotGame game)
     {
@@ -75,7 +82,12 @@ public class FauxbotJointSpaceReachScreen implements Screen
         ////scrollTable.setDebug(true);
 
         this.jointSpaceDiagram = new JointSpaceDiagram();
-        scrollTable.add(this.jointSpaceDiagram).center().expand();
+        scrollTable.add(this.jointSpaceDiagram).center().expand().colspan(2).row();
+
+        this.pointLabel = new Label("", this.skin);
+        scrollTable.add(this.pointLabel).left();
+        this.informationLabel = new Label("", this.skin);
+        scrollTable.add(this.informationLabel).right().row();
 
         primaryTable.add(scrollPane).expand().pad(5).fill();
         this.stage.addActor(primaryTable);
@@ -125,7 +137,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
     {
     }
 
-    public class JointSpaceDiagram extends Actor implements Disposable
+    public class JointSpaceDiagram extends Group implements Disposable
     {
         private static final Color LIGHT_RED = Color.RED.cpy().lerp(Color.WHITE, 0.5f);
         private static final Color LIGHT_SALMON = Color.SALMON.cpy().lerp(Color.WHITE, 0.5f);
@@ -151,20 +163,17 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
         private Pixmap pixMap;
         private Texture currentPixMapTexture;
-        private List<Point2d> targetPoints;
-        private Texture target;
 
         public JointSpaceDiagram()
         {
             double mapWidth = 2.0 * (Math.round(TuningConstants.ARM_SHOULDER_MAX_POSITION) - Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION));
             double mapHeight = Math.round(TuningConstants.ARM_WRIST_MAX_POSITION) - Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
 
+            // reminder: pixMap is top-left origin, whereas most other libGDX stuff is bottom-left origin
             this.pixMap = new Pixmap((int)mapWidth, (int)mapHeight, Format.RGB888);
             this.pixMap.setColor(Color.WHITE);
             this.pixMap.fill();
             this.currentPixMapTexture = new Texture(this.pixMap);
-
-            this.target = new Texture(Gdx.files.internal("images/target.png"));
 
             Color currentColor = Color.GREEN;
             this.pixMap.setColor(currentColor);
@@ -192,22 +201,74 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
             this.currentPixMapTexture.draw(this.pixMap, 0, 0);
 
+            Texture targetTexture = new Texture(Gdx.files.internal("images/target.png"));
+
             Set<ArmKinematicsCalculator.ArmGraphNode> allNodes = ArmKinematicsCalculator.getAllGraphNodes();
-            int targetWidth = (int)(this.target.getWidth() / 2.0);
-            int targetHeight = (int)(this.target.getHeight() / 2.0);
-            this.targetPoints = new ArrayList<Point2d>(allNodes.size());
+            int targetHalfWidth = (int)(targetTexture.getWidth() / 2.0);
+            int targetHalfHeight = (int)(targetTexture.getHeight() / 2.0);
             for (ArmKinematicsCalculator.ArmGraphNode node : allNodes)
             {
-                System.out.println(node.shoulderAngle + " " + node.wristAngle);
-                this.targetPoints.add(
-                    new Point2d(
-                        xOffset + 2.0 * node.shoulderAngle - targetWidth,
-                        yOffset + 1.0 * node.wristAngle - targetHeight));
+                this.addActor(
+                    new Target(
+                        node.name,
+                        new Point2d(
+                            xOffset + 2.0 * node.shoulderAngle - targetHalfWidth,
+                            yOffset + 1.0 * node.wristAngle - targetHalfHeight),
+                        targetTexture));
             }
 
             this.setSize(
-                (float)(2.0f * mapWidth),
-                (float)(2.0f * mapHeight));
+                (float)(FauxbotJointSpaceReachScreen.SCALE * mapWidth),
+                (float)(FauxbotJointSpaceReachScreen.SCALE * mapHeight));
+
+            addListener(
+                new InputListener()
+                {
+                    /** Called any time the mouse cursor or a finger touch is moved over an actor. On the desktop, this event occurs even when no
+                     * mouse buttons are pressed (pointer will be -1).
+                     * @param fromActor May be null.
+                     * @see InputEvent */
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+                    {
+                        if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight())
+                        {
+                            pointLabel.setText(
+                                String.format(
+                                    "%f, %f",
+                                    x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
+                                    y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+                        }
+                    }
+
+                    /** Called any time the mouse is moved when a button is not down. This event only occurs on the desktop. When true is returned,
+                     * the event is {@link Event#handle() handled}.
+                     * @see InputEvent */
+                    public boolean mouseMoved(InputEvent event, float x, float y)
+                    {
+                        if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight())
+                        {
+                            pointLabel.setText(
+                                String.format(
+                                    "%f, %f",
+                                    x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
+                                    y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+                        }
+
+                        return false;
+                    }
+
+                    /** Called any time the mouse cursor or a finger touch is moved out of an actor. On the desktop, this event occurs even when no
+                     * mouse buttons are pressed (pointer will be -1).
+                     * @param toActor May be null.
+                     * @see InputEvent */
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+                    {
+                        if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
+                        {
+                            pointLabel.setText("");
+                        }
+                    }
+                });
         }
 
         @Override
@@ -223,20 +284,10 @@ public class FauxbotJointSpaceReachScreen implements Screen
         @Override
         public void draw(Batch batch, float parentAlpha)
         {
-            super.draw(batch, parentAlpha);
-
             batch.setColor(1f, 1f, 1f, parentAlpha);
             batch.draw(this.currentPixMapTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-            for (Point2d point : this.targetPoints)
-            {
-                batch.draw(
-                    this.target,
-                    this.getX() + (float)point.x * 2.0f,
-                    this.getY() + (float)point.y * 2.0f,
-                    this.target.getWidth() * 2.0f,
-                    this.target.getHeight() * 2.0f);
-            }
+            super.draw(batch, parentAlpha);
         }
 
         @Override
@@ -244,6 +295,67 @@ public class FauxbotJointSpaceReachScreen implements Screen
         {
             this.currentPixMapTexture.dispose();
             this.pixMap.dispose();
+        }
+
+        private class Target extends Actor
+        {
+            private final String name;
+            private final Point2d location;
+            private final Texture targetTexture;
+
+            public Target(String name, Point2d location, Texture targetTexture)
+            {
+                this.targetTexture = targetTexture;
+
+                this.location = location;
+                this.name = name;
+                this.setSize(
+                    this.targetTexture.getWidth() * FauxbotJointSpaceReachScreen.SCALE,
+                    this.targetTexture.getHeight() * FauxbotJointSpaceReachScreen.SCALE);
+                this.setX((float)this.location.x * FauxbotJointSpaceReachScreen.SCALE);
+                this.setY((float)this.location.y * FauxbotJointSpaceReachScreen.SCALE);
+
+                addListener(
+                    new InputListener()
+                    {
+                        /** Called any time the mouse cursor or a finger touch is moved over an actor. On the desktop, this event occurs even when no
+                         * mouse buttons are pressed (pointer will be -1).
+                         * @param fromActor May be null.
+                         * @see InputEvent */
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+                        {
+                            informationLabel.setText(name);
+                        }
+
+                        /** Called any time the mouse cursor or a finger touch is moved out of an actor. On the desktop, this event occurs even when no
+                         * mouse buttons are pressed (pointer will be -1).
+                         * @param toActor May be null.
+                         * @see InputEvent */
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+                        {
+                            informationLabel.setText("");
+                        }
+                    });
+            }
+
+            @Override
+            public void act(float delta)
+            {
+                super.act(delta);
+            }
+
+            @Override
+            public void draw(Batch batch, float parentAlpha)
+            {
+                super.draw(batch, parentAlpha);
+
+                batch.draw(
+                    this.targetTexture,
+                    this.getX(),
+                    this.getY(),
+                    this.getWidth(),
+                    this.getHeight());
+            }
         }
     }
 }
