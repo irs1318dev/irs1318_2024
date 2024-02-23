@@ -3,6 +3,7 @@ package frc.robot.driver.controltasks;
 import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.mechanisms.ClimberMechanism;
 
 public class ClimberWinchTask extends ControlTaskBase
 {
@@ -64,12 +65,12 @@ public class ClimberWinchTask extends ControlTaskBase
 
         if (this.goalState == WinchState.Retracted)
         {
-            if (this.timeSinceStart <  TuningConstants.CLIMBER_FULL_RETRACT_TIME)
+            if (ClimberMechanism.getClimberDown() == false) //if limit switch hasn't been tripped yet
             {
                 this.currentState = WinchState.Retracting;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);
             }
-            else
+            else //if limit switch is true
             {
                 this.currentState = WinchState.Retracted;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
@@ -80,13 +81,13 @@ public class ClimberWinchTask extends ControlTaskBase
     @Override
     public void end()
     {
-        // don't forget to add a servo task at the end of the climb
         this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
     }
 
     @Override
     public boolean hasCompleted()
     {
+        //limitswitch?
         return (this.currentState == WinchState.Retracted || this.currentState == WinchState.Extended);
     }
 }
