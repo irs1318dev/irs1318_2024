@@ -453,8 +453,8 @@ public class TuningConstants
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
-    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -30.1;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -112.0;
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_SHOULDER_MIN_POSITION;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_WRIST_MIN_POSITION;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
