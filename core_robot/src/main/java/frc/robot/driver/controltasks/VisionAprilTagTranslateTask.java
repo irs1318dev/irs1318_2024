@@ -10,6 +10,7 @@ import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.IDriveTrainMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
+import frc.robot.mechanisms.SDSDriveTrainMechanism;
 
 @Singleton
 public class VisionAprilTagTranslateTask extends ControlTaskBase
@@ -58,7 +59,7 @@ public class VisionAprilTagTranslateTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        this.driveTrain = this.getInjector().getInstance(IDriveTrainMechanism.class);
+        this.driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);
 
         ITimer timer = this.getInjector().getInstance(ITimer.class);

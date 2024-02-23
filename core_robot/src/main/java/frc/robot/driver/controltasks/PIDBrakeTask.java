@@ -2,6 +2,7 @@ package frc.robot.driver.controltasks;
 
 import frc.robot.driver.*;
 import frc.robot.mechanisms.IDriveTrainMechanism;
+import frc.robot.mechanisms.SDSDriveTrainMechanism;
 
 public class PIDBrakeTask extends ControlTaskBase
 {
@@ -26,7 +27,7 @@ public class PIDBrakeTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        IDriveTrainMechanism driveTrain = this.getInjector().getInstance(IDriveTrainMechanism.class);
+        IDriveTrainMechanism driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
         this.steerSetpoints = driveTrain.getModuleTurnInPlaceAngles();
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainSteerMode, !this.maintainPosition);

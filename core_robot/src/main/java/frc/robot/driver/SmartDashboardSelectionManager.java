@@ -14,6 +14,7 @@ public class SmartDashboardSelectionManager
 
     public enum StartPosition
     {
+        None,
         Amp,
         WooferFront,
         WooferSide,
@@ -31,11 +32,13 @@ public class SmartDashboardSelectionManager
         FourNote,
         ThreeNote,
         TwoNote,
+        OneNote,
         AmpThreeNote,
     }
 
     public enum PriorityPickupSide
     {
+        None,
         Close,
         Center
     }
@@ -61,19 +64,22 @@ public class SmartDashboardSelectionManager
         this.routineChooser.addObject("Amp Three Note", AutoRoutine.AmpThreeNote);
         this.routineChooser.addObject("One Plus Charge", AutoRoutine.FiveNote);
         this.routineChooser.addObject("One Pickup Charge", AutoRoutine.SixNote);
+        this.routineChooser.addObject("One Note", AutoRoutine.OneNote);
         networkTableProvider.addChooser("Auto Routine", this.routineChooser);
 
         this.positionChooser = networkTableProvider.getSendableChooser();
-        this.positionChooser.addDefault("sub-front", StartPosition.WooferFront);
+        this.positionChooser.addDefault("None", StartPosition.None);
+        this.positionChooser.addObject("sub-front", StartPosition.WooferFront);
         this.positionChooser.addObject("sub-side", StartPosition.WooferSide);
         this.positionChooser.addObject("near-amp", StartPosition.Amp);
         this.positionChooser.addObject("near-source", StartPosition.Source);
         networkTableProvider.addChooser("Start Position", this.positionChooser);
 
         this.pickupChooser = networkTableProvider.getSendableChooser();
-        this.pickupChooser.addDefault("Near Subwoofer", PriorityPickupSide.Close);
+        this.pickupChooser.addDefault("None", PriorityPickupSide.None);
+        this.pickupChooser.addObject("Near Subwoofer", PriorityPickupSide.Close);
         this.pickupChooser.addObject("Middle", PriorityPickupSide.Center);
-        networkTableProvider.addChooser("Start Position", this.positionChooser);        
+        networkTableProvider.addChooser("Pickup Chooser", this.pickupChooser);        
     }
 
     public StartPosition getSelectedStartPosition()

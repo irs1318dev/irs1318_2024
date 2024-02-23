@@ -1,6 +1,7 @@
 package frc.robot.driver;
 
 import frc.lib.driver.TrajectoryManager;
+import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.ITrajectory;
 import frc.lib.robotprovider.PathPlannerRotationTarget;
@@ -24,10 +25,10 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(0.0, 0.0, 180.0, 0.0),
-                new PathPlannerWaypoint(-15.0, 0.0, 180.0, 0.0),
-                new PathPlannerWaypoint(-30.0, 0.0, 180.0, 0.0)),
-            "goBackwards30in");
+                new PathPlannerWaypoint(0.0, 0.0, 0.0, 0.0),
+                new PathPlannerWaypoint(15.0, 0.0, 0.0, 0.0),
+                new PathPlannerWaypoint(45.0, 0.0, 0.0, 0.0)),
+            "goForwards45in");
         addTrajectory(
             trajectoryManager,
             pathPlanner.buildTrajectory(
@@ -166,8 +167,7 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                 new PathPlannerWaypoint(locManager.P5M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(225)),
                 new PathPlannerRotationTarget(180, 0.6),
-                new PathPlannerWaypoint(locManager.P5, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
-                new PathPlannerWaypoint(locManager.P5, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(225))),
+                new PathPlannerWaypoint(locManager.P5, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180))),
                 isRed?"P5MtoP5Red":"P5MtoP5Blue");
 
         addTrajectory(
@@ -393,11 +393,9 @@ public class PathPlannerTrajectoryGenerator
                 isRed? "SevenNoteAutoRed" : "SevenNoteAutoBlue");
     }
 
-    //TODO can getOrientationorHeading() go in AutonLocManager?
-
-
     private static void addTrajectory(TrajectoryManager trajectoryManager, ITrajectory trajectory, String name)
     {
+        ExceptionHelpers.Assert(trajectory != null, "Adding null trajectory '%s'!", name);
         try
         {
             trajectoryManager.addTrajectory(name, trajectory);
