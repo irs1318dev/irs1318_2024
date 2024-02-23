@@ -745,6 +745,6 @@ public class ArmMechanism implements IMechanism
 
     public boolean getWristLimitSwitchStatus()
     {
-        return this.getWristLimitSwitchStatus();
+        return this.wristLimitSwitchHit;
     }
 }
