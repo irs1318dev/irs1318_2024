@@ -1,7 +1,6 @@
 package frc.robot.driver;
 
 import frc.lib.driver.TrajectoryManager;
-import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.ITrajectory;
 import frc.lib.robotprovider.PathPlannerRotationTarget;

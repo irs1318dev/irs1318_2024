@@ -26,7 +26,7 @@ public class ButtonMapVerifier
         if (failOnError)
         {
             // verify that there isn't overlap between buttons
-            HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription>>> mapping = new HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription>>>();
+            HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription<?>>>> mapping = new HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription<?>>>>();
             for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
             {
                 ButtonCombination button = new ButtonCombination(
@@ -41,10 +41,10 @@ public class ButtonMapVerifier
                     continue;
                 }
 
-                HashMap<EnumSet<Shift>, List<OperationDescription>> shiftMap;
+                HashMap<EnumSet<Shift>, List<OperationDescription<?>>> shiftMap;
                 if (!mapping.containsKey(button))
                 {
-                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription>>();
+                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription<?>>>();
                     mapping.put(button, shiftMap);
                 }
                 else
@@ -60,8 +60,8 @@ public class ButtonMapVerifier
                         EnumSet<Shift> singleShift = EnumSet.of(shift);
                         if (shiftMap.containsKey(singleShift))
                         {
-                            List<OperationDescription> otherDescriptions = shiftMap.get(singleShift);
-                            for (OperationDescription otherDescription : otherDescriptions)
+                            List<OperationDescription<?>> otherDescriptions = shiftMap.get(singleShift);
+                            for (OperationDescription<?> otherDescription : otherDescriptions)
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
@@ -73,7 +73,7 @@ public class ButtonMapVerifier
                         }
                         else
                         {
-                            List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                            List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                             otherDescriptions.add(description);
                             shiftMap.put(singleShift, otherDescriptions);
                         }
@@ -83,8 +83,8 @@ public class ButtonMapVerifier
                 {
                     if (shiftMap.containsKey(requiredShifts))
                     {
-                        List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
-                        for (OperationDescription otherDescription : otherDescriptions)
+                        List<OperationDescription<?>> otherDescriptions = shiftMap.get(requiredShifts);
+                        for (OperationDescription<?> otherDescription : otherDescriptions)
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
@@ -96,7 +96,7 @@ public class ButtonMapVerifier
                     }
                     else
                     {
-                        List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                        List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                         otherDescriptions.add(description);
                         shiftMap.put(requiredShifts, otherDescriptions);
                     }
@@ -117,10 +117,10 @@ public class ButtonMapVerifier
                     continue;
                 }
 
-                HashMap<EnumSet<Shift>, List<OperationDescription>> shiftMap;
+                HashMap<EnumSet<Shift>, List<OperationDescription<?>>> shiftMap;
                 if (!mapping.containsKey(button))
                 {
-                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription>>();
+                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription<?>>>();
                     mapping.put(button, shiftMap);
                 }
                 else
@@ -136,8 +136,8 @@ public class ButtonMapVerifier
                         EnumSet<Shift> singleShift = EnumSet.of(shift);
                         if (shiftMap.containsKey(singleShift))
                         {
-                            List<OperationDescription> otherDescriptions = shiftMap.get(singleShift);
-                            for (OperationDescription otherDescription : otherDescriptions)
+                            List<OperationDescription<?>> otherDescriptions = shiftMap.get(singleShift);
+                            for (OperationDescription<?> otherDescription : otherDescriptions)
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
@@ -149,7 +149,7 @@ public class ButtonMapVerifier
                         }
                         else
                         {
-                            List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                            List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                             otherDescriptions.add(description);
                             shiftMap.put(singleShift, otherDescriptions);
                         }
@@ -159,8 +159,8 @@ public class ButtonMapVerifier
                 {
                     if (shiftMap.containsKey(requiredShifts))
                     {
-                        List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
-                        for (OperationDescription otherDescription : otherDescriptions)
+                        List<OperationDescription<?>> otherDescriptions = shiftMap.get(requiredShifts);
+                        for (OperationDescription<?> otherDescription : otherDescriptions)
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
@@ -172,7 +172,7 @@ public class ButtonMapVerifier
                     }
                     else
                     {
-                        List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                        List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                         otherDescriptions.add(description);
                         shiftMap.put(requiredShifts, otherDescriptions);
                     }
@@ -193,10 +193,10 @@ public class ButtonMapVerifier
                     continue;
                 }
 
-                HashMap<EnumSet<Shift>, List<OperationDescription>> shiftMap;
+                HashMap<EnumSet<Shift>, List<OperationDescription<?>>> shiftMap;
                 if (!mapping.containsKey(button))
                 {
-                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription>>();
+                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription<?>>>();
                     mapping.put(button, shiftMap);
                 }
                 else
@@ -212,8 +212,8 @@ public class ButtonMapVerifier
                         EnumSet<Shift> singleShift = EnumSet.of(shift);
                         if (shiftMap.containsKey(singleShift))
                         {
-                            List<OperationDescription> otherDescriptions = shiftMap.get(singleShift);
-                            for (OperationDescription otherDescription : otherDescriptions)
+                            List<OperationDescription<?>> otherDescriptions = shiftMap.get(singleShift);
+                            for (OperationDescription<?> otherDescription : otherDescriptions)
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
@@ -225,7 +225,7 @@ public class ButtonMapVerifier
                         }
                         else
                         {
-                            List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                            List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                             otherDescriptions.add(description);
                             shiftMap.put(singleShift, otherDescriptions);
                         }
@@ -235,8 +235,8 @@ public class ButtonMapVerifier
                 {
                     if (shiftMap.containsKey(requiredShifts))
                     {
-                        List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
-                        for (OperationDescription otherDescription : otherDescriptions)
+                        List<OperationDescription<?>> otherDescriptions = shiftMap.get(requiredShifts);
+                        for (OperationDescription<?> otherDescription : otherDescriptions)
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
@@ -248,7 +248,7 @@ public class ButtonMapVerifier
                     }
                     else
                     {
-                        List<OperationDescription> otherDescriptions = new ArrayList<OperationDescription>();
+                        List<OperationDescription<?>> otherDescriptions = new ArrayList<OperationDescription<?>>();
                         otherDescriptions.add(description);
                         shiftMap.put(requiredShifts, otherDescriptions);
                     }
@@ -269,10 +269,10 @@ public class ButtonMapVerifier
                     continue;
                 }
 
-                HashMap<EnumSet<Shift>, List<OperationDescription>> shiftMap;
+                HashMap<EnumSet<Shift>, List<OperationDescription<?>>> shiftMap;
                 if (!mapping.containsKey(button))
                 {
-                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription>>();
+                    shiftMap = new HashMap<EnumSet<Shift>, List<OperationDescription<?>>>();
                     mapping.put(button, shiftMap);
                     shiftMap.put(EnumSet.of(description.getShift()), null);
                 }
@@ -281,7 +281,7 @@ public class ButtonMapVerifier
                     shiftMap = mapping.get(button);
                     for (EnumSet<Shift> key : shiftMap.keySet())
                     {
-                        List<OperationDescription> value = shiftMap.get(key);
+                        List<OperationDescription<?>> value = shiftMap.get(key);
                         if (value == null || value.size() == 0)
                         {
                             throw new RuntimeException("conflcit between shift " + description.getShift().toString() + " and " + key.toString());
@@ -298,7 +298,7 @@ public class ButtonMapVerifier
                 buttonCombinationKeys.sort(new ButtonCombinationComparator());
                 for (ButtonCombination buttonCombination : buttonCombinationKeys)
                 {
-                    HashMap<EnumSet<Shift>, List<OperationDescription>> shiftMap = mapping.get(buttonCombination);
+                    HashMap<EnumSet<Shift>, List<OperationDescription<?>>> shiftMap = mapping.get(buttonCombination);
                     List<EnumSet<Shift>> shiftKeys = new ArrayList<EnumSet<Shift>>(shiftMap.keySet());
                     shiftKeys.sort(new ShiftComparator());
                     for (EnumSet<Shift> shift : shiftKeys)
@@ -313,13 +313,13 @@ public class ButtonMapVerifier
                             shiftString = shift.toString();
                         }
 
-                        List<OperationDescription> operationDescriptions = shiftMap.get(shift);
+                        List<OperationDescription<?>> operationDescriptions = shiftMap.get(shift);
                         if (operationDescriptions == null)
                         {
                             continue;
                         }
 
-                        for (OperationDescription operationDescription : operationDescriptions)
+                        for (OperationDescription<?> operationDescription : operationDescriptions)
                         {
                             System.out.println(
                                 String.format(
@@ -334,7 +334,7 @@ public class ButtonMapVerifier
         }
     }
 
-    private static boolean isOverlappingRange(OperationDescription one, OperationDescription two)
+    private static boolean isOverlappingRange(OperationDescription<?> one, OperationDescription<?> two)
     {
         return ButtonMapVerifier.isOverlappingRange(one.getUserInputDeviceRangeMin(), one.getUserInputDeviceRangeMax(), two.getUserInputDeviceRangeMin(), two.getUserInputDeviceRangeMax());
     }

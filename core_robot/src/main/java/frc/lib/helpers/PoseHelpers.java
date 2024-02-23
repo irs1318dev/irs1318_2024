@@ -1,7 +1,5 @@
 package frc.lib.helpers;
 
-import frc.robot.TuningConstants;
-
 public class PoseHelpers
 {
     /**
