@@ -22,7 +22,7 @@ public class ClimberMechanism implements IMechanism
     private final IDriver driver;
     private final ILogger logger;
 
-    private static boolean isClimberDown;
+    private boolean isClimberDown;
     private double servoPos;
 
     @Inject
@@ -90,7 +90,8 @@ public class ClimberMechanism implements IMechanism
       this.climberMotor.stop();
     }
 
-    public static boolean getClimberDown() {
-        return isClimberDown;
+    public boolean getClimberDown()
+    {
+        return this.isClimberDown;
     }
 }

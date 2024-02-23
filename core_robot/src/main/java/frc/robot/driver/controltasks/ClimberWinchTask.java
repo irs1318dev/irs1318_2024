@@ -8,6 +8,7 @@ import frc.robot.mechanisms.ClimberMechanism;
 public class ClimberWinchTask extends ControlTaskBase
 {
     private ITimer timer; 
+    private ClimberMechanism climber;
 
     public enum WinchState
     {
@@ -39,6 +40,7 @@ public class ClimberWinchTask extends ControlTaskBase
     {
         // initialize timer
         this.timer = this.getInjector().getInstance(ITimer.class);
+        this.climber = this.getInjector().getInstance(ClimberMechanism.class);
         this.startTime = this.timer.get();
     }
 
@@ -65,7 +67,7 @@ public class ClimberWinchTask extends ControlTaskBase
 
         if (this.goalState == WinchState.Retracted)
         {
-            if (ClimberMechanism.getClimberDown() == false) //if limit switch hasn't been tripped yet
+            if (this.climber.getClimberDown() == false) //if limit switch hasn't been tripped yet
             {
                 this.currentState = WinchState.Retracting;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);
