@@ -70,7 +70,7 @@ public class ClimberWinchTask extends ControlTaskBase
             if (this.climber.getClimberDown() == false) //if limit switch hasn't been tripped yet
             {
                 this.currentState = WinchState.Retracting;
-                this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);
+                this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);  
             }
             else //if limit switch is true
             {
