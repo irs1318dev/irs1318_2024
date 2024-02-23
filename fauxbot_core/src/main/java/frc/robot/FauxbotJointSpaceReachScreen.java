@@ -213,7 +213,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
             Color currentColor = Color.GREEN;
             this.pixMap.setColor(currentColor);
 
-            this.angleToPointsMap = new Point2d[(int)mapWidth][(int)mapHeight][4];
+            this.angleToPointsMap = new Point2d[(int)mapWidth][(int)mapHeight][5];
 
             double xOffset = -2.0 * Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION);
             double yOffset = -1.0 * Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
@@ -231,11 +231,14 @@ public class FauxbotJointSpaceReachScreen implements Screen
                         currentColor = newColor;
                     }
 
+                    int xIndex = (int)(xOffset + shoulderPosition * 2.0);
+                    int yIndex = (int)(yOffset + wristPosition);
                     this.pixMap.drawPixel((int)(xOffset + shoulderPosition * 2.0), (int)(mapHeight - (yOffset + wristPosition)));
-                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][0] = calculator.getIntakeBottomAbsPos();
-                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][1] = calculator.getIntakeTopAbsPos();
-                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][2] = calculator.getShooterBottomAbsPos();
-                    this.angleToPointsMap[(int)(xOffset + shoulderPosition * 2.0)][(int)(yOffset + wristPosition)][3] = calculator.getShooterTopAbsPos();
+                    this.angleToPointsMap[xIndex][yIndex][0] = calculator.getIntakeBottomAbsPos();
+                    this.angleToPointsMap[xIndex][yIndex][1] = calculator.getIntakeTopAbsPos();
+                    this.angleToPointsMap[xIndex][yIndex][2] = calculator.getShooterBottomAbsPos();
+                    this.angleToPointsMap[xIndex][yIndex][3] = calculator.getShooterTopAbsPos();
+                    this.angleToPointsMap[xIndex][yIndex][4] = new Point2d(shoulderPosition, wristPosition);
                 }
             }
 
@@ -272,18 +275,26 @@ public class FauxbotJointSpaceReachScreen implements Screen
                     {
                         if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight())
                         {
+                            double shoulderAngle = x / 4.0 + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION);
+                            double wristAngle = y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
                             pointLabel.setText(
                                 String.format(
                                     "%.2f, %.2f",
-                                    x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
-                                    y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+                                    shoulderAngle,
+                                    wristAngle));
 
-                            int indexX = (int)(x / 2.0);
-                            int indexY = (int)(y / 2.0);
-                            intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
-                            intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
-                            shooterBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][2].toString());
-                            shooterTopLocationLabel.setText(angleToPointsMap[indexX][indexY][3].toString());
+                            int xIndex = (int)(x / 2.0);
+                            int yIndex = (int)(y / 2.0);
+                            intakeBottomLocationLabel.setText(angleToPointsMap[xIndex][yIndex][0].toString());
+                            intakeTopLocationLabel.setText(angleToPointsMap[xIndex][yIndex][1].toString());
+                            shooterBottomLocationLabel.setText(angleToPointsMap[xIndex][yIndex][2].toString());
+                            shooterTopLocationLabel.setText(angleToPointsMap[xIndex][yIndex][3].toString());
+
+                            if (Math.abs(angleToPointsMap[xIndex][yIndex][4].x - shoulderAngle) > 1.0 ||
+                                Math.abs(angleToPointsMap[xIndex][yIndex][4].y - wristAngle) > 1.0)
+                            {
+                                System.out.println("Error in angleToPointsMap indexing: " + angleToPointsMap[xIndex][yIndex][4].toString() + " vs (" + shoulderAngle + ", " + wristAngle + ")");
+                            }
                         }
                     }
 
@@ -294,18 +305,26 @@ public class FauxbotJointSpaceReachScreen implements Screen
                     {
                         if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight())
                         {
+                            double shoulderAngle = x / 4.0 + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION);
+                            double wristAngle = y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION);
                             pointLabel.setText(
                                 String.format(
                                     "%.2f, %.2f",
-                                    x / 4.0f + Math.round(TuningConstants.ARM_SHOULDER_MIN_POSITION),
-                                    y / 2.0 + Math.round(TuningConstants.ARM_WRIST_MIN_POSITION)));
+                                    shoulderAngle,
+                                    wristAngle));
 
-                            int indexX = (int)(x / 2.0);
-                            int indexY = (int)(y / 2.0);
-                            intakeBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][0].toString());
-                            intakeTopLocationLabel.setText(angleToPointsMap[indexX][indexY][1].toString());
-                            shooterBottomLocationLabel.setText(angleToPointsMap[indexX][indexY][2].toString());
-                            shooterTopLocationLabel.setText(angleToPointsMap[indexX][indexY][3].toString());
+                            int xIndex = (int)(x / 2.0);
+                            int yIndex = (int)(y / 2.0);
+                            intakeBottomLocationLabel.setText(angleToPointsMap[xIndex][yIndex][0].toString());
+                            intakeTopLocationLabel.setText(angleToPointsMap[xIndex][yIndex][1].toString());
+                            shooterBottomLocationLabel.setText(angleToPointsMap[xIndex][yIndex][2].toString());
+                            shooterTopLocationLabel.setText(angleToPointsMap[xIndex][yIndex][3].toString());
+
+                            if (Math.abs(angleToPointsMap[xIndex][yIndex][4].x - shoulderAngle) > 1.0 ||
+                                Math.abs(angleToPointsMap[xIndex][yIndex][4].y - wristAngle) > 1.0)
+                            {
+                                System.out.println("Error in angleToPointsMap indexing: " + angleToPointsMap[xIndex][yIndex][4].toString() + " vs (" + shoulderAngle + ", " + wristAngle + ")");
+                            }
                         }
 
                         return false;
