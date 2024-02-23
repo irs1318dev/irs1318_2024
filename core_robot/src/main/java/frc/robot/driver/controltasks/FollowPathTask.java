@@ -11,6 +11,7 @@ import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.IDriveTrainMechanism;
+import frc.robot.mechanisms.SDSDriveTrainMechanism;
 
 /**
  * Task that follows a path
@@ -67,7 +68,7 @@ public class FollowPathTask extends ControlTaskBase
         this.trajectory = trajectoryManager.getTrajectory(this.pathName);
         if (this.trajectory == null)
         {
-            ExceptionHelpers.Assert(false, "Unknown trajectory " + this.pathName);
+            ExceptionHelpers.Assert(false, "Unknown trajectory '" + this.pathName + "'");
             this.startTime = 0.0;
             this.trajectoryDuration = 0.0;
             return;
@@ -78,7 +79,7 @@ public class FollowPathTask extends ControlTaskBase
 
         if (this.type != Type.Absolute)
         {
-            IDriveTrainMechanism driveTrain = this.getInjector().getInstance(IDriveTrainMechanism.class);
+            IDriveTrainMechanism driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
             this.initialPose = driveTrain.getPose();
         }
         else

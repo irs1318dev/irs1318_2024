@@ -509,7 +509,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
-            () -> new FollowPathTask("goBackwards30in", Type.RobotRelativeFromCurrentPose),
+            () -> new FollowPathTask("goLeft30in", Type.RobotRelativeFromCurrentPose),
             new IOperation[]
             {
                 DigitalOperation.PositionResetFieldOrientation,

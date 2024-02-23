@@ -324,7 +324,7 @@ public class TuningConstants
     public static final double EFFECTOR_OUTTAKE_DURATION = 0.5; // time from when ring no longer between through beams to out of the effector when outtaking
     public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
 
-    public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 500;
+    public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 250;
 
     //==================================================== ShootNoteTask =====================================================
 
@@ -368,7 +368,9 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 35.72480010986328;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 30.72480010986328;
+
+    public static final double ARM_WRIST_AUTO_P3_SHOOT = 16.201045989990234;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
@@ -391,7 +393,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
 
-    public static final double ARM_WRIST_GOAL_THRESHOLD = 5.0;
+    public static final double ARM_WRIST_NODE_THRESHOLD = 3.0;
+    public static final double ARM_SHOULDER_NODE_THRESHOLD = 3.0;
+    public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
