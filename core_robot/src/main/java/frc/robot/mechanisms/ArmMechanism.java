@@ -120,17 +120,17 @@ public class ArmMechanism implements IMechanism
         if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderMotor.setPIDF(
-                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KP,
-                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KI,
-                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KD,
-                TuningConstants.ARM_SHOULDER_POSITIONAL_TMP_PID_KF,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KP,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KI,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KD,
+                TuningConstants.ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
 
             this.wristMotor.setPIDF(
-                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KP,
-                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KI,
-                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KD,
-                TuningConstants.ARM_WRIST_POSITIONAL_TMP_PID_KF,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KP,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KI,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KD,
+                TuningConstants.ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KF,
                 ArmMechanism.AltPidSlotId);
         }
         else
@@ -159,16 +159,16 @@ public class ArmMechanism implements IMechanism
         if (TuningConstants.ARM_USE_MM)
         {
             this.shoulderTrapezoidMotionProfile = new TrapezoidProfile(
-                TuningConstants.ARM_SHOULDER_TMP_PID_CRUISE_VELOC,
-                TuningConstants.ARM_SHOULDER_TMP_PID_ACCEL);
+                TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC,
+                TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_ACCEL);
             this.shoulderTMPCurrState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
             this.shoulderTMPGoalState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
 
             this.shoulderMotor.setSelectedSlot(ArmMechanism.AltPidSlotId);
 
             this.wristTrapezoidMotionProfile = new TrapezoidProfile(
-                TuningConstants.ARM_WRIST_TMP_PID_CRUISE_VELOC,
-                TuningConstants.ARM_WRIST_TMP_PID_ACCEL);
+                TuningConstants.ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC,
+                TuningConstants.ARM_WRIST_MOTOR_TMP_PID_ACCEL);
             this.wristTMPCurrState = new TrapezoidProfile.State(this.wristPosition, 0.0);
             this.wristTMPGoalState = new TrapezoidProfile.State(this.wristPosition, 0.0);
 
@@ -568,23 +568,27 @@ public class ArmMechanism implements IMechanism
         this.lastLegalWristPosition = currentDesiredWristPosition;
         this.lastLegalShoulderPosition = currentDesiredShoulderPosition;
 
-        double powerThreshold = TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE * TuningConstants.ARM_SHOULDER_STALLED_CURRENT_BUFFER;
-
         // GRAVITY COMPENSATION
-        double feedForward = 0.0;
+        double shoulderFeedForward;
+        double shoulderPowerStallingThreshold;
         if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
         {
-            feedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
-            powerThreshold += feedForward * TuningConstants.PERCENT_OUTPUT_MULTIPLIER;
+            shoulderFeedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
+            shoulderPowerStallingThreshold = TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE * TuningConstants.ARM_SHOULDER_STALLED_CURRENT_BUFFER + shoulderFeedForward * TuningConstants.PERCENT_OUTPUT_MULTIPLIER;
+        }
+        else
+        {
+            shoulderFeedForward = 0.0;
+            shoulderPowerStallingThreshold = TuningConstants.ARM_SHOULDER_STALLED_POWER_THRESHOLD;
         }
 
         if (TuningConstants.ARM_STALL_PROTECTION_ENABLED)
         {
             // if we've past the velocity tracking duration since last desired position change we're using more power than expected and we're not moving that much
             // then either reset position (if past & present values tell us were trying to reset) and say were stalled or just say were stalled
-            
+
             if (currTime > this.shoulderSetpointChangedTime + TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION &&
-                this.shoulderPowerAverage >= powerThreshold &&
+                this.shoulderPowerAverage >= shoulderPowerStallingThreshold &&
                 Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)
             {
                 if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
@@ -625,7 +629,7 @@ public class ArmMechanism implements IMechanism
                 this.shoulderMotor.set(
                     SparkMaxControlMode.Position,
                     currentDesiredShoulderPosition,
-                    feedForward);
+                    shoulderFeedForward);
             }
         }
         else
