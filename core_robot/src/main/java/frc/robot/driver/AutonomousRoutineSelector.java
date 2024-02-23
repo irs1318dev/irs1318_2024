@@ -227,6 +227,29 @@ public class AutonomousRoutineSelector
     //     }
     // }
 
+    private static IControlTask SourceStartFarPriority(AutonLocManager locManager, boolean isRed, int numberNotes)
+    {
+        if(numberNotes == 1)
+        {
+            return null;
+        }
+        else 
+        {
+            return SequentialTask.Sequence(
+                ConcurrentTask.AllTasks(
+                    new ResetLevelTask(),
+                    new PositionStartingTask(
+                        locManager.P1,
+                        locManager.getOrientationOrHeading(180),
+                        true,
+                        true)
+            ),
+
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT)            
+            );
+        }
+    }
+
     private static IControlTask AmpStartClosePriority(AutonLocManager locManager, boolean isRed, int numberNotes)
     {
 
