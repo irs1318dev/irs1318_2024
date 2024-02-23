@@ -80,8 +80,8 @@ public class ElectronicsConstants
 
     //================================================= Climber ====================================================================
 
-    public static final int CLIMBER_MOTOR_CAN_ID = 0;
-    public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 0;
+    public static final int CLIMBER_MOTOR_CAN_ID = 31; // (LEFT)
+    public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 32;
     public static final int CLIMBER_SERVO_MOTOR_CAN_ID = 1;
     public static final int CLIMBER_LIMIT_SWITCH_DIO_CHANNEL = 0;
 }
