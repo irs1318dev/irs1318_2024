@@ -63,7 +63,7 @@ public class HardwareConstants
     public static final double ARM_WRIST_TO_SHOOTER_X = 4.25;
     public static final double ARM_WRIST_TO_SHOOTER_Z = 8.25;
     public static final double ARM_WRIST_TO_INTAKE_X = 13;
-    public static final double ARM_WRIST_TO_INTAKE_Z = 8.25;
+    public static final double ARM_WRIST_TO_INTAKE_Z = 8.05;
     public static final double ARM_WRIST_TO_SHOOTER_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
     public static final double ARM_WRIST_TO_INTAKE_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
