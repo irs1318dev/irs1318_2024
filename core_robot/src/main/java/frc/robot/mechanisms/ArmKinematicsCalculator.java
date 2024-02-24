@@ -146,6 +146,10 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperObtuseWrist,
             ArmKinematicsCalculator.tucked,
             TuningConstants.OBTUSE_WRIST_AND_TUCKED_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.upperIntakeFlipped,
+            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT);
 
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedUnderTransit,

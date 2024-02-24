@@ -164,10 +164,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3010254 : 0.17212; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3142089 : 0.15698; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.4091797 : -0.28979; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.1633300 : -0.35327; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.2958984375 : 0.17212; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3203125 : 0.15698; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.425537109375 : -0.28979; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.15673828125 : -0.35327; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -520,6 +520,7 @@ public class TuningConstants
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;

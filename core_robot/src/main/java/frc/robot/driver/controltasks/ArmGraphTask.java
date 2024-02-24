@@ -84,9 +84,12 @@ public class ArmGraphTask extends ControlTaskBase
 
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-            if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getShoulderPosition(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                Helpers.RoughEquals(currNode.wristAngle, this.arm.getWristPosition(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+            double armShoulderPosition = this.arm.getShoulderPosition();
+            double armWristPosition = this.arm.getWristPosition();
+            if (Helpers.RoughEquals(currNode.shoulderAngle, armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                Helpers.RoughEquals(currNode.wristAngle, armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
             {
+                System.out.println(String.format("Reached (%.2f, %.2f)", armShoulderPosition, armWristPosition));
                 this.currPos++;
                 if (this.currPos < this.path.size())
                 {
