@@ -545,7 +545,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = false;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
@@ -658,6 +658,7 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 180.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 180.0;
@@ -672,9 +673,10 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 180.0;
-    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 180.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 240.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
@@ -682,16 +684,16 @@ public class TuningConstants
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 5.0; // degrees per second
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
+    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5; // degrees per second
     public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
     public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
     // Arm/shoulder zeroing
-    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 2510; // degrees per minute
+    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
+    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 41.8333; // degrees per second
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
@@ -733,10 +735,11 @@ public class TuningConstants
         };
 
     // percent-output values to hold shoulder at the desired shoulder and wrist positions
+    public static final double ARM_MAX_GRAVITY_COMPENSATION = 0.2;
     public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder starting position
-            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, -1318, -1318, -1318, -1318 }, // shoulder second position
+            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, 0.0, 0.0, 0.0, 0.0 }, // shoulder second position
             { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
             { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
             { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522}, // shoulder fifth position
