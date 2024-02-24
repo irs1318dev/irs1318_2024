@@ -10,8 +10,8 @@ import frc.lib.helpers.Helpers;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 47.5; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 11.5; // inches, max extension beyond frame perimeter
+    public static final double MAX_ROBOT_HEIGHT = 47.0; // inches, max overall height
+    public static final double MAX_ROBOT_EXTENSION = 11.0; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
     public static final double ROBOT_HALF_FRAME_PERIMETER = 17.0; // "half frame perimeter" / 4.0"
 
@@ -60,10 +60,10 @@ public class HardwareConstants
     public static final double ARM_HUMERUS_LENGTH = 24.25; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
-    public static final double ARM_WRIST_TO_SHOOTER_X = 4.25;
-    public static final double ARM_WRIST_TO_SHOOTER_Z = 8.25;
-    public static final double ARM_WRIST_TO_INTAKE_X = 13;
-    public static final double ARM_WRIST_TO_INTAKE_Z = 8.05;
+    public static final double ARM_WRIST_TO_SHOOTER_X = 2.630;//4.25;
+    public static final double ARM_WRIST_TO_SHOOTER_Z = 7.032;//8.25;
+    public static final double ARM_WRIST_TO_INTAKE_X = 12.146;//13;
+    public static final double ARM_WRIST_TO_INTAKE_Z = 5.661;//8.05;
     public static final double ARM_WRIST_TO_SHOOTER_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, 2));
     public static final double ARM_WRIST_TO_INTAKE_EDGE = Math.sqrt( Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_X, 2) +  Math.pow(HardwareConstants.ARM_WRIST_TO_INTAKE_Z, 2));
     
