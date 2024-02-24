@@ -475,7 +475,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 64.4703140258789;
 
-    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
+    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -516,10 +516,10 @@ public class TuningConstants
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     public static final boolean ARM_WRIST_MOTOR_INVERT_OUTPUT = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = true;
+    public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
-    public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
+    public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
@@ -650,7 +650,7 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 180.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 5.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 8.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
@@ -659,7 +659,7 @@ public class TuningConstants
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
-    public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.20; // Percentage difference allowed between the two motors
+    public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
     public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
     // Arm/shoulder zeroing

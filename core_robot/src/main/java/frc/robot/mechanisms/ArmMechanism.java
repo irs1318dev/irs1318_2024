@@ -588,7 +588,7 @@ public class ArmMechanism implements IMechanism
         if (TuningConstants.ARM_USE_GRAVITY_COMPENSATION)
         {
             shoulderFeedForward = this.interpolator.sample(currentDesiredShoulderPosition, currentDesiredWristPosition);
-            shoulderPowerStallingThreshold = TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE * TuningConstants.ARM_SHOULDER_STALLED_CURRENT_BUFFER + shoulderFeedForward * TuningConstants.PERCENT_OUTPUT_MULTIPLIER;
+            shoulderPowerStallingThreshold = TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE * (TuningConstants.ARM_SHOULDER_STALLED_CURRENT_BUFFER + shoulderFeedForward * TuningConstants.PERCENT_OUTPUT_MULTIPLIER);
         }
         else
         {
