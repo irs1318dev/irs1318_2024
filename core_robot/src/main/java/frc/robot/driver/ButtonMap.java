@@ -263,6 +263,12 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
+            DigitalOperation.ClimberWinchDown,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
             DigitalOperation.ArmDisableSimpleMode,
             UserInputDevice.Codriver,
             180,
@@ -684,6 +690,21 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
+
+        // new MacroOperationDescription(
+        //     MacroOperation.ArmShoulderWristPosition1,
+        //     UserInputDevice.Codriver, 
+        //     UserInputDeviceButton.XBONE_X_BUTTON,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Toggle, 
+        //     () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ArmShoulderPositionSetpoint,
+        //         AnalogOperation.ArmWristPositionSetpoint,
+        //     }),
+
 
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPosition2,

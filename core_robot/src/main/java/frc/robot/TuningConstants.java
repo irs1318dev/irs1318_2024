@@ -6,7 +6,7 @@ package frc.robot;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = true;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -433,7 +433,7 @@ public class TuningConstants
 
     //==================================================== Arm ==============================================================
 
-    public static final double ARM_SHOULDER_POWER_STRENGTH = 1.0;
+    public static final double ARM_SHOULDER_POWER_STRENGTH = 0.5;
     public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
     public static final double ARM_POWER_EXPONENTIAL = 1.0;
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
@@ -449,9 +449,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -30.1; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -26.3; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -112.0; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -123.5; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -498,12 +498,12 @@ public class TuningConstants
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
     public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
-    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
     public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
     public static final double TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
 
@@ -516,7 +516,7 @@ public class TuningConstants
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     public static final boolean ARM_WRIST_MOTOR_INVERT_OUTPUT = true;
 
-    public static final boolean ARM_USE_SIMPLE_MODE = false;
+    public static final boolean ARM_USE_SIMPLE_MODE = true;
     public static final boolean ARM_USE_MM = true;
     public static final boolean USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
@@ -659,10 +659,12 @@ public class TuningConstants
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
+    public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.20; // Percentage difference allowed between the two motors
+    public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
     // Arm/shoulder zeroing
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 10;//0.8;
+    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 2510; // degrees per minute
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
@@ -717,10 +719,10 @@ public class TuningConstants
     //==================================================== Climber ==============================================================
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
-    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     
-    public static final double CLIMBER_WINCH_UP_POWER = 0.9;
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.9;
+    public static final double CLIMBER_WINCH_DOWN_POWER = 0.5;
+    //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
     public static final double CLIMBER_SERVO_DOWN_POSITION = 1.0;

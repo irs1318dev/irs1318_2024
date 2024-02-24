@@ -72,21 +72,15 @@ public class ElectronicsConstants
 
     public static final boolean ARM_WRIST_LIMIT_SWITCH_ENABLED = false;
     public static final boolean ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN = false;
-    
 
-    public static final int ARM_SHOULDER_PDH_CHANNEL = 6;
-    public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = 7;
-    public static final int ARM_WRIST_PDH_CHANNEL = 11;
+    public static final int ARM_SHOULDER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 3 : 6;
+    public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 4 : 7;
+    public static final int ARM_WRIST_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 17 : 11;
 
     //================================================= Climber ====================================================================
 
-<<<<<<< Updated upstream
-    public static final int CLIMBER_MOTOR_CAN_ID = 31; // (LEFT)
-    public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 32;
-=======
     public static final int CLIMBER_MOTOR_CAN_ID = 16;
     public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 17;
->>>>>>> Stashed changes
     public static final int CLIMBER_SERVO_MOTOR_CAN_ID = 1;
     public static final int CLIMBER_LIMIT_SWITCH_DIO_CHANNEL = 0;
 }

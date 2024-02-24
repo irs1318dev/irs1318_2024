@@ -53,10 +53,13 @@ public class ArmMechanism implements IMechanism
     
     private boolean wristLimitSwitchHit;
 
-    private FloatingAverageCalculator shoulderPowerAverageCalculator;
+    private FloatingAverageCalculator shoulderMasterPowerAverageCalculator;
+    private FloatingAverageCalculator shoulderFollowerPowerAverageCalculator;
     private FloatingAverageCalculator wristPowerAverageCalculator;
 
     private double shoulderPowerAverage;
+    private double shoulderMasterPowerAverage;
+    private double shoulderFollowerPowerAverage;
     private double wristPowerAverage;
 
     private FloatingAverageCalculator shoulderVelocityAverageCalculator;
@@ -213,7 +216,8 @@ public class ArmMechanism implements IMechanism
         shoulderFollowerMotor.follow(this.shoulderMotor);
         shoulderFollowerMotor.burnFlash();
 
-        this.shoulderPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_POWER_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_POWER_SAMPLES_PER_SECOND);
+        this.shoulderMasterPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_POWER_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_POWER_SAMPLES_PER_SECOND);
+        this.shoulderFollowerPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_POWER_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_POWER_SAMPLES_PER_SECOND);
         this.wristPowerAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION, TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND);
 
         this.shoulderVelocityAverageCalculator = new FloatingAverageCalculator(this.timer, TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION, TuningConstants.ARM_SHOULDER_VELOCITY_SAMPLES_PER_SECOND);
@@ -259,16 +263,26 @@ public class ArmMechanism implements IMechanism
         double wristCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_WRIST_PDH_CHANNEL);
         double batteryVoltage = this.powerManager.getBatteryVoltage();
 
-        this.shoulderPowerAverage = this.shoulderPowerAverageCalculator.update(((shoulderCurrent + shoulderFollowerCurrent) * 0.5) * batteryVoltage);
+        this.shoulderMasterPowerAverage = this.shoulderMasterPowerAverageCalculator.update(shoulderCurrent * batteryVoltage);
+        this.shoulderFollowerPowerAverage = this.shoulderFollowerPowerAverageCalculator.update(shoulderFollowerCurrent * batteryVoltage);
+        this.shoulderPowerAverage = 0.5 * (this.shoulderMasterPowerAverage + this.shoulderFollowerPowerAverage);
         this.wristPowerAverage = this.wristPowerAverageCalculator.update(wristCurrent * batteryVoltage);
 
         this.shoulderVelocityAverage = this.shoulderVelocityAverageCalculator.update(Math.abs(this.shoulderVelocity));
         this.wristVelocityAverage = this.wristVelocityAverageCalculator.update(Math.abs(this.wristVelocity));
 
+        // Check for power discrepancy between the master and follower motors for the shoulder
+        boolean isShoulderMotorPowerDiscrepancy = false;
+        if (this.shoulderPowerAverage > TuningConstants.ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE)
+        {
+            isShoulderMotorPowerDiscrepancy = Math.abs(this.shoulderMasterPowerAverage - this.shoulderFollowerPowerAverage) / this.shoulderPowerAverage >= TuningConstants.ARM_SHOULDER_MOTOR_POWER_DIFFERENCE;
+        }
+
         this.logger.logNumber(LoggingKey.ArmShoulderPosition, this.shoulderPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocity, this.shoulderVelocity);
         this.logger.logNumber(LoggingKey.ArmShoulderVelocityAverage, this.shoulderVelocityAverage);
         this.logger.logNumber(LoggingKey.ArmShoulderError, this.shoulderError);
+        this.logger.logBoolean(LoggingKey.ArmShoulderMotorPowerDiscrepancy, isShoulderMotorPowerDiscrepancy);
         this.logger.logNumber(LoggingKey.ArmShoulderPowerAverage, this.shoulderPowerAverage);
         this.logger.logNumber(LoggingKey.ArmWristPosition, this.wristPosition);
         this.logger.logNumber(LoggingKey.ArmWristVelocity, this.wristVelocity);
@@ -661,6 +675,8 @@ public class ArmMechanism implements IMechanism
         this.logger.logBoolean(LoggingKey.ArmShoulderStalled, this.shoulderStalled);
         this.logger.logBoolean(LoggingKey.ArmWristStalled, this.wristStalled);
 
+        this.logger.logNumber(LoggingKey.ArmShoulderSetpointTMP, currentDesiredShoulderPosition);
+        this.logger.logNumber(LoggingKey.ArmWristSetpointTMP, currentDesiredWristPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderSetpoint, this.desiredShoulderPosition);
         this.logger.logNumber(LoggingKey.ArmWristSetpoint, this.desiredWristPosition);
         this.armKinematicsCalculator.logValues(this.logger);
