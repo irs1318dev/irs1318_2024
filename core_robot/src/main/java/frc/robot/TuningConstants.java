@@ -353,7 +353,7 @@ public class TuningConstants
 
     //================================================== EndEffector ==============================================================
 
-    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = true;
+    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
@@ -390,17 +390,17 @@ public class TuningConstants
     public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KF = 0.0002;
 
     // SHOOTER COMP
-    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY = 5300.0; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY = 5200.0; // (RPM)
     public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KP = 0.00040;
     public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KI = 0.0;
     public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KD = 0.015;
-    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.00018868;
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.0001923;
 
-    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MAX_VELOCITY = 5000.0; // (RPM)
-    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KP = 0.00032;
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MAX_VELOCITY = 5200.0; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KP = 0.00040;
     public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KI = 0.0;
     public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KD = 0.015;
-    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.0002;
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.0001923;
 
     public static final int FLYWHEEL_STALL_LIMIT = 100;
     public static final int FLYWHEEL_FREE_LIMIT = 100;
