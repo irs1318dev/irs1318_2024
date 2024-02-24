@@ -38,6 +38,9 @@ public class TuningConstants
     public static final double AMP_OT = 90.0;
     public static final double SOURCE_OT = 290;
 
+    public static final double DRIVE_P19_SHOOT_ORIENTATION = 225;
+    public static final double DRIVE_P17_SHOOT_ORIENTATION = 135;
+
     //================================================= Power ======================================================
 
     public static final double POWER_OVERCURRENT_TRACKING_DURATION = 5.0; // duration of time to keep track of the average current
@@ -462,9 +465,13 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 30.72480010986328;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 27.470964431762695;// change ti p4
+
+    public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
 
     public static final double ARM_WRIST_AUTO_P3_SHOOT = 16.201045989990234;
+
+    public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
