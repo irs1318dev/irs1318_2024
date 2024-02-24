@@ -320,18 +320,36 @@ public class ArmKinematicsCalculator
             || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
             || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
-            this.extensionType = ExtensionType.Robot;
-            this.hittingRobot = true;
-            this.stuckInPosition = true;
-            return true;
+            // were not hitting the robot, IK is just impossibly weird to work with
+            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > this.theta_2 - TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION && 
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            {
+                return false;
+            }
+            else
+            {
+                this.extensionType = ExtensionType.Robot;
+                this.hittingRobot = true;
+                this.stuckInPosition = true;
+                return true;
+            }
         }
 
         // hitting ground
         if ( (this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
         {
-            this.extensionType = ExtensionType.Ground;
-            this.stuckInPosition = true;
-            return true;
+            // were not hitting the ground, IK is just impossibly weird to work with
+            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP - this.theta_2 && 
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            {
+                return false;
+            }
+            else
+            {
+                this.extensionType = ExtensionType.Ground;
+                this.stuckInPosition = true;
+                return true;
+            }
         }
 
         // continous limiting top
