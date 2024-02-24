@@ -7,7 +7,7 @@ package frc.robot;
 public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = true;
-    public static boolean THROW_EXCEPTIONS = true;
+    public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -464,8 +464,8 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 27.470964431762695;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
 
@@ -489,14 +489,14 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT = -20.0;
     public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
-    public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26.0;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 64.4703140258789;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
