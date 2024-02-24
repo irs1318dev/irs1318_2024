@@ -20,14 +20,15 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode startingConfiguration;
     private static ArmGraphNode groundPickup;
     private static ArmGraphNode tucked;
-    private static ArmGraphNode tuckedTransitional;
+    private static ArmGraphNode tuckedTransit;
+    private static ArmGraphNode tuckedGroundTransit;
+    private static ArmGraphNode tuckedUnderTransit;
     private static ArmGraphNode sourcePickup;
     private static ArmGraphNode upperUnivShot;
     private static ArmGraphNode ampScore;
     private static ArmGraphNode upperIntakeFlipped;
     private static ArmGraphNode trapIntermediate;
     private static ArmGraphNode upperObtuseWrist;
-    private static ArmGraphNode tuckedGroundTransition;
 
     static
     {
@@ -49,10 +50,20 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
             TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT);
 
-        ArmKinematicsCalculator.tuckedTransitional = ArmKinematicsCalculator.graph.createNode(
-            "tuckedTransitional",
+        ArmKinematicsCalculator.tuckedTransit = ArmKinematicsCalculator.graph.createNode(
+            "tuckedTransit",
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED_TRANSIT,
             TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
+
+        ArmKinematicsCalculator.tuckedGroundTransit = ArmKinematicsCalculator.graph.createNode(
+            "tuckedGroundTransit",
+            TuningConstants.ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT,
+            TuningConstants.ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT);
+
+        ArmKinematicsCalculator.tuckedUnderTransit = ArmKinematicsCalculator.graph.createNode(
+            "tuckedUnderTransit",
+            TuningConstants.ARM_SHOULDER_POSITION_TUCKED_UNDER_TRANSIT,
+            TuningConstants.ARM_WRIST_POSITION_TUCKED_UNDER_TRANSIT);
 
         ArmKinematicsCalculator.sourcePickup = ArmKinematicsCalculator.graph.createNode(
             "sourcePickup",
@@ -73,7 +84,7 @@ public class ArmKinematicsCalculator
             "upperIntakeFlipped",
             TuningConstants.ARM_SHOULDER_POSITION_INTAKE_FLIPPED,
             TuningConstants.ARM_WRIST_POSITION_INTAKE_FLIPPED);
-            
+
         ArmKinematicsCalculator.trapIntermediate = ArmKinematicsCalculator.graph.createNode(
             "trapIntermediate",
             TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE,
@@ -83,75 +94,79 @@ public class ArmKinematicsCalculator
             "upperObtuseWrist",
             TuningConstants.ARM_SHOULDER_POSITION_INTAKE_OBTUSE,
             TuningConstants.ARM_WRIST_POSITION_INTAKE_OBTUSE);
-            
-        ArmKinematicsCalculator.tuckedGroundTransition = ArmKinematicsCalculator.graph.createNode(
-            "tuckedGroundTransition",
-            TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
-            TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP);
 
         // create all of the links between the nodes
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startingConfiguration, 
-            ArmKinematicsCalculator.groundPickup, 
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.groundPickup,
             TuningConstants.STARTUP_AND_GROUND_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startingConfiguration, 
-            ArmKinematicsCalculator.sourcePickup, 
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.sourcePickup,
             TuningConstants.STARTUP_AND_SOURCE_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startingConfiguration, 
-            ArmKinematicsCalculator.upperIntakeFlipped, 
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.upperIntakeFlipped,
             TuningConstants.STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.sourcePickup, 
-            ArmKinematicsCalculator.upperIntakeFlipped, 
+            ArmKinematicsCalculator.sourcePickup,
+            ArmKinematicsCalculator.upperIntakeFlipped,
             TuningConstants.SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperIntakeFlipped, 
-            ArmKinematicsCalculator.trapIntermediate, 
-            TuningConstants.UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT);
+            ArmKinematicsCalculator.upperIntakeFlipped,
+            ArmKinematicsCalculator.trapIntermediate,
+            TuningConstants.UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperIntakeFlipped, 
-            ArmKinematicsCalculator.upperUnivShot, 
-            TuningConstants.UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT);
+            ArmKinematicsCalculator.upperIntakeFlipped,
+            ArmKinematicsCalculator.upperUnivShot,
+            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT);
 
         ArmKinematicsCalculator.graph.connect(
-            ArmKinematicsCalculator.tuckedTransitional,
+            ArmKinematicsCalculator.tuckedTransit,
             ArmKinematicsCalculator.tucked,
             TuningConstants.TUCKED_TRANSIT_TO_TUCKED_WEIGHT);
-    
+
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperUnivShot, 
-            ArmKinematicsCalculator.groundPickup, 
+            ArmKinematicsCalculator.upperUnivShot,
+            ArmKinematicsCalculator.groundPickup,
             TuningConstants.UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperUnivShot, 
-            ArmKinematicsCalculator.upperObtuseWrist, 
+            ArmKinematicsCalculator.upperUnivShot,
+            ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.ampScore, 
-            ArmKinematicsCalculator.upperObtuseWrist, 
+            ArmKinematicsCalculator.ampScore,
+            ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperObtuseWrist, 
-            ArmKinematicsCalculator.groundPickup, 
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.groundPickup,
             TuningConstants.OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperObtuseWrist, 
-            ArmKinematicsCalculator.tucked, 
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.tucked,
             TuningConstants.OBTUSE_WRIST_AND_TUCKED_WEIGHT);
 
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.tuckedUnderTransit,
+            ArmKinematicsCalculator.tuckedTransit,
+            TuningConstants.TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT);
+
         ArmKinematicsCalculator.graph.connect(
-            ArmKinematicsCalculator.groundPickup, 
-            ArmKinematicsCalculator.tucked, 
+            ArmKinematicsCalculator.groundPickup,
+            ArmKinematicsCalculator.tucked,
             TuningConstants.GROUND_PICKUP_TO_TUCKED_WEIGHT);
         ArmKinematicsCalculator.graph.connect(
-            ArmKinematicsCalculator.tucked, 
-            ArmKinematicsCalculator.tuckedGroundTransition, 
-            TuningConstants.TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT);
+            ArmKinematicsCalculator.tucked,
+            ArmKinematicsCalculator.tuckedTransit,
+            TuningConstants.TUCKED_TO_TUCKED_TRANSIT_WEIGHT);
         ArmKinematicsCalculator.graph.connect(
-            ArmKinematicsCalculator.tuckedGroundTransition, 
-            ArmKinematicsCalculator.groundPickup, 
+            ArmKinematicsCalculator.tuckedTransit,
+            ArmKinematicsCalculator.tuckedGroundTransit,
+            TuningConstants.TUCKED_TRANSIT_TO_TUCKED_GROUND_TRANSIT_WEIGHT);
+        ArmKinematicsCalculator.graph.connect(
+            ArmKinematicsCalculator.tuckedGroundTransit,
+            ArmKinematicsCalculator.groundPickup,
             TuningConstants.TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
     }
 
@@ -315,15 +330,22 @@ public class ArmKinematicsCalculator
         }
 
         // hiting robot
-        if ( (this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
-            || (this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
-            || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
-            || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
+        if ((this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
+            (this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
+            (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
+            (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
-            // were not hitting the robot, IK is just impossibly weird to work with
-            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > this.theta_2 - TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION && 
-                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            // special-case for the lower universal (shoulder at base), which we know is legal through the range of motion of the wrist from
+            // its starting configuration to the ground pickup location
+            // we're not hitting the robot, the Kinematics are just impossibly weird to work with
+            if (this.theta_2 >= TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION &&
+                this.theta_2 <= TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP &&
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 5.0))
             {
+                // neither fixed nor stuck at this position - use the new angles
+                kinematicsLimitedAngles.set(
+                    currentDesiredShoulderPosition,
+                    currentDesiredWristPosition);
                 return false;
             }
             else
@@ -336,12 +358,19 @@ public class ArmKinematicsCalculator
         }
 
         // hitting ground
-        if ( (this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
+        if ((this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
         {
-            // were not hitting the ground, IK is just impossibly weird to work with
-            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP - this.theta_2 && 
-                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            // special-case for the lower universal (shoulder at base), which we know is legal through the range of motion of the wrist from
+            // its starting configuration to the ground pickup location
+            // we're not hitting the robot, the Kinematics are just impossibly weird to work with
+            if (this.theta_2 >= TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION &&
+                this.theta_2 <= TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP &&
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 5.0))
             {
+                // neither fixed nor stuck at this position - use the new angles
+                kinematicsLimitedAngles.set(
+                    currentDesiredShoulderPosition,
+                    currentDesiredWristPosition);
                 return false;
             }
             else
@@ -498,7 +527,7 @@ public class ArmKinematicsCalculator
     {
         return new Point2d(this.shooterBottomAbsPosX, this.shooterBottomAbsPosZ);
     }
-    
+
     public Point2d getShooterTopAbsPos()
     {
         return new Point2d(this.shooterTopAbsPosX, this.shooterTopAbsPosZ);
@@ -508,7 +537,7 @@ public class ArmKinematicsCalculator
     {
         return new Point2d(this.intakeBottomAbsPosX, this.intakeBottomAbsPosZ);
     }
-    
+
     public Point2d getIntakeTopAbsPos()
     {
         return new Point2d(this.intakeTopAbsPosX, this.intakeTopAbsPosZ);
