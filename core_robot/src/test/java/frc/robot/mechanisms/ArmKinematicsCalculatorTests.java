@@ -2,9 +2,13 @@ package frc.robot.mechanisms;
 
 import frc.lib.helpers.Pair;
 import frc.robot.TuningConstants;
+import frc.robot.mechanisms.ArmKinematicsCalculator.ArmGraphNode;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import de.siegmar.fastcsv.writer.*;
 
@@ -32,5 +36,13 @@ public class ArmKinematicsCalculatorTests
         {
             e.printStackTrace(System.err);
         }
+    }
+
+    @Test
+    public void testThings()
+    {
+        ArmGraphNode closestNode = ArmKinematicsCalculator.getClosestArmNode(-8.92, 90.06);
+        Assertions.assertEquals(closestNode.shoulderAngle, TuningConstants.ARM_SHOULDER_POSITION_TUCKED_TRANSIT);
+        Assertions.assertEquals(closestNode.wristAngle, TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
     }
 }

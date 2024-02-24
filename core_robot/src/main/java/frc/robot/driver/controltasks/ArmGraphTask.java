@@ -59,17 +59,17 @@ public class ArmGraphTask extends ControlTaskBase
             ArmGraphNode currNode = this.path.get(this.currPos);
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-            System.out.println("navigating to node " + currNode.shoulderAngle + ", " + currNode.wristAngle);
-//            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
-//            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
+            System.out.println(String.format("Navigating to node (%.2f, %.2f)", armShoulderPosition, armWristPosition));
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
+            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
         }
         else
         {
             this.state = ArmGraphState.MovingToGoal;
 
-            System.out.println("navigating to goal " + this.shoulderGoalPos + ", " + this.wristGoalPos);
-  //          this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
-  //          this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
+            System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
+            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
         }
     }
 
@@ -93,13 +93,13 @@ public class ArmGraphTask extends ControlTaskBase
                     currNode = this.path.get(this.currPos);
                     ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-                    System.out.println("navigating to node " + currNode.shoulderAngle + ", " + currNode.wristAngle);
+                    System.out.println(String.format("Navigating to node (%.2f, %.2f)", currNode.shoulderAngle, currNode.wristAngle));
                     shoulderAngle = currNode.shoulderAngle;
                     wristAngle = currNode.wristAngle;
                 }
                 else
                 {
-                    System.out.println("navigating to goal " + this.shoulderGoalPos + ", " + this.wristGoalPos);
+                    System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
                     this.state = ArmGraphState.MovingToGoal;
                     shoulderAngle = this.shoulderGoalPos;
                     wristAngle = this.wristGoalPos;
@@ -123,8 +123,8 @@ public class ArmGraphTask extends ControlTaskBase
             wristAngle = this.wristGoalPos;
         }
 
-    //    this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, shoulderAngle);
-    //    this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
+       this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, shoulderAngle);
+       this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
     }
 
     @Override

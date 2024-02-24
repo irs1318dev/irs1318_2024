@@ -473,6 +473,9 @@ public class TuningConstants
 
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
 
+    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 90.0;
+
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
 
@@ -513,8 +516,9 @@ public class TuningConstants
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
     public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
     public static final double TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 1.0;
 
-    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 3.0;
     public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
 
     // ----------------> OTHER THINGS <----------------
