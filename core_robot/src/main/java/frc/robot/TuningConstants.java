@@ -473,8 +473,21 @@ public class TuningConstants
 
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
 
+    // Position for a node where the wrist is being tucked under the shoulder in a dangerous way
+    // we will probably never attempt to go to this node, but if the wrist/shoulder stalls at an
+    // inopportune time, it may fall to it.
+    public static final double ARM_SHOULDER_POSITION_TUCKED_UNDER_TRANSIT = 0.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_UNDER_TRANSIT = 110.0;
+
+    // a transit node for going between tucked positions and ground pickup,
+    // or ground pickup to tucked positions
     public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
-    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 90.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 75.0;
+
+    // another transit node for going between tucked positions and ground pickup,
+    // or ground pickup to tucked positions
+    public static final double ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT = -20.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
     public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
@@ -506,17 +519,19 @@ public class TuningConstants
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
-    public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
-    public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 10.0;
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
-    public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
+    public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
     public static final double TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
     public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 1.0;
+    public static final double TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
+    public static final double TUCKED_TRANSIT_TO_TUCKED_GROUND_TRANSIT_WEIGHT = 1.0;
 
     public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 3.0;
     public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
