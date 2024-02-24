@@ -20,6 +20,7 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode startingConfiguration;
     private static ArmGraphNode groundPickup;
     private static ArmGraphNode tucked;
+    private static ArmGraphNode tuckedTransitional;
     private static ArmGraphNode sourcePickup;
     private static ArmGraphNode upperUnivShot;
     private static ArmGraphNode ampScore;
@@ -47,6 +48,11 @@ public class ArmKinematicsCalculator
             "tucked",
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
             TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT);
+
+        ArmKinematicsCalculator.tuckedTransitional = ArmKinematicsCalculator.graph.createNode(
+            "tuckedTransitional",
+            TuningConstants.ARM_SHOULDER_POSITION_TUCKED_TRANSIT,
+            TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
 
         ArmKinematicsCalculator.sourcePickup = ArmKinematicsCalculator.graph.createNode(
             "sourcePickup",
@@ -108,6 +114,11 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperIntakeFlipped, 
             ArmKinematicsCalculator.upperUnivShot, 
             TuningConstants.UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connect(
+            ArmKinematicsCalculator.tuckedTransitional,
+            ArmKinematicsCalculator.tucked,
+            TuningConstants.TUCKED_TRANSIT_TO_TUCKED_WEIGHT);
     
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.upperUnivShot, 
@@ -309,18 +320,36 @@ public class ArmKinematicsCalculator
             || (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0)
             || (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
-            this.extensionType = ExtensionType.Robot;
-            this.hittingRobot = true;
-            this.stuckInPosition = true;
-            return true;
+            // were not hitting the robot, IK is just impossibly weird to work with
+            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > this.theta_2 - TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION && 
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            {
+                return false;
+            }
+            else
+            {
+                this.extensionType = ExtensionType.Robot;
+                this.hittingRobot = true;
+                this.stuckInPosition = true;
+                return true;
+            }
         }
 
         // hitting ground
         if ( (this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
         {
-            this.extensionType = ExtensionType.Ground;
-            this.stuckInPosition = true;
-            return true;
+            // were not hitting the ground, IK is just impossibly weird to work with
+            if( TuningConstants.ARM_WRIST_GOAL_THRESHOLD > TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP - this.theta_2 && 
+                Helpers.RoughEquals(this.theta_1, TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD))
+            {
+                return false;
+            }
+            else
+            {
+                this.extensionType = ExtensionType.Ground;
+                this.stuckInPosition = true;
+                return true;
+            }
         }
 
         // continous limiting top

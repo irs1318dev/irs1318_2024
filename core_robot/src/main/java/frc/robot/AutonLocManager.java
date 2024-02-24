@@ -87,7 +87,7 @@ public class AutonLocManager
         this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 - 21.22) , 198); //210 degrees orientation
         this.P3 = new Point2d(AutonLocManager.getXPosition(isRed, 250.5 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 306 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P4 = new Point2d(AutonLocManager.getXPosition(isRed, 288 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 239 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P5 = new Point2d(AutonLocManager.getXPosition(isRed, 212), 162);
+        this.P5 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 162);//212), 162);
         this.P5M = new Point2d(AutonLocManager.getXPosition(isRed, P5.x + 20), P5.y);
         this.P6 = new Point2d(AutonLocManager.getXPosition(isRed, 212), 219);
         this.P6M = new Point2d(AutonLocManager.getXPosition(isRed, P6.x + 20), P6.y);

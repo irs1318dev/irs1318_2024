@@ -357,7 +357,7 @@ public class EndEffectorMechanism implements IMechanism
 
                 break;
         }
-
+        
         // STATE CONTROL
         double intakePower;
         switch (this.currentEffectorState)

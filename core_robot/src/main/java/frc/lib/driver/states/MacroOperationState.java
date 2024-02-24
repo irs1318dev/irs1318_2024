@@ -2,7 +2,6 @@ package frc.lib.driver.states;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Map;
 
 import frc.robot.TuningConstants;
 import frc.lib.driver.IControlTask;
@@ -16,7 +15,6 @@ import frc.lib.driver.buttons.ToggleButton;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.lib.helpers.ExceptionHelpers;
-import frc.lib.helpers.Helpers;
 import frc.lib.helpers.SetHelper;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;

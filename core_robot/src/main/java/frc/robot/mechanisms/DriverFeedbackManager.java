@@ -1,14 +1,11 @@
 package frc.robot.mechanisms;
 
-import frc.robot.*;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.DigitalOperation;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.robot.mechanisms.PowerManager.CurrentLimiting;
-
-import java.util.Optional;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

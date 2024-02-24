@@ -39,16 +39,14 @@ public class ArmGraphTask extends ControlTaskBase
     {
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
 
+        double armShoulderPosition = this.arm.getShoulderPosition();
+        double armWristPosition = this.arm.getWristPosition();
+        ArmGraphNode startArmGraphNode = ArmKinematicsCalculator.getClosestArmNode(armShoulderPosition, armWristPosition);
         ArmGraphNode goalArmGraphNode = ArmKinematicsCalculator.getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
-        ArmGraphNode startArmGraphNode = ArmKinematicsCalculator.getClosestArmNode(this.arm.getShoulderPosition(), this.arm.getWristPosition());
 
-        System.out.println("Starting Node");
-        System.out.println(startArmGraphNode.shoulderAngle);
-        System.out.println(startArmGraphNode.wristAngle);
-
-        System.out.println("Goal Node");
-        System.out.println(goalArmGraphNode.shoulderAngle);
-        System.out.println(goalArmGraphNode.wristAngle);
+        System.out.println(String.format("Current position (%.2f, %.2f)", armShoulderPosition, armWristPosition));
+        System.out.println(String.format("Starting Node (%.2f, %.2f)", startArmGraphNode.shoulderAngle, startArmGraphNode.wristAngle));
+        System.out.println(String.format("Goal Node (%.2f, %.2f)", goalArmGraphNode.shoulderAngle, goalArmGraphNode.wristAngle));
 
         this.path = ArmKinematicsCalculator.getOptimalPath(startArmGraphNode, goalArmGraphNode);
         this.currPos = 0;
@@ -60,6 +58,8 @@ public class ArmGraphTask extends ControlTaskBase
 
             ArmGraphNode currNode = this.path.get(this.currPos);
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
+
+            System.out.println(String.format("Navigating to node (%.2f, %.2f)", armShoulderPosition, armWristPosition));
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
         }
@@ -67,6 +67,7 @@ public class ArmGraphTask extends ControlTaskBase
         {
             this.state = ArmGraphState.MovingToGoal;
 
+            System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
         }
@@ -91,11 +92,14 @@ public class ArmGraphTask extends ControlTaskBase
                 {
                     currNode = this.path.get(this.currPos);
                     ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
+
+                    System.out.println(String.format("Navigating to node (%.2f, %.2f)", currNode.shoulderAngle, currNode.wristAngle));
                     shoulderAngle = currNode.shoulderAngle;
                     wristAngle = currNode.wristAngle;
                 }
                 else
                 {
+                    System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
                     this.state = ArmGraphState.MovingToGoal;
                     shoulderAngle = this.shoulderGoalPos;
                     wristAngle = this.wristGoalPos;
@@ -119,15 +123,15 @@ public class ArmGraphTask extends ControlTaskBase
             wristAngle = this.wristGoalPos;
         }
 
-        this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, shoulderAngle);
-        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
+       this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, shoulderAngle);
+       this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
     }
 
     @Override
     public void end()
     {
-        this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
-        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
+        this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+        this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
     }
 
     @Override
