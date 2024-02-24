@@ -1,10 +1,5 @@
 package frc.robot.driver;
 
-<<<<<<< Updated upstream
-=======
-//import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-
->>>>>>> Stashed changes
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.ITrajectory;
