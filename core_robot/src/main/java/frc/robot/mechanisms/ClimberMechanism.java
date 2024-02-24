@@ -17,7 +17,7 @@ public class ClimberMechanism implements IMechanism
 {
     private final ITalonSRX climberMotor;
     // private final IServo ratchetServo;
-    // private final IDigitalInput climberLimitSwitch;
+    private final IDigitalInput climberLimitSwitch;
 
     private final IDriver driver;
     private final ILogger logger;
@@ -41,14 +41,14 @@ public class ClimberMechanism implements IMechanism
         followClimberMotor.follow(this.climberMotor);
 
         // this.ratchetServo = provider.getServo(ElectronicsConstants.CLIMBER_SERVO_MOTOR_CAN_ID);
-        // this.climberLimitSwitch = provider.getDigitalInput(ElectronicsConstants.CLIMBER_LIMIT_SWITCH_DIO_CHANNEL);
+        this.climberLimitSwitch = provider.getDigitalInput(ElectronicsConstants.CLIMBER_LIMIT_SWITCH_DIO_CHANNEL);
         // this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
     }
 
     @Override
     public void readSensors()
     {
-        // this.isClimberDown = this.climberLimitSwitch.get();
+        this.isClimberDown = !this.climberLimitSwitch.get();
         this.logger.logBoolean(LoggingKey.ClimberLimitSwitch, this.isClimberDown);
     }
 
@@ -63,7 +63,7 @@ public class ClimberMechanism implements IMechanism
         }
         // else if (this.driver.getDigital(DigitalOperation.ClimberWinchDown))
         // {
-            // climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
+        //     climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
         // }
 
         this.climberMotor.set(climberPowerAdjustment);
@@ -72,17 +72,16 @@ public class ClimberMechanism implements IMechanism
         // press button for servo to go down / up
         // if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
         // {
-            // this.servoPos = TuningConstants.CLIMBER_SERVO_UP_POSITION;
+        //     this.servoPos = TuningConstants.CLIMBER_SERVO_UP_POSITION;
         // }
         // else if (this.driver.getDigital(DigitalOperation.ClimberServoDown))
         // {
-            // this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
+        //     this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
         // }
-// 
+
         // this.ratchetServo.set(servoPos);
         // this.logger.logNumber(LoggingKey.ClimberServoPosition, servoPos);
     }
-
 
     @Override
     public void stop()

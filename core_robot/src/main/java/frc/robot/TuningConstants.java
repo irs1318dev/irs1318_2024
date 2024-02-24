@@ -495,7 +495,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26.0;
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 64.4703140258789;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
