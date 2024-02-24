@@ -453,7 +453,8 @@ public class ArmMechanism implements IMechanism
                 // Update this power value
                 wristPower = wristPowerAdjustment;
             }
-            else
+
+            if (wristPowerAdjustment == 0.0 && shoulderPowerAdjustment == 0.0)
             {
                 // preset values and resetting
                 double newDesiredShoulderPosition = this.driver.getAnalog(AnalogOperation.ArmShoulderPositionSetpoint);
@@ -532,13 +533,19 @@ public class ArmMechanism implements IMechanism
                 this.logger.logNumber(LoggingKey.ArmShoulderPosAdjustment, newShoulderPositionAdjustment);
                 this.logger.logNumber(LoggingKey.ArmWristPosAdjustment, newWristPositionAdjustment);
 
-                // clamp the values to the allowed ranges
-                double clampedDesiredShoulderPosition = Helpers.EnforceRange(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION);
-                double clampedDesiredWristPosition = Helpers.EnforceRange(this.desiredWristPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION);
-                this.logger.logBoolean(LoggingKey.ArmClamped, clampedDesiredShoulderPosition != this.desiredShoulderPosition || clampedDesiredWristPosition != this.desiredWristPosition);
+                if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE ||
+                    newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE ||
+                    newShoulderPositionAdjustment != 0.0 ||
+                    newWristPositionAdjustment != 0.0)
+                {
+                    // clamp the values to the allowed ranges if we are making any change to position using position-based movement
+                    double clampedDesiredShoulderPosition = Helpers.EnforceRange(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION);
+                    double clampedDesiredWristPosition = Helpers.EnforceRange(this.desiredWristPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION);
+                    this.logger.logBoolean(LoggingKey.ArmClamped, clampedDesiredShoulderPosition != this.desiredShoulderPosition || clampedDesiredWristPosition != this.desiredWristPosition);
 
-                this.desiredShoulderPosition = clampedDesiredShoulderPosition;
-                this.desiredWristPosition = clampedDesiredWristPosition;
+                    this.desiredShoulderPosition = clampedDesiredShoulderPosition;
+                    this.desiredWristPosition = clampedDesiredWristPosition;
+                }
             }
         }
 
