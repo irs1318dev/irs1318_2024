@@ -285,6 +285,12 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
+            DigitalOperation.ArmForceReset,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Click),
+
+        new DigitalOperationDescription(
             DigitalOperation.IntakeForceStop,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
