@@ -458,14 +458,15 @@ public class TuningConstants
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
+    public static final double ARM_SHOULDER_UNIVERSAL_DELTA = 3.0;
+
     public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_SHOULDER_MIN_POSITION;
     public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_WRIST_MIN_POSITION;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MIN = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-
-    // Transit position on the lower universal in case we decide to go to a different target location when we are in between starting configuration and ground pickup/shot
-    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_TRANSIT = -45.0;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
@@ -499,6 +500,8 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
     public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MIN = TuningConstants.ARM_WRIST_MIN_POSITION;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_MAX_POSITION;
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
@@ -507,7 +510,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0; 
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -97.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -522,6 +525,7 @@ public class TuningConstants
     public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 1.0;
     public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
+    public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;

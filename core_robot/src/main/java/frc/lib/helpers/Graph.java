@@ -23,6 +23,22 @@ public abstract class Graph<TGraphNode extends GraphNode>
         this.nodes.add(node);
     }
 
+    public void connectBidirectional(TGraphNode node1, TGraphNode node2)
+    {
+        this.connectBidirectional(node1, node2, GraphLink.DEFAULT_WEIGHT);
+    }
+
+    public void connectBidirectional(TGraphNode node1, TGraphNode node2, double weight)
+    {
+        this.connectBidirectional(node1, node2, weight, weight);
+    }
+
+    public void connectBidirectional(TGraphNode node1, TGraphNode node2, double weight12, double weight21)
+    {
+        this.connect(node1, node2, weight12);
+        this.connect(node2, node1, weight21);
+    }
+
     public void connect(TGraphNode from, TGraphNode to)
     {
         this.connect(from, to, GraphLink.DEFAULT_WEIGHT);
@@ -31,12 +47,6 @@ public abstract class Graph<TGraphNode extends GraphNode>
     public void connect(TGraphNode from, TGraphNode to, double weight)
     {
         from.addLink(new GraphLink(from, to, weight));
-    }
-
-    public void connectBidirectional(TGraphNode node1, TGraphNode node2, double weight)
-    {
-        node1.addLink(new GraphLink(node1, node2, weight));
-        node2.addLink(new GraphLink(node2, node1, weight));
     }
 
     public Set<TGraphNode> getNodes()
