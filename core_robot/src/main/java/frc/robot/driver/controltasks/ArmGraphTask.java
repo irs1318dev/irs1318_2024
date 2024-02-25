@@ -19,6 +19,7 @@ public class ArmGraphTask extends ControlTaskBase
         Completed
     }
 
+    private static final boolean DEBUG_PRINTS = true;
     private final double shoulderGoalPos;
     private final double wristGoalPos;
 
@@ -44,9 +45,12 @@ public class ArmGraphTask extends ControlTaskBase
         ArmGraphNode startArmGraphNode = ArmKinematicsCalculator.getClosestArmNode(armShoulderPosition, armWristPosition);
         ArmGraphNode goalArmGraphNode = ArmKinematicsCalculator.getClosestArmNode(this.shoulderGoalPos, this.wristGoalPos);
 
-        System.out.println(String.format("Current position (%.2f, %.2f)", armShoulderPosition, armWristPosition));
-        System.out.println(String.format("Starting Node (%.2f, %.2f)", startArmGraphNode.shoulderAngle, startArmGraphNode.wristAngle));
-        System.out.println(String.format("Goal Node (%.2f, %.2f)", goalArmGraphNode.shoulderAngle, goalArmGraphNode.wristAngle));
+        if (ArmGraphTask.DEBUG_PRINTS)
+        {
+            System.out.println(String.format("Current position (%.2f, %.2f)", armShoulderPosition, armWristPosition));
+            System.out.println(String.format("Starting Node %s", startArmGraphNode));
+            System.out.println(String.format("Goal Node %s", goalArmGraphNode));
+        }
 
         this.path = ArmKinematicsCalculator.getOptimalPath(startArmGraphNode, goalArmGraphNode);
         this.currPos = 0;
@@ -59,15 +63,30 @@ public class ArmGraphTask extends ControlTaskBase
             ArmGraphNode currNode = this.path.get(this.currPos);
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-            System.out.println(String.format("Navigating to node (%.2f, %.2f)", armShoulderPosition, armWristPosition));
-            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
-            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
+            if (ArmGraphTask.DEBUG_PRINTS)
+            {
+                System.out.println(String.format("Navigating to node %s", currNode));
+            }
+
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.getShoulderAngle());
+            if (currNode.isUniversal())
+            {
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+            }
+            else
+            {
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.getWristAngle());
+            }
         }
         else
         {
             this.state = ArmGraphState.MovingToGoal;
 
-            System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
+            if (ArmGraphTask.DEBUG_PRINTS)
+            {
+                System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
+            }
+
             this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, this.shoulderGoalPos);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristGoalPos);
         }
@@ -77,29 +96,51 @@ public class ArmGraphTask extends ControlTaskBase
     public void update()
     {
         double shoulderAngle;
-        double wristAngle;
+        Double wristAngle;
         if (this.state == ArmGraphState.MovingToNode)
         {
             ArmGraphNode currNode = this.path.get(this.currPos);
 
             ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-            if (Helpers.RoughEquals(currNode.shoulderAngle, this.arm.getShoulderPosition(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                Helpers.RoughEquals(currNode.wristAngle, this.arm.getWristPosition(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+            double armShoulderPosition = this.arm.getShoulderPosition();
+            double armWristPosition = this.arm.getWristPosition();
+            if (Helpers.RoughEquals(currNode.getShoulderAngle(), armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                (currNode.isUniversal() || Helpers.RoughEquals(currNode.getWristAngle(), armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD)))
             {
+                if (ArmGraphTask.DEBUG_PRINTS)
+                {
+                    System.out.println(String.format("Reached (%.2f, %.2f)", armShoulderPosition, armWristPosition));
+                }
+
                 this.currPos++;
                 if (this.currPos < this.path.size())
                 {
                     currNode = this.path.get(this.currPos);
                     ExceptionHelpers.Assert(currNode != null, "The current node is null?!");
 
-                    System.out.println(String.format("Navigating to node (%.2f, %.2f)", currNode.shoulderAngle, currNode.wristAngle));
-                    shoulderAngle = currNode.shoulderAngle;
-                    wristAngle = currNode.wristAngle;
+                    if (ArmGraphTask.DEBUG_PRINTS)
+                    {
+                        System.out.println(String.format("Navigating to node %s", currNode));
+                    }
+
+                    shoulderAngle = currNode.getShoulderAngle();
+                    if (currNode.isUniversal())
+                    {
+                        wristAngle = TuningConstants.MAGIC_NULL_VALUE;
+                    }
+                    else
+                    {
+                        wristAngle = currNode.getWristAngle();
+                    }
                 }
                 else
                 {
-                    System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
+                    if (ArmGraphTask.DEBUG_PRINTS)
+                    {
+                        System.out.println(String.format("Navigating to goal (%.2f, %.2f)", this.shoulderGoalPos, this.wristGoalPos));
+                    }
+
                     this.state = ArmGraphState.MovingToGoal;
                     shoulderAngle = this.shoulderGoalPos;
                     wristAngle = this.wristGoalPos;
@@ -107,15 +148,29 @@ public class ArmGraphTask extends ControlTaskBase
             }
             else
             {
-                shoulderAngle = currNode.shoulderAngle;
-                wristAngle = currNode.wristAngle;
+                shoulderAngle = currNode.getShoulderAngle();
+                if (currNode.isUniversal())
+                {
+                    wristAngle = TuningConstants.MAGIC_NULL_VALUE;
+                }
+                else
+                {
+                    wristAngle = currNode.getWristAngle();
+                }
             }
         }
         else // if (this.state == ArmGraphState.MovingToGoal || this.state == ArmGraphState.Completed)
         {
-            if (Helpers.RoughEquals(this.shoulderGoalPos, this.arm.getShoulderPosition(), TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                Helpers.RoughEquals(this.wristGoalPos, this.arm.getWristPosition(), TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+            double armShoulderPosition = this.arm.getShoulderPosition();
+            double armWristPosition = this.arm.getWristPosition();
+            if (Helpers.RoughEquals(this.shoulderGoalPos, armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                Helpers.RoughEquals(this.wristGoalPos, armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
             {
+                if (ArmGraphTask.DEBUG_PRINTS)
+                {
+                    System.out.println(String.format("Reached (%.2f, %.2f)", armShoulderPosition, armWristPosition));
+                }
+
                 this.state = ArmGraphState.Completed;
             }
 

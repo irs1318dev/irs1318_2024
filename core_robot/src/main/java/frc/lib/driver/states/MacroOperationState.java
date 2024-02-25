@@ -183,18 +183,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         {
             if (this.task == null)
             {
-                for (IOperation operation : this.getAffectedOperations())
-                {
-                    if (operation instanceof AnalogOperation)
-                    {
-                        this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(true);
-                    }
-                    else
-                    {
-                        ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                        this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(true);
-                    }
-                }
+                this.setInterrupts(true);
 
                 // start task
                 this.task = ((MacroOperationDescription)this.getDescription()).constructTask();
@@ -221,18 +210,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                 MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
                 if (description.shouldClearInterrupt())
                 {
-                    for (IOperation operation : this.getAffectedOperations())
-                    {
-                        if (operation instanceof AnalogOperation)
-                        {
-                            this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
-                        }
-                        else
-                        {
-                            ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                            this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
-                        }
-                    }
+                    this.setInterrupts(false);
                 }
             }
             else
@@ -246,18 +224,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
             this.task.stop();
             this.task = null;
 
-            for (IOperation operation : this.getAffectedOperations())
-            {
-                if (operation instanceof AnalogOperation)
-                {
-                    this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
-                }
-                else
-                {
-                    ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                    this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
-                }
-            }
+            this.setInterrupts(false);
         }
     }
 
@@ -265,5 +232,21 @@ public class MacroOperationState extends OperationState implements IMacroOperati
     {
         this.task = null;
         this.button.clearState();
+    }
+
+    private void setInterrupts(boolean enable)
+    {
+        for (IOperation operation : this.getAffectedOperations())
+        {
+            if (operation instanceof AnalogOperation)
+            {
+                this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(enable);
+            }
+            else
+            {
+                ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
+                this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(enable);
+            }
+        }
     }
 }

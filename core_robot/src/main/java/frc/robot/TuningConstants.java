@@ -7,7 +7,7 @@ package frc.robot;
 public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = true;
-    public static boolean THROW_EXCEPTIONS = true;
+    public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -164,10 +164,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3010254 : 0.17212; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3142089 : 0.15698; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.4091797 : -0.28979; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.1633300 : -0.35327; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.2958984375 : 0.17212; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3203125 : 0.15698; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.425537109375 : -0.28979; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.15673828125 : -0.35327; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -458,14 +458,18 @@ public class TuningConstants
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
+    public static final double ARM_SHOULDER_UNIVERSAL_DELTA = 3.0;
+
     public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_SHOULDER_MIN_POSITION;
     public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_WRIST_MIN_POSITION;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MIN = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 27.470964431762695;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
 
@@ -489,14 +493,16 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT = -20.0;
     public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
-    public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 64.4703140258789;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MIN = TuningConstants.ARM_WRIST_MIN_POSITION;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_MAX_POSITION;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
@@ -504,7 +510,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0; 
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -97.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -516,15 +522,21 @@ public class TuningConstants
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
+    public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 1.0; // needs IK
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
     public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
@@ -544,7 +556,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = false;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
@@ -657,6 +669,7 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 180.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 180.0;
@@ -671,9 +684,10 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 180.0;
-    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 180.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 240.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
@@ -681,16 +695,16 @@ public class TuningConstants
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 5.0; // degrees per second
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
+    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5; // degrees per second
     public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
     public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
     // Arm/shoulder zeroing
-    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 2510; // degrees per minute
+    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
+    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 41.8333; // degrees per second
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
@@ -732,10 +746,11 @@ public class TuningConstants
         };
 
     // percent-output values to hold shoulder at the desired shoulder and wrist positions
+    public static final double ARM_MAX_GRAVITY_COMPENSATION = 0.2;
     public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder starting position
-            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, -1318, -1318, -1318, -1318 }, // shoulder second position
+            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, 0.0, 0.0, 0.0, 0.0 }, // shoulder second position
             { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
             { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
             { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522}, // shoulder fifth position
