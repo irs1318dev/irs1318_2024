@@ -122,6 +122,11 @@ public class ArmKinematicsCalculator
             TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
 
         ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.tuckedGroundTransit,
+            ArmKinematicsCalculator.upperUnivShot,
+            TuningConstants.UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.lowerUniversalTransit,
             ArmKinematicsCalculator.startingConfiguration,
             TuningConstants.LOWER_UNIVERSAL_TRANSIT_WEIGHT);
@@ -205,6 +210,10 @@ public class ArmKinematicsCalculator
         ArmKinematicsCalculator.graph.connect(
             ArmKinematicsCalculator.tuckedGroundTransit,
             ArmKinematicsCalculator.groundPickup,
+            TuningConstants.TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
+        ArmKinematicsCalculator.graph.connect(
+            ArmKinematicsCalculator.tuckedGroundTransit,
+            ArmKinematicsCalculator.groundShot,
             TuningConstants.TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT);
     }
 

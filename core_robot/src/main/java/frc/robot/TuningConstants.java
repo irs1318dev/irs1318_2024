@@ -528,10 +528,11 @@ public class TuningConstants
     public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
+    public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 1.0; // needs IK
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
     public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
