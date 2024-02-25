@@ -70,8 +70,8 @@ public class ElectronicsConstants
     public static final int ARM_SHOULDER_FOLLOWER_MOTOR_CAN_ID = 13;
     public static final int ARM_WRIST_MOTOR_CAN_ID = 14;
 
-    public static final boolean ARM_WRIST_LIMIT_SWITCH_ENABLED = false;
-    public static final boolean ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN = false;
+    public static final boolean ARM_WRIST_LIMIT_SWITCH_ENABLED = true;
+    public static final boolean ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN = true;
 
     public static final int ARM_SHOULDER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 3 : 6;
     public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 4 : 7;

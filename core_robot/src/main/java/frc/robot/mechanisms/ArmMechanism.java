@@ -126,10 +126,10 @@ public class ArmMechanism implements IMechanism
         this.shoulderMotor.setNeutralMode(MotorNeutralMode.Brake);
 
         this.wristMotor.setRelativeEncoder();
-        this.wristMotor.setForwardLimitSwitch(ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_ENABLED, ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN);
+        this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
+        this.wristMotor.setReverseLimitSwitch(ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_ENABLED, ElectronicsConstants.ARM_WRIST_LIMIT_SWITCH_NORMALLY_OPEN);
         this.wristMotor.setPositionConversionFactor(HardwareConstants.ARM_WRIST_TICK_DISTANCE);
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_VELOCITY);
-        this.wristMotor.setInvertOutput(TuningConstants.ARM_WRIST_MOTOR_INVERT_OUTPUT);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
         this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
 
@@ -269,7 +269,7 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
-        this.wristLimitSwitchHit = this.wristMotor.getForwardLimitSwitchStatus();
+        this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
         double shoulderFollowerCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_PDH_CHANNEL);

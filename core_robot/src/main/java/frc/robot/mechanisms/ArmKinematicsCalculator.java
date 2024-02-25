@@ -18,7 +18,9 @@ public class ArmKinematicsCalculator
     private static ArmGraph graph;
 
     private static ArmGraphNode startingConfiguration;
+    private static ArmGraphNode lowerUniversalTransit;
     private static ArmGraphNode groundPickup;
+    private static ArmGraphNode groundShot;
     private static ArmGraphNode tucked;
     private static ArmGraphNode tuckedTransit;
     private static ArmGraphNode tuckedGroundTransit;
@@ -45,6 +47,16 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL,
             TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP);
 
+        ArmKinematicsCalculator.lowerUniversalTransit = ArmKinematicsCalculator.graph.createNode(
+            "lowerUniversalTransit",
+            TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL,
+            TuningConstants.ARM_WRIST_POSITION_LOWER_UNIVERSAL_TRANSIT);
+
+        ArmKinematicsCalculator.groundShot = ArmKinematicsCalculator.graph.createNode(
+            "groundShot",
+            TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL,
+            TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT);
+    
         ArmKinematicsCalculator.tucked = ArmKinematicsCalculator.graph.createNode(
             "tucked",
             TuningConstants.ARM_SHOULDER_POSITION_TUCKED,
@@ -100,6 +112,28 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.startingConfiguration,
             ArmKinematicsCalculator.groundPickup,
             TuningConstants.STARTUP_AND_GROUND_PICKUP_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.STARTUP_AND_GROUND_SHOT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.groundPickup,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.lowerUniversalTransit,
+            ArmKinematicsCalculator.startingConfiguration,
+            TuningConstants.LOWER_UNIVERSAL_TRANSIT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.lowerUniversalTransit,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.LOWER_UNIVERSAL_TRANSIT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.lowerUniversalTransit,
+            ArmKinematicsCalculator.groundPickup,
+            TuningConstants.LOWER_UNIVERSAL_TRANSIT_WEIGHT);
+    
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.startingConfiguration,
             ArmKinematicsCalculator.sourcePickup,

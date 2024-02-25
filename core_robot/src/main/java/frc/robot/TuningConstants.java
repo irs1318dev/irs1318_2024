@@ -464,6 +464,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
+    // Transit position on the lower universal in case we decide to go to a different target location when we are in between starting configuration and ground pickup/shot
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_TRANSIT = -45.0;
+
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
@@ -516,16 +519,19 @@ public class TuningConstants
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 10.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
     public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
     public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
@@ -545,7 +551,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean ARM_USE_IK_CONSTRAINTS = false;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
