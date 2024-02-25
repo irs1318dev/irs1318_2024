@@ -119,14 +119,17 @@ public enum LoggingKey
 
     // Arm stuff
     ArmClamped("arm.clamped", 1),
+    ArmShoulderSetpointTMP("arm.shPosDesCurr", 1),
     ArmShoulderSetpoint("arm.shPosDesired", 1),
     ArmShoulderPosition("arm.shPos", 1),
     ArmShoulderVelocity("arm.shVel", 1),
     ArmShoulderError("arm.shErr", 1),
     ArmShoulderOutput("arm.shOutput", 1),
     ArmShoulderPowerAverage("arm.shPowAvg", 1),
+    ArmShoulderMotorPowerDiscrepancy("arm.shPowDiscrp", 1),
     ArmShoulderVelocityAverage("arm.shVelAvg", 1),
     ArmShoulderStalled("arm.shStalled", 1),
+    ArmWristSetpointTMP("arm.wrPosDesCurr", 1),
     ArmWristSetpoint("arm.wrPosDesired", 1),
     ArmWristPosition("arm.wrPos", 1),
     ArmWristVelocity("arm.wrVel", 1),

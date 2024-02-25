@@ -11,6 +11,8 @@ public enum MacroOperation implements IOperation
     PIDHeavyBrake,
     FaceForward,
     FaceBackward,
+    FaceLeft,
+    FaceRight,
 
     // Arm operations:
     ArmShoulderWristPosition1,

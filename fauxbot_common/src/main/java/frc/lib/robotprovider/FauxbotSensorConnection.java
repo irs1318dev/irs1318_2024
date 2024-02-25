@@ -11,10 +11,10 @@ public class FauxbotSensorConnection
     }
 
     private final SensorConnector connector;
-    private final Class type;
+    private final Class<?> type;
     private final int port;
 
-    public FauxbotSensorConnection(SensorConnector connector, Class type, int port)
+    public FauxbotSensorConnection(SensorConnector connector, Class<?> type, int port)
     {
         this.connector = connector;
         this.type = type;

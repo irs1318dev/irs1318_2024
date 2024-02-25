@@ -371,7 +371,7 @@ public class SparkMaxWrapper implements ISparkMax
             polarity = SparkLimitSwitch.Type.kNormallyOpen;
         }
 
-        this.wrappedRevLimitSwitch = this.wrappedObject.getForwardLimitSwitch(polarity);
+        this.wrappedRevLimitSwitch = this.wrappedObject.getReverseLimitSwitch(polarity);
         RevErrorCodeHelper.printError(
             this.wrappedRevLimitSwitch.enableLimitSwitch(enabled),
             "SparkMaxWrapper.setReverseLimitSwitch");

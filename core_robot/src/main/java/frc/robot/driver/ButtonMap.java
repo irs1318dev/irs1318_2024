@@ -93,6 +93,14 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
+            AnalogOperation.GetNoteOut,
+            UserInputDevice.Codriver,
+            AnalogAxis.XBONE_LT,
+            ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
+            -1.0,
+            0.2),
+
+        new AnalogOperationDescription(
             AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
             TuningConstants.MAGIC_NULL_VALUE),
 
@@ -178,20 +186,20 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Click),
-        new DigitalOperationDescription(
-            DigitalOperation.DriveTrainEnableFieldOrientation,
-            UserInputDevice.Driver,
-            270,
-            EnumSet.of(Shift.DriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Click),
-        new DigitalOperationDescription(
-            DigitalOperation.DriveTrainDisableFieldOrientation,
-            UserInputDevice.Driver,
-            270,
-            EnumSet.of(Shift.DriverDebug),
-            EnumSet.of(Shift.DriverDebug),
-            ButtonType.Click),
+        // new DigitalOperationDescription(
+            // DigitalOperation.DriveTrainEnableFieldOrientation,
+            // UserInputDevice.Driver,
+            // 270,
+            // EnumSet.of(Shift.DriverDebug),
+            // EnumSet.noneOf(Shift.class),
+            // ButtonType.Click),
+        // new DigitalOperationDescription(
+            // DigitalOperation.DriveTrainDisableFieldOrientation,
+            // UserInputDevice.Driver,
+            // 270,
+            // EnumSet.of(Shift.DriverDebug),
+            // EnumSet.of(Shift.DriverDebug),
+            // ButtonType.Click),
         // new DigitalOperationDescription(
         //     DigitalOperation.DriveTrainEnableMaintainDirectionMode,
         //     UserInputDevice.Driver,
@@ -263,12 +271,24 @@ public class ButtonMap implements IButtonMap
             ButtonType.Simple),
 
         new DigitalOperationDescription(
+            DigitalOperation.ClimberWinchDown,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            ButtonType.Simple),
+
+        new DigitalOperationDescription(
             DigitalOperation.ArmDisableSimpleMode,
             UserInputDevice.Codriver,
             180,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ArmForceReset,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Click),
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeForceStop,
@@ -425,6 +445,36 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> new OrientationTask(0),
+            new IOperation[]
+            {
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.FaceLeft,
+            UserInputDevice.Driver,
+            270, // DPAD-up
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle,
+            () -> new OrientationTask(60),
+            new IOperation[]
+            {
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.FaceRight,
+            UserInputDevice.Driver,
+            90, // DPAD-up
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle,
+            () -> new OrientationTask(-60),
             new IOperation[]
             {
                 AnalogOperation.DriveTrainTurnAngleGoal,
@@ -685,6 +735,21 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristPositionSetpoint,
             }),
 
+        // new MacroOperationDescription(
+        //     MacroOperation.ArmShoulderWristPosition1,
+        //     UserInputDevice.Codriver, 
+        //     UserInputDeviceButton.XBONE_X_BUTTON,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Toggle, 
+        //     () -> new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ArmShoulderPositionSetpoint,
+        //         AnalogOperation.ArmWristPositionSetpoint,
+        //     }),
+
+
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPosition2,
            UserInputDevice.Codriver, 
@@ -802,7 +867,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(2500.0),
+            () -> new ShooterSpinTask(3000.0),
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,

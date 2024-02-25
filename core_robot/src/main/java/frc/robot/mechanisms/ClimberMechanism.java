@@ -16,14 +16,14 @@ import com.google.inject.Singleton;
 public class ClimberMechanism implements IMechanism
 {
     private final ITalonSRX climberMotor;
-    private final IServo ratchetServo;
+    // private final IServo ratchetServo;
     private final IDigitalInput climberLimitSwitch;
 
     private final IDriver driver;
     private final ILogger logger;
 
     private boolean isClimberDown;
-    private double servoPos;
+    // private double servoPos;
 
     @Inject
     public ClimberMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger)
@@ -40,15 +40,15 @@ public class ClimberMechanism implements IMechanism
         followClimberMotor.setMotorOutputSettings(TuningConstants.CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT, MotorNeutralMode.Brake);
         followClimberMotor.follow(this.climberMotor);
 
-        this.ratchetServo = provider.getServo(ElectronicsConstants.CLIMBER_SERVO_MOTOR_CAN_ID);
+        // this.ratchetServo = provider.getServo(ElectronicsConstants.CLIMBER_SERVO_MOTOR_CAN_ID);
         this.climberLimitSwitch = provider.getDigitalInput(ElectronicsConstants.CLIMBER_LIMIT_SWITCH_DIO_CHANNEL);
-        this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
+        // this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
     }
 
     @Override
     public void readSensors()
     {
-        this.isClimberDown = this.climberLimitSwitch.get();
+        this.isClimberDown = !this.climberLimitSwitch.get();
         this.logger.logBoolean(LoggingKey.ClimberLimitSwitch, this.isClimberDown);
     }
 
@@ -57,35 +57,40 @@ public class ClimberMechanism implements IMechanism
     {
         // press and hold button for climber to go down / up
         double climberPowerAdjustment = TuningConstants.ZERO;
-        if (this.driver.getDigital(DigitalOperation.ClimberWinchUp))
-        {
-            climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_UP_POWER;
-        }
-        else if (this.driver.getDigital(DigitalOperation.ClimberWinchDown))
+        if (this.driver.getDigital(DigitalOperation.ClimberWinchDown))
         {
             climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
         }
+        // else if (this.driver.getDigital(DigitalOperation.ClimberWinchDown))
+        // {
+        //     climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
+        // }
 
         this.climberMotor.set(climberPowerAdjustment);
         this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);
 
         // press button for servo to go down / up
-        if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
-        {
-            this.servoPos = TuningConstants.CLIMBER_SERVO_UP_POSITION;
-        }
-        else if (this.driver.getDigital(DigitalOperation.ClimberServoDown))
-        {
-            this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
-        }
+        // if (this.driver.getDigital(DigitalOperation.ClimberServoUp))
+        // {
+        //     this.servoPos = TuningConstants.CLIMBER_SERVO_UP_POSITION;
+        // }
+        // else if (this.driver.getDigital(DigitalOperation.ClimberServoDown))
+        // {
+        //     this.servoPos = TuningConstants.CLIMBER_SERVO_DOWN_POSITION;
+        // }
 
-        this.ratchetServo.set(servoPos);
-        this.logger.logNumber(LoggingKey.ClimberServoPosition, servoPos);
+        // this.ratchetServo.set(servoPos);
+        // this.logger.logNumber(LoggingKey.ClimberServoPosition, servoPos);
     }
 
     @Override
     public void stop()
     {
-        this.climberMotor.stop();
+      this.climberMotor.stop();
+    }
+
+    public boolean getClimberDown()
+    {
+        return this.isClimberDown;
     }
 }
