@@ -3,10 +3,12 @@ package frc.robot.driver.controltasks;
 import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.mechanisms.ClimberMechanism;
 
 public class ClimberWinchTask extends ControlTaskBase
 {
     private ITimer timer; 
+    private ClimberMechanism climber;
 
     public enum WinchState
     {
@@ -38,6 +40,7 @@ public class ClimberWinchTask extends ControlTaskBase
     {
         // initialize timer
         this.timer = this.getInjector().getInstance(ITimer.class);
+        this.climber = this.getInjector().getInstance(ClimberMechanism.class);
         this.startTime = this.timer.get();
     }
 
@@ -64,12 +67,12 @@ public class ClimberWinchTask extends ControlTaskBase
 
         if (this.goalState == WinchState.Retracted)
         {
-            if (this.timeSinceStart <  TuningConstants.CLIMBER_FULL_RETRACT_TIME)
+            if (this.climber.getClimberDown() == false) //if limit switch hasn't been tripped yet
             {
                 this.currentState = WinchState.Retracting;
-                this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);
+                this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, true);  
             }
-            else
+            else //if limit switch is true
             {
                 this.currentState = WinchState.Retracted;
                 this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
@@ -80,13 +83,13 @@ public class ClimberWinchTask extends ControlTaskBase
     @Override
     public void end()
     {
-        // don't forget to add a servo task at the end of the climb
         this.setDigitalOperationState(DigitalOperation.ClimberWinchDown, false);
     }
 
     @Override
     public boolean hasCompleted()
     {
+        //limitswitch?
         return (this.currentState == WinchState.Retracted || this.currentState == WinchState.Extended);
     }
 }

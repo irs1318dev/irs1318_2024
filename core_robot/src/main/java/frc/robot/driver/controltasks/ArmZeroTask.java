@@ -81,7 +81,7 @@ public class ArmZeroTask extends ControlTaskBase
             if (currTime >= this.transitionTime + TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION &&
                 (this.arm.getWristStalled() ||
                     this.arm.getWristLimitSwitchStatus() ||
-                    this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD + 2500 ||
+                    this.arm.getWristVelocityAverage() < TuningConstants.ARM_WRIST_ZEROING_VELOCITY_THRESHOLD ||
                     currTime >= this.transitionTime + 4.0))
             {
                 // System.out.println("Wrist Stalled: " + this.arm.getWristStalled());

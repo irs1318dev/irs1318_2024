@@ -6,8 +6,8 @@ package frc.robot;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
-    public static boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
+    public static final boolean COMPETITION_ROBOT = true;
+    public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -37,6 +37,9 @@ public class TuningConstants
 
     public static final double AMP_OT = 90.0;
     public static final double SOURCE_OT = 290;
+
+    public static final double DRIVE_P19_SHOOT_ORIENTATION = 225;
+    public static final double DRIVE_P17_SHOOT_ORIENTATION = 135;
 
     //================================================= Power ======================================================
 
@@ -161,10 +164,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = 0.17212; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = 0.15698; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = -0.28979; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = -0.35327; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.2958984375 : 0.17212; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3203125 : 0.15698; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.425537109375 : -0.28979; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.15673828125 : -0.35327; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -3.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -176,32 +179,90 @@ public class TuningConstants
     // Position PID (angle) per-module
     public static final double SDSDRIVETRAIN_STEER_MOTOR_POSITION_PID_KS = HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = 1.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KP : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KP;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KI : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KI;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KD : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KD;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_POSITION_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KF : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KF;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = 0.3333333 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KV= 0.00934579 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KS= 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC = 100.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL = 600.0;
-    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_JERK = 9999.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KP : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KP;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KI : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KI;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KD : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KD;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KV = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KV : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KV;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_KS = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KS : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KS;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_CRUISE_VELOC = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_CRUISE_VELOC : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_CRUISE_VELOC;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_ACCEL = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_ACCEL : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_ACCEL;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_MM_PID_JERK = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_JERK : TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_JERK;
+
+    // STEER PRACTICE
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KP = 1.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+
+    // STEER RPM ~107.0 was highest speed at full throttle FF on blocks
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KP = 0.3333333 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KV = 0.00934579 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_KS = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_CRUISE_VELOC = 100.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_ACCEL = 600.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_PRACTICE_MM_PID_JERK = 9999.0;
+
+    // STEER COMP
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KP = 1.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+
+    // STEER RPM ~107.0 was highest speed at full throttle FF on blocks
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KP = 0.3333333 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KV = 0.00934579 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_KS = 0.0 * (TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_CRUISE_VELOC = 100.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_ACCEL = 600.0;
+    public static final double SDSDRIVETRAIN_STEER_MOTORS_COMP_MM_PID_JERK = 9999.0;
 
     // Velocity PID (drive) per-module
-    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = 88.0; // RPM ~110.0 was highest speed at full throttle FF on blocks
+    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_VELOCITY_PID_KS = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTOR_COMP_VELOCITY_PID_KS : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTOR_PRACTICE_VELOCITY_PID_KS; // RPM ~110.0 was highest speed at full throttle FF on blocks
 
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = 0.02 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = 0.00909 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0); // 100% control authority (on blocks)
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KP : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KP;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KI : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KI;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KD : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KD;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KF : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KF;
 
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KP = 2.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
-    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KP : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KP;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KI : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KI;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KD : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KD;
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_POSITION_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KF : TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KF;
+
+    // DRIVE PRACTICE
+    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_PRACTICE_VELOCITY_PID_KS = 88.0; // RPM ~110.0 was highest speed at full throttle FF on blocks
+
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KP = 0.02 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_VELOCITY_PID_KF = 0.00909 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0); // 100% control authority (on blocks)
+
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KP = 2.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_PRACTICE_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+
+    // DRIVE COMP
+    public static final double SDSDRIVETRAIN_DRIVE_MOTOR_COMP_VELOCITY_PID_KS = 88.0; // RPM ~104.0 was highest speed at full throttle FF on blocks
+
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KP = 0.02 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_VELOCITY_PID_KF = 0.00961538 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0); // 100% control authority (on blocks)
+
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KP = 2.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KI = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KD = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
+    public static final double SDSDRIVETRAIN_DRIVE_MOTORS_COMP_POSITION_PID_KF = 0.0 * (TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED ? TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION : 1.0);
 
     public static final double SDSDRIVETRAIN_OMEGA_POSITION_PID_KP = 0.1;
     public static final double SDSDRIVETRAIN_OMEGA_POSITION_PID_KI = 0.0;
@@ -292,7 +353,7 @@ public class TuningConstants
 
     //================================================== EndEffector ==============================================================
 
-    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = true;
+    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
@@ -303,17 +364,43 @@ public class TuningConstants
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
 
-    public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = 5300.0; // (RPM)
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = 0.00040;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
-    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = 0.00018868;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MAX_VELOCITY; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KP : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KI : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KI;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KD : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KD;
+    public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KF : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KF;
 
-    public static final double SHOOTER_FAR_FLYWHEEL_MAX_VELOCITY = 5000.0; // (RPM)
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = 0.00032;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI = 0.0;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = 0.015;
-    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = 0.0002;
+    public static final double SHOOTER_FAR_FLYWHEEL_MAX_VELOCITY = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_FAR_FLYWHEEL_COMP_MAX_VELOCITY : TuningConstants.SHOOTER_FAR_FLYWHEEL_PRACTICE_MAX_VELOCITY; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KP : TuningConstants.SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KI : TuningConstants.SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KI;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KD : TuningConstants.SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KD;
+    public static final double SHOOTER_FAR_FLYWHEEL_MOTOR_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KF : TuningConstants.SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KF;
+
+    // SHOOTER PRACTICE
+    public static final double SHOOTER_NEAR_FLYWHEEL_PRACTICE_MAX_VELOCITY = 5300.0; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP = 0.00040;
+    public static final double SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KF = 0.00018868;
+
+    public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MAX_VELOCITY = 5000.0; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP = 0.00032;
+    public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_FAR_FLYWHEEL_PRACTICE_MOTOR_PID_KF = 0.0002;
+
+    // SHOOTER COMP
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY = 5200.0; // (RPM)
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KP = 0.00040;
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.0001923;
+
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MAX_VELOCITY = 5200.0; // (RPM)
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KP = 0.00040;
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KI = 0.0;
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KD = 0.015;
+    public static final double SHOOTER_FAR_FLYWHEEL_COMP_MOTOR_PID_KF = 0.0001923;
 
     public static final int FLYWHEEL_STALL_LIMIT = 100;
     public static final int FLYWHEEL_FREE_LIMIT = 100;
@@ -349,39 +436,72 @@ public class TuningConstants
 
     //==================================================== Arm ==============================================================
 
-    public static final double ARM_SHOULDER_POWER_STRENGTH = 1.0;
+    public static final double ARM_SHOULDER_POWER_STRENGTH = 0.5;
     public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
     public static final double ARM_POWER_EXPONENTIAL = 1.0;
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_SHOULDER_MIN_POSITION = -30.1; // in degrees
-    public static final double ARM_SHOULDER_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_MIN_POSITION = -112.0; // in degrees
-    public static final double ARM_WRIST_MAX_POSITION = 180.0; // in degrees
+    public static final double ARM_SHOULDER_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MIN_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MIN_POSITION; // in degrees
+    public static final double ARM_SHOULDER_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MAX_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MAX_POSITION; // in degrees
+    public static final double ARM_WRIST_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MIN_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MIN_POSITION; // in degrees
+    public static final double ARM_WRIST_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MAX_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MAX_POSITION; // in degrees
+
+    public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -30.1; // in degrees
+    public static final double ARM_SHOULDER_PRACTICE_MAX_POSITION = 55.0; // in degrees
+    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
+    public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
+
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -26.3; // in degrees
+    public static final double ARM_SHOULDER_COMP_MAX_POSITION = 55.0; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -123.5; // in degrees
+    public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
-    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = -30.1;
-    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = -112.0;
+    public static final double ARM_SHOULDER_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_SHOULDER_MIN_POSITION;
+    public static final double ARM_WRIST_POSITION_STARTING_CONFIGURATION = TuningConstants.ARM_WRIST_MIN_POSITION;
 
     public static final double ARM_SHOULDER_POSITION_LOWER_UNIVERSAL = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = 43.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = 30.72480010986328;
+    // Transit position on the lower universal in case we decide to go to a different target location when we are in between starting configuration and ground pickup/shot
+    public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_TRANSIT = -45.0;
+
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
+
+    public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
 
     public static final double ARM_WRIST_AUTO_P3_SHOOT = 16.201045989990234;
 
-    public static final double ARM_SHOULDER_POSITION_TUCKED = 14.5;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 144.0;
+    public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
+
+    // Position for a node where the wrist is being tucked under the shoulder in a dangerous way
+    // we will probably never attempt to go to this node, but if the wrist/shoulder stalls at an
+    // inopportune time, it may fall to it.
+    public static final double ARM_SHOULDER_POSITION_TUCKED_UNDER_TRANSIT = 0.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_UNDER_TRANSIT = 110.0;
+
+    // a transit node for going between tucked positions and ground pickup,
+    // or ground pickup to tucked positions
+    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 75.0;
+
+    // another transit node for going between tucked positions and ground pickup,
+    // or ground pickup to tucked positions
+    public static final double ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT = -20.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
+
+    public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = -65.0;
 
-    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 20.5;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 64.4703140258789;
+    public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = 26;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
-    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 48.0;
+    public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -399,21 +519,28 @@ public class TuningConstants
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
     public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
-    public static final double UPPER_INTALE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
-    public static final double UPPER_INTALE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 1.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
-    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 1.0;
-    public static final double TUCKED_TO_TUCKED_GROUND_TRANS_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_TO_TUCKED_WEIGHT = 10.0;
+    public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
     public static final double TUCKED_GROUND_TRANS_TO_GROUND_PICKUP_WEIGHT = 1.0;
+    public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 1.0;
+    public static final double TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
+    public static final double TUCKED_TRANSIT_TO_TUCKED_GROUND_TRANSIT_WEIGHT = 1.0;
 
-    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 1.0;
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 3.0;
     public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
 
     // ----------------> OTHER THINGS <----------------
@@ -424,72 +551,155 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean USE_IK_CONSTRAINTS = false;
-    public static final boolean ARM_USE_GRAVITY_COMPENSATION = false;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
+    public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
-    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP;
-    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI;
-    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD;
-    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF;
+    // SHOULDER PID
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KF;
 
-    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP;
-    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI;
-    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD;
-    public static final double ARM_SHOULDER_POSITIONAL_TMP_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_POSITIONAL_TMP_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF;
 
-    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KP = 0.01;
-    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_PLAINPOSITIONAL_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC;
+    public static final double ARM_SHOULDER_MOTOR_TMP_PID_ACCEL = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL;
 
-    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KP = 0.06;
-    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
-    public static final double ARM_SHOULDER_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
+    // PRACTICE ROBOT SHOULDER PID
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KF;
 
-    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KP = 0.01;
-    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KD = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_GRAVPOSITIONAL_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KF;
 
-    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
-    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
-    public static final double ARM_SHOULDER_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_SHOULDER_TMP_PID_CRUISE_VELOC = 120.0;
-    public static final double ARM_SHOULDER_TMP_PID_ACCEL = 100.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = 0.02;
-    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KI = 0.0;
-    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KD = 0.0;
-    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KP = 0.02;
-    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KI = 0.0;
-    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KD = 0.0;
-    public static final double ARM_WRIST_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_TMP_PID_CRUISE_VELOC = 180.0;
-    public static final double ARM_WRIST_TMP_PID_ACCEL = 180.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 120.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 100.0;
+
+    // COMP ROBOT SHOULDER PID
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KF;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KP;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KI;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KD = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KD;
+    public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_TMP_PID_KF = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KF : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KF;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_TMP_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KP = 0.01;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KD = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
+
+    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 120.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL = 100.0;
+
+    // WRSIT PID
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KP;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KI : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KI;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KD : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KD;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KF : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KF;
+
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KD = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD;
+    public static final double ARM_WRIST_MOTOR_POSITIONAL_TMP_PID_KF = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF;
+
+    public static final double ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC;
+    public static final double ARM_WRIST_MOTOR_TMP_PID_ACCEL = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL;
+
+    // PRACTICE ROBOT WRIST PID
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KP = 0.02;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KI = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KD = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP = 0.02;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KVF = 0.0;
+
+    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 180.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 180.0;
+
+    // COMP ROBOT WRIST PID
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP = 0.02;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KI = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KD = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KF = 0.0;
+
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP = 0.02;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF = 0.0;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KVF = 0.0;
+
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 180.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 240.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 5.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 8.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
-    //public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
+    public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 5.0; // degrees per second
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
-    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5;
+    public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5; // degrees per second
+    public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
+    public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
     // Arm/shoulder zeroing
-    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 10;//0.8;
+    public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
+    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 41.8333; // degrees per second
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
@@ -531,10 +741,11 @@ public class TuningConstants
         };
 
     // percent-output values to hold shoulder at the desired shoulder and wrist positions
+    public static final double ARM_MAX_GRAVITY_COMPENSATION = 0.2;
     public static final double[][] ARM_GRAVITY_COMPENSATION_SAMPLES =
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // shoulder starting position
-            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, -1318, -1318, -1318, -1318 }, // shoulder second position
+            { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, 0.0, 0.0, 0.0, 0.0 }, // shoulder second position
             { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
             { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
             { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522}, // shoulder fifth position
@@ -544,10 +755,10 @@ public class TuningConstants
     //==================================================== Climber ==============================================================
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
-    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     
-    public static final double CLIMBER_WINCH_UP_POWER = 0.9;
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.9;
+    public static final double CLIMBER_WINCH_DOWN_POWER = 0.5;
+    //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
     public static final double CLIMBER_SERVO_DOWN_POSITION = 1.0;

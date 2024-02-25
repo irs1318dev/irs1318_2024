@@ -496,7 +496,7 @@ public class FauxbotApplication extends Application implements IRefresh
     }
 
     private int addDescriptionMarkup(
-        OperationDescription description,
+        OperationDescription<?> description,
         GridPane grid,
         String fontDefault,
         int rowCount)

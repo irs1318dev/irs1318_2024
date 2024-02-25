@@ -6,7 +6,6 @@ import frc.lib.filters.*;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
-import frc.robot.driver.DigitalOperation;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
