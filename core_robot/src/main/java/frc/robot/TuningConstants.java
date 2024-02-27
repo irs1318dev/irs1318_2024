@@ -1,5 +1,11 @@
 package frc.robot;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * All constants related to tuning the operation of the robot.
  * 
@@ -67,6 +73,16 @@ public class TuningConstants
     public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
     public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
     public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+
+    public static final List<Integer> VISION_SPEAKER_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
+    public static final String VISION_SPEAKER_BLUE_STRING = TuningConstants.VISION_SPEAKER_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+    public static final List<Integer> VISION_SPEAKER_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID);
+    public static final String VISION_SPEAKER_RED_STRING = TuningConstants.VISION_SPEAKER_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+
+    public static final List<Integer> VISION_STAGE_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_STAGE_LEFT_ID, TuningConstants.APRILTAG_RED_CENTER_STAGE_ID, TuningConstants.APRILTAG_RED_STAGE_RIGHT_ID);
+    public static final String VISION_STAGE_BLUE_STRING = TuningConstants.VISION_STAGE_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+    public static final List<Integer> VISION_STAGE_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_STAGE_LEFT_ID, TuningConstants.APRILTAG_BLUE_CENTER_STAGE_ID, TuningConstants.APRILTAG_BLUE_STAGE_RIGHT_ID);
+    public static final String VISION_STAGE_RED_STRING = TuningConstants.VISION_STAGE_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
 
     // Finding AprilTags to determine if theres enough valid data to translate 
     public static final int TAGS_MISSED_THRESHOLD = 30;

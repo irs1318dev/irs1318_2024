@@ -7,6 +7,8 @@ import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.google.inject.Inject;
@@ -51,7 +53,7 @@ public class OffboardVisionManager implements IMechanism
     private Integer atId;
 
     private int prevMode;
-    private int prevTarget;
+    private List<Integer> prevTargets;
 
     private int missedHeartbeats;
     private long prevHeartbeat;
@@ -99,7 +101,7 @@ public class OffboardVisionManager implements IMechanism
         this.atId = null;
 
         this.prevMode = 0;
-        this.prevTarget = 0;
+        this.prevTargets = null;
 
         this.missedHeartbeats = 0;
         this.prevHeartbeat = 0L;
@@ -158,7 +160,7 @@ public class OffboardVisionManager implements IMechanism
                     if (atrXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atrYOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atrZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTarget == 0 || this.prevTarget == atrId))
+                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
                     {
                         this.atXOffset = atrXOffset;
                         this.atYOffset = atrYOffset;
@@ -175,7 +177,7 @@ public class OffboardVisionManager implements IMechanism
                     if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTarget == 0 || this.prevTarget == atrId))
+                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
                     {
                         this.atXOffset = atfXOffset;
                         this.atYOffset = atfYOffset;
@@ -207,24 +209,27 @@ public class OffboardVisionManager implements IMechanism
     public void update()
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
-        boolean enableVideoStream = false; //!this.driver.getDigital(DigitalOperation.VisionDisableStream);
+        boolean enableVideoStream = this.driver.getDigital(DigitalOperation.VisionEnableStream);
         boolean enableAnyRear = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagRear);
         boolean enableAnyFront = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagFront);
         boolean enableSpeakerRear = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagRear);
         boolean enableSpeakerFront = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagFront);
+        boolean enableStageRear = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsRear);
+        boolean enableStageFront = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsFront);
 
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
 
-        int desiredTarget = 0;
+        List<Integer> desiredTargets = null;
+        String desiredTargetsString = null;
         int visionProcessingMode = 0;
         if (enableVision)
         {
-            if (enableAnyRear || enableSpeakerRear)
+            if (enableAnyRear || enableSpeakerRear || enableStageRear)
             {
                 visionProcessingMode = 1;
             }
-            else if (enableAnyFront || enableSpeakerFront)
+            else if (enableAnyFront || enableSpeakerFront || enableStageFront)
             {
                 visionProcessingMode = 2;
             }
@@ -233,27 +238,43 @@ public class OffboardVisionManager implements IMechanism
             {
                 if (isRed)
                 {
-                    desiredTarget = TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID;
+                    desiredTargets = TuningConstants.VISION_SPEAKER_RED_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_SPEAKER_RED_STRING;
                 }
                 else
                 {
-                    desiredTarget = TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID;
+                    desiredTargets = TuningConstants.VISION_SPEAKER_BLUE_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_SPEAKER_BLUE_STRING;
+                }
+            }
+
+            if (enableStageFront || enableStageRear)
+            {
+                if (isRed)
+                {
+                    desiredTargets = TuningConstants.VISION_STAGE_RED_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_STAGE_RED_STRING;
+                }
+                else
+                {
+                    desiredTargets = TuningConstants.VISION_STAGE_BLUE_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_STAGE_BLUE_STRING;
                 }
             }
         }
 
         this.prevMode = visionProcessingMode;
-        this.prevTarget = desiredTarget;
+        this.prevTargets = desiredTargets;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, enableVideoStream);
         this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, visionProcessingMode);
-        this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, desiredTarget);
+        this.logger.logString(LoggingKey.OffboardVisionDesiredTarget, desiredTargetsString);
     }
 
     @Override
     public void stop()
     {
         this.prevMode = 0;
-        this.prevTarget = 0;
+        this.prevTargets = null;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
         this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, 0);
         this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, 0);
