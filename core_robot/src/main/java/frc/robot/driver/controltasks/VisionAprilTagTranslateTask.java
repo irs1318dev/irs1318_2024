@@ -71,7 +71,7 @@ public class VisionAprilTagTranslateTask extends ControlTaskBase
         this.tagsFound = 0;
         this.tagsMissed = 0;
         this.startingDriveTrainX = this.driveTrain.getPositionX();
-        this.startingDriveTrainY = this.driveTrain.getPositionX();
+        this.startingDriveTrainY = this.driveTrain.getPositionY();
         this.xAprilTagDistanceSamples = new double[TuningConstants.TAGS_FOUND_THRESHOLD];
         this.yAprilTagDistanceSamples = new double[TuningConstants.TAGS_FOUND_THRESHOLD];
 
@@ -85,7 +85,7 @@ public class VisionAprilTagTranslateTask extends ControlTaskBase
     public void update()
     {
         double currXPosition = this.driveTrain.getPositionX();
-        double currYPosition = this.driveTrain.getPositionX();
+        double currYPosition = this.driveTrain.getPositionY();
         if (this.currentState == TranslateState.FindAprilTags)
         {
             Double xOffset = this.vision.getAprilTagXOffset();
