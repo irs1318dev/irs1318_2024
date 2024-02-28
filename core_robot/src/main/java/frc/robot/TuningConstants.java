@@ -487,11 +487,10 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
-    public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
-
-    public static final double ARM_WRIST_AUTO_P3_SHOOT = 16.201045989990234;
-
+    public static final double ARM_WRIST_AUTO_P6_SHOT = 14.250296630859375;
+    public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
+    public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
 
     // Position for a node where the wrist is being tucked under the shoulder in a dangerous way
     // we will probably never attempt to go to this node, but if the wrist/shoulder stalls at an
