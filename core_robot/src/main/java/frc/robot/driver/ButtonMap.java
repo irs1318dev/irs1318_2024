@@ -29,10 +29,10 @@ public class ButtonMap implements IButtonMap
             Shift.Test1Debug,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_LEFT_BUTTON),
-        // new ShiftDescription(
-        //     Shift.Test2Debug,
-        //     UserInputDevice.Test2,
-        //     UserInputDeviceButton.XBONE_LEFT_BUTTON),
+        new ShiftDescription(
+            Shift.Test2Debug,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON),
     };
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
@@ -110,10 +110,10 @@ public class ButtonMap implements IButtonMap
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderPower,
-            UserInputDevice.Codriver,
+            UserInputDevice.Test2,
             AnalogAxis.XBONE_LSY,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.Test2Debug),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
             TuningConstants.ARM_SHOULDER_DEAD_ZONE,
@@ -122,9 +122,9 @@ public class ButtonMap implements IButtonMap
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderAdjustment,
-            UserInputDevice.Codriver,
+            UserInputDevice.Test2,
             AnalogAxis.XBONE_LSY,
-            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.Test2Debug),
             EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
@@ -134,10 +134,10 @@ public class ButtonMap implements IButtonMap
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPower,
-            UserInputDevice.Codriver,
+            UserInputDevice.Test2,
             AnalogAxis.XBONE_RSY,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.Test2Debug),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_DEAD_ZONE,
@@ -146,9 +146,9 @@ public class ButtonMap implements IButtonMap
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristAdjustment,
-            UserInputDevice.Codriver,
+            UserInputDevice.Test2,
             AnalogAxis.XBONE_RSY,
-            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.Test2Debug),
             EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
@@ -323,7 +323,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.ClimberServoDown,
             UserInputDevice.Test2,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Simple),
 
         // Test operations:
