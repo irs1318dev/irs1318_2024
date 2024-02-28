@@ -10,8 +10,8 @@ import frc.lib.helpers.Helpers;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 46.5; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 10.5; // inches, max extension beyond frame perimeter
+    public static final double MAX_ROBOT_HEIGHT = 45.5; // inches, max overall height
+    public static final double MAX_ROBOT_EXTENSION = 10.0; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
     public static final double ROBOT_HALF_FRAME_PERIMETER = 17.0; // "half frame perimeter" / 4.0"
 

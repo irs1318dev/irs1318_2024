@@ -179,7 +179,7 @@ public class ArmKinematicsCalculator
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedGroundTransit,
             ArmKinematicsCalculator.groundPickup,
-            TuningConstants.UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT);
+            TuningConstants.GROUND_PICKUP_AND_TUCKED_TRANSIT_WEIGHT);
 
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.startingConfiguration,
@@ -211,8 +211,14 @@ public class ArmKinematicsCalculator
 
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.ampScore,
+            ArmKinematicsCalculator.upperUnivShot,
+            TuningConstants.AMP_SCORE_AND_UPPER_UNIV_SHOT_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.ampScore,
             ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT);
+
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.upperObtuseWrist,
             ArmKinematicsCalculator.groundPickup,
@@ -478,7 +484,7 @@ public class ArmKinematicsCalculator
 
             if (intakeSide && intakeTopAbsPosX > wristAbsPosX)
             {
-                double temp_theta_9 = -Helpers.asind(desiredDistance / L3); // meant to return a positive value, negative added since asin(0.5) is negative
+                double temp_theta_9 = Helpers.asind(desiredDistance / L3); // meant to return a positive value, negative added since asin(0.5) is negative
                 double temp_theta_4 = temp_theta_9 - this.theta_7 + 180.0;
                 double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
 
@@ -492,7 +498,7 @@ public class ArmKinematicsCalculator
 
             if (shooterSide && shooterTopAbsPosX > wristAbsPosX)
             {
-                double temp_theta_8 = -Helpers.asind(desiredDistance / L2); // meant to return a positive value, negative added since asin(0.5) is negative
+                double temp_theta_8 = Helpers.asind(desiredDistance / L2); // meant to return a positive value, negative added since asin(0.5) is negative
                 double temp_theta_4 = temp_theta_8 + this.theta_6;
                 double temp_wrist_angle = 180 + this.theta_1 - temp_theta_4;
 

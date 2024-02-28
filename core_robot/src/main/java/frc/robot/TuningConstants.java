@@ -463,9 +463,9 @@ public class TuningConstants
     public static final double ARM_WRIST_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MIN_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MAX_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MAX_POSITION; // in degrees
 
-    public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -30.1; // in degrees
+    public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -28.1; // in degrees
     public static final double ARM_SHOULDER_PRACTICE_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
+    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
     public static final double ARM_SHOULDER_COMP_MIN_POSITION = -26.3; // in degrees
@@ -484,7 +484,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P6_SHOT = 14.250296630859375;
@@ -520,7 +520,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
-    public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 100.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
@@ -548,8 +548,10 @@ public class TuningConstants
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 1.0; // needs IK
+    public static final double GROUND_PICKUP_AND_TUCKED_TRANSIT_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double AMP_SCORE_AND_UPPER_UNIV_SHOT_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;

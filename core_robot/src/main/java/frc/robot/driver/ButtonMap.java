@@ -733,6 +733,10 @@ public class ButtonMap implements IButtonMap
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
             }),
 
         // new MacroOperationDescription(
@@ -747,6 +751,10 @@ public class ButtonMap implements IButtonMap
         //     {
         //         AnalogOperation.ArmShoulderPositionSetpoint,
         //         AnalogOperation.ArmWristPositionSetpoint,
+                // AnalogOperation.ArmShoulderAdjustment,
+                // AnalogOperation.ArmWristAdjustment,
+                // AnalogOperation.ArmShoulderPower,
+                // AnalogOperation.ArmWristPower,
         //     }),
 
 
@@ -762,6 +770,10 @@ public class ButtonMap implements IButtonMap
            {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
            }),
 
         new MacroOperationDescription(
@@ -776,6 +788,10 @@ public class ButtonMap implements IButtonMap
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
             }),
 
         new MacroOperationDescription(
@@ -790,6 +806,10 @@ public class ButtonMap implements IButtonMap
            {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
            }),
 
         new MacroOperationDescription(
@@ -804,6 +824,10 @@ public class ButtonMap implements IButtonMap
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
             }),
 
         new MacroOperationDescription(
@@ -818,6 +842,10 @@ public class ButtonMap implements IButtonMap
            {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
            }),
 
         new MacroOperationDescription(
@@ -832,6 +860,10 @@ public class ButtonMap implements IButtonMap
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
                 AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
             }),
 // 
         // new MacroOperationDescription(
