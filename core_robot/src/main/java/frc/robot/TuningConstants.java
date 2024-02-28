@@ -531,10 +531,15 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
 
+    public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
+    public static final double ARM_WRIST_TRAP_OUTTAKE_POS = -1318;
+
     public static final double ARM_WRIST_NODE_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_NODE_THRESHOLD = 3.0;
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
+
+
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
