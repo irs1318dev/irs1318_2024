@@ -202,11 +202,13 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.tuckedTransit,
             ArmKinematicsCalculator.tucked,
             TuningConstants.TUCKED_TRANSIT_TO_TUCKED_WEIGHT);
-
+        
+        // likely illegal, update weight
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.upperUnivShot,
             ArmKinematicsCalculator.groundPickup,
             TuningConstants.UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT);
+
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.ampScore,
             ArmKinematicsCalculator.upperObtuseWrist,
@@ -225,10 +227,12 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.tuckedTransit,
             TuningConstants.TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT);
 
+        // very illegal, probably remove
         ArmKinematicsCalculator.graph.connect(
             ArmKinematicsCalculator.groundPickup,
             ArmKinematicsCalculator.tucked,
             TuningConstants.GROUND_PICKUP_TO_TUCKED_WEIGHT);
+            
         ArmKinematicsCalculator.graph.connect(
             ArmKinematicsCalculator.tucked,
             ArmKinematicsCalculator.tuckedTransit,

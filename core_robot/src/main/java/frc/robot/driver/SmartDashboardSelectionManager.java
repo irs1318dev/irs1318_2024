@@ -30,6 +30,7 @@ public class SmartDashboardSelectionManager
         SixNote,
         FiveNote,
         FourNote,
+        ThreePickupNote,
         ThreeNote,
         TwoNote,
         OneNote,
@@ -60,6 +61,7 @@ public class SmartDashboardSelectionManager
         this.routineChooser.addObject("Shoot Taxi", AutoRoutine.ShootTaxi);
         this.routineChooser.addObject("Two Note", AutoRoutine.TwoNote);
         this.routineChooser.addObject("Three Note", AutoRoutine.ThreeNote);
+        this.routineChooser.addObject("Three Pickup Note", AutoRoutine.ThreePickupNote);
         this.routineChooser.addObject("Four Note", AutoRoutine.FourNote);
         this.routineChooser.addObject("Amp Three Note", AutoRoutine.AmpThreeNote);
         this.routineChooser.addObject("One Plus Charge", AutoRoutine.FiveNote);
