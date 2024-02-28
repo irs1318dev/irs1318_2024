@@ -469,7 +469,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
     public static final double ARM_SHOULDER_COMP_MIN_POSITION = -26.3; // in degrees
-    public static final double ARM_SHOULDER_COMP_MAX_POSITION = 55.0; // in degrees
+    public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -123.5; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
@@ -577,7 +577,7 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
-    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
     // SHOULDER PID
