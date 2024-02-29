@@ -1,4 +1,4 @@
-package frc.robot.common;
+package frc.lib.common;
 
 import org.junit.jupiter.api.Test;
 

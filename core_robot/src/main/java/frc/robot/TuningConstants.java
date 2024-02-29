@@ -1,5 +1,11 @@
 package frc.robot;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * All constants related to tuning the operation of the robot.
  * 
@@ -67,6 +73,16 @@ public class TuningConstants
     public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
     public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
     public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+
+    public static final List<Integer> VISION_SPEAKER_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
+    public static final String VISION_SPEAKER_BLUE_STRING = TuningConstants.VISION_SPEAKER_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+    public static final List<Integer> VISION_SPEAKER_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID);
+    public static final String VISION_SPEAKER_RED_STRING = TuningConstants.VISION_SPEAKER_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+
+    public static final List<Integer> VISION_STAGE_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_STAGE_LEFT_ID, TuningConstants.APRILTAG_RED_CENTER_STAGE_ID, TuningConstants.APRILTAG_RED_STAGE_RIGHT_ID);
+    public static final String VISION_STAGE_BLUE_STRING = TuningConstants.VISION_STAGE_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+    public static final List<Integer> VISION_STAGE_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_STAGE_LEFT_ID, TuningConstants.APRILTAG_BLUE_CENTER_STAGE_ID, TuningConstants.APRILTAG_BLUE_STAGE_RIGHT_ID);
+    public static final String VISION_STAGE_RED_STRING = TuningConstants.VISION_STAGE_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
 
     // Finding AprilTags to determine if theres enough valid data to translate 
     public static final int TAGS_MISSED_THRESHOLD = 30;
@@ -447,13 +463,13 @@ public class TuningConstants
     public static final double ARM_WRIST_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MIN_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_WRIST_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MAX_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MAX_POSITION; // in degrees
 
-    public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -30.1; // in degrees
+    public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -28.1; // in degrees
     public static final double ARM_SHOULDER_PRACTICE_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
+    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
     public static final double ARM_SHOULDER_COMP_MIN_POSITION = -26.3; // in degrees
-    public static final double ARM_SHOULDER_COMP_MAX_POSITION = 55.0; // in degrees
+    public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -123.5; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
@@ -468,14 +484,13 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 43.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.97 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.247 : 28.634967803955078;// change ti p4
 
-    public static final double ARM_WRIST_POSITION_P6_SHOT = 14.250296630859375;
-
-    public static final double ARM_WRIST_AUTO_P3_SHOOT = 16.201045989990234;
-
+    public static final double ARM_WRIST_AUTO_P6_SHOT = 14.250296630859375;
+    public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
+    public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
 
     // Position for a node where the wrist is being tucked under the shoulder in a dangerous way
     // we will probably never attempt to go to this node, but if the wrist/shoulder stalls at an
@@ -505,7 +520,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = 45.0;
-    public static final double ARM_WRIST_POSITION_AMP_SCORE = 90.0;
+    public static final double ARM_WRIST_POSITION_AMP_SCORE = 100.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
@@ -516,10 +531,15 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
 
+    public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
+    public static final double ARM_WRIST_TRAP_OUTTAKE_POS = -1318;
+
     public static final double ARM_WRIST_NODE_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_NODE_THRESHOLD = 3.0;
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
+
+
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.0;
     public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
@@ -533,8 +553,10 @@ public class TuningConstants
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
     public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 1.0; // needs IK
+    public static final double GROUND_PICKUP_AND_TUCKED_TRANSIT_WEIGHT = 1.0;
     public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
+    public static final double AMP_SCORE_AND_UPPER_UNIV_SHOT_WEIGHT = 1.0;
     public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
     public static final double OBTUSE_WRIST_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
     public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
@@ -560,7 +582,7 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
 
-    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 5.0;
+    public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
     // SHOULDER PID

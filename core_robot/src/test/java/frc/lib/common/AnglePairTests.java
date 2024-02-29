@@ -1,4 +1,4 @@
-package frc.robot.common;
+package frc.lib.common;
 
 import frc.lib.helpers.AnglePair;
 import frc.lib.helpers.Helpers;

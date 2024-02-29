@@ -45,6 +45,9 @@ public class AutonLocManager
     public Point2d P19;
     public Point2d P20;
     public Point2d P21;
+    public Point2d C1;
+    public Point2d C2;
+    public Point2d C3;
 
     public AutonLocManager(boolean isRed)
     {
@@ -116,6 +119,11 @@ public class AutonLocManager
         this.P19 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 107);
         this.P20 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 217);
         this.P21 = new Point2d(AutonLocManager.getXPosition(isRed, 72), 0);
+
+        //Climber
+        this.C1 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
+        this.C2 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
+        this.C3 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
     }
 
     private static double getOrientationOrHeading(boolean isRed, double orientationOrHeading)
