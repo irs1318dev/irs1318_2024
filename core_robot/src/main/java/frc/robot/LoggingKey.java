@@ -138,6 +138,7 @@ public enum LoggingKey
     ArmWristVelocityAverage("arm.wrVelAvg", 1),
     ArmWristPowerAverage("arm.wrPowAvg", 1),
     ArmWristStalled("arm.wrStalled", 1),
+    ArmWristLimitSwitch("arm.wrLimitSwitch", 1),
 
     ArmExtensionBreaking("arm.exten_broken", 1),
     FixedWithIK("arm.fixed_with_IK", 1),

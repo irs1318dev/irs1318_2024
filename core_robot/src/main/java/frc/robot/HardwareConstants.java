@@ -11,7 +11,7 @@ import frc.lib.helpers.Helpers;
 public class HardwareConstants
 {
     public static final double MAX_ROBOT_HEIGHT = 45.5; // inches, max overall height
-    public static final double MAX_ROBOT_EXTENSION = 10.0; // inches, max extension beyond frame perimeter
+    public static final double MAX_ROBOT_EXTENSION = 9.75; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
     public static final double ROBOT_HALF_FRAME_PERIMETER = 17.0; // "half frame perimeter" / 4.0"
 
@@ -54,7 +54,7 @@ public class HardwareConstants
     public static final double ARM_SHOULDER_TICK_VELOCITY = HardwareConstants.ARM_SHOULDER_TICK_DISTANCE / 60.0; // convert rotations per minute to degrees per second
     public static final double ARM_SHOULDER_TICKS_PER_DEGREE = (HardwareConstants.ARM_SHOULDER_GEAR_RATIO * HardwareConstants.ARM_SHOULDER_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
     public static final double ARM_WRIST_ENCODER_COUNTS_PER_ROTATION = 1.0; // count per rotation of axle - integrated encoder
-    public static final double ARM_WRIST_GEAR_RATIO = 81.0 * 2.0; // 162:1 --> 81:1 in gearbox, 2:1 between chain sprockets.
+    public static final double ARM_WRIST_GEAR_RATIO = TuningConstants.COMPETITION_ROBOT ? 81.0 * 2.0 : 81.0 * 2.0; // 162:1 --> 81:1 in gearbox, 2:1 between chain sprockets.
     public static final double ARM_WRIST_TICK_DISTANCE = 360.0 / (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION); // degrees per rotation 
     public static final double ARM_WRIST_TICK_VELOCITY = HardwareConstants.ARM_WRIST_TICK_DISTANCE / 60.0; // convert rotations per minute to degrees per second
     public static final double ARM_WRIST_TICKS_PER_DEGREE = (HardwareConstants.ARM_WRIST_GEAR_RATIO * HardwareConstants.ARM_WRIST_ENCODER_COUNTS_PER_ROTATION) / 360.0; // rotations per degree
