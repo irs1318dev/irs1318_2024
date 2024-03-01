@@ -1,6 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.lib.driver.TrajectoryManager;
+import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.PathPlannerWaypoint;
@@ -17,15 +18,15 @@ import frc.robot.mechanisms.OffboardVisionManager;
 //    ArmGraphTask(TrapScorePosition),
 //    IntakeControlTask(out, 2s)
 //)
-public class ApproachTrapTask extends DecisionSequentialTask
+public class ApproachAprilTagTask extends DecisionSequentialTask
 {
+    private final double xOffset;
+    private final double yOffset;
+
     private OffboardVisionManager vision;
     private IRobotProvider provider;
     private TrajectoryManager trajectoryManager;
 
-    private double xOffset;
-    private double yOffset;
-    private double yawOffset;
     private int noAprilTags;
 
     public enum State
@@ -35,6 +36,17 @@ public class ApproachTrapTask extends DecisionSequentialTask
     }
 
     private State state;
+
+    public ApproachAprilTagTask()
+    {
+        this(-72.0, 0.0);
+    }
+
+    public ApproachAprilTagTask(double xOffset, double yOFfset)
+    {
+        this.xOffset = xOffset;
+        this.yOffset = yOFfset;
+    }
 
     @Override
     public void begin()
@@ -57,9 +69,13 @@ public class ApproachTrapTask extends DecisionSequentialTask
             if (this.vision.getAprilTagId() != null)
             {
                 IPathPlanner pathPlanner = this.provider.getPathPlanner();
-                this.xOffset = vision.getAprilTagXOffset();
-                this.yOffset = vision.getAprilTagYOffset();
-                this.yawOffset = vision.getAprilTagYaw();
+                double tagXOffset = vision.getAprilTagXOffset();
+                double tagYOffset = vision.getAprilTagYOffset();
+                double tagYawOffset = vision.getAprilTagYaw();
+
+                double xGoal = Helpers.cosd(tagYawOffset) * this.xOffset + Helpers.sind(tagYawOffset) * this.yOffset + tagXOffset;
+                double yGoal = Helpers.cosd(tagYawOffset) * this.yOffset - Helpers.sind(tagYawOffset) * this.xOffset + tagYOffset;
+                double angleGoal = tagYawOffset;
 
                 // generate the path
                 this.trajectoryManager.addTrajectory(
@@ -70,7 +86,7 @@ public class ApproachTrapTask extends DecisionSequentialTask
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                         new PathPlannerWaypoint(0, 0, 0, 0),
-                        new PathPlannerWaypoint(xOffset, yOffset, yawOffset, yawOffset)));
+                        new PathPlannerWaypoint(xGoal, yGoal, angleGoal, angleGoal)));
                 this.AppendTask(new FollowPathTask("climberApproachMovement"));
                 this.state = State.ApproachAprilTag;
             }
