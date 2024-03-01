@@ -1,16 +1,11 @@
 package frc.robot.driver.controltasks;
 
-import frc.lib.driver.IControlTask;
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.ITimer;
 import frc.lib.robotprovider.PathPlannerWaypoint;
-import frc.lib.robotprovider.Point2d;
-import frc.robot.AutonLocManager;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
-import frc.robot.mechanisms.ClimberMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
 //SequentialTask.Sequence(
@@ -28,13 +23,11 @@ public class ApproachTrapTask extends DecisionSequentialTask
     private IRobotProvider provider;
     private TrajectoryManager trajectoryManager;
 
-    private Itimer timer;
     private double xOffset;
     private double yOffset;
     private double yawOffset;
-    private Point2d goalPoint;
     private int noAprilTags;
-    
+
     public enum State
     {
         ReadAprilTag,
@@ -55,8 +48,6 @@ public class ApproachTrapTask extends DecisionSequentialTask
         this.setDigitalOperationState(DigitalOperation.VisionFindStageAprilTagsFront, true);
         this.state = State.ReadAprilTag;
     }
-
-
 
     @Override
     public void update()
@@ -88,7 +79,7 @@ public class ApproachTrapTask extends DecisionSequentialTask
                 noAprilTags++;
             }
         }
-        else if (this.state == State.ApproachAprilTag)
+        else // if (this.state == State.ApproachAprilTag)
         {
             super.update();
         }
@@ -97,28 +88,33 @@ public class ApproachTrapTask extends DecisionSequentialTask
     @Override
     public void end()
     {
+        if (this.state != State.ReadAprilTag)
+        {
+            super.end();
+        }
+
+        this.setDigitalOperationState(DigitalOperation.VisionFindStageAprilTagsFront, false);
     }
 
     @Override
     public boolean hasCompleted()
     {
-        super.hasCompleted();
-        if (this.state == State.ApproachAprilTag)
+        if (this.state != State.ApproachAprilTag)
         {
-            return true;
+            return false;
         }
-        
-        return false;
+
+        return super.hasCompleted();
     }
 
     @Override
     public boolean shouldCancel()
     {
-        super.shouldCancel();
-        return this.state == State.ReadAprilTag && noAprilTags > 30;
+        if (this.state == State.ReadAprilTag)
+        {
+            return this.noAprilTags > 20;
+        }
+
+        return super.shouldCancel();
     }
-
-    
-    
-
 }
