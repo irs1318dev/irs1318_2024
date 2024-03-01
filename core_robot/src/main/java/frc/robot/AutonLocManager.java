@@ -87,7 +87,7 @@ public class AutonLocManager
         //X field length: 653in
 
         this.P1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 326.5 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 64 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 - 21.22) , 198); //210 degrees orientation
+        this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 23.2283465) , 198 - 7.87401575); //210 degrees orientation
         this.P3 = new Point2d(AutonLocManager.getXPosition(isRed, 250.5 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 306 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P4 = new Point2d(AutonLocManager.getXPosition(isRed, 288 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 239 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P5 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 162);//212), 162);
