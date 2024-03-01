@@ -1,6 +1,8 @@
 package frc.robot;
 import java.util.Optional;
 
+import org.apache.commons.math3.geometry.Point;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -18,6 +20,7 @@ public class AutonLocManager
 
     public Point2d P1;
     public Point2d P2;
+    public Point2d P2A;
     public Point2d P3;
     public Point2d P4;
     public Point2d P5;
@@ -87,7 +90,8 @@ public class AutonLocManager
         //X field length: 653in
 
         this.P1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 326.5 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 64 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 23.2283465) , 198 - 7.87401575); //210 degrees orientation
+        this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 5.918761855), 198 - 23.3016793); //240 degrees orientation
+        this.P2A = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 5.918761855) , 238 + 23.3016793); //120 degrees orientation
         this.P3 = new Point2d(AutonLocManager.getXPosition(isRed, 250.5 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 306 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P4 = new Point2d(AutonLocManager.getXPosition(isRed, 288 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 239 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P5 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 162);//212), 162);
