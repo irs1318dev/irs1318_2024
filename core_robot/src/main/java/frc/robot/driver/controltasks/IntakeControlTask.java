@@ -3,8 +3,8 @@ package frc.robot.driver.controltasks;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.EndEffectorMechanism;
 
-public class IntakeControlTask extends CompositeOperationTask{
-
+public class IntakeControlTask extends CompositeOperationTask
+{
     private boolean intakeIn;
     private EndEffectorMechanism endEffector;
 

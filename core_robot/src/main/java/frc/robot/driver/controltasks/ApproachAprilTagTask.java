@@ -1,6 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.lib.driver.TrajectoryManager;
+import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.IPathPlanner;
 import frc.lib.robotprovider.IRobotProvider;
@@ -20,8 +21,19 @@ import frc.robot.mechanisms.OffboardVisionManager;
 //)
 public class ApproachAprilTagTask extends DecisionSequentialTask
 {
+    private static final DigitalOperation[] PossibleVisionOperations =
+    {
+        DigitalOperation.VisionFindAnyAprilTagFront,
+        DigitalOperation.VisionFindAnyAprilTagRear,
+        DigitalOperation.VisionFindSpeakerAprilTagFront,
+        DigitalOperation.VisionFindSpeakerAprilTagRear,
+        DigitalOperation.VisionFindStageAprilTagsFront,
+        DigitalOperation.VisionFindStageAprilTagsRear,
+    };
+
     private final double xOffset;
     private final double yOffset;
+    private final DigitalOperation visionOperation;
 
     private OffboardVisionManager vision;
     private IRobotProvider provider;
@@ -39,13 +51,31 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
 
     public ApproachAprilTagTask()
     {
-        this(-72.0, 0.0);
+        this(-72.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront);
     }
 
-    public ApproachAprilTagTask(double xOffset, double yOFfset)
+    public ApproachAprilTagTask(double xOffset, double yOFfset, DigitalOperation visionOperation)
     {
+        if (TuningConstants.THROW_EXCEPTIONS)
+        {
+            // if we are cool with throwing exceptions (testing), check if toPerform is in
+            // the possibleOperations set and throw an exception if it is not
+            boolean containsToPerform = false;
+            for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+            {
+                if (op == visionOperation)
+                {
+                    containsToPerform = true;
+                    break;
+                }
+            }
+
+            ExceptionHelpers.Assert(containsToPerform, visionOperation.toString() + " not contained in the set of possible vision operations");
+        }
+
         this.xOffset = xOffset;
         this.yOffset = yOFfset;
+        this.visionOperation = visionOperation;
     }
 
     @Override
@@ -57,7 +87,11 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
         this.provider = this.getInjector().getInstance(IRobotProvider.class);
         this.trajectoryManager = this.getInjector().getInstance(TrajectoryManager.class);
 
-        this.setDigitalOperationState(DigitalOperation.VisionFindStageAprilTagsFront, true);
+        for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+        {
+            this.setDigitalOperationState(op, op == this.visionOperation);
+        }
+
         this.state = State.ReadAprilTag;
     }
 
@@ -66,6 +100,11 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
     {
         if (this.state == State.ReadAprilTag)
         {
+            for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+            {
+                this.setDigitalOperationState(op, op == this.visionOperation);
+            }
+
             if (this.vision.getAprilTagId() != null)
             {
                 IPathPlanner pathPlanner = this.provider.getPathPlanner();
@@ -109,7 +148,10 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
             super.end();
         }
 
-        this.setDigitalOperationState(DigitalOperation.VisionFindStageAprilTagsFront, false);
+        for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+        {
+            this.setDigitalOperationState(op, false);
+        }
     }
 
     @Override

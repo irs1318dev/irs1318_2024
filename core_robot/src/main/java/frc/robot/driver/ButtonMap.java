@@ -342,6 +342,20 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Toggle),
         new DigitalOperationDescription(
+            DigitalOperation.VisionFindStageAprilTagsRear,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindStageAprilTagsFront,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.of(Shift.Test1Debug),
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,
