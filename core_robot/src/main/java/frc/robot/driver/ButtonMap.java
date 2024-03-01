@@ -93,7 +93,7 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.GetNoteOut,
+            AnalogOperation.EndEffectorGetNoteOut,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LT,
             ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
@@ -919,6 +919,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFlywheelMotorPower,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
             
         new MacroOperationDescription(
@@ -934,9 +935,8 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFlywheelMotorPower,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
-
-           
 
         new MacroOperationDescription(
             MacroOperation.ShootNote,
@@ -991,6 +991,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorFlywheelMotorPower,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
 
         // new MacroOperationDescription(
