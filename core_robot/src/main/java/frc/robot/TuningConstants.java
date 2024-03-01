@@ -79,9 +79,9 @@ public class TuningConstants
     public static final List<Integer> VISION_SPEAKER_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_SPEAKER_CENTER_ID);
     public static final String VISION_SPEAKER_RED_STRING = TuningConstants.VISION_SPEAKER_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
 
-    public static final List<Integer> VISION_STAGE_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_STAGE_LEFT_ID, TuningConstants.APRILTAG_RED_CENTER_STAGE_ID, TuningConstants.APRILTAG_RED_STAGE_RIGHT_ID);
+    public static final List<Integer> VISION_STAGE_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_STAGE_LEFT_ID, TuningConstants.APRILTAG_BLUE_CENTER_STAGE_ID, TuningConstants.APRILTAG_BLUE_STAGE_RIGHT_ID);
     public static final String VISION_STAGE_BLUE_STRING = TuningConstants.VISION_STAGE_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
-    public static final List<Integer> VISION_STAGE_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_STAGE_LEFT_ID, TuningConstants.APRILTAG_BLUE_CENTER_STAGE_ID, TuningConstants.APRILTAG_BLUE_STAGE_RIGHT_ID);
+    public static final List<Integer> VISION_STAGE_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_STAGE_LEFT_ID, TuningConstants.APRILTAG_RED_CENTER_STAGE_ID, TuningConstants.APRILTAG_RED_STAGE_RIGHT_ID);
     public static final String VISION_STAGE_RED_STRING = TuningConstants.VISION_STAGE_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
 
     // Finding AprilTags to determine if theres enough valid data to translate 
@@ -487,7 +487,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 43.96027374267578 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 25.653690338134766 : 28.634967803955078;// change ti p4
 
-    public static final double ARM_WRIST_AUTO_P6_SHOT = 14.250296630859375;
+    public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;

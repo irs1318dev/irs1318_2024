@@ -209,7 +209,7 @@ public class OffboardVisionManager implements IMechanism
     public void update()
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
-        boolean enableVideoStream = this.driver.getDigital(DigitalOperation.VisionEnableStream);
+        boolean enableVideoStream = true; //this.driver.getDigital(DigitalOperation.VisionEnableStream);
         boolean enableAnyRear = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagRear);
         boolean enableAnyFront = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagFront);
         boolean enableSpeakerRear = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagRear);
@@ -277,7 +277,7 @@ public class OffboardVisionManager implements IMechanism
         this.prevTargets = null;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
         this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, 0);
-        this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, 0);
+        this.logger.logString(LoggingKey.OffboardVisionDesiredTarget, null);
     }
 
     public Double getAprilTagXOffset()
