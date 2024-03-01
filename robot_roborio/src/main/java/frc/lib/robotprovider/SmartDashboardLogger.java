@@ -139,7 +139,12 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     {
         if ((this.loggingCounter % key.loggingFrequency) == 0)
         {
-            String currValue = SmartDashboard.getString(key.value, null);
+            if (value == null)
+            {
+                value = "";
+            }
+
+            String currValue = SmartDashboard.getString(key.value, "");
             if ((value != null && currValue != null && !currValue.equals(value)) ||
                 (value != null) != (currValue != null))
             {

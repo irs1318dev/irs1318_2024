@@ -162,7 +162,7 @@ public class EndEffectorMechanism implements IMechanism
         double flywheelMotorPower = this.driver.getAnalog(AnalogOperation.EndEffectorFlywheelMotorPower);
         double nearFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorNearFlywheelVelocityGoal); // This value should be calculated and in RPM
         double farFlywheelVelocityGoal = this.driver.getAnalog(AnalogOperation.EndEffectorFarFlywheelVelocityGoal); // This value should be calculated and in RPM
-        double noteOut = this.driver.getAnalog(AnalogOperation.GetNoteOut);
+        double noteOut = this.driver.getAnalog(AnalogOperation.EndEffectorGetNoteOut);
 
         if (flywheelMotorPower != TuningConstants.ZERO)
         {
@@ -177,8 +177,7 @@ public class EndEffectorMechanism implements IMechanism
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, flywheelMotorPower);
         }
-
-        if (noteOut != TuningConstants.ZERO)
+        else if (noteOut != TuningConstants.ZERO)
         {
             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
@@ -189,7 +188,6 @@ public class EndEffectorMechanism implements IMechanism
             this.nearFlywheelMotor.set(noteOut);
             this.farFlywheelMotor.set(-noteOut);            
         }
-
         else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
         {
             this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
