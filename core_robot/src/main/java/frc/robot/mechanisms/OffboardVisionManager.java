@@ -177,7 +177,7 @@ public class OffboardVisionManager implements IMechanism
                     if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
+                        (this.prevTargets == null || this.prevTargets.contains(atfId)))
                     {
                         this.atXOffset = atfXOffset;
                         this.atYOffset = atfYOffset;
@@ -209,7 +209,7 @@ public class OffboardVisionManager implements IMechanism
     public void update()
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
-        boolean enableVideoStream = true; //this.driver.getDigital(DigitalOperation.VisionEnableStream);
+        boolean enableVideoStream = this.driver.getDigital(DigitalOperation.VisionEnableStream);
         boolean enableAnyRear = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagRear);
         boolean enableAnyFront = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagFront);
         boolean enableSpeakerRear = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagRear);

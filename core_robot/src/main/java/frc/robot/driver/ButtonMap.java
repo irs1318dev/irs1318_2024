@@ -333,42 +333,42 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindSpeakerAprilTagFront,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindStageAprilTagsRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_Y_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindStageAprilTagsFront,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_Y_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagFront,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
-            ButtonType.Toggle),
+            ButtonType.Simple),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
