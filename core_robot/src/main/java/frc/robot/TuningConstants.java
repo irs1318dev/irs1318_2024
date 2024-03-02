@@ -468,9 +468,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -30.3; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -34.3; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.5; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.0; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 210.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -484,9 +484,10 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 43.96027374267578 : 37.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 25.653690338134766 : 28.634967803955078;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 48.952213287353516 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 25.095434188842773 : 28.634967803955078;// change ti p4
 
+    public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
@@ -580,7 +581,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
