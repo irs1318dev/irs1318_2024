@@ -177,8 +177,8 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(locManager.P7, locManager.getOrientationOrHeading(270), locManager.getOrientationOrHeading(180)),
-                new PathPlannerWaypoint(locManager.P4, locManager.getOrientationOrHeading(270), locManager.getOrientationOrHeading(180))),
+                new PathPlannerWaypoint(locManager.P7, locManager.getOrientationOrHeading(315), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P4, locManager.getOrientationOrHeading(315), locManager.getOrientationOrHeading(180))),
                 isRed? "P7toP4CSRed" : "P7toP4CSBlue");
 
         addTrajectory(
@@ -205,7 +205,7 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(locManager.P2A, locManager.getOrientationOrHeading(135), locManager.getOrientationOrHeading(120)),
                 new PathPlannerWaypoint(locManager.P7M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
                 new PathPlannerWaypoint(locManager.P7, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180))),
-                isRed? "P2AtoP7ASUBRed" : "P2AtoP7ASUBBlue");
+                isRed? "P2AtoP7ASUBRed" : "P2AtoP7ASUBBlue");   
 
         addTrajectory(
             trajectoryManager,
@@ -217,7 +217,7 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(locManager.P7, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180)),
                 new PathPlannerRotationTarget(locManager.getOrientationOrHeading(120), 0.6),
                 new PathPlannerWaypoint(locManager.P2A, locManager.getOrientationOrHeading(315), locManager.getOrientationOrHeading(120))),
-                isRed? "P7toP2AASUBRed" : "P&toP2AASUBBlue");
+                isRed? "P7toP2AASUBRed" : "P7toP2AASUBBlue");
 
         addTrajectory(
             trajectoryManager,
