@@ -468,9 +468,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -30.3; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -34.3; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.5; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.0; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 210.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -484,9 +484,10 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 43.96027374267578 : 37.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 25.653690338134766 : 28.634967803955078;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 48.952213287353516 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
+    public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
@@ -517,7 +518,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_UPPER_UNIVERSAL = TuningConstants.COMPETITION_ROBOT ? 27.17892837524414 : 26;
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MIN = TuningConstants.ARM_WRIST_MIN_POSITION;
     public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_MAX_POSITION;
-    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = TuningConstants.COMPETITION_ROBOT ? 67.87522888183594 : 71.33268737792969;
+    public static final double ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT = TuningConstants.COMPETITION_ROBOT ? 63.87522888183594 : 71.33268737792969;
 
     public static final double ARM_SHOULDER_POSITION_AMP_SCORE = TuningConstants.COMPETITION_ROBOT ? 42.977256774902344 : 45.0;
     public static final double ARM_WRIST_POSITION_AMP_SCORE = TuningConstants.COMPETITION_ROBOT ? 100.67892456054688 : 100.0;

@@ -129,6 +129,11 @@ public class PigeonManager implements IPositionManager
             this.reset(newYaw == 0.0);
         }
 
+        if (this.driver.getDigital(DigitalOperation.PositionSwapFieldOrientation))
+        {
+            this.startYaw += 180.0;
+        }
+
         if (this.driver.getDigital(DigitalOperation.PositionResetRobotLevel))
         {
             this.pitchOffset = this.pitch;

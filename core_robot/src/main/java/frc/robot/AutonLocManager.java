@@ -1,8 +1,6 @@
 package frc.robot;
 import java.util.Optional;
 
-import org.apache.commons.math3.geometry.Point;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -90,44 +88,44 @@ public class AutonLocManager
         //X field length: 653in
 
         this.P1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 326.5 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 64 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P2 = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 5.918761855), 198 - 23.3016793); //240 degrees orientation
-        this.P2A = new Point2d(AutonLocManager.getXPosition(isRed, 289 + 5.918761855) , 238 + 23.3016793); //120 degrees orientation
-        this.P3 = new Point2d(AutonLocManager.getXPosition(isRed, 250.5 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 306 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P4 = new Point2d(AutonLocManager.getXPosition(isRed, 288 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 239 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P5 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 162);//212), 162);
-        this.P5M = new Point2d(AutonLocManager.getXPosition(isRed, P5.x + 20), P5.y);
-        this.P6 = new Point2d(AutonLocManager.getXPosition(isRed, 212), 215);
-        this.P6M = new Point2d(AutonLocManager.getXPosition(isRed, P6.x + 20), P6.y);
-        this.P7 = new Point2d(AutonLocManager.getXPosition(isRed, 212), 276);
-        this.P7M = new Point2d(AutonLocManager.getXPosition(isRed, P7.x + 20), P7.y);
-        this.P8 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 29.64);
-        this.P8M = new Point2d(AutonLocManager.getXPosition(isRed, P8.x + 20), P8.y);
-        this.P9 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 95.64);
-        this.P9M = new Point2d(AutonLocManager.getXPosition(isRed, P9.x + 20), P9.y);
-        this.P10 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 161.64);
-        this.P10M = new Point2d(AutonLocManager.getXPosition(isRed, P10.x + 20), P10.y);
-        this.P11 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 227.64);
-        this.P11M = new Point2d(AutonLocManager.getXPosition(isRed, P11.x + 20), P11.y);
-        this.P12 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 293.64);
-        this.P12M = new Point2d(AutonLocManager.getXPosition(isRed, P12.x + 20), P12.y);
+        this.P2 = new Point2d(AutonLocManager.getXPosition(this.isRed, 289 + 5.918761855), 198 - 23.3016793); //240 degrees orientation
+        this.P2A = new Point2d(AutonLocManager.getXPosition(this.isRed, 289 + 5.918761855) , 238 + 26); //120 degrees orientation
+        this.P3 = new Point2d(AutonLocManager.getXPosition(this.isRed, 250.5 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 306 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P4 = new Point2d(AutonLocManager.getXPosition(this.isRed, 288 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 239 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P5 = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 162);//212), 162);
+        this.P5M = new Point2d(AutonLocManager.getXPosition(this.isRed, P5.x + 20), P5.y);
+        this.P6 = new Point2d(AutonLocManager.getXPosition(this.isRed, 212), 215);
+        this.P6M = new Point2d(AutonLocManager.getXPosition(this.isRed, P6.x + 20), P6.y);
+        this.P7 = new Point2d(AutonLocManager.getXPosition(this.isRed, 212), 276);
+        this.P7M = new Point2d(AutonLocManager.getXPosition(this.isRed, P7.x + 23), P7.y);
+        this.P8 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 29.64);
+        this.P8M = new Point2d(AutonLocManager.getXPosition(this.isRed, P8.x + 20), P8.y);
+        this.P9 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 95.64);
+        this.P9M = new Point2d(AutonLocManager.getXPosition(this.isRed, P9.x + 20), P9.y);
+        this.P10 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 161.64);
+        this.P10M = new Point2d(AutonLocManager.getXPosition(this.isRed, P10.x + 20), P10.y);
+        this.P11 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 227.64);
+        this.P11M = new Point2d(AutonLocManager.getXPosition(this.isRed, P11.x + 20), P11.y);
+        this.P12 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 293.64);
+        this.P12M = new Point2d(AutonLocManager.getXPosition(this.isRed, P12.x + 20), P12.y);
 
         //ToDO fix 13 14
-        this.P13 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 93.154754 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P14 = new Point2d(AutonLocManager.getXPosition(isRed, 0), 231.777 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P13 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 93.154754 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P14 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 231.777 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
 
         //ToDo : add p15, p16, p17
         this.P15 = new Point2d(0,0); //Might use
-        this.P16 = new Point2d(AutonLocManager.getXPosition(isRed, 172.955),  93.154754 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P17 = new Point2d(AutonLocManager.getXPosition(isRed, 172.955),  231.777 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
-        this.P18 = new Point2d(AutonLocManager.getXPosition(isRed, 115 + 21 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 162);
-        this.P19 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 107);
-        this.P20 = new Point2d(AutonLocManager.getXPosition(isRed, 204), 217);
-        this.P21 = new Point2d(AutonLocManager.getXPosition(isRed, 72), 0);
+        this.P16 = new Point2d(AutonLocManager.getXPosition(this.isRed, 172.955),  93.154754 - HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P17 = new Point2d(AutonLocManager.getXPosition(this.isRed, 172.955),  231.777 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
+        this.P18 = new Point2d(AutonLocManager.getXPosition(this.isRed, 115 + 21 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 162);
+        this.P19 = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 107);
+        this.P20 = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 217);
+        this.P21 = new Point2d(AutonLocManager.getXPosition(this.isRed, 72), 0);
 
         //Climber
-        this.C1 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
-        this.C2 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
-        this.C3 = new Point2d(AutonLocManager.getXPosition(isRed, 1318), 1318);
+        this.C1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
+        this.C2 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
+        this.C3 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
     }
 
     private static double getOrientationOrHeading(boolean isRed, double orientationOrHeading)
