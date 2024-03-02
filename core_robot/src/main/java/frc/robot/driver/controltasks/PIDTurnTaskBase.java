@@ -52,7 +52,6 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
             this.timer = this.getInjector().getInstance(ITimer.class);
         }
 
-        this.setDigitalOperationState(DigitalOperation.VisionDisableStream, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, true);
@@ -80,7 +79,6 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
     {
         this.setAnalogOperationState(AnalogOperation.DriveTrainSpinRight, 0.0);
 
-        this.setDigitalOperationState(DigitalOperation.VisionDisableStream, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, false);

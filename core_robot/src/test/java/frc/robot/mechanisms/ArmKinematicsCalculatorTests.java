@@ -42,7 +42,26 @@ public class ArmKinematicsCalculatorTests
     public void testThings()
     {
         ArmGraphNode closestNode = ArmKinematicsCalculator.getClosestArmNode(-8.92, 90.06);
-        Assertions.assertEquals(closestNode.shoulderAngle, TuningConstants.ARM_SHOULDER_POSITION_TUCKED_TRANSIT);
-        Assertions.assertEquals(closestNode.wristAngle, TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
+        Assertions.assertEquals(closestNode.getShoulderAngle(), TuningConstants.ARM_SHOULDER_POSITION_TUCKED_TRANSIT);
+        Assertions.assertEquals(closestNode.getWristAngle(), TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
+    }
+
+    @Test
+    public void testUniversals()
+    {
+        // ensure that we find the universals when we are looking for the closest node that is not at/very near to another node
+        ArmGraphNode closestNode = ArmKinematicsCalculator.getClosestArmNode(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL + 1.7, -45.0);
+        Assertions.assertTrue(closestNode.isUniversal());
+        Assertions.assertEquals(closestNode.getShoulderAngle(), TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL);
+
+        closestNode = ArmKinematicsCalculator.getClosestArmNode(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL - 1.7, 90.06);
+        Assertions.assertTrue(closestNode.isUniversal());
+        Assertions.assertEquals(closestNode.getShoulderAngle(), TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);
+
+        // ensure that we find the closest node around a universal when we are starting at a node
+        closestNode = ArmKinematicsCalculator.getClosestArmNode(TuningConstants.ARM_SHOULDER_POSITION_INTAKE_FLIPPED - TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD / 2.0, TuningConstants.ARM_WRIST_POSITION_INTAKE_FLIPPED + TuningConstants.ARM_WRIST_GOAL_THRESHOLD / 2.0);
+        Assertions.assertFalse(closestNode.isUniversal());
+        Assertions.assertEquals(closestNode.getShoulderAngle(), TuningConstants.ARM_SHOULDER_POSITION_INTAKE_FLIPPED);
+        Assertions.assertEquals(closestNode.getWristAngle(), TuningConstants.ARM_WRIST_POSITION_INTAKE_FLIPPED);
     }
 }

@@ -48,8 +48,8 @@ public class ArmGraphTask extends ControlTaskBase
         if (ArmGraphTask.DEBUG_PRINTS)
         {
             System.out.println(String.format("Current position (%.2f, %.2f)", armShoulderPosition, armWristPosition));
-            System.out.println(String.format("Starting Node (%.2f, %.2f)", startArmGraphNode.shoulderAngle, startArmGraphNode.wristAngle));
-            System.out.println(String.format("Goal Node (%.2f, %.2f)", goalArmGraphNode.shoulderAngle, goalArmGraphNode.wristAngle));
+            System.out.println(String.format("Starting Node %s", startArmGraphNode));
+            System.out.println(String.format("Goal Node %s", goalArmGraphNode));
         }
 
         this.path = ArmKinematicsCalculator.getOptimalPath(startArmGraphNode, goalArmGraphNode);
@@ -65,11 +65,18 @@ public class ArmGraphTask extends ControlTaskBase
 
             if (ArmGraphTask.DEBUG_PRINTS)
             {
-                System.out.println(String.format("Navigating to node (%.2f, %.2f)", currNode.shoulderAngle, currNode.wristAngle));
+                System.out.println(String.format("Navigating to node %s", currNode));
             }
 
-            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.shoulderAngle);
-            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.wristAngle);
+            this.setAnalogOperationState(AnalogOperation.ArmShoulderPositionSetpoint, currNode.getShoulderAngle());
+            if (currNode.isUniversal())
+            {
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
+            }
+            else
+            {
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, currNode.getWristAngle());
+            }
         }
         else
         {
@@ -89,7 +96,7 @@ public class ArmGraphTask extends ControlTaskBase
     public void update()
     {
         double shoulderAngle;
-        double wristAngle;
+        Double wristAngle;
         if (this.state == ArmGraphState.MovingToNode)
         {
             ArmGraphNode currNode = this.path.get(this.currPos);
@@ -98,8 +105,8 @@ public class ArmGraphTask extends ControlTaskBase
 
             double armShoulderPosition = this.arm.getShoulderPosition();
             double armWristPosition = this.arm.getWristPosition();
-            if (Helpers.RoughEquals(currNode.shoulderAngle, armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                Helpers.RoughEquals(currNode.wristAngle, armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))
+            if (Helpers.RoughEquals(currNode.getShoulderAngle(), armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                (currNode.isUniversal() || Helpers.RoughEquals(currNode.getWristAngle(), armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD)))
             {
                 if (ArmGraphTask.DEBUG_PRINTS)
                 {
@@ -114,11 +121,18 @@ public class ArmGraphTask extends ControlTaskBase
 
                     if (ArmGraphTask.DEBUG_PRINTS)
                     {
-                        System.out.println(String.format("Navigating to node (%.2f, %.2f)", currNode.shoulderAngle, currNode.wristAngle));
+                        System.out.println(String.format("Navigating to node %s", currNode));
                     }
 
-                    shoulderAngle = currNode.shoulderAngle;
-                    wristAngle = currNode.wristAngle;
+                    shoulderAngle = currNode.getShoulderAngle();
+                    if (currNode.isUniversal())
+                    {
+                        wristAngle = TuningConstants.MAGIC_NULL_VALUE;
+                    }
+                    else
+                    {
+                        wristAngle = currNode.getWristAngle();
+                    }
                 }
                 else
                 {
@@ -134,8 +148,15 @@ public class ArmGraphTask extends ControlTaskBase
             }
             else
             {
-                shoulderAngle = currNode.shoulderAngle;
-                wristAngle = currNode.wristAngle;
+                shoulderAngle = currNode.getShoulderAngle();
+                if (currNode.isUniversal())
+                {
+                    wristAngle = TuningConstants.MAGIC_NULL_VALUE;
+                }
+                else
+                {
+                    wristAngle = currNode.getWristAngle();
+                }
             }
         }
         else // if (this.state == ArmGraphState.MovingToGoal || this.state == ArmGraphState.Completed)

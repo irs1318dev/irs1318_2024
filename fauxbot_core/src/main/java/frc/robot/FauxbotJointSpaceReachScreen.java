@@ -251,13 +251,17 @@ public class FauxbotJointSpaceReachScreen implements Screen
             int targetHalfHeight = (int)(targetTexture.getHeight() / 2.0);
             for (ArmKinematicsCalculator.ArmGraphNode node : allNodes)
             {
-                this.addActor(
-                    new Target(
-                        node.name,
-                        new Point2d(
-                            xOffset + 2.0 * node.shoulderAngle - targetHalfWidth,
-                            yOffset + 1.0 * node.wristAngle - targetHalfHeight),
-                        targetTexture));
+                // TODO: fix universal nodes!
+                if (!node.isUniversal())
+                {
+                    this.addActor(
+                        new Target(
+                            node.getName(),
+                            new Point2d(
+                                xOffset + 2.0 * node.getShoulderAngle() - targetHalfWidth,
+                                yOffset + 1.0 * node.getWristAngle() - targetHalfHeight),
+                            targetTexture));
+                }
             }
 
             this.setSize(

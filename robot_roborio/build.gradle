@@ -1,7 +1,7 @@
 plugins
 {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2024.2.1"
+    id "edu.wpi.first.GradleRIO" version "2024.3.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -82,7 +82,7 @@ dependencies {
     implementation "com.google.guava:guava:21.0"
     implementation "com.google.inject:guice:4.1.0:no_aop"
 
-    testImplementation "org.mockito:mockito-all:1.10.19"
+    testImplementation "org.mockito:mockito-core:5.10.0"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
