@@ -78,7 +78,7 @@ public class HardwareConstants
     public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -11.25;
     public static final double ARM_TO_CENTER_ROBOT_Z_OFFSET = 20.75;
 
-    public static final double MIN_USABLE_HEIGHT = 5.5; // bars running across robot height
+    public static final double MIN_USABLE_HEIGHT = 5.0; // bars running across robot height
 
     //=============================================== Vision ==================================================================//
 

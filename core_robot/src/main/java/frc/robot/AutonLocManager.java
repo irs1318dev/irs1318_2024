@@ -65,7 +65,7 @@ public class AutonLocManager
     public void updateAlliance()
     {
         Optional<Alliance> alliance = driverStation.getAlliance();
-        this.isRed = alliance.isPresent() || alliance.get() == Alliance.Red;
+        this.isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
         this.setValues();
     }
 

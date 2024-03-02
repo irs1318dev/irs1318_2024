@@ -473,7 +473,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 this.driveMotors[i].setPosition(0);
                 double angleDifference = 360.0 * (this.encoderAngles[i] - this.drivetrainSteerMotorAbsoluteOffsets[i]);
                 double tickDifference = angleDifference * HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
-                this.steerMotors[i].setPosition((int)tickDifference);
+                this.steerMotors[i].setPosition(tickDifference);
 
                 this.drivePositions[i] = 0;
                 this.steerPositions[i] = (int)tickDifference;
