@@ -588,6 +588,8 @@ public class TuningConstants
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
+    public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 5.0;
+
     // SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP;
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KI;

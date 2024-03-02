@@ -10,7 +10,9 @@ public class SmartDashboardSelectionManager
 {
     private final ISendableChooser<StartPosition> positionChooser;
     private final ISendableChooser<AutoRoutine> routineChooser;
-    private ISendableChooser<PriorityPickupSide> pickupChooser;
+    private final ISendableChooser<PriorityPickupSide> pickupChooser;
+    private final ISendableChooser<Object> wristSlopChooser;
+    private final IDoubleSubscriber wristSlopSlider;
 
     public enum StartPosition
     {
@@ -44,6 +46,11 @@ public class SmartDashboardSelectionManager
         Center
     }
 
+    public enum YesOrNo
+    {
+        No,
+        Yes
+    }
 
     /**
      * Initializes a new SmartDashboardSelectionManager
@@ -81,12 +88,18 @@ public class SmartDashboardSelectionManager
         this.pickupChooser.addDefault("None", PriorityPickupSide.None);
         this.pickupChooser.addObject("Near Subwoofer", PriorityPickupSide.Close);
         this.pickupChooser.addObject("Middle", PriorityPickupSide.Center);
-        networkTableProvider.addChooser("Pickup Chooser", this.pickupChooser);        
+        networkTableProvider.addChooser("Pickup Chooser", this.pickupChooser);
+
+        this.wristSlopChooser = networkTableProvider.getSendableChooser();
+        this.wristSlopChooser.addDefault("No", YesOrNo.No);
+        this.wristSlopChooser.addObject("Yes", YesOrNo.Yes);
+        networkTableProvider.addChooser("Use WristSlop?", this.wristSlopChooser);
+
+        this.wristSlopSlider = networkTableProvider.getNumberSlider("WristSlopAdj", 0.0);
     }
 
     public StartPosition getSelectedStartPosition()
     {
-
         return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.WooferFront);
     }
 
@@ -98,6 +111,16 @@ public class SmartDashboardSelectionManager
     public PriorityPickupSide getPickupSide()
     {
         return SmartDashboardSelectionManager.GetSelectedOrDefault(this.pickupChooser, PriorityPickupSide.Close);
+    }
+
+    public boolean getUseWristSlop()
+    {
+        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.wristSlopChooser, YesOrNo.No) == YesOrNo.Yes;
+    }
+
+    public double getWristSlopAdjustment()
+    {
+        return this.wristSlopSlider.get(0.0);
     }
 
     private static <T> T GetSelectedOrDefault(ISendableChooser<T> chooser, T defaultValue)
