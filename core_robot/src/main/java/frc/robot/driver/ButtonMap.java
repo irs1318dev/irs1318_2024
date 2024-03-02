@@ -93,7 +93,7 @@ public class ButtonMap implements IButtonMap
             0.2),
 
         new AnalogOperationDescription(
-            AnalogOperation.GetNoteOut,
+            AnalogOperation.EndEffectorGetNoteOut,
             UserInputDevice.Codriver,
             AnalogAxis.XBONE_LT,
             ElectronicsConstants.INVERT_XBONE_LEFT_TRIGGER,
@@ -110,10 +110,10 @@ public class ButtonMap implements IButtonMap
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderPower,
-            UserInputDevice.Test2,
+            UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
-            EnumSet.of(Shift.Test2Debug),
-            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
             TuningConstants.ARM_SHOULDER_DEAD_ZONE,
@@ -122,9 +122,9 @@ public class ButtonMap implements IButtonMap
 
         new AnalogOperationDescription(
             AnalogOperation.ArmShoulderAdjustment,
-            UserInputDevice.Test2,
+            UserInputDevice.Codriver,
             AnalogAxis.XBONE_LSY,
-            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             -TuningConstants.ARM_SHOULDER_DEAD_ZONE,
@@ -134,10 +134,10 @@ public class ButtonMap implements IButtonMap
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristPower,
-            UserInputDevice.Test2,
+            UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
-            EnumSet.of(Shift.Test2Debug),
-            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
             TuningConstants.ARM_WRIST_DEAD_ZONE,
@@ -146,9 +146,9 @@ public class ButtonMap implements IButtonMap
         
         new AnalogOperationDescription(
             AnalogOperation.ArmWristAdjustment,
-            UserInputDevice.Test2,
+            UserInputDevice.Codriver,
             AnalogAxis.XBONE_RSY,
-            EnumSet.of(Shift.Test2Debug),
+            EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             -TuningConstants.ARM_WRIST_DEAD_ZONE,
@@ -179,13 +179,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
             ButtonType.Click),
-        new DigitalOperationDescription(
-            DigitalOperation.DriveTrainReset,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
-            EnumSet.of(Shift.DriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Click),
+        // new DigitalOperationDescription(
+            // DigitalOperation.DriveTrainReset,
+            // UserInputDevice.Driver,
+            // UserInputDeviceButton.XBONE_Y_BUTTON,
+            // EnumSet.of(Shift.DriverDebug),
+            // EnumSet.noneOf(Shift.class),
+            // ButtonType.Click),
         // new DigitalOperationDescription(
             // DigitalOperation.DriveTrainEnableFieldOrientation,
             // UserInputDevice.Driver,
@@ -272,8 +272,8 @@ public class ButtonMap implements IButtonMap
 
         new DigitalOperationDescription(
             DigitalOperation.ClimberWinchDown,
-            UserInputDevice.Test2,
-            UserInputDeviceButton.XBONE_X_BUTTON,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Simple),
 
         new DigitalOperationDescription(
@@ -333,28 +333,42 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindSpeakerAprilTagFront,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
-            ButtonType.Toggle),
+            ButtonType.Simple),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindStageAprilTagsRear,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindStageAprilTagsFront,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.of(Shift.Test1Debug),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
-            ButtonType.Toggle),
+            ButtonType.Simple),
         new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagFront,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
-            ButtonType.Toggle),
+            ButtonType.Simple),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -505,7 +519,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(
-                new FollowPathTask("goLeft32inForward18in", Type.RobotRelativeFromCurrentPose)
+                new FollowPathTask("goForwards55in", Type.RobotRelativeFromCurrentPose)
             ),
             new IOperation[]
             {
@@ -905,6 +919,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFlywheelMotorPower,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
             
         new MacroOperationDescription(
@@ -914,15 +929,14 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(3500.0),
+            () -> new ShooterSpinTask(3500.0), // 3500.0
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFlywheelMotorPower,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
-
-           
 
         new MacroOperationDescription(
             MacroOperation.ShootNote,
@@ -977,6 +991,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorFlywheelMotorPower,
                 AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
 
         // new MacroOperationDescription(

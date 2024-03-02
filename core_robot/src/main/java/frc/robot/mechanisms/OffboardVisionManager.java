@@ -177,7 +177,7 @@ public class OffboardVisionManager implements IMechanism
                     if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
+                        (this.prevTargets == null || this.prevTargets.contains(atfId)))
                     {
                         this.atXOffset = atfXOffset;
                         this.atYOffset = atfYOffset;
@@ -277,7 +277,7 @@ public class OffboardVisionManager implements IMechanism
         this.prevTargets = null;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
         this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, 0);
-        this.logger.logInteger(LoggingKey.OffboardVisionDesiredTarget, 0);
+        this.logger.logString(LoggingKey.OffboardVisionDesiredTarget, null);
     }
 
     public Double getAprilTagXOffset()

@@ -302,6 +302,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmWristVelocityAverage, this.wristVelocityAverage);
         this.logger.logNumber(LoggingKey.ArmWristError, this.wristError);
         this.logger.logNumber(LoggingKey.ArmWristPowerAverage, this.wristPowerAverage);
+        this.logger.logBoolean(LoggingKey.ArmWristLimitSwitch, this.wristLimitSwitchHit);
     }
 
     @Override
@@ -547,6 +548,15 @@ public class ArmMechanism implements IMechanism
                     this.desiredWristPosition = clampedDesiredWristPosition;
                 }
             }
+        }
+
+        if (TuningConstants.ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT &&
+            this.wristLimitSwitchHit &&
+            Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) &&
+            !Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, 1.5))
+        {
+            this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
+            this.wristMotor.burnFlash();
         }
 
         // TMP
