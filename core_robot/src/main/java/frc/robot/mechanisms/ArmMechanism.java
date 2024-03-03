@@ -15,6 +15,7 @@ import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.SmartDashboardSelectionManager;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,6 +39,7 @@ public class ArmMechanism implements IMechanism
     private final ILogger logger;
     private final ITimer timer;
     private final PowerManager powerManager;
+    private final SmartDashboardSelectionManager selectionManager;
 
     private double prevTime;
 
@@ -104,12 +106,19 @@ public class ArmMechanism implements IMechanism
     private JumpProtectionReason updateCurrShoulderPosition;
 
     @Inject
-    public ArmMechanism(IRobotProvider provider, IDriver driver, LoggingManager logger, ITimer timer, PowerManager powerManager)
+    public ArmMechanism(
+        IRobotProvider provider,
+        IDriver driver,
+        LoggingManager logger,
+        ITimer timer,
+        PowerManager powerManager,
+        SmartDashboardSelectionManager selectionManager)
     {
         this.driver = driver;
         this.logger = logger;
         this.timer = timer;
         this.powerManager = powerManager;
+        this.selectionManager = selectionManager;
 
         this.inSimpleMode = TuningConstants.ARM_USE_SIMPLE_MODE;
         this.updateCurrShoulderPosition = JumpProtectionReason.Startup;
@@ -306,11 +315,17 @@ public class ArmMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
         ExceptionHelpers.Assert(elapsedTime < 0.5, "ElapsedTime too long! %.4f", elapsedTime);
+
+        double wristSlopAdjustment = 0.0;
+        if (this.selectionManager.getUseWristSlop())
+        {
+            wristSlopAdjustment = this.selectionManager.getWristSlopAdjustment() * TuningConstants.ARM_SLOP_ADJUSTMENT_MULTIPLIER;
+        }
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
         {
@@ -561,7 +576,7 @@ public class ArmMechanism implements IMechanism
 
         // TMP
         this.currentDesiredShoulderPosition = this.desiredShoulderPosition;
-        this.currentDesiredWristPosition = this.desiredWristPosition;
+        this.currentDesiredWristPosition = this.desiredWristPosition + wristSlopAdjustment;
         if (TuningConstants.ARM_USE_MM)
         {
             // shoulder Trapezoidal Motion Profile follower
@@ -616,7 +631,7 @@ public class ArmMechanism implements IMechanism
                 this.currentDesiredShoulderPosition,
                 this.currentDesiredWristPosition,
                 this.kinematicsLimitedAngles);
-        if (TuningConstants.ARM_USE_IK_CONSTRAINTS)
+        if (TuningConstants.ARM_USE_IK_CONSTRAINTS && mode != RobotMode.Test)
         {
             double ikFixedShoulderPosition = this.kinematicsLimitedAngles.getFirst();
             double ikFixedWristPosition = this.kinematicsLimitedAngles.getSecond();

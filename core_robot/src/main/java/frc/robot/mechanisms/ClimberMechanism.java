@@ -53,7 +53,7 @@ public class ClimberMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         // press and hold button for climber to go down / up
         double climberPowerAdjustment = TuningConstants.ZERO;

@@ -115,7 +115,7 @@ public class PigeonManager implements IPositionManager
      * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant mechanism
      */
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double newYaw = this.driver.getAnalog(AnalogOperation.PositionStartingAngle);
         if (newYaw != 0.0)

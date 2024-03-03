@@ -42,7 +42,7 @@ public class DriverFeedbackManager implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         RobotMode currentMode = this.ds.getMode();
         boolean isCurrentLimiting = this.powerMan.getCurrentLimitingValue() != CurrentLimiting.Normal;

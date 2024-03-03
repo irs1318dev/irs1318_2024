@@ -43,6 +43,7 @@ public class CoreRobot<T extends AbstractModule>
     private ITimer timer;
     private boolean timerStarted;
 
+    private RobotMode currentMode;
     private int loggerUpdates;
 
     public CoreRobot(T module)
@@ -83,6 +84,8 @@ public class CoreRobot<T extends AbstractModule>
      */
     public void disabledInit()
     {
+        this.currentMode = RobotMode.Disabled;
+
         this.timer.stop();
         this.timer.reset();
         this.timerStarted = false;
@@ -204,6 +207,7 @@ public class CoreRobot<T extends AbstractModule>
     {
         try
         {
+            this.currentMode = robotMode;
             this.driver.startMode(robotMode);
 
             Injector injector = this.getInjector();
@@ -245,7 +249,7 @@ public class CoreRobot<T extends AbstractModule>
             this.driver.update();
 
             // run each mechanism
-            this.mechanisms.update();
+            this.mechanisms.update(this.currentMode);
 
             this.logger.logNumber(LoggingKey.RobotTime, this.timer.get());
             this.logger.update();

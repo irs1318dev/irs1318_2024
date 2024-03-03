@@ -8,7 +8,7 @@ public class ShooterSpinTask extends TimedTask
 
     public ShooterSpinTask(double flywheelSpeed)
     {
-        this(flywheelSpeed, 0.5);
+        this(flywheelSpeed, 60.0);
     }
 
     public ShooterSpinTask(double flywheelSpeed, double duration)

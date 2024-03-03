@@ -417,7 +417,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         if (this.driver.getDigital(DigitalOperation.DriveTrainEnableFieldOrientation))
         {
@@ -444,8 +444,14 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.maintainOrientation = false;
         }
 
+        boolean maintainOrientation = this.maintainOrientation;
+        if (mode == RobotMode.Test)
+        {
+            maintainOrientation = false;
+        }
+
         this.logger.logBoolean(LoggingKey.DriveTrainFieldOriented, useFieldOriented);
-        this.logger.logBoolean(LoggingKey.DriveTrainMaintainOrientation, this.maintainOrientation);
+        this.logger.logBoolean(LoggingKey.DriveTrainMaintainOrientation, maintainOrientation);
 
         if (this.driver.getDigital(DigitalOperation.PositionResetFieldOrientation))
         {
@@ -473,7 +479,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 this.driveMotors[i].setPosition(0);
                 double angleDifference = 360.0 * (this.encoderAngles[i] - this.drivetrainSteerMotorAbsoluteOffsets[i]);
                 double tickDifference = angleDifference * HardwareConstants.SDSDRIVETRAIN_STEER_TICKS_PER_DEGREE;
-                this.steerMotors[i].setPosition((int)tickDifference);
+                this.steerMotors[i].setPosition(tickDifference);
 
                 this.drivePositions[i] = 0;
                 this.steerPositions[i] = (int)tickDifference;
@@ -483,7 +489,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.firstRun = false;
         }
 
-        this.calculateSetpoints(useFieldOriented);
+        this.calculateSetpoints(useFieldOriented, maintainOrientation);
         for (int i = 0; i < SDSDriveTrainMechanism.NUM_MODULES; i++)
         {
             Setpoint current = this.result[i];
@@ -591,7 +597,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
         return new Pose2d(this.xPosition, this.yPosition, this.robotYaw);
     }
 
-    private void calculateSetpoints(boolean useFieldOriented)
+    private void calculateSetpoints(boolean useFieldOriented, boolean maintainOrientation)
     {
         boolean maintainPositionMode = this.driver.getDigital(DigitalOperation.DriveTrainMaintainPositionMode);
         if (maintainPositionMode || this.driver.getDigital(DigitalOperation.DriveTrainSteerMode))
@@ -764,7 +770,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                     this.desiredYaw = anglePair.getAngle();
                 }
 
-                if (this.maintainOrientation || updatedOrientation)
+                if (maintainOrientation || updatedOrientation)
                 {
                     boolean skipTurn = false;
                     if (!updatedOrientation)

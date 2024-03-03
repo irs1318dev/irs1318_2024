@@ -22,6 +22,8 @@ public class ArmZeroTask extends ControlTaskBase
         Completed;
     }
 
+    private final boolean wristOnly;
+
     private ArmMechanism arm;
     private ITimer timer;
 
@@ -30,6 +32,12 @@ public class ArmZeroTask extends ControlTaskBase
 
     public ArmZeroTask()
     {
+        this(false);
+    }
+
+    public ArmZeroTask(boolean wristOnly)
+    {
+        this.wristOnly = wristOnly;
     }
 
     /**
@@ -44,6 +52,11 @@ public class ArmZeroTask extends ControlTaskBase
         if (this.arm.getInSimpleMode())
         {
             this.state = ArmZeroState.Completed;
+        }
+        else if (this.wristOnly)
+        {
+            this.state = ArmZeroState.RetractWrist;
+            this.transitionTime = timer.get();
         }
         else
         {
@@ -90,7 +103,15 @@ public class ArmZeroTask extends ControlTaskBase
                 // System.out.println("Transition Time: " + this.transitionTime + " Current Time: " + currTime);
                 // System.out.println("Moving Shoulder");
 
-                this.state = ArmZeroState.PositionRetractShoulder;
+                if (this.wristOnly)
+                {
+                    this.state = ArmZeroState.Reset;
+                }
+                else
+                {
+                    this.state = ArmZeroState.PositionRetractShoulder;
+                }
+
                 this.transitionTime = currTime;
             }
         }

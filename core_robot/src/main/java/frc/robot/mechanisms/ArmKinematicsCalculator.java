@@ -32,6 +32,7 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode upperIntakeFlipped;
     private static ArmGraphNode trapIntermediate;
     private static ArmGraphNode upperObtuseWrist;
+    private static ArmGraphNode ampScoreOuttakeUp;
 
     static
     {
@@ -90,9 +91,9 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_WRIST_POSITION_TUCKED_TRANSIT);
 
         ArmKinematicsCalculator.tuckedGroundTransit = ArmKinematicsCalculator.graph.createNode(
-                "tuckedGroundTransit", 
-                TuningConstants.ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT, 
-                TuningConstants.ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT);
+            "tuckedGroundTransit", 
+            TuningConstants.ARM_SHOULDER_POSITION_TUCKED_GROUND_TRANSIT, 
+            TuningConstants.ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT);
 
         ArmKinematicsCalculator.tuckedUnderTransit = ArmKinematicsCalculator.graph.createNode(
             "tuckedUnderTransit",
@@ -108,6 +109,11 @@ public class ArmKinematicsCalculator
             "ampScore",
             TuningConstants.ARM_SHOULDER_POSITION_AMP_SCORE,
             TuningConstants.ARM_WRIST_POSITION_AMP_SCORE);
+
+        ArmKinematicsCalculator.ampScoreOuttakeUp = ArmKinematicsCalculator.graph.createNode(
+            "ampScoreOuttakeUp",
+            TuningConstants.ARM_SHOULDER_POSITION_AMP_OUTTAKE,
+            TuningConstants.ARM_WRIST_POSITION_AMP_OUTTAKE);
 
         ArmKinematicsCalculator.trapIntermediate = ArmKinematicsCalculator.graph.createNode(
             "trapIntermediate",
@@ -156,6 +162,11 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperObtuseWrist,
             ArmKinematicsCalculator.upperIntakeFlipped,
             TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ampScoreOuttakeUp,
+            startingConfiguration,
+            1.0);
 
         // upper-universal transit to upper-univeral nodes
         ArmKinematicsCalculator.graph.connectBidirectional(
@@ -411,7 +422,7 @@ public class ArmKinematicsCalculator
 
         // hiting robot
         if ((this.intakeTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
-            (this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
+            (this.intakeBottomAbsPosZ > 0.0 && this.intakeBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.intakeBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
             (this.shooterTopAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterTopAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0) ||
             (this.shooterBottomAbsPosZ < HardwareConstants.MIN_USABLE_HEIGHT && Math.abs(this.shooterBottomAbsPosX) < HardwareConstants.ROBOT_FRAME_DIMENSION / 2.0))
         {
@@ -438,7 +449,7 @@ public class ArmKinematicsCalculator
         }
 
         // hitting ground
-        if ((this.intakeTopAbsPosZ < -2.0) || (this.intakeBottomAbsPosZ < -2.0))
+        if ((this.intakeTopAbsPosZ < -5.0) || (this.intakeBottomAbsPosZ < -5.0))
         {
             // special-case for the lower universal (shoulder at base), which we know is legal through the range of motion of the wrist from
             // its starting configuration to the ground pickup location
