@@ -180,10 +180,10 @@ public class TuningConstants
     public static final boolean SDSDRIVETRAIN_FIELD_ORIENTED_ON_ROBOT_START = true;
     public static final boolean SDSDRIVETRAIN_MAINTAIN_ORIENTATION_ON_ROBOT_START = true;
 
-    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.198486 : 0.17212; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.186768 : 0.15698; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.067383 : -0.28979; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.336670 : -0.35327; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3046875 : 0.17212; // -0.198486 + 0.5; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3129882 : 0.15698;//-0.186768 + 0.5; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.4375 : -0.28979;//0.46337890625; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.1572265 : -0.35327;//0.336670 + 0.5; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
     public static final double SDSDRIVETRAIN_TRANSLATIONAL_VELOCITY_MAX_NEGATIVE_RATE = -4.0 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY;
@@ -371,7 +371,7 @@ public class TuningConstants
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
-    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.6;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
@@ -458,6 +458,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
+
     public static final double ARM_SHOULDER_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MIN_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MAX_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MAX_POSITION; // in degrees
     public static final double ARM_WRIST_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_COMP_MIN_POSITION : TuningConstants.ARM_WRIST_PRACTICE_MIN_POSITION; // in degrees
@@ -468,9 +469,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -34.3; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.0; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 210.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -488,10 +489,14 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
+    public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
     public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
+
+    //Postion for going slightly out before a arm reset task, to gain momentum past limit switches
+    public static final double ARM_WRIST_POSITION_MINOR_TILT = 10 + ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     // Position for a node where the wrist is being tucked under the shoulder in a dangerous way
     // we will probably never attempt to go to this node, but if the wrist/shoulder stalls at an
@@ -537,8 +542,8 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_QUICK_TUCK = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_QUICK_TUCK = -66.80892944335938;
 
-    public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -17.325244;
-    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -75.380218;
+    public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
+    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -70.380218;
     
 
     public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
@@ -739,7 +744,8 @@ public class TuningConstants
 
     // Arm/shoulder zeroing
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
-    public static final double ARM_WRIST_ZEROING_VELOCITY_THRESHOLD = 0.1; // degrees per second
+    public static final double ARM_WRIST_ZEROING_VELOCITY_POS_THRESHOLD = 0.5; // degrees per second
+    public static final double ARM_WRIST_ZEROING_VELOCITY_POW_THRESHOLD = 5.0; // degrees per second
     public static final double ARM_WRIST_ZEROING_POSITION_THRESHOLD = 12.0;
     public static final double ARM_SHOULDER_ZEROING_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_ZEROING_POWER = -0.2;
@@ -797,7 +803,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.6;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;

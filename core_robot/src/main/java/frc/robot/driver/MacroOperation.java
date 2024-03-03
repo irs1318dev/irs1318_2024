@@ -30,6 +30,7 @@ public enum MacroOperation implements IOperation
     // EndEffector operations:
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
+    ShootAuto,
 
     // Shooter Operations
     ShootNote,

@@ -159,6 +159,7 @@ public class AutonomousRoutineSelector
     private static IControlTask Shoot()
     {
         return SequentialTask.Sequence(
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
             new ArmZeroTask(),
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             ConcurrentTask.AnyTasks(
@@ -175,6 +176,7 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             new FollowPathTask("goForwards45in", Type.RobotRelativeFromCurrentPose),
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
             new ArmZeroTask()
         );
     }
@@ -186,6 +188,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -206,8 +209,15 @@ public class AutonomousRoutineSelector
         else if(position == StartPosition.WooferSide)
         {
             return ConcurrentTask.AllTasks(
+                
+                
                 new ShooterSpinTask(4050, 15.0),
+
                 SequentialTask.Sequence(
+
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    
+
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -239,6 +249,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -275,6 +286,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -333,6 +345,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -371,6 +384,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -426,6 +440,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -488,6 +503,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -533,6 +549,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -590,6 +607,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
@@ -792,6 +810,7 @@ public class AutonomousRoutineSelector
         else 
         {
             return SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -815,6 +834,7 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(3500, 15.0),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -885,6 +905,7 @@ public class AutonomousRoutineSelector
                     new ShooterSpinTask(3500, 15.0)
                 ),
                 SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -936,6 +957,7 @@ public class AutonomousRoutineSelector
         if(numberNotes == 1)
         {
             return SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -964,6 +986,7 @@ public class AutonomousRoutineSelector
             ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15),
             SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -1030,6 +1053,7 @@ public class AutonomousRoutineSelector
             ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15),
             SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -1113,6 +1137,7 @@ public class AutonomousRoutineSelector
         if(numberNotes == 1)
         {
             return SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -1132,6 +1157,7 @@ public class AutonomousRoutineSelector
         else if(numberNotes == 2)
         {
             return SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
@@ -1155,6 +1181,7 @@ public class AutonomousRoutineSelector
             ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15),
             SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
                     new ResetLevelTask(),
                     new PositionStartingTask(
