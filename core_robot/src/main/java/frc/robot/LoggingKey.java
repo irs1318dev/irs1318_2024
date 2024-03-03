@@ -155,7 +155,7 @@ public enum LoggingKey
     WristAbsZ("arm.wrist_abs_z"), // , 1),
     
     ExtensionType("arm.extension_type"), // , 1),
-    WristIKDesired("arm.wrist_ik_desired",1),
+    WristIKDesired("arm.wrist_ik_desired"), //, 1),
     ShoulderIKDesired("arm.sh_ik_desired"), // , 1),
     ShoulderLastLegal("arm.sh_lst_legal_pos"), // , 1),
     

@@ -159,7 +159,7 @@ public class AutonomousRoutineSelector
     private static IControlTask Shoot()
     {
         return SequentialTask.Sequence(
-            new ArmZeroTask(true),
+            new ArmZeroTask(),
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             ConcurrentTask.AnyTasks(
                 new ShooterSpinTask(4050, 10.0),
@@ -175,7 +175,7 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             new FollowPathTask("goForwards45in", Type.RobotRelativeFromCurrentPose),
-            new ArmZeroTask(true)
+            new ArmZeroTask()
         );
     }
 
@@ -193,7 +193,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                     new FeedRingTask(true, 3.0),
@@ -215,7 +215,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(225),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -246,7 +246,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(120),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -282,7 +282,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(120),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -340,7 +340,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -378,7 +378,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -433,7 +433,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -495,7 +495,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -540,7 +540,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -597,7 +597,7 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmZeroTask(true)
+                        new ArmZeroTask()
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -799,7 +799,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
 
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
@@ -822,7 +822,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)),
+                    new ArmZeroTask()),
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             new FollowPathTask(isRed ? "P1toP19Red" : "P1toP19Blue", Type.Absolute),
             new FeedRingTask(true, 0.5),
@@ -892,7 +892,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180.0),
                         true,
                         true),
-                    new ArmZeroTask(true)),
+                    new ArmZeroTask()),
 
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             new FeedRingTask(true, 0.5),
@@ -943,7 +943,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
 
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
@@ -972,7 +972,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
 
             ConcurrentTask.AllTasks(
@@ -1038,7 +1038,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
 
             ConcurrentTask.AllTasks(
@@ -1120,7 +1120,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
             isRed ? new PositionUpdateTask() : null
 
@@ -1139,7 +1139,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
             isRed ? new PositionUpdateTask() : null
 
@@ -1162,7 +1162,7 @@ public class AutonomousRoutineSelector
                         locManager.getOrientationOrHeading(180),
                         true,
                         true),
-                    new ArmZeroTask(true)
+                    new ArmZeroTask()
             ),
 
             ConcurrentTask.AllTasks(

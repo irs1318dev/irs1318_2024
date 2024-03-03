@@ -167,10 +167,6 @@ public class ArmKinematicsCalculator
             ampScoreOuttakeUp,
             startingConfiguration,
             1.0);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ampScoreOuttakeUp,
-            groundShot,
-            1.0);
 
         // upper-universal transit to upper-univeral nodes
         ArmKinematicsCalculator.graph.connectBidirectional(

@@ -315,7 +315,7 @@ public class ArmMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
@@ -631,7 +631,7 @@ public class ArmMechanism implements IMechanism
                 this.currentDesiredShoulderPosition,
                 this.currentDesiredWristPosition,
                 this.kinematicsLimitedAngles);
-        if (TuningConstants.ARM_USE_IK_CONSTRAINTS)
+        if (TuningConstants.ARM_USE_IK_CONSTRAINTS && mode != RobotMode.Test)
         {
             double ikFixedShoulderPosition = this.kinematicsLimitedAngles.getFirst();
             double ikFixedWristPosition = this.kinematicsLimitedAngles.getSecond();

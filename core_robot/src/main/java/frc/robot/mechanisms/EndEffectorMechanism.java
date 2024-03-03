@@ -154,7 +154,7 @@ public class EndEffectorMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double currTime = this.timer.get();
 

@@ -96,7 +96,7 @@ public class PowerManager implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
     }
 

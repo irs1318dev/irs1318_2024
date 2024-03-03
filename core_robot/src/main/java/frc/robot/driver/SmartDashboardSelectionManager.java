@@ -93,7 +93,7 @@ public class SmartDashboardSelectionManager
         this.wristSlopChooser = networkTableProvider.getSendableChooser();
         this.wristSlopChooser.addDefault("No", YesOrNo.No);
         this.wristSlopChooser.addObject("Yes", YesOrNo.Yes);
-        networkTableProvider.addChooser("Use WristSlop?", this.wristSlopChooser);
+        networkTableProvider.addChooser("Use WristSlop", this.wristSlopChooser);
 
         this.wristSlopSlider = networkTableProvider.getNumberSlider("WristSlopAdj", 0.0);
     }

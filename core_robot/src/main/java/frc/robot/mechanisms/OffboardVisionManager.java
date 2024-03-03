@@ -206,7 +206,7 @@ public class OffboardVisionManager implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
         boolean enableVideoStream = this.driver.getDigital(DigitalOperation.VisionEnableStream);
