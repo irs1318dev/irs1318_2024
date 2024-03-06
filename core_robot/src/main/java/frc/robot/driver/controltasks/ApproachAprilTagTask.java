@@ -1,5 +1,7 @@
 package frc.robot.driver.controltasks;
 
+import java.util.List;
+
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
@@ -8,25 +10,25 @@ import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.PathPlannerWaypoint;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.controltasks.FollowPathTask.Type;
 import frc.robot.mechanisms.OffboardVisionManager;
 
-//SequentialTask.Sequence(
-//    ArmGraphTask(GroundIntakePosition),
-//    ApproachTrapTask(),
-//    ArmGraphTask(ClimbPosition),
-//    FollowPathTask(XinchesForward), // Engage
-//    WinchTask(timeout),
-//    ArmGraphTask(TrapScorePosition),
-//    IntakeControlTask(out, 2s)
-//)
 public class ApproachAprilTagTask extends DecisionSequentialTask
 {
+    private static final List<DigitalOperation> PossibleFrontVisionOperations = List.of(
+        DigitalOperation.VisionFindAnyAprilTagFront,
+        DigitalOperation.VisionFindSpeakerAprilTagFront,
+        DigitalOperation.VisionFindAmpAprilTagFront,
+        DigitalOperation.VisionFindStageAprilTagsFront);
+
     private static final DigitalOperation[] PossibleVisionOperations =
     {
         DigitalOperation.VisionFindAnyAprilTagFront,
         DigitalOperation.VisionFindAnyAprilTagRear,
         DigitalOperation.VisionFindSpeakerAprilTagFront,
         DigitalOperation.VisionFindSpeakerAprilTagRear,
+        DigitalOperation.VisionFindAmpAprilTagFront,
+        DigitalOperation.VisionFindAmpAprilTagRear,
         DigitalOperation.VisionFindStageAprilTagsFront,
         DigitalOperation.VisionFindStageAprilTagsRear,
     };
@@ -116,6 +118,13 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
                 double yGoal = Helpers.cosd(tagYawOffset) * this.yOffset - Helpers.sind(tagYawOffset) * this.xOffset + tagYOffset;
                 double angleGoal = tagYawOffset;
 
+                boolean backwards = !ApproachAprilTagTask.PossibleFrontVisionOperations.contains(this.visionOperation);
+                if (backwards)
+                {
+                    xGoal *= -1.0;
+                    yGoal *= -1.0;
+                }
+
                 // generate the path
                 this.trajectoryManager.addTrajectory(
                     "climberApproachMovement", 
@@ -126,7 +135,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                         new PathPlannerWaypoint(0, 0, 0, 0),
                         new PathPlannerWaypoint(xGoal, yGoal, angleGoal, angleGoal)));
-                this.AppendTask(new FollowPathTask("climberApproachMovement"));
+                this.AppendTask(new FollowPathTask("climberApproachMovement", Type.RobotRelativeFromCurrentPose));
                 this.state = State.ApproachAprilTag;
             }
             else

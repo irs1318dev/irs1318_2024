@@ -15,7 +15,12 @@ public class VisionMoveAndTurnTask extends VisionMoveAndTurnTaskBase
      */
     public VisionMoveAndTurnTask(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle, double desiredDistance)
     {
-        super(rotateType, translateType, moveSpeed, bestEffort, verifyAngle);
+        this(rotateType, translateType, moveSpeed, bestEffort, verifyAngle, desiredDistance, false);
+    }
+
+    public VisionMoveAndTurnTask(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle, double desiredDistance, boolean backwards)
+    {
+        super(rotateType, translateType, moveSpeed, bestEffort, verifyAngle, backwards);
         this.desiredDistance = desiredDistance;
     }
 
