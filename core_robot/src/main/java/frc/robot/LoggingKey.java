@@ -163,6 +163,8 @@ public enum LoggingKey
     ArmShoulderPosAdjustment("arm.sh_pos_adj"), // , 1),
     ArmWristPosAdjustment("arm.wr_pos_adj"), // , 1),
 
+    ArmWristEncoderPosition("arm.wr.encoder_pos"),
+
     // Climber stuff
     ClimberMotorPower("cl.motor"),
     ClimberServoPosition("cl.servo"),

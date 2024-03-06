@@ -45,6 +45,7 @@ public class ArmMechanism implements IMechanism
 
     private final ISparkMax shoulderMotor;
     private final ISparkMax wristMotor;
+    private final IDutyCycleEncoder wristAbsoluteEncoder;
 
     private double desiredShoulderPosition;
     private double desiredWristPosition;
@@ -57,6 +58,8 @@ public class ArmMechanism implements IMechanism
 
     private double wristPosition;
     private double wristVelocity;
+
+    private double wristAbsoluteEncoderPosition;
 
     private double shoulderError;
     private double wristError;
@@ -141,6 +144,9 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_VELOCITY);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
         this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
+
+        this.wristAbsoluteEncoder = provider.getDutyCycleEncoder(TuningConstants.WRIST_ENCODER_ID);
+        this.wristAbsoluteEncoder = provider.setDistancePerRotation(HardwareConstants.WRIST_ENCODER_TICKS_ROTATION);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -278,6 +284,8 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
+        this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getPosition;
+
         // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
 
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
@@ -314,6 +322,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmWristError, this.wristError);
         this.logger.logNumber(LoggingKey.ArmWristPowerAverage, this.wristPowerAverage);
         this.logger.logBoolean(LoggingKey.ArmWristLimitSwitch, this.wristLimitSwitchHit);
+        this.logger.logNumber(LoggingKey.ArmWristEncoderPosition, this.wristAbsoluteEncoderPosition);
     }
 
     @Override
@@ -322,6 +331,18 @@ public class ArmMechanism implements IMechanism
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
         ExceptionHelpers.Assert(elapsedTime < 0.5, "ElapsedTime too long! %.4f", elapsedTime);
+
+        if(TuningConstants.USE_ABS_WRIST)
+        {
+            double wristEncoderDistance = wristAbsoluteEncoder.getDistance();
+            if (
+                helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_STALLED_VELOCITY_THRESHOLD) && 
+                helpers.RoughEquals(this.wristPosition, this.desiredWristPosition)) 
+            {
+                double encoderValue = this.wristAbsoluteEncoder.setDistancePerRotation(wristEncoderDistance);
+                wristMotor.setPosition(encoderValue);
+            }
+        }
 
         double wristSlopAdjustment = 0.0;
         if (this.selectionManager.getUseWristSlop())
