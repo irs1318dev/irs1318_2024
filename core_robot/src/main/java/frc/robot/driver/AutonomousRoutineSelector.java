@@ -1253,6 +1253,44 @@ public class AutonomousRoutineSelector
             ));
         }
     }
+
+    private static IControlTask SourceStartMidPriority(AutonLocManager locManager, boolean isRed, int numberNotes)
+    {
+        if(numberNotes == 1)
+        {
+            return ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4500, 15.0),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P1,
+                            locManager.getOrientationOrHeading(180),
+                            true,
+                            true),
+                        new ArmZeroTask()),
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                new FeedRingTask(true, 0.5),
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                new FollowPathTask(isRed ? "P1toP8MRed" : "P1toP8MBlue", Type.Absolute),
+                ConcurrentTask.AllTasks(
+                    new IntakeControlTask(true, 2.0),
+                    new FollowPathTask(isRed ? "P8MtoP8Red" : "P8MtoP8Blue", Type.Absolute)
+                ),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P8toP19Red" : "P8toP19Blue", Type.Absolute),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT)
+                ),
+                new FeedRingTask(true, 0.5),
+                isRed ? new PositionUpdateTask() : null
+                ));
+        }
+        else
+        {
+            return GetFillerRoutine();
+        }
+    }
 }
 
 
