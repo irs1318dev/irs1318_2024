@@ -97,4 +97,5 @@ public class HardwareConstants
     public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
 
     public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;
+    public static final double WRIST_ENCODER_TICKS_ROTATION = 1.0;
 }

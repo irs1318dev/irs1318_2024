@@ -9,6 +9,18 @@ import frc.robot.mechanisms.OffboardVisionManager;
  */
 public class VisionTurningTask extends PIDTurnTaskBase
 {
+    private static final DigitalOperation[] PossibleVisionOperations =
+    {
+        DigitalOperation.VisionFindAnyAprilTagFront,
+        DigitalOperation.VisionFindAnyAprilTagRear,
+        DigitalOperation.VisionFindSpeakerAprilTagFront,
+        DigitalOperation.VisionFindSpeakerAprilTagRear,
+        DigitalOperation.VisionFindAmpAprilTagFront,
+        DigitalOperation.VisionFindAmpAprilTagRear,
+        DigitalOperation.VisionFindStageAprilTagsFront,
+        DigitalOperation.VisionFindStageAprilTagsRear,
+    };
+
     public enum TurnType
     {
         None,
@@ -17,6 +29,7 @@ public class VisionTurningTask extends PIDTurnTaskBase
     }
 
     protected final TurnType rotateType;
+    protected final DigitalOperation visionOperation;
 
     protected OffboardVisionManager visionManager;
 
@@ -24,9 +37,9 @@ public class VisionTurningTask extends PIDTurnTaskBase
     * Initializes a new VisionTurningTask
      * @param rotateType what type of turning to do
     */
-    public VisionTurningTask(TurnType rotateType)
+    public VisionTurningTask(TurnType rotateType, DigitalOperation visionOperation)
     {
-        this(true, rotateType, false);
+        this(true, rotateType, false, visionOperation);
     }
 
     /**
@@ -34,9 +47,9 @@ public class VisionTurningTask extends PIDTurnTaskBase
      * @param rotateType what type of turning to do
      * @param bestEffort whether to end (true) or cancel (false, default) when we cannot see the game piece or vision target (for sequential tasks, whether to continue on or not)
     */
-    public VisionTurningTask(TurnType rotateType, boolean bestEffort)
+    public VisionTurningTask(TurnType rotateType, boolean bestEffort, DigitalOperation visionOperation)
     {
-        this(true, rotateType, bestEffort);
+        this(true, rotateType, bestEffort, visionOperation);
     }
 
     /**
@@ -45,10 +58,11 @@ public class VisionTurningTask extends PIDTurnTaskBase
      * @param rotateType what type of turning to do
      * @param bestEffort whether to end (true) or cancel (false, default) when we cannot see the game piece or vision target (for sequential tasks, whether to continue on or not)
      */
-    public VisionTurningTask(boolean useTime, TurnType rotateType, boolean bestEffort)
+    public VisionTurningTask(boolean useTime, TurnType rotateType, boolean bestEffort, DigitalOperation visionOperation)
     {
         super(useTime, bestEffort);
         this.rotateType = rotateType;
+        this.visionOperation = visionOperation;
     }
 
     /**
@@ -61,10 +75,10 @@ public class VisionTurningTask extends PIDTurnTaskBase
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
-        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, false);
-        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
-        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, true);
-        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
+        for (DigitalOperation op : VisionTurningTask.PossibleVisionOperations)
+        {
+            this.setDigitalOperationState(op, op == this.visionOperation);
+        }
     }
 
     /**
@@ -75,10 +89,10 @@ public class VisionTurningTask extends PIDTurnTaskBase
     {
         super.end();
 
-        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, false);
-        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
-        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
-        this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
+        for (DigitalOperation op : VisionTurningTask.PossibleVisionOperations)
+        {
+            this.setDigitalOperationState(op, false);
+        }
     }
 
     @Override

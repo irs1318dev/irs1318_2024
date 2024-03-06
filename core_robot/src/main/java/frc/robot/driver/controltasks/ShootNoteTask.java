@@ -55,7 +55,7 @@ public class ShootNoteTask extends DecisionSequentialTask
         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
-        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering));
+        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
     }
 
     @Override

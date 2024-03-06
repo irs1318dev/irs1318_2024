@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -108,9 +108,9 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_MOVING_RR_ANGLE_ERROR = 4.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double STATIONARY_PID_TURNING_PID_KP = 0.027;
+    public static final double STATIONARY_PID_TURNING_PID_KP = 0.01;
     public static final double STATIONARY_PID_TURNING_PID_KI = 0.0;
-    public static final double STATIONARY_PID_TURNING_PID_KD = 0.01;
+    public static final double STATIONARY_PID_TURNING_PID_KD = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KF = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KS = 1.0;
     public static final double STATIONARY_PID_TURNING_PID_MIN = -0.4;
@@ -817,4 +817,6 @@ public class TuningConstants
 
     public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
+    public static final boolean USE_ABS_WRIST = false;
+    public static final int WRIST_ENCODER_ID = 0;
 }
