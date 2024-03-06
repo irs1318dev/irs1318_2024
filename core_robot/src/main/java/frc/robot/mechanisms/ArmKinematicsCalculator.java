@@ -329,22 +329,22 @@ public class ArmKinematicsCalculator
     public void logValues(ILogger logger)
     {
         logger.logBoolean(LoggingKey.ArmExtensionBreaking, this.stuckInPosition);
-        logger.logBoolean(LoggingKey.HittingRobot, this.hittingRobot);
-        logger.logBoolean(LoggingKey.FixedWithIK, this.fixedWithIK);
-        logger.logString(LoggingKey.ExtensionType, this.extensionType.toString());
+        logger.logBoolean(LoggingKey.ArmHittingRobot, this.hittingRobot);
+        logger.logBoolean(LoggingKey.ArmFixedWithIK, this.fixedWithIK);
+        logger.logString(LoggingKey.ArmExtensionType, this.extensionType.toString());
 
-        logger.logNumber(LoggingKey.IntakeTopAbsX, this.intakeTopAbsPosX);
-        logger.logNumber(LoggingKey.IntakeTopAbsZ, this.intakeTopAbsPosZ);
-        logger.logNumber(LoggingKey.IntakeBottomAbsX, this.intakeBottomAbsPosX);
-        logger.logNumber(LoggingKey.IntakeBottomAbsZ, this.intakeBottomAbsPosZ);
-        logger.logNumber(LoggingKey.ShooterTopAbsX, this.shooterTopAbsPosX);
-        logger.logNumber(LoggingKey.ShooterTopAbsZ, this.shooterTopAbsPosZ);
-        logger.logNumber(LoggingKey.ShooterBottomAbsX, this.shooterBottomAbsPosX);
-        logger.logNumber(LoggingKey.ShooterBottomAbsZ, this.shooterBottomAbsPosZ);
-        logger.logNumber(LoggingKey.WristAbsX, this.wristAbsPosX);
-        logger.logNumber(LoggingKey.WristAbsZ, this.wristAbsPosZ);
-        logger.logNumber(LoggingKey.ShoulderIKDesired, this.desiredShoulderAngle);
-        logger.logNumber(LoggingKey.WristIKDesired, this.desiredWristAngle);
+        logger.logNumber(LoggingKey.ArmIntakeTopAbsX, this.intakeTopAbsPosX);
+        logger.logNumber(LoggingKey.ArmIntakeTopAbsZ, this.intakeTopAbsPosZ);
+        logger.logNumber(LoggingKey.ArmIntakeBottomAbsX, this.intakeBottomAbsPosX);
+        logger.logNumber(LoggingKey.ArmIntakeBottomAbsZ, this.intakeBottomAbsPosZ);
+        logger.logNumber(LoggingKey.ArmShooterTopAbsX, this.shooterTopAbsPosX);
+        logger.logNumber(LoggingKey.ArmShooterTopAbsZ, this.shooterTopAbsPosZ);
+        logger.logNumber(LoggingKey.ArmShooterBottomAbsX, this.shooterBottomAbsPosX);
+        logger.logNumber(LoggingKey.ArmShooterBottomAbsZ, this.shooterBottomAbsPosZ);
+        logger.logNumber(LoggingKey.ArmWristAbsX, this.wristAbsPosX);
+        logger.logNumber(LoggingKey.ArmWristAbsZ, this.wristAbsPosZ);
+        logger.logNumber(LoggingKey.ArmShoulderIKDesired, this.desiredShoulderAngle);
+        logger.logNumber(LoggingKey.ArmWristIKDesired, this.desiredWristAngle);
     }
 
     /**

@@ -463,6 +463,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.0;
 
     public static final double ARM_SHOULDER_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MIN_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MAX_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MAX_POSITION; // in degrees
@@ -602,11 +603,16 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
+
+    public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
+    public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
 
     // SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP;
@@ -817,6 +823,4 @@ public class TuningConstants
 
     public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
-    public static final boolean USE_ABS_WRIST = false;
-    public static final int WRIST_ENCODER_ID = 0;
 }

@@ -62,6 +62,8 @@ public class HardwareConstants
     public static final double ARM_HUMERUS_LENGTH = 24.25; // length of arm section between shoulder joint and wrist joint ("humerus")
     public static final double ARM_ULNA_LENGTH = 18.0; // length of (end effector) arm section between wrist joint and shooter ("ulna")
 
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE = 360.0; // degrees per rotation
+
     public static final double ARM_WRIST_TO_SHOOTER_X = 3.630;//4.25;
     public static final double ARM_WRIST_TO_SHOOTER_Z = 8.032;//8.25;
     public static final double ARM_WRIST_TO_INTAKE_X = 12.146;//13;
@@ -74,7 +76,7 @@ public class HardwareConstants
     public static final double SHOOTER_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_SHOOTER_Z, HardwareConstants.ARM_WRIST_TO_SHOOTER_X);
     public static final double INTAKE_TRIANGLE_ANGLE = Helpers.atan2d( HardwareConstants.ARM_WRIST_TO_INTAKE_Z, HardwareConstants.ARM_WRIST_TO_INTAKE_X);
 
-    public static final double ARM_SHOOTER_STARTING_X_POS = 100; 
+    public static final double ARM_SHOOTER_STARTING_X_POS = 100;
     public static final double ARM_SHOOTER_STARTING_Z_POS = 100;
 
     public static final double ARM_TO_CENTER_ROBOT_X_OFFSET = -11.25;
@@ -89,7 +91,6 @@ public class HardwareConstants
 
     //=============================================== EndEffector =====================================================================//
     
-    //TODO get acutal offsets
     public static final double END_EFFECTOR_PIVOT_LENGTH = 2.51; // inches
     public static final double END_EFFECTOR_PIVOT_AXIS_OFFSET = 2.61; //inches
 
@@ -97,5 +98,4 @@ public class HardwareConstants
     public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
 
     public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;
-    public static final double WRIST_ENCODER_TICKS_ROTATION = 1.0;
 }

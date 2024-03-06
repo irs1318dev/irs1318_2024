@@ -34,6 +34,9 @@ public class ElectronicsConstants
     public static final int POWER_DISTRIBUTION_CAN_ID = 1;
     public static final PowerDistributionModuleType POWER_DISTRIBUTION_TYPE = PowerDistributionModuleType.PowerDistributionHub;
 
+    public static final double REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN = 1.0 / 1024.0;
+    public static final double REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX = 1023.0 / 1024.0;
+
     public static final String CANIVORE_NAME = "CANIVORE1"; // Module A
 
     //================================================== IMU ==============================================================
@@ -76,8 +79,7 @@ public class ElectronicsConstants
     public static final int ARM_SHOULDER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 3 : 6;
     public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 4 : 7;
     public static final int ARM_WRIST_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 17 : 11;
-    public static final int WRIST_ABSOLUTE_ENCODER_ID = 0; // change 
-
+    public static final int ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL = 1; // change 
 
     //================================================= Climber ====================================================================
 
