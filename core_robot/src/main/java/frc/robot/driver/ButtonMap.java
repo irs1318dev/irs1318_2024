@@ -358,6 +358,20 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Simple),
         new DigitalOperationDescription(
+            DigitalOperation.VisionFindAmpAprilTagRear,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Simple),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindAmpAprilTagFront,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
+            EnumSet.of(Shift.Test1Debug),
+            ButtonType.Simple),
+        new DigitalOperationDescription(
             DigitalOperation.VisionFindAnyAprilTagRear,
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_B_BUTTON,

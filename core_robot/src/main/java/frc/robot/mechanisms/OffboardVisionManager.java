@@ -209,11 +209,13 @@ public class OffboardVisionManager implements IMechanism
     public void update(RobotMode mode)
     {
         boolean enableVision = !this.driver.getDigital(DigitalOperation.VisionForceDisable);
-        boolean enableVideoStream = this.driver.getDigital(DigitalOperation.VisionEnableStream);
+        boolean enableVideoStream = mode == RobotMode.Test || this.driver.getDigital(DigitalOperation.VisionEnableStream);
         boolean enableAnyRear = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagRear);
         boolean enableAnyFront = this.driver.getDigital(DigitalOperation.VisionFindAnyAprilTagFront);
         boolean enableSpeakerRear = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagRear);
         boolean enableSpeakerFront = this.driver.getDigital(DigitalOperation.VisionFindSpeakerAprilTagFront);
+        boolean enableAmpRear = this.driver.getDigital(DigitalOperation.VisionFindAmpAprilTagRear);
+        boolean enableAmpFront = this.driver.getDigital(DigitalOperation.VisionFindAmpAprilTagFront);
         boolean enableStageRear = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsRear);
         boolean enableStageFront = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsFront);
 
@@ -221,15 +223,15 @@ public class OffboardVisionManager implements IMechanism
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
 
         List<Integer> desiredTargets = null;
-        String desiredTargetsString = null;
+        String desiredTargetsString = "";
         int visionProcessingMode = 0;
         if (enableVision)
         {
-            if (enableAnyRear || enableSpeakerRear || enableStageRear)
+            if (enableAnyRear || enableSpeakerRear || enableStageRear || enableAmpRear)
             {
                 visionProcessingMode = 1;
             }
-            else if (enableAnyFront || enableSpeakerFront || enableStageFront)
+            else if (enableAnyFront || enableSpeakerFront || enableStageFront || enableAmpFront)
             {
                 visionProcessingMode = 2;
             }
@@ -261,6 +263,20 @@ public class OffboardVisionManager implements IMechanism
                     desiredTargetsString = TuningConstants.VISION_STAGE_BLUE_STRING;
                 }
             }
+
+            if (enableAmpFront || enableAmpRear)
+            {
+                if (isRed)
+                {
+                    desiredTargets = TuningConstants.VISION_AMP_RED_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_AMP_RED_STRING;
+                }
+                else
+                {
+                    desiredTargets = TuningConstants.VISION_AMP_BLUE_APRILTAGS;
+                    desiredTargetsString = TuningConstants.VISION_AMP_BLUE_STRING;
+                }
+            }
         }
 
         this.prevMode = visionProcessingMode;
@@ -277,7 +293,7 @@ public class OffboardVisionManager implements IMechanism
         this.prevTargets = null;
         this.logger.logBoolean(LoggingKey.OffboardVisionEnableStream, false);
         this.logger.logInteger(LoggingKey.OffboardVisionProcessingMode, 0);
-        this.logger.logString(LoggingKey.OffboardVisionDesiredTarget, null);
+        this.logger.logString(LoggingKey.OffboardVisionDesiredTarget, "");
     }
 
     public Double getAprilTagXOffset()

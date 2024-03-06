@@ -84,6 +84,11 @@ public class TuningConstants
     public static final List<Integer> VISION_STAGE_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_STAGE_LEFT_ID, TuningConstants.APRILTAG_RED_CENTER_STAGE_ID, TuningConstants.APRILTAG_RED_STAGE_RIGHT_ID);
     public static final String VISION_STAGE_RED_STRING = TuningConstants.VISION_STAGE_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
 
+    public static final List<Integer> VISION_AMP_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_AMP_ID);
+    public static final String VISION_AMP_BLUE_STRING = TuningConstants.VISION_AMP_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+    public static final List<Integer> VISION_AMP_RED_APRILTAGS = List.of(TuningConstants.APRILTAG_RED_AMP_ID);
+    public static final String VISION_AMP_RED_STRING = TuningConstants.VISION_AMP_RED_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
+
     // Finding AprilTags to determine if theres enough valid data to translate 
     public static final int TAGS_MISSED_THRESHOLD = 30;
     public static final int TAGS_FOUND_THRESHOLD = 5;
