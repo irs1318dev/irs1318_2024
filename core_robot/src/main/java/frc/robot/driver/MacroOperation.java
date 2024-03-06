@@ -39,6 +39,7 @@ public enum MacroOperation implements IOperation
     ClimbMacro,
 
     // Vision operations
+    VisionTest,
 
     // Path testing:
     FollowPathTest1,

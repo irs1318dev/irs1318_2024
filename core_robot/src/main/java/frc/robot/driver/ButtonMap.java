@@ -11,6 +11,7 @@ import frc.lib.helpers.Helpers;
 import frc.robot.*;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
+import frc.robot.driver.controltasks.VisionTurningTask.TurnType;
 
 @Singleton
 public class ButtonMap implements IButtonMap
@@ -328,63 +329,63 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Simple),
 
-        // Test operations:
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindSpeakerAprilTagRear,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_A_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindSpeakerAprilTagFront,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_A_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.of(Shift.Test1Debug),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindStageAprilTagsRear,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindStageAprilTagsFront,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.of(Shift.Test1Debug),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindAmpAprilTagRear,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_X_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindAmpAprilTagFront,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_X_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.of(Shift.Test1Debug),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindAnyAprilTagRear,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_B_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
-        new DigitalOperationDescription(
-            DigitalOperation.VisionFindAnyAprilTagFront,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_B_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
-            EnumSet.of(Shift.Test1Debug),
-            ButtonType.Simple),
+        // Vision test operations:
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindSpeakerAprilTagRear,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_A_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindSpeakerAprilTagFront,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_A_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindStageAprilTagsRear,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_Y_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindStageAprilTagsFront,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_Y_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindAmpAprilTagRear,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_X_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindAmpAprilTagFront,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_X_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindAnyAprilTagRear,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_B_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.VisionFindAnyAprilTagFront,
+        //     UserInputDevice.Test1,
+        //     UserInputDeviceButton.XBONE_B_BUTTON,
+        //     EnumSet.of(Shift.Test1Debug),
+        //     EnumSet.of(Shift.Test1Debug),
+        //     ButtonType.Simple),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -1058,7 +1059,7 @@ public class ButtonMap implements IButtonMap
         new MacroOperationDescription(
             MacroOperation.ShootNote,
             UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_X_BUTTON,
+            UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
             ButtonType.Toggle,
             () -> new ShootNoteTask(),
             new IOperation[]
@@ -1123,6 +1124,31 @@ public class ButtonMap implements IButtonMap
         //     {
         //         AnalogOperation.ClimberPower,
         //     }),
+        
+        new MacroOperationDescription(
+            MacroOperation.VisionTest,
+            UserInputDevice.Test1, 
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Toggle, 
+            () -> new VisionTurningTask(TurnType.AprilTagCentering),
+            new IOperation[]
+            {
+                AnalogOperation.DriveTrainMoveForward,
+                AnalogOperation.DriveTrainMoveRight,
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+                DigitalOperation.VisionForceDisable,
+                DigitalOperation.VisionEnableStream,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindStageAprilTagsRear,
+                DigitalOperation.VisionFindStageAprilTagsFront,
+                DigitalOperation.VisionFindAmpAprilTagRear,
+                DigitalOperation.VisionFindAmpAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
+            }),
     };
 
     @Override

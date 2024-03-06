@@ -277,8 +277,7 @@ public class ArmMechanism implements IMechanism
         this.wristPosition = this.wristMotor.getPosition(); // convert rotations to degrees
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
-
-        // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
+        // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + wristPosition);
 
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
 
