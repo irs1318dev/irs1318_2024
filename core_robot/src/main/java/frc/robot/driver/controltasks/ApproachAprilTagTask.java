@@ -114,8 +114,8 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
                 double tagYOffset = vision.getAprilTagYOffset();
                 double tagYawOffset = vision.getAprilTagYaw();
 
-                double xGoal = Helpers.cosd(tagYawOffset) * this.xOffset + Helpers.sind(tagYawOffset) * this.yOffset + tagXOffset;
-                double yGoal = Helpers.cosd(tagYawOffset) * this.yOffset - Helpers.sind(tagYawOffset) * this.xOffset + tagYOffset;
+                double xGoal = tagXOffset - Helpers.cosd(tagYawOffset) * this.xOffset - Helpers.sind(tagYawOffset) * this.yOffset;
+                double yGoal = tagYOffset + Helpers.cosd(tagYawOffset) * this.yOffset - Helpers.sind(tagYawOffset) * this.xOffset;
                 double angleGoal = tagYawOffset;
 
                 boolean backwards = !ApproachAprilTagTask.PossibleFrontVisionOperations.contains(this.visionOperation);
