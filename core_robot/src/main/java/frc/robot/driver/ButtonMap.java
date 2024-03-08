@@ -1132,7 +1132,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Toggle, 
             // () -> new ApproachAprilTagTask(100.0, 10.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
             // () -> new VisionTurningTask(TurnType.AprilTagParallelizing, DigitalOperation.VisionFindSpeakerAprilTagRear),
-            () -> new ShootNoteTask(),
+            () -> new ShootNoteTask(true),
             new IOperation[]
             {
                 DigitalOperation.ShooterFeedRing,

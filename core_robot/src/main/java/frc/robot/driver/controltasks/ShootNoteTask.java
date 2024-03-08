@@ -39,7 +39,7 @@ public class ShootNoteTask extends DecisionSequentialTask
 
         this.useMaxVelocity = useMaxVelocity;
 
-        hasCompleted = false;
+        this.hasCompleted = false;
     }
 
     /**
@@ -73,11 +73,16 @@ public class ShootNoteTask extends DecisionSequentialTask
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;
+            System.out.println("X: " + pivotToTargetXDist + " Y: " + pivotToTargetYDist);
             setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
+            // System.out.println("More checks");
             
+            System.out.println("Desired Velocity " + this.desiredVelocity + " Desired RPM " + (this.desiredVelocity / (Math.PI * 2 * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) * 60 * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER));
+
+
             this.AppendTask(ConcurrentTask.AllTasks(
-                // new ShooterSpinTask(desiredVelocity * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
-                new SetEndEffectorAngleTask(desiredAngle)
+                //new ShooterSpinTask(this.desiredVelocity / (Math.PI * 2 * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) * 60 * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
+                new SetEndEffectorAngleTask(this.desiredAngle)
             ));
 
             // this.AppendTask(SequentialTask.Sequence(
@@ -87,7 +92,7 @@ public class ShootNoteTask extends DecisionSequentialTask
         }
 
         if (finishedTask instanceof SequentialTask) {
-            hasCompleted = true;
+            this.hasCompleted = true;
         }
     }
 
@@ -97,7 +102,7 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void update()
     {
-        
+        super.update();
     }
 
     /**
@@ -106,13 +111,13 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void end()
     {
-
+        super.end();
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return hasCompleted;
+        return super.hasCompleted() && this.hasCompleted;
     }
 
     private void setDesiredAngleFromXYOffsets(double pivotToTargetXDist, double pivotToTargetYDist) {

@@ -333,6 +333,8 @@ public class ArmKinematicsCalculator
         logger.logBoolean(LoggingKey.ArmFixedWithIK, this.fixedWithIK);
         logger.logString(LoggingKey.ArmExtensionType, this.extensionType.toString());
 
+        logger.logNumber(LoggingKey.ArmTheta4, this.theta_4);
+
         logger.logNumber(LoggingKey.ArmIntakeTopAbsX, this.intakeTopAbsPosX);
         logger.logNumber(LoggingKey.ArmIntakeTopAbsZ, this.intakeTopAbsPosZ);
         logger.logNumber(LoggingKey.ArmIntakeBottomAbsX, this.intakeBottomAbsPosX);
@@ -592,7 +594,7 @@ public class ArmKinematicsCalculator
 
     public double switchToTheta2(double desiredAbsWrist)
     {
-        return 180 + this.theta_1 - desiredAbsWrist;
+        return this.theta_1 + desiredAbsWrist;
     }
 
     public double[] getWristJointAbsPosition()

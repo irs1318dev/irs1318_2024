@@ -496,7 +496,9 @@ public class ArmMechanism implements IMechanism
                     double newDesiredAbsoluteWristAngle = this.driver.getAnalog(AnalogOperation.ArmAbsWristAngle);
                     if (newDesiredAbsoluteWristAngle != TuningConstants.MAGIC_NULL_VALUE)
                     {
-                        this.logger.logNumber(LoggingKey.AbsWristDesired, newDesiredAbsoluteWristAngle);
+                        // System.out.println("testing");
+                        double tempVal = this.armKinematicsCalculator.switchToTheta2(newDesiredAbsoluteWristAngle);
+                        this.logger.logNumber(LoggingKey.ActWristDesired, tempVal);
                         //newDesiredWristPosition = this.armKinematicsCalculator.switchToTheta2(newDesiredAbsoluteWristAngle);
                     }
                 }
