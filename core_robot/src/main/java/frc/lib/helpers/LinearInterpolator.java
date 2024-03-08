@@ -26,7 +26,7 @@ public class LinearInterpolator
                 idx2 = i;
                 break;
             }
-            else if (samplePoints[i] <= value)
+            else if (this.samplePoints[i] <= value)
             {
                 idx1 = i;
             }
