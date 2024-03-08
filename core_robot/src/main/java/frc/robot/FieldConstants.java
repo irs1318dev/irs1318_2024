@@ -13,4 +13,8 @@ public class FieldConstants
 
     public static final double APRILTAG_TO_SPEAKER_TARGET_X = 0;
     public static final double APRILTAG_TO_SPEAKER_TARGET_Y = 30;
+
+    public static final double TRAP_APRILTAG_TO_ROBOT_X = 24;
+    public static final double TRAP_APRILTAG_TO_ROBOT_Y = 0;
+    
 }
