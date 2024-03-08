@@ -17,7 +17,7 @@ public class SettingsManager
         mechanismList.add(injector.getInstance(PowerManager.class));
         mechanismList.add(injector.getInstance(PigeonManager.class)); // PigeonManager/NavxManager should come before DriveTrainMechanism
         mechanismList.add(injector.getInstance(SDSDriveTrainMechanism.class));
-        // mechanismList.add(injector.getInstance(ArmMechanism.class));
+        mechanismList.add(injector.getInstance(ArmMechanism.class));
         mechanismList.add(injector.getInstance(EndEffectorMechanism.class));
         if (TuningConstants.COMPETITION_ROBOT)
         {
