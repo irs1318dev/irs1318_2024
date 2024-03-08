@@ -823,4 +823,10 @@ public class TuningConstants
 
     public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
+
+     //=================================================== Lookup-Table Shooter ==================================================
+
+     public static final double[] SHOOTING_POINTS = {6.0, 6.5, 7.0, 7.5, 8.0, 8.5};
+     public static final double[] SHOOTING_ANGLES = {50.0, 47.0, 45.0, 39.0, 37.0};
+     public static final int NOT_FOUND_APRILTAG_THRESHOLD = 40;
 }
