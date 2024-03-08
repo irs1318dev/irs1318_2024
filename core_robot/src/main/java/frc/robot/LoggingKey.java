@@ -159,6 +159,8 @@ public enum LoggingKey
     ArmShoulderIKDesired("arm.sh_ik_desired"), // , 1),
     ArmShoulderLastLegal("arm.sh_lst_legal_pos"), // , 1),
 
+    AbsWristDesired("arm.sh_nt_tsk_wr_ang"), // , 1),
+
     ArmShoulderPosAdjustment("arm.sh_pos_adj"), // , 1),
     ArmWristPosAdjustment("arm.wr_pos_adj"), // , 1),
 

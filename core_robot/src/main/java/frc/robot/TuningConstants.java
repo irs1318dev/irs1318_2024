@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = true;
+    public static final boolean COMPETITION_ROBOT = false;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -95,7 +95,7 @@ public class TuningConstants
     public static final double ACCEPTABLE_RANGE_IN_X_AND_Y_FOR_ALIGNMENT_TRANSLATE = 1.0; // in inches
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_PID_TURNING_RANGE_DEGREES = 7.0;
+    public static final double MAX_PID_TURNING_RANGE_DEGREES = 2.0;
 
     // How long the robot system must remain centered on the target when using time
     public static final double PID_TURNING_DURATION = 0.75;
@@ -108,7 +108,7 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_MOVING_RR_ANGLE_ERROR = 4.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double STATIONARY_PID_TURNING_PID_KP = 0.01;
+    public static final double STATIONARY_PID_TURNING_PID_KP = 0.015;
     public static final double STATIONARY_PID_TURNING_PID_KI = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KD = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KF = 0.0;
