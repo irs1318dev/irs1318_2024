@@ -78,13 +78,8 @@ public class ShootNoteTask extends DecisionSequentialTask
 // System.out.println("X: " -);
 
             this.AppendTask(ConcurrentTask.AllTasks(
-<<<<<<< Updated upstream
-                // new ShooterSpinTask(desiredVelocity * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
-                new SetEndEffectorAngleTask(desiredAngle)
-=======
                 // new ShooterSpinTask(this.desiredVelocity / (Math.PI * 2 * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) * 60 * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
                 new SetEndEffectorAngleTask(this.desiredAngle)
->>>>>>> Stashed changes
             ));
 
             // this.AppendTask(SequentialTask.Sequence(
