@@ -24,8 +24,10 @@ public class TuningConstants
 
     public static final double MAGIC_NULL_VALUE = -1318.0;
     public static final double ZERO = 0.0;
+    public static final double EUGENE_HAROLD_KRABS = 0.0;
     public static final double ENDGAME_START_TIME = 30.0;
     public static final double ENDGAME_CLIMB_TIME = 5.0;
+
 
     //================================================== Logging  ==============================================================
 
@@ -829,4 +831,5 @@ public class TuningConstants
      public static final double[] SHOOTING_POINTS = {6.0, 6.5, 7.0, 7.5, 8.0, 8.5};
      public static final double[] SHOOTING_ANGLES = {50.0, 47.0, 45.0, 39.0, 37.0};
      public static final int NOT_FOUND_APRILTAG_THRESHOLD = 40;
+     public static final double WRIST_ACCURACY_THRESHOLD = 1.0;
 }
