@@ -829,8 +829,11 @@ public class TuningConstants
 
      //=================================================== Lookup-Table Shooter ==================================================
 
-     public static final double[] SHOOTING_POINTS = {6.0, 6.5, 7.0, 7.5, 8.0, 8.5};
-     public static final double[] SHOOTING_ANGLES = {50.0, 47.0, 45.0, 39.0, 37.0};
+     public static final double[] SHOOTING_POINTS = { 
+        76.644, 86.644, 76.644, 76.644, 86.644, 96.644, 106.644, 116.644, 126.644, 
+        136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
+        216.644, 226.644, 231.733};
+     public static final double[] SHOOTING_ANGLES = {50.0, 47.0, 45.0, 39.0, 37.0}; // 20 angles
      public static final int NOT_FOUND_APRILTAG_THRESHOLD = 40;
      public static final double WRIST_ACCURACY_THRESHOLD = 1.0;
 }

@@ -7,7 +7,11 @@
 // import frc.robot.mechanisms.ArmMechanism;
 // import frc.robot.mechanisms.OffboardVisionManager;
 
+<<<<<<< Updated upstream
 // public class ShootVisionTask extends IControlTask {
+=======
+public class ShootVisionTask extends DecisionSequentialTask {
+>>>>>>> Stashed changes
 
 //     public enum State {
 //         ReadAprilTag,
@@ -23,11 +27,21 @@
 //     private boolean shouldCancel;
 //     private boolean hasCompleted;
 
+<<<<<<< Updated upstream
 //     @Override
 //     public void begin() {
+=======
+    public ShootVisionTask() {
+        this(false);
+    }
+
+    @Override
+    public void begin() {
+>>>>>>> Stashed changes
         
 //         super.begin();
 
+<<<<<<< Updated upstream
 //         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);     
 //         this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
 //         this.arm = this.getInjector().getInstance(ArmMechanism.class);
@@ -71,6 +85,47 @@
 
 //         super.update();
 //     }
+=======
+        this.vision = this.getInjector().getInstance(OffboardVisionManager.class);     
+        this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
+        this.arm = this.getInjector().getInstance(ArmMechanism.class);
+        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
+        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
+
+    }
+
+    @Override
+    protected void finishedTask(IControlTask finishedTask) {
+        super.finishedTask(finishedTask);
+        if (finishedTask instanceof VisionTurningTask) {
+            double distance = vision.getAprilTagXOffset();
+            if ( // if distance is out of range cancel, avoid inaccuracy in interpolation
+                distance < TuningConstants.SHOOTING_POINTS[0] ||
+                distance > TuningConstants.SHOOTING_POINTS[TuningConstants.SHOOTING_POINTS.length - 1])
+            {
+                this.state = State.Cancel;
+                this.shouldCancel = true;
+            }
+            else {
+                double wristAngle = this.linterp.sample(distance);
+                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
+                if (Math.abs(this.arm.getWristPosition() - wristAngle) <= TuningConstants.WRIST_ACCURACY_THRESHOLD) {
+                    this.hasCompleted = true;
+                }
+
+            }
+            this.AppendTask(new SetEndEffectorAngleTask(this.wristAngle));
+        }
+        if (finishedTask instanceof SequentialTask) {
+            this.hasCompleted = true;
+        }
+    }
+
+    @Override
+    public void update() {
+        super.update();
+    }
+>>>>>>> Stashed changes
 
 //     @Override
 //     public boolean shouldCancel() {
