@@ -1273,6 +1273,7 @@ public class AutonomousRoutineSelector
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 new FeedRingTask(true, 0.5),
                 ConcurrentTask.AllTasks(
+                
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                 new FollowPathTask(isRed ? "P1toP8MRed" : "P1toP8MBlue", Type.Absolute)
                 ),

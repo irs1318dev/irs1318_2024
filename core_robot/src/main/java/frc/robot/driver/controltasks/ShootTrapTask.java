@@ -1,64 +1,79 @@
-// package frc.robot.driver.controltasks;
+package frc.robot.driver.controltasks;
 
-// import frc.robot.TuningConstants;
-// import frc.robot.FieldConstants;
-// import frc.robot.HardwareConstants;
+import frc.robot.TuningConstants;
+import frc.robot.FieldConstants;
+import frc.robot.HardwareConstants;
 
-// import frc.lib.driver.IControlTask;
-// import frc.lib.helpers.Helpers;
-// import frc.robot.driver.*;
-// import frc.robot.mechanisms.*;
+import frc.lib.driver.IControlTask;
+import frc.lib.helpers.Helpers;
+import frc.robot.driver.*;
+import frc.robot.mechanisms.*;
 
 
-// public class ShootTrapTask extends DecisionSequentialTask
-// {
-//     private boolean hasCompleted;
+public class ShootTrapTask extends DecisionSequentialTask
+{
+    private boolean hasCompleted;
+    double xOffset;
+    double yOffset;
+    DigitalOperation visionOperation;
 
     
-//     public ShootTrapTask ()
-//     {
-//     }
+    public ShootTrapTask (double xOffset, double yOffset, DigitalOperation visionOperation)
+    {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        this.visionOperation = visionOperation;
+    }
 
 
-//     @Override
-//     public void begin()
-//     {
-//         hasCompleted = false;
-//         this.AppendTask(new ApproachAprilTagTask(TRAP_APRILTAG_TO_ROBOT_X, TRAP_APRILTAG_TO_ROBOT_Y, ));
-//     }
+    @Override
+    public void begin()
+    {
+        hasCompleted = false;
+        this.AppendTask(
+            ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4500),
+                SequentialTask.Sequence(
+                    new ApproachAprilTagTask(this.xOffset, this.yOffset, this.visionOperation),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_TRAP_SHOOT, TuningConstants.ARM_WRIST_TRAP_SHOOT),
+                    new FeedRingTask(true))
+        ));
 
-//     @Override
-//     protected void finishedTask(IControlTask finishedTask)
-//     {
-//         super.finishedTask(finishedTask);
+        hasCompleted();
+    }
 
-//         if (finishedTask instanceof SequentialTask) {
-//             hasCompleted = true;
-//         }
-//     }
+    @Override
+    protected void finishedTask(IControlTask finishedTask)
+    {
+        super.finishedTask(finishedTask);
 
-//     /*
-//      * Update the current task and controls
-//      */
-//     @Override
-//     public void update()
-//     {
+        if (finishedTask instanceof SequentialTask) {
+            hasCompleted = true;
+        }
+    }
+
+    /*
+     * Update the current task and controls
+     */
+    @Override
+    public void update()
+    {
         
-//     }
+    }
 
-//     /**
-//      * End the current task and reset control changes appropriately
-//      */
-//     @Override
-//     public void end()
-//     {
+    /**
+     * End the current task and reset control changes appropriately
+     */
+    @Override
+    public void end()
+    {
 
-//     }
+    }
 
-//     @Override
-//     public boolean hasCompleted()
-//     {
-//         return hasCompleted;
-//     }
+    @Override
+    public boolean hasCompleted()
+    {
+        return hasCompleted;
+    }
     
-// }
+}

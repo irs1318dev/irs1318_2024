@@ -562,7 +562,8 @@ public class TuningConstants
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
 
-
+    public static final double ARM_SHOULDER_TRAP_SHOOT = 0 ;
+    public static final double ARM_WRIST_TRAP_SHOOT = 0;
 
     public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.2;
     public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
@@ -755,7 +756,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
     public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
-    // Arm/shoulder zeroing
+    // Arm/shoulder zeroingT
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
     public static final double ARM_WRIST_ZEROING_VELOCITY_POS_THRESHOLD = 0.5; // degrees per second
     public static final double ARM_WRIST_ZEROING_VELOCITY_POW_THRESHOLD = 5.0; // degrees per second

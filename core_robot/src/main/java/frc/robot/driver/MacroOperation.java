@@ -41,9 +41,14 @@ public enum MacroOperation implements IOperation
     // Vision operations
     VisionTest,
 
+    // Trap
+    AutoTrapScore,
+    
+
     // Path testing:
     FollowPathTest1,
     FollowPathTest2,
     FollowPathTest3,
-    FollowPathTest4,
+    FollowPathTest4, 
+    
 }

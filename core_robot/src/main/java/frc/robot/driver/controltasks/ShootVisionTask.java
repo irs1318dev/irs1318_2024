@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package frc.robot.driver.controltasks;
 
 import frc.lib.helpers.LinearInterpolator;
@@ -8,13 +9,26 @@ import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
 public class ShootVisionTask extends IControlTask {
+=======
+// import frc.lib.helpers.LinearInterpolator;
+// import frc.robot.TuningConstants;
+// import frc.robot.driver.AnalogOperation;
+// import frc.robot.driver.DigitalOperation;
+// import frc.robot.driver.controltasks.ControlTaskBase;
+// import frc.robot.driver.controltasks.DecisionSequentialTask;
+// import frc.robot.mechanisms.ArmMechanism;
+// import frc.robot.mechanisms.OffboardVisionManager;
 
-    public enum State {
-        ReadAprilTag,
-        SetWrist,
-        Cancel
-    }
+// public class ShootVisionTask extends DecisionSequentialTask{
+>>>>>>> Stashed changes
 
+//     public enum State {
+//         ReadAprilTag,
+//         SetWrist,
+//         Cancel
+//     }
+
+<<<<<<< Updated upstream
     private OffboardVisionManager vision;
     private int noAprilTags;
     private State state;
@@ -22,12 +36,20 @@ public class ShootVisionTask extends IControlTask {
     private ArmMechanism arm;
     private boolean shouldCancel;
     private boolean hasCompleted;
+=======
+//     private ArmMechanism arm;
+//     private OffboardVisionManager vision;
+//     private int noAprilTags;
+//     private State state;
+//     private LinearInterpolator linterp;
+>>>>>>> Stashed changes
 
-    @Override
-    public void begin() {
+//     @Override
+//     public void begin() {
         
-        super.begin();
+//         super.begin();
 
+<<<<<<< Updated upstream
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);     
         this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
@@ -94,3 +116,50 @@ public class ShootVisionTask extends IControlTask {
         super.end();
     }
 }
+=======
+//         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);     
+//         this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
+//         this.arm = this.getInjector().getInstance(ArmMechanism.class);
+
+//         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
+
+//     }
+
+//     @Overide
+//     public void update() {
+//         if (this.state == ReadAprilTag) {
+//             if (vision.getAprilTagId() == null) {
+//                 this.noAprilTags++;
+//             }
+//             if (this.noAprilTags > TuningConstants.NOT_FOUND_APRILTAG_THRESHOLD) {
+//                 this.state = Cancel;
+//             }
+//             else {
+//                 this.state = State.SetWrist;
+//             }
+//         }
+//         else if (this.state == SetWrist) {
+//             double distance = vision.getAprilTagXOffset();
+//             if ( // if distance is out of range cancel, avoid inaccuracy in interpolation
+//                 distance < TuningConstants.SHOOTING_POINTS[0] ||
+//                 distance > TuningConstants.SHOOTING_POINTS[TuningConstants.SHOOTING_POINTS.length - 1])
+//             {
+//                 this.state = State.Cancel;
+//             }
+//             else {
+//                 double wristAngle = this.linterp.sample(distance);
+//                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
+//             }
+//         }
+//         if (this.state == Cancel) {
+//             shouldCancel();
+//         }
+//         super.update();
+//     }
+
+//     @Override
+//     public boolean shouldCancel() {
+//         return super.shouldCancel();
+//     }
+// }
+>>>>>>> Stashed changes
