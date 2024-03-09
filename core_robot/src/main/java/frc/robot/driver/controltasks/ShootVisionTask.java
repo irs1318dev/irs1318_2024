@@ -1,5 +1,6 @@
 package frc.robot.driver.controltasks;
 
+import frc.lib.driver.IControlTask;
 import frc.lib.helpers.LinearInterpolator;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
@@ -9,22 +10,21 @@ import frc.robot.mechanisms.OffboardVisionManager;
 
 public class ShootVisionTask extends DecisionSequentialTask {
     private OffboardVisionManager vision;
-    private int noAprilTags;
-    private State state;
     private LinearInterpolator linterp;
     private boolean shouldCancel;
     private boolean hasCompleted;
-
+    private ArmMechanism arm;
+    private double wristAngle;
     public ShootVisionTask() {
-        this(false);
+        super();
     }
 
     @Override
     public void begin() {        
         super.begin();
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);     
-        this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
+        this.linterp = new LinearInterpolator(TuningConstants.SHOOTING_POINTS, TuningConstants.SHOOTING_ANGLES);
         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
         this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
 
@@ -39,11 +39,10 @@ public class ShootVisionTask extends DecisionSequentialTask {
                 distance < TuningConstants.SHOOTING_POINTS[0] ||
                 distance > TuningConstants.SHOOTING_POINTS[TuningConstants.SHOOTING_POINTS.length - 1])
             {
-                this.state = State.Cancel;
-                this.shouldCancel = true;
+                shouldCancel = true;
             }
             else {
-                double wristAngle = this.linterp.sample(distance);
+                wristAngle = this.linterp.sample(distance);
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
                 if (Math.abs(this.arm.getWristPosition() - wristAngle) <= TuningConstants.WRIST_ACCURACY_THRESHOLD) {
                     this.hasCompleted = true;
