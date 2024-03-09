@@ -225,9 +225,9 @@ public class ButtonMap implements IButtonMap
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeIn,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
-            EnumSet.of(Shift.DriverDebug),
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(Shift.Test1Debug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
@@ -1241,8 +1241,8 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Test1, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle, 
-            // () -> new ApproachAprilTagTask(100.0, 10.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
-            // () -> new VisionTurningTask(TurnType.AprilTagParallelizing, DigitalOperation.VisionFindSpeakerAprilTagRear),
+            // () -> new ApproachAprilTagTask(100.0, 0.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
+            // () -> new VisionTurningTask(TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
             () -> new ShootNoteTask(true),
             new IOperation[]
             {

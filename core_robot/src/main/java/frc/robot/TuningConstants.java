@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = -8.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
 
@@ -602,7 +602,7 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = false;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
@@ -657,13 +657,13 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KD = 0.0;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KP = 0.012;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 120.0;
-    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 100.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 160.0;
 
     // COMP ROBOT SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KP;
@@ -719,14 +719,14 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP = 0.02;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KP = 0.016;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KF = 0.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 180.0;
-    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 180.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 360.0;//180.0;
 
     // COMP ROBOT WRIST PID
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP = 0.02;
@@ -818,7 +818,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.6;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
