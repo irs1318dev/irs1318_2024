@@ -1,9 +1,9 @@
+package frc.robot.driver.controltasks;
+
 import frc.lib.helpers.LinearInterpolator;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
-import frc.robot.driver.controltasks.ControlTaskBase;
-import frc.robot.driver.controltasks.DecisionSequentialTask;
 import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
@@ -34,20 +34,20 @@ public class ShootVisionTask extends DecisionSequentialTask{
 
     }
 
-    @Overide
+    @Override
     public void update() {
-        if (this.state == ReadAprilTag) {
+        if (this.state == State.ReadAprilTag) {
             if (vision.getAprilTagId() == null) {
                 this.noAprilTags++;
             }
             if (this.noAprilTags > TuningConstants.NOT_FOUND_APRILTAG_THRESHOLD) {
-                this.state = Cancel;
+                this.state = State.Cancel;
             }
             else {
                 this.state = State.SetWrist;
             }
         }
-        else if (this.state == SetWrist) {
+        else if (this.state == State.SetWrist) {
             double distance = vision.getAprilTagXOffset();
             if ( // if distance is out of range cancel, avoid inaccuracy in interpolation
                 distance < TuningConstants.SHOOTING_POINTS[0] ||
@@ -60,7 +60,7 @@ public class ShootVisionTask extends DecisionSequentialTask{
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, wristAngle);
             }
         }
-        if (this.state == Cancel) {
+        if (this.state == State.Cancel) {
             shouldCancel();
         }
         super.update();
