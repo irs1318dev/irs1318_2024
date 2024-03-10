@@ -827,13 +827,18 @@ public class TuningConstants
     public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
 
-     //=================================================== Lookup-Table Shooter ==================================================
+    //=================================================== Lookup-Table Shooter ==================================================
+ 
+    // Distances that shot samples were captured from
+    public static final double[] SHOOT_VISION_SAMPLE_DISTANCES = { 
+       76.644, 86.644, 76.644, 76.644, 86.644, 96.644, 106.644, 116.644, 126.644, 
+       136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
+       216.644, 226.644, 231.733 };
 
-     public static final double[] SHOOTING_POINTS = { 
-        76.644, 86.644, 76.644, 76.644, 86.644, 96.644, 106.644, 116.644, 126.644, 
-        136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
-        216.644, 226.644, 231.733};
-     public static final double[] SHOOTING_ANGLES = {50.0, 47.0, 45.0, 39.0, 37.0}; // 20 angles
-     public static final int NOT_FOUND_APRILTAG_THRESHOLD = 40;
-     public static final double WRIST_ACCURACY_THRESHOLD = 1.0;
+    // angles where successful shots were made at the given speed
+    public static final double[] SHOOT_VISION_SAMPLE_ANGLES = { 50.0, 47.0, 45.0, 39.0, 37.0 }; // 20 angles
+
+    public static final double SHOOT_VISION_SPEED = 4000;
+    public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
+    public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 }
