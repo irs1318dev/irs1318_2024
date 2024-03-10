@@ -225,9 +225,9 @@ public class ButtonMap implements IButtonMap
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeIn,
-            UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
-            EnumSet.of(Shift.Test1Debug),
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 

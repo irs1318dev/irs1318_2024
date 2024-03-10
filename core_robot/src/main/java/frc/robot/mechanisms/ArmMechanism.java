@@ -147,8 +147,8 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
 
         this.wristAbsoluteEncoder = provider.getDutyCycleEncoder(ElectronicsConstants.ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL);
-        this.wristAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN);
-        this.wristAbsoluteEncoder.setDistancePerRotation(HardwareConstants.ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE);
+        this.wristAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
+        this.wristAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE);
         this.wristAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_WRIST_ABSOLUTE_ENCODER_OFFSET);
 
         if (TuningConstants.ARM_USE_MM)
@@ -287,7 +287,7 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
-        this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getDistance();
+        this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getDistance() - 49.0;
 
         // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
 

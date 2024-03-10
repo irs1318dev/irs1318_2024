@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -376,7 +376,7 @@ public class TuningConstants
 
     //================================================== EndEffector ==============================================================
 
-    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
+    public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
@@ -465,7 +465,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
 
-    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.0;
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
 
     public static final double ARM_SHOULDER_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MIN_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MAX_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MAX_POSITION; // in degrees
@@ -474,7 +474,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_PRACTICE_MIN_POSITION = -28.1; // in degrees
     public static final double ARM_SHOULDER_PRACTICE_MAX_POSITION = 55.0; // in degrees
-    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -124.0; // in degrees
+    public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
     public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
@@ -493,7 +493,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 46.952213287353516 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 33.402949826218546 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -560,7 +560,7 @@ public class TuningConstants
     public static final double ARM_WRIST_NODE_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_NODE_THRESHOLD = 3.0;
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
-    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 3.0;
+    public static final double ARM_SHOULDER_GOAL_THRESHOLD = 6.0;
 
     public static final double ARM_SHOULDER_TRAP_SHOOT = 0 ;
     public static final double ARM_WRIST_TRAP_SHOOT = 0;
@@ -606,7 +606,7 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = true;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -614,7 +614,7 @@ public class TuningConstants
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
-    public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
 
     // SHOULDER PID
@@ -663,7 +663,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 120.0;
-    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 160.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 200.0;
 
     // COMP ROBOT SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KP;
@@ -816,9 +816,9 @@ public class TuningConstants
     //==================================================== Climber ==============================================================
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
-    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
+    public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.85;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
