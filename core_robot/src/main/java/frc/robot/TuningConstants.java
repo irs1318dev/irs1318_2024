@@ -110,7 +110,7 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_MOVING_RR_ANGLE_ERROR = 4.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double STATIONARY_PID_TURNING_PID_KP = 0.015;
+    public static final double STATIONARY_PID_TURNING_PID_KP = 0.02;
     public static final double STATIONARY_PID_TURNING_PID_KI = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KD = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KF = 0.0;
@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = -8.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 1.0; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
 

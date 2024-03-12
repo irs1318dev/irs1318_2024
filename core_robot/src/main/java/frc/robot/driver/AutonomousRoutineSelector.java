@@ -16,7 +16,7 @@ import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
 import frc.robot.driver.controltasks.VisionMoveAndTurnTaskBase.MoveType;
-import frc.robot.driver.controltasks.VisionTurningTask.TurnType;
+import frc.robot.driver.controltasks.VisionContinuousTurningTask.TurnType;
 
 @Singleton
 public class AutonomousRoutineSelector
