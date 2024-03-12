@@ -17,7 +17,9 @@ public class VisionShooterAimTask extends ControlTaskBase
         return ConcurrentTask.AllTasks(
             new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 10.0),
             SequentialTask.Sequence(
-                new VisionTurningTask(TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                ConcurrentTask.AllTasks(
+                    new VisionTurningTask(TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT)),
                 new VisionShooterAimTask(),
                 new FeedRingTask(true)));
     }
