@@ -212,7 +212,7 @@ public class RobotProvider implements IRobotProvider
     @Override
     public IDriverStation getDriverStation()
     {
-        return new DriverStationWrapper();
+        return DriverStationWrapper.Instance;
     }
 
     @Override
