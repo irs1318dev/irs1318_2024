@@ -99,7 +99,7 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void update()
     {
-        
+        super.update();
     }
 
     /**
@@ -108,13 +108,13 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void end()
     {
-
+        super.end();
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return hasCompleted;
+        return this.hasCompleted;
     }
 
     private void setDesiredAngleFromXYOffsets(double pivotToTargetXDist, double pivotToTargetYDist) {
