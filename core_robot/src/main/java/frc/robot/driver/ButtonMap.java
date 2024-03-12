@@ -801,7 +801,7 @@ public class ButtonMap implements IButtonMap
             */
 
         new MacroOperationDescription(
-            MacroOperation.AutoTrapScore,//approach trap and shoot
+            MacroOperation.AutoTrapScore,//a
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_Y_BUTTON,
             EnumSet.noneOf(Shift.class),
@@ -1241,8 +1241,8 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Test1, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle, 
-            // () -> new ApproachAprilTagTask(100.0, 0.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
-            // () -> new VisionTurningTask(TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+            // () -> new ApproachAprilTagTask(100.0, 10.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
+            // () -> new VisionTurningTask(TurnType.AprilTagParallelizing, DigitalOperation.VisionFindSpeakerAprilTagRear),
             () -> new ShootNoteTask(true),
             new IOperation[]
             {
