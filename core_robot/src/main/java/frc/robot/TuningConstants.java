@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 1.0; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
 
@@ -605,8 +605,8 @@ public class TuningConstants
     public static final boolean ARM_USE_IK_CONSTRAINTS = true;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
-    public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = true;
+    public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;

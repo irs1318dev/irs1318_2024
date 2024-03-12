@@ -520,7 +520,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
-            () -> new OrientationTask(180),
+            () -> new OrientationTask(-90), // Add to work for both colors
             new IOperation[]
             {
                 AnalogOperation.DriveTrainTurnAngleGoal,
@@ -908,23 +908,23 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristPower,
            }),
 
-        new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition5,
-            UserInputDevice.Codriver, 
-            UserInputDeviceButton.XBONE_B_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
-            new IOperation[]
-            {
-                AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
-                AnalogOperation.ArmShoulderAdjustment,
-                AnalogOperation.ArmWristAdjustment,
-                AnalogOperation.ArmShoulderPower,
-                AnalogOperation.ArmWristPower,
-            }),
+        // new MacroOperationDescription(
+            // MacroOperation.ArmShoulderWristPosition5,
+            // UserInputDevice.Codriver, 
+            // UserInputDeviceButton.XBONE_B_BUTTON,
+            // EnumSet.of(Shift.CodriverDebug),
+            // EnumSet.of(Shift.CodriverDebug),
+            // ButtonType.Toggle, 
+            // () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
+            // new IOperation[]
+            // {
+                // AnalogOperation.ArmShoulderPositionSetpoint,
+                // AnalogOperation.ArmWristPositionSetpoint,
+                // AnalogOperation.ArmShoulderAdjustment,
+                // AnalogOperation.ArmWristAdjustment,
+                // AnalogOperation.ArmShoulderPower,
+                // AnalogOperation.ArmWristPower,
+            // }),
 
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPosition6,
@@ -1127,8 +1127,8 @@ public class ButtonMap implements IButtonMap
         
         new MacroOperationDescription(
             MacroOperation.VisionTest,
-            UserInputDevice.Test1, 
-            UserInputDeviceButton.XBONE_A_BUTTON,
+            UserInputDevice.Driver, 
+            UserInputDeviceButton.XBONE_B_BUTTON,
             ButtonType.Toggle, 
             // () -> new ApproachAprilTagTask(100.0, 10.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
             // () -> new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),

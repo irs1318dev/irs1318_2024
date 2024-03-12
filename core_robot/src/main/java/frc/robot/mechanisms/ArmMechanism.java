@@ -287,6 +287,7 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
+        // this.wristAbsoluteEncoder.isConnected();
         this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getDistance() - 48.5;
 
         // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
