@@ -39,7 +39,7 @@ public class ShootNoteTask extends DecisionSequentialTask
 
         this.useMaxVelocity = useMaxVelocity;
 
-        hasCompleted = false;
+        this.hasCompleted = false;
     }
 
     /**
@@ -55,7 +55,7 @@ public class ShootNoteTask extends DecisionSequentialTask
         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
-        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
+        this.AppendTask(new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ShootNoteTask extends DecisionSequentialTask
     {
         super.finishedTask(finishedTask);
 
-        if (finishedTask instanceof VisionTurningTask) {
+        if (finishedTask instanceof VisionSingleTurningTask) {
             double distToTargetX = visionManager.getAprilTagXOffset() 
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
             + arm.getWristJointAbsPosition()[0];
@@ -99,7 +99,7 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void update()
     {
-        
+        super.update();
     }
 
     /**
@@ -108,13 +108,13 @@ public class ShootNoteTask extends DecisionSequentialTask
     @Override
     public void end()
     {
-
+        super.end();
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return hasCompleted;
+        return this.hasCompleted;
     }
 
     private void setDesiredAngleFromXYOffsets(double pivotToTargetXDist, double pivotToTargetYDist) {

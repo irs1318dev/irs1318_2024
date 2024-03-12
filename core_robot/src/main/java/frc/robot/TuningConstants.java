@@ -110,7 +110,7 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_MOVING_RR_ANGLE_ERROR = 4.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double STATIONARY_PID_TURNING_PID_KP = 0.015;
+    public static final double STATIONARY_PID_TURNING_PID_KP = 0.02;
     public static final double STATIONARY_PID_TURNING_PID_KI = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KD = 0.0;
     public static final double STATIONARY_PID_TURNING_PID_KF = 0.0;
@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = -8.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
 
@@ -493,7 +493,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 33.402949826218546 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.37056350708008 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -602,11 +602,11 @@ public class TuningConstants
 
     public static final boolean ARM_USE_SIMPLE_MODE = false;
     public static final boolean ARM_USE_MM = true;
-    public static final boolean ARM_USE_IK_CONSTRAINTS = false;
+    public static final boolean ARM_USE_IK_CONSTRAINTS = true;
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
-    public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = true;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = true;
+    public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -691,13 +691,13 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KD = 0.0;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP = 0.06;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP = 0.08;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
     public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 120.0;
-    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL = 100.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL = 200.0;
 
     // WRSIT PID
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KP;
@@ -734,14 +734,14 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP = 0.08;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP = 0.20;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KVF = 0.0;
 
-    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 180.0;
-    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 240.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 240.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 360.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
