@@ -3,14 +3,13 @@ package frc.lib.robotprovider;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import com.google.inject.Singleton;
-
 import edu.wpi.first.wpilibj.DriverStation;
 
-@Singleton
 public class DriverStationWrapper implements IDriverStation
 {
-    public DriverStationWrapper()
+    public static final DriverStationWrapper Instance = new DriverStationWrapper();
+
+    private DriverStationWrapper()
     {
     }
 
