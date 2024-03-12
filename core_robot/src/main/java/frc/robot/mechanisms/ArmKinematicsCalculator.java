@@ -121,19 +121,6 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE);
 
         // create all of the links between the nodes
-        // links between each of the the lower-universal node combinations
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startingConfiguration,
-            ArmKinematicsCalculator.groundPickup,
-            TuningConstants.STARTUP_AND_GROUND_PICKUP_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.startingConfiguration,
-            ArmKinematicsCalculator.groundShot,
-            TuningConstants.STARTUP_AND_GROUND_SHOT_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.groundPickup,
-            ArmKinematicsCalculator.groundShot,
-            TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
 
         // lower-universal transit to lower-univeral nodes
         ArmKinematicsCalculator.graph.connectBidirectional(
@@ -149,25 +136,6 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.groundPickup,
             TuningConstants.LOWER_UNIVERSAL_TRANSIT_WEIGHT);
 
-        // links between each of the upper-universal node combinations
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperIntakeFlipped,
-            ArmKinematicsCalculator.upperUnivShot,
-            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperUnivShot,
-            ArmKinematicsCalculator.upperObtuseWrist,
-            TuningConstants.UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperObtuseWrist,
-            ArmKinematicsCalculator.upperIntakeFlipped,
-            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT);
-
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ampScoreOuttakeUp,
-            startingConfiguration,
-            1.0);
-
         // upper-universal transit to upper-univeral nodes
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.upperUniversalTransit,
@@ -182,11 +150,35 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.UPPER_UNIVERSAL_TRANSIT_WEIGHT);
 
-        // special IK-friendly transition from upper universal (shot) to ground transit
+        // links between each of the the lower-universal node combinations
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.tuckedTransit,
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.groundPickup,
+            TuningConstants.STARTUP_AND_GROUND_PICKUP_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.STARTUP_AND_GROUND_SHOT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.groundPickup,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
+
+        // links between each of the upper-universal node combinations
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperIntakeFlipped,
             ArmKinematicsCalculator.upperUnivShot,
-            TuningConstants.UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT);
+            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperUnivShot,
+            ArmKinematicsCalculator.upperObtuseWrist,
+            TuningConstants.UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.upperIntakeFlipped,
+            TuningConstants.UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT);
+
+        // transition from lower universal to upper quartile with wrist out
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedGroundTransit,
             ArmKinematicsCalculator.groundPickup,
@@ -200,7 +192,13 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.tuckedTransit,
             TuningConstants.TUCKED_TRANSIT_AND_TUCKED_GROUND_TRANSIT_WEIGHT);
 
-        // Lower quartile friendly values
+        // save us when we stall (don't break robot)
+        ArmKinematicsCalculator.graph.connect(
+            ArmKinematicsCalculator.tuckedUnderTransit,
+            ArmKinematicsCalculator.tuckedTransit,
+            TuningConstants.TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT);
+
+        // Lower quartile friendly connections
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.startingConfiguration,
             ArmKinematicsCalculator.sourcePickup,
@@ -210,27 +208,41 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperIntakeFlipped,
             TuningConstants.STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.sourcePickup,
-            ArmKinematicsCalculator.upperIntakeFlipped,
-            TuningConstants.SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT);
+            ArmKinematicsCalculator.startingConfiguration,
+            ArmKinematicsCalculator.trapIntermediate,
+            TuningConstants.STARTUP_AND_TRAP_INTERMEDIATE_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.ampScoreOuttakeUp,
+            ArmKinematicsCalculator.startingConfiguration,
+            TuningConstants.STARTUP_AMP_OUTTAKE_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.upperIntakeFlipped,
             ArmKinematicsCalculator.trapIntermediate,
             TuningConstants.UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT);
 
-        // path to tucked
-        ArmKinematicsCalculator.graph.connect(
+        // Paths to tucked
+        ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedTransit,
             ArmKinematicsCalculator.tucked,
-            TuningConstants.TUCKED_TRANSIT_TO_TUCKED_WEIGHT);
-        
-        // Doing with IK??
-        // ArmKinematicsCalculator.graph.connect(
-            // ArmKinematicsCalculator.groundPickup,
-            // ArmKinematicsCalculator.upperUnivShot,
-            // TuningConstants.UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT);
-
-        // Upper quartile friendly values    
+            TuningConstants.TUCKED_TRANSIT_AND_TUCKED_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.tucked,
+            TuningConstants.UPPER_OBTEUSE_WRIST_AND_TUCKED_WEIGHT);
+            
+        // Upper Universal friendly connections
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.tuckedTransit,
+            ArmKinematicsCalculator.upperUnivShot,
+            TuningConstants.UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.upperObtuseWrist,
+            ArmKinematicsCalculator.tuckedTransit,
+            TuningConstants.UPPER_OBTUSE_WRIST_AND_TUCKED_TRANSIT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.tuckedTransit,
+            ArmKinematicsCalculator.ampScore,
+            TuningConstants.AMP_SCORE_AND_TUCKED_TRANSIT_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.ampScore,
             ArmKinematicsCalculator.upperUnivShot,
@@ -239,26 +251,12 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.ampScore,
             ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperObtuseWrist,
-            ArmKinematicsCalculator.tuckedTransit,
-            TuningConstants.OBTUSE_WRIST_AND_TUCKED_TRANSIT_WEIGHT);
-        ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.upperObtuseWrist,
-            ArmKinematicsCalculator.tucked,
-            TuningConstants.OBTUSE_WRIST_AND_TUCKED_WEIGHT);
 
-        // Save us for hiting robot!!
-        ArmKinematicsCalculator.graph.connect(
-            ArmKinematicsCalculator.tuckedUnderTransit,
-            ArmKinematicsCalculator.tuckedTransit,
-            TuningConstants.TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT);
-        
-        // Quickest path to tucked from ground pickup
+        // TEST - SPEEDS UP AMP EVEN MORE
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.tucked,
-            ArmKinematicsCalculator.tuckedTransit,
-            TuningConstants.TUCKED_TO_TUCKED_TRANSIT_WEIGHT);
+            ArmKinematicsCalculator.tuckedGroundTransit,
+            ArmKinematicsCalculator.ampScore,
+            TuningConstants.AMP_SCORE_AND_TUCKED_GROUND_TRANSIT_WEIGHT);
     }
 
     public enum ExtensionType
