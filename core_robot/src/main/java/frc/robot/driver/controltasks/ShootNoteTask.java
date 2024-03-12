@@ -55,7 +55,7 @@ public class ShootNoteTask extends DecisionSequentialTask
         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagFront, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagRear, false);
         this.setDigitalOperationState(DigitalOperation.VisionFindAnyAprilTagFront, false);
-        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering));
+        this.AppendTask(new VisionTurningTask(VisionTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ShootNoteTask extends DecisionSequentialTask
             double distToTargetX = visionManager.getAprilTagXOffset() 
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
             + arm.getWristJointAbsPosition()[0];
-            double distToTargetY = visionManager.getAprilTagZOffset()
+            double distToTargetY = 57.5//visionManager.getAprilTagZOffset()
             + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
             - arm.getWristJointAbsPosition()[1];
 
@@ -75,15 +75,17 @@ public class ShootNoteTask extends DecisionSequentialTask
             pivotToTargetYDist = distToTargetY;
             setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
             
+// System.out.println("X: " -);
+
             this.AppendTask(ConcurrentTask.AllTasks(
-                new ShooterSpinTask(desiredVelocity * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
-                new SetEndEffectorAngleTask(desiredAngle)
+                // new ShooterSpinTask(this.desiredVelocity / (Math.PI * 2 * HardwareConstants.SHOOTER_FLYWHEEL_RADIUS) * 60 * TuningConstants.SHOOTER_DRAG_COMPENSATION_MULTIPLIER),
+                new SetEndEffectorAngleTask(this.desiredAngle)
             ));
 
-            this.AppendTask(SequentialTask.Sequence(
-                new IntakeControlTask(false, TuningConstants.KICK_OUTTAKE_TIME),
-                new FeedRingTask(true, TuningConstants.KICK_INTAKE_TIME)
-            ));
+            // this.AppendTask(SequentialTask.Sequence(
+                // new IntakeControlTask(false, TuningConstants.KICK_OUTTAKE_TIME),
+                // new FeedRingTask(true, TuningConstants.KICK_INTAKE_TIME)
+            // ));
         }
 
         if (finishedTask instanceof SequentialTask) {

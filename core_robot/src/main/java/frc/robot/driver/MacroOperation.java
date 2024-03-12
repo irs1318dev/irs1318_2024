@@ -30,6 +30,7 @@ public enum MacroOperation implements IOperation
     // EndEffector operations:
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
+    ShootAuto,
 
     // Shooter Operations
     ShootNote,
@@ -38,10 +39,16 @@ public enum MacroOperation implements IOperation
     ClimbMacro,
 
     // Vision operations
+    VisionTest,
+
+    // Trap
+    AutoTrapScore,
+    
 
     // Path testing:
     FollowPathTest1,
     FollowPathTest2,
     FollowPathTest3,
-    FollowPathTest4,
+    FollowPathTest4, 
+    
 }

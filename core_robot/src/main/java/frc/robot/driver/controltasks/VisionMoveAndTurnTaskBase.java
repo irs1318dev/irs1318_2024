@@ -20,6 +20,7 @@ public abstract class VisionMoveAndTurnTaskBase extends VisionTurningTask
         AprilTagStrafe,
     }
 
+    private final boolean driveBackwards;
     private final MoveType translateType;
     private final MoveSpeed moveSpeed;
     private final boolean verifyAngle;
@@ -29,10 +30,11 @@ public abstract class VisionMoveAndTurnTaskBase extends VisionTurningTask
     /**
     * Initializes a new VisionAdvanceAndCenterTaskBase
     */
-    protected VisionMoveAndTurnTaskBase(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle)
+    protected VisionMoveAndTurnTaskBase(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle, DigitalOperation visionOperation, boolean driveBackwards)
     {
-        super(false, rotateType, bestEffort);
+        super(false, rotateType, bestEffort, visionOperation);
 
+        this.driveBackwards = driveBackwards;
         this.translateType = translateType;
 
         this.moveSpeed = moveSpeed;
@@ -101,6 +103,11 @@ public abstract class VisionMoveAndTurnTaskBase extends VisionTurningTask
         {
             double desiredValue = this.getMoveDesiredValue(currentValue);
             double desiredVelocity = this.movePIDHandler.calculatePosition(desiredValue, currentValue);
+            if (this.driveBackwards)
+            {
+                desiredVelocity *= -1.0;
+            }
+
             switch (this.translateType)
             {
                 case AprilTagStrafe:
@@ -122,6 +129,7 @@ public abstract class VisionMoveAndTurnTaskBase extends VisionTurningTask
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, false);
         this.setAnalogOperationState(AnalogOperation.DriveTrainMoveForward, 0.0);
+        this.setAnalogOperationState(AnalogOperation.DriveTrainMoveRight, 0.0);
     }
 
     @Override

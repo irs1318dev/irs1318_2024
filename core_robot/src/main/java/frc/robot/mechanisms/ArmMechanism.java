@@ -28,6 +28,7 @@ public class ArmMechanism implements IMechanism
         None,
         Startup,
         Stall,
+        Reset,
         PositionChange,
         IK,
     }
@@ -45,6 +46,7 @@ public class ArmMechanism implements IMechanism
 
     private final ISparkMax shoulderMotor;
     private final ISparkMax wristMotor;
+    private final IDutyCycleEncoder wristAbsoluteEncoder;
 
     private double desiredShoulderPosition;
     private double desiredWristPosition;
@@ -57,6 +59,8 @@ public class ArmMechanism implements IMechanism
 
     private double wristPosition;
     private double wristVelocity;
+
+    private double wristAbsoluteEncoderPosition;
 
     private double shoulderError;
     private double wristError;
@@ -141,6 +145,11 @@ public class ArmMechanism implements IMechanism
         this.wristMotor.setVelocityConversionFactor(HardwareConstants.ARM_WRIST_TICK_VELOCITY);
         this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
         this.wristMotor.setNeutralMode(MotorNeutralMode.Coast);
+
+        this.wristAbsoluteEncoder = provider.getDutyCycleEncoder(ElectronicsConstants.ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL);
+        this.wristAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
+        this.wristAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE);
+        this.wristAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_WRIST_ABSOLUTE_ENCODER_OFFSET);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -278,6 +287,10 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
+        this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getDistance() - 48.5;
+
+        // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
+
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
@@ -312,6 +325,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmWristError, this.wristError);
         this.logger.logNumber(LoggingKey.ArmWristPowerAverage, this.wristPowerAverage);
         this.logger.logBoolean(LoggingKey.ArmWristLimitSwitch, this.wristLimitSwitchHit);
+        this.logger.logNumber(LoggingKey.ArmWristAbsoluteEncoderPosition, this.wristAbsoluteEncoderPosition);
     }
 
     @Override
@@ -482,7 +496,10 @@ public class ArmMechanism implements IMechanism
                     double newDesiredAbsoluteWristAngle = this.driver.getAnalog(AnalogOperation.ArmAbsWristAngle);
                     if (newDesiredAbsoluteWristAngle != TuningConstants.MAGIC_NULL_VALUE)
                     {
-                        newDesiredWristPosition = this.armKinematicsCalculator.switchToTheta2(newDesiredAbsoluteWristAngle);
+                        System.out.println(newDesiredAbsoluteWristAngle);
+                        double tempVal = this.armKinematicsCalculator.switchToTheta2(newDesiredAbsoluteWristAngle);
+                        this.logger.logNumber(LoggingKey.ActWristDesired, tempVal);
+                        newDesiredWristPosition = tempVal;
                     }
                 }
 
@@ -565,7 +582,16 @@ public class ArmMechanism implements IMechanism
             }
         }
 
-        if (TuningConstants.ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT &&
+        if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&
+            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) && 
+            Helpers.RoughEquals(this.wristPosition, this.desiredWristPosition, TuningConstants.ARM_WRIST_RESET_AT_POSITION_THRESHOLD) &&
+            !Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_CORRECTION_THRESHOLD)) 
+        {
+            this.updateCurrWristPosition = JumpProtectionReason.Reset;
+            this.wristMotor.setPosition(this.wristAbsoluteEncoderPosition);
+            this.wristMotor.burnFlash();
+        }
+        else if (TuningConstants.ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT &&
             this.wristLimitSwitchHit &&
             Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) &&
             !Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, 1.5))
@@ -588,7 +614,8 @@ public class ArmMechanism implements IMechanism
             {
                 shoulderCurr.updatePosition(this.shoulderPosition);
                 if (this.updateCurrShoulderPosition == JumpProtectionReason.Stall ||
-                    this.updateCurrShoulderPosition == JumpProtectionReason.Startup)
+                    this.updateCurrShoulderPosition == JumpProtectionReason.Startup ||
+                    this.updateCurrShoulderPosition == JumpProtectionReason.Reset)
                 {
                     shoulderCurr.setVelocity(0.0);
                 }
@@ -610,7 +637,8 @@ public class ArmMechanism implements IMechanism
             {
                 wristCurr.updatePosition(this.wristPosition);
                 if (this.updateCurrWristPosition == JumpProtectionReason.Stall ||
-                    this.updateCurrWristPosition == JumpProtectionReason.Startup)
+                    this.updateCurrWristPosition == JumpProtectionReason.Startup ||
+                    this.updateCurrWristPosition == JumpProtectionReason.Reset)
                 {
                     wristCurr.setVelocity(0.0);
                 }
