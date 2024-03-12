@@ -592,9 +592,11 @@ public class ArmMechanism implements IMechanism
 
         if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&
             this.wristAbsoluteEncoderPosition != null &&
-            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) && 
+            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.wristPosition, this.desiredWristPosition, TuningConstants.ARM_WRIST_RESET_AT_POSITION_THRESHOLD) &&
-            !Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_CORRECTION_THRESHOLD)) 
+            !Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_CORRECTION_THRESHOLD) &&
+            Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_DIFFERENCE_MAX) &&
+            Helpers.WithinRange(this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION))
         {
             this.updateCurrWristPosition = JumpProtectionReason.Reset;
             this.wristMotor.setPosition(this.wristAbsoluteEncoderPosition);
