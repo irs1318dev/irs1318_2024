@@ -450,7 +450,7 @@ public class TuningConstants
 
     public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
+    public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
