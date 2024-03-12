@@ -36,6 +36,12 @@ public class RobotProvider implements IRobotProvider
     }
 
     @Override
+    public IDutyCycleEncoder getDutyCycleEncoder(int digitalInputChannel)
+    {
+        return new DutyCycleEncoderWrapper(digitalInputChannel);
+    }
+
+    @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
         return new TalonSRXWrapper(deviceNumber);
@@ -206,7 +212,7 @@ public class RobotProvider implements IRobotProvider
     @Override
     public IDriverStation getDriverStation()
     {
-        return new DriverStationWrapper();
+        return DriverStationWrapper.Instance;
     }
 
     @Override

@@ -43,7 +43,7 @@ public class SmartDashboardSelectionManager
     {
         None,
         Close,
-        Center
+        Center,
     }
 
     public enum YesOrNo

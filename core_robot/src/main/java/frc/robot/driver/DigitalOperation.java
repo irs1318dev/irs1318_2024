@@ -18,6 +18,8 @@ public enum DigitalOperation implements IOperation
     VisionFindSpeakerAprilTagFront,
     VisionFindStageAprilTagsRear,
     VisionFindStageAprilTagsFront,
+    VisionFindAmpAprilTagRear,
+    VisionFindAmpAprilTagFront,
     VisionFindAnyAprilTagRear,
     VisionFindAnyAprilTagFront,
 
