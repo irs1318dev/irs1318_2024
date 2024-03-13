@@ -46,6 +46,7 @@ public class TuningConstants
     public static final double AMP_OT = 90.0;
     public static final double SOURCE_OT = 290;
 
+    public static final double DRIVE_P3_SHOOT_ORIENTATION = 135;
     public static final double DRIVE_P19_SHOOT_ORIENTATION = 225;
     public static final double DRIVE_P17_SHOOT_ORIENTATION = 135;
 
@@ -497,8 +498,10 @@ public class TuningConstants
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
     public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
+    public static final double ARM_WRIST_AUTO_P6M_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
+    public static final double ARM_WRIST_AUTO_P5M_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
 
     //Postion for going slightly out before a arm reset task, to gain momentum past limit switches
