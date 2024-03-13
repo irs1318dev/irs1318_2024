@@ -451,7 +451,7 @@ public class TuningConstants
 
     public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 840; //inches per second
+    public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
@@ -465,8 +465,6 @@ public class TuningConstants
     public static final double ARM_POWER_EXPONENTIAL = 1.0;
     public static final double ARM_SHOULDER_DEAD_ZONE = 0.1;
     public static final double ARM_WRIST_DEAD_ZONE = 0.1;
-
-    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
 
     public static final double ARM_SHOULDER_MIN_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MIN_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MIN_POSITION; // in degrees
     public static final double ARM_SHOULDER_MAX_POSITION = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_COMP_MAX_POSITION : TuningConstants.ARM_SHOULDER_PRACTICE_MAX_POSITION; // in degrees
@@ -518,7 +516,7 @@ public class TuningConstants
     // a transit node for going between tucked positions and ground pickup,
     // or ground pickup to tucked positions
     public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
-    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 85.0;
+    public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 82.0;
 
     // another transit node for going between tucked positions and ground pickup,
     // or ground pickup to tucked positions
@@ -568,33 +566,54 @@ public class TuningConstants
     public static final double ARM_SHOULDER_TRAP_SHOOT = 0 ;
     public static final double ARM_WRIST_TRAP_SHOOT = 0;
 
-    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.2;
+    // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
+    // Shoulder Univ's
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.1;
     public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
-    public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 1.0;
-    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
-    public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.0;
-    public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 1.0;
-    public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
-    public static final double SOURCE_PICKUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 1.0;
-    public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 1.0;
-    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.0;
-    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 1.0; // needs IK
-    public static final double GROUND_PICKUP_AND_TUCKED_TRANSIT_WEIGHT = 1.0;
-    public static final double UPPER_UNIV_AND_GROUND_PICKUP_WEIGHT = 3.0; // needs IK
-    public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double AMP_SCORE_AND_UPPER_UNIV_SHOT_WEIGHT = 1.0;
-    public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_TUCKED_TRANSIT_WEIGHT = 1.0;
-    public static final double OBTUSE_WRIST_AND_TUCKED_WEIGHT = 1.0;
-    public static final double TUCKED_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
-    public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 1.0;
-    public static final double TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT = 1.0;
-    public static final double GROUND_PICKUP_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 1.0;
-    public static final double GROUND_SHOT_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 1.0;
-    public static final double TUCKED_TRANSIT_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 1.0;
+    public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 0.2;
 
-    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 3.0;
+    // Universal Transit's
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.7;
+    public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.5;
+
+    // Lower quartile stuff
+    public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 0.5;
+    public static final double STARTUP_AMP_OUTTAKE_WEIGHT = 0.6;
+    public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 0.9;
+
+    // Trap Int's
+    public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 0.4;
+    public static final double STARTUP_AND_TRAP_INTERMEDIATE_WEIGHT = 1.2;
+
+    // Upper Univ's
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_OBTUSE_WEIGHT = 1.2;
+    public static final double UPPER_INTAKE_FLIPPED_AND_UPPER_UNIV_WEIGHT = 1.0;
+    public static final double UPPER_UNIV_AND_OBTUSE_WRIST_WEIGHT = 0.3;
+
+    // Tucked Transit's
+    public static final double UPPER_UNIV_AND_TUCKED_TRANSIT_WEIGHT = 0.6;
+    public static final double TUCKED_TRANSIT_AND_TUCKED_WEIGHT = 0.7; // might be illegal / break robot
+    public static final double UPPER_OBTUSE_WRIST_AND_TUCKED_TRANSIT_WEIGHT = 0.6;
+    public static final double TUCKED_UNDER_TO_TUCKED_TRANSIT_WEIGHT = 0.2;
+    public static final double AMP_SCORE_AND_TUCKED_TRANSIT_WEIGHT = 0.8;
+
+    // Upper quartile stuff
+    public static final double AMP_SCORE_AND_UPPER_UNIV_SHOT_WEIGHT = 0.4;
+    public static final double AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT = 0.3;
+
+    // Tucked Ground Transit's
+    public static final double GROUND_PICKUP_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 0.2;
+    public static final double GROUND_SHOT_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 0.35;
+    public static final double TUCKED_TRANSIT_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 0.4;
+    public static final double AMP_SCORE_AND_TUCKED_GROUND_TRANSIT_WEIGHT = 0.9; // might be illegal
+    
+    // Tucked
+    public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 0.6; // good
+    public static final double UPPER_OBTEUSE_WRIST_AND_TUCKED_WEIGHT = 0.5;
+
+    // -------------------------------------------> END OF WEIGHTS <---------------------------------------------
+
+    public static final double ARM_SHOULDER_WEIGHT_MULTIPLIER = 2.0;
     public static final double ARM_WRIST_WEIGHT_MULTIPLIER = 1.0;
 
     // ----------------> OTHER THINGS <----------------
@@ -619,6 +638,8 @@ public class TuningConstants
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
+    public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
 
     // SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP;

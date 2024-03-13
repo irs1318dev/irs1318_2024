@@ -37,6 +37,7 @@ public enum MacroOperation implements IOperation
 
     // Climber
     ClimbMacro,
+    TrapCombo,
 
     // Vision operations
     VisionTest,
