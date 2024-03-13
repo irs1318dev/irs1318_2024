@@ -482,6 +482,15 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainSpinLeft,
                 AnalogOperation.DriveTrainSpinRight,
             }),
+        
+
+        new MacroOperationDescription(
+            MacroOperation.TrapCombo, 
+            UserInputDevice.Test2, 
+            45, 
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.noneOf(Shift.class), 
+            ButtonType.Toggle),
 
         new MacroOperationDescription(
             MacroOperation.FaceLeft,
