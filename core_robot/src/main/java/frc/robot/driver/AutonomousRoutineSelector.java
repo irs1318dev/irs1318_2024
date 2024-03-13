@@ -950,184 +950,153 @@ public class AutonomousRoutineSelector
 
 
 
-    private static IControlTask AmpStartClosePriority(AutonLocManager locManager, boolean isRed, int numberNotes)
-    {
-
-        //if number of notes is 1, grab rightmost note and shoot at P6M
-        if(numberNotes == 1)
-        {
-            return SequentialTask.Sequence(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
-                ConcurrentTask.AllTasks(
-                    new ResetLevelTask(),
-                    new PositionStartingTask(
-                        locManager.P3,
-                        locManager.getOrientationOrHeading(180),
-                        true,
-                        true),
-                    new ArmZeroTask()
-            ),
-
-            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
-            new OrientationTask(locManager.getOrientationOrHeading(135), true),
-            ConcurrentTask.AllTasks(
-                new ShooterSpinTask(3000, 3),
-                new FeedRingTask(true, 3.0)
-            ),
-            isRed ? new PositionUpdateTask() : null
-            );
-        }
-
-
-        //if number of notes is 2, grab right most note, shoot at P6M, grab center note, shoot in place.
-        else if(numberNotes == 2)
+    private static IControlTask AmpStartClosePriority(AutonLocManager locManager, boolean isRed, boolean wigglyWobbily, boolean comeBack)
+    { 
+        if(wigglyWobbily)
         {
             return 
             ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15),
-            SequentialTask.Sequence(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P3.x,
+                            locManager.P3.y,
+                            locManager.getOrientationOrHeading(180),
+                            true,
+                            true),
+                        new ArmZeroTask()
+                ),
+
                 ConcurrentTask.AllTasks(
-                    new ResetLevelTask(),
-                    new PositionStartingTask(
-                        locManager.P3.x,
-                        locManager.P3.y,
-                        locManager.getOrientationOrHeading(180),
-                        true,
-                        true),
-                    new ArmZeroTask()
-            ),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(135), true)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(135), true)
-            ),
+                new FeedRingTask(true, 0.5),
 
-            new FeedRingTask(true, 0.5),
+                ConcurrentTask.AllTasks(
+                    new OrientationTask(locManager.getOrientationOrHeading(180), true),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new OrientationTask(locManager.getOrientationOrHeading(180), true),
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
-            ),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P3toP7Red" : "P3toP7Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new FollowPathTask(isRed ? "P3toP7Red" : "P3toP7Blue", Type.Absolute),
-                new IntakeControlTask(true, 1.4)
-            ),
+                ConcurrentTask.AllTasks(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(155), true),
+                    new IntakeControlTask(false, 0.07)
+                ),
+                
+                new FeedRingTask(true, 0.5),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(155), true),
-                new IntakeControlTask(false, 0.07)
-            ),
-            
-            new FeedRingTask(true, 0.5),
+                ConcurrentTask.AllTasks(
+                    new OrientationTask(locManager.getOrientationOrHeading(270), true),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new OrientationTask(locManager.getOrientationOrHeading(270), true),
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
-            ),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P7toP6Red" : "P7toP6Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new FollowPathTask(isRed ? "P7toP6Red" : "P7toP6Blue", Type.Absolute),
-                new IntakeControlTask(true, 1.4)
-            ),
+                ConcurrentTask.AllTasks(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(180), true),
+                    new IntakeControlTask(false, 0.07)
+                ),
+                
+                new FeedRingTask(true, 0.5),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(180), true),
-                new IntakeControlTask(false, 0.07)
-            ),
-            
-            new FeedRingTask(true, 0.5),
-            isRed ? new PositionUpdateTask() : null
-            ));
+                ConcurrentTask.AllTasks(
+                    new OrientationTask(locManager.getOrientationOrHeading(270), true),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P6toP5Red" : "P6toP5Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(205), true),
+                    new IntakeControlTask(false, 0.07)
+                ),
+                
+                new FeedRingTask(true, 0.5),
+                isRed ? new PositionUpdateTask() : null
+                ));
         }
 
-        //if number of notes is 3, grab grab right most note, shoot at P6M, grab center note, shoot in place,
-        //grab left note
-        
+        else if (comeBack)
+        {
+
+        }
+
         else
         {
-            return 
-            ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4050, 15),
-            SequentialTask.Sequence(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+            return ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4500, 15.0),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P3,
+                            locManager.getOrientationOrHeading(180),
+                            true,
+                            true),
+                        new ArmZeroTask()),
+
                 ConcurrentTask.AllTasks(
-                    new ResetLevelTask(),
-                    new PositionStartingTask(
-                        locManager.P3.x,
-                        locManager.P3.y,
-                        locManager.getOrientationOrHeading(180),
-                        true,
-                        true),
-                    new ArmZeroTask()
-            ),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(TuningConstants.DRIVE_P3_SHOOT_ORIENTATION), true)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(135), true)
-            ),
+                new FeedRingTask(true, 0.5),
+                
+                ConcurrentTask.AllTasks(
+                    new OrientationTask(locManager.getOrientationOrHeading(180), true),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                ),
 
-            new FeedRingTask(true, 0.5),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P3toP7Red" : "P3toP7Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new OrientationTask(locManager.getOrientationOrHeading(180), true),
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
-            ),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed? "P7toP6MASRed" : "P7toP6MASBlue"),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new FollowPathTask(isRed ? "P3toP7Red" : "P3toP7Blue", Type.Absolute),
-                new IntakeControlTask(true, 1.4)
-            ),
+                new FeedRingTask(true),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(155), true),
-                new IntakeControlTask(false, 0.07)
-            ),
-            
-            new FeedRingTask(true, 0.5),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed?"P6MtoP5MRed":"P6MtoP5MBlue", Type.Absolute),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5M_SHOT)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new OrientationTask(locManager.getOrientationOrHeading(270), true),
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
-            ),
+                new OrientationTask(locManager.getOrientationOrHeading(TuningConstants.ARM_WRIST_AUTO_P5M_SHOT)),
+                new FeedRingTask(true, 0.5),
+                new OrientationTask(locManager.getOrientationOrHeading(180)),
 
-            ConcurrentTask.AllTasks(
-                new FollowPathTask(isRed ? "P7toP6Red" : "P7toP6Blue", Type.Absolute),
-                new IntakeControlTask(true, 1.4)
-            ),
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed?"P5MtoP5Red":"P5MtoP5Blue", Type.Absolute)
+                ),
 
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(180), true),
-                new IntakeControlTask(false, 0.07)
-            ),
-            
-            new FeedRingTask(true, 0.5),
+                new OrientationTask(locManager.getOrientationOrHeading(TuningConstants.ARM_WRIST_AUTO_P5_SHOT)),
+                new FeedRingTask(true, 0.5),
 
-            ConcurrentTask.AllTasks(
-                new OrientationTask(locManager.getOrientationOrHeading(270), true),
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
-            ),
 
-            ConcurrentTask.AllTasks(
-                new FollowPathTask(isRed ? "P6toP5Red" : "P6toP5Blue", Type.Absolute),
-                new IntakeControlTask(true, 1.4)
-            ),
-
-            ConcurrentTask.AllTasks(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P5_SHOT),
-                new OrientationTask(locManager.getOrientationOrHeading(205), true),
-                new IntakeControlTask(false, 0.07)
-            ),
-            
-            new FeedRingTask(true, 0.5),
-            isRed ? new PositionUpdateTask() : null
-
-            ));
+                isRed ? new PositionUpdateTask() : null
+                ));
         }
     }
 
@@ -1373,6 +1342,11 @@ public class AutonomousRoutineSelector
         {
             return GetFillerRoutine();
         }
+    }
+
+    private static IControlTask AmpStartClosePriority
+    {
+        
     }
 }
 
