@@ -6,7 +6,6 @@ import frc.lib.helpers.LinearInterpolator;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
-import frc.robot.driver.controltasks.VisionTurningTask.TurnType;
 import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
@@ -17,7 +16,9 @@ public class VisionShooterAimTask extends ControlTaskBase
         return ConcurrentTask.AllTasks(
             new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 10.0),
             SequentialTask.Sequence(
-                new VisionTurningTask(TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                ConcurrentTask.AllTasks(
+                    new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT)),
                 new VisionShooterAimTask(),
                 new FeedRingTask(true)));
     }

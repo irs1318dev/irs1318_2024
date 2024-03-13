@@ -60,7 +60,7 @@ public class ArmMechanism implements IMechanism
     private double wristPosition;
     private double wristVelocity;
 
-    private double wristAbsoluteEncoderPosition;
+    private Double wristAbsoluteEncoderPosition;
 
     private double shoulderError;
     private double wristError;
@@ -287,9 +287,17 @@ public class ArmMechanism implements IMechanism
         this.wristVelocity = this.wristMotor.getVelocity(); // convert ticks/100ms to degrees/sec
         this.wristError = this.wristPosition - this.currentDesiredWristPosition;
 
-        this.wristAbsoluteEncoderPosition = this.wristAbsoluteEncoder.getDistance() - 48.5;
+        this.wristAbsoluteEncoderPosition =
+            !this.wristAbsoluteEncoder.isConnected() ?
+                null : (this.wristAbsoluteEncoder.getDistance() - 48.5);
 
-        // System.out.println("Shoulder: " + this.shoulderPosition + " Wrist: " + this.wristPosition);
+        System.out.println(
+            String.format(
+                "Connected: %b, absPos: %f, freq %d, dist %f",
+                this.wristAbsoluteEncoder.isConnected(),
+                this.wristAbsoluteEncoder.getAbsolutePosition(),
+                this.wristAbsoluteEncoder.getFrequency(),
+                this.wristAbsoluteEncoder.getDistance()));
 
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
 
@@ -583,9 +591,12 @@ public class ArmMechanism implements IMechanism
         }
 
         if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&
-            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) && 
+            this.wristAbsoluteEncoderPosition != null &&
+            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.wristPosition, this.desiredWristPosition, TuningConstants.ARM_WRIST_RESET_AT_POSITION_THRESHOLD) &&
-            !Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_CORRECTION_THRESHOLD)) 
+            !Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_CORRECTION_THRESHOLD) &&
+            Helpers.RoughEquals(this.wristPosition, this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_RESET_DIFFERENCE_MAX) &&
+            Helpers.WithinRange(this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION))
         {
             this.updateCurrWristPosition = JumpProtectionReason.Reset;
             this.wristMotor.setPosition(this.wristAbsoluteEncoderPosition);

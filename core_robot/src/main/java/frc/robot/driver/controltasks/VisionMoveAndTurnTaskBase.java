@@ -5,7 +5,7 @@ import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.*;
 
-public abstract class VisionMoveAndTurnTaskBase extends VisionTurningTask
+public abstract class VisionMoveAndTurnTaskBase extends VisionContinuousTurningTask
 {
     public enum MoveSpeed
     {

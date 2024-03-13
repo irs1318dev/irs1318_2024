@@ -49,7 +49,7 @@ public class FauxbotProvider implements IRobotProvider
     @Override
     public IDutyCycleEncoder getDutyCycleEncoder(int channel)
     {
-        return null; // new FauxbotDutyCycleEncoder(channel);
+        return new FauxbotDutyCycleEncoder(channel);
     }
 
     @Override
