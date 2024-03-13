@@ -608,6 +608,8 @@ public class ArmMechanism implements IMechanism
             Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) &&
             !Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, 1.5))
         {
+            this.updateCurrWristPosition = JumpProtectionReason.Reset;
+            this.wristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
             this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
             this.wristMotor.burnFlash();
         }
