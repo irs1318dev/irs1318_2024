@@ -70,7 +70,7 @@ public class OrientationTask extends UpdateCycleTask
 
         double currentYaw = this.pigeonManager.getYaw();
         double yawGoal = AnglePair.getClosestAngle(this.orientation, currentYaw, false).getAngle();
-        System.out.println("orient: " + currentYaw + "," + yawGoal);
+        // System.out.println("orient: " + currentYaw + "," + yawGoal);
         return Math.abs(currentYaw - yawGoal) < TuningConstants.ORIENTATION_TURN_THRESHOLD;
     }
 }

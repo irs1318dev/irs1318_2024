@@ -291,13 +291,13 @@ public class ArmMechanism implements IMechanism
             !this.wristAbsoluteEncoder.isConnected() ?
                 null : (this.wristAbsoluteEncoder.getDistance() - 48.5);
 
-        System.out.println(
-            String.format(
-                "Connected: %b, absPos: %f, freq %d, dist %f",
-                this.wristAbsoluteEncoder.isConnected(),
-                this.wristAbsoluteEncoder.getAbsolutePosition(),
-                this.wristAbsoluteEncoder.getFrequency(),
-                this.wristAbsoluteEncoder.getDistance()));
+        // System.out.println(
+        //     String.format(
+        //         "Connected: %b, absPos: %f, freq %d, dist %f",
+        //         this.wristAbsoluteEncoder.isConnected(),
+        //         this.wristAbsoluteEncoder.getAbsolutePosition(),
+        //         this.wristAbsoluteEncoder.getFrequency(),
+        //         this.wristAbsoluteEncoder.getDistance()));
 
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
 
@@ -599,6 +599,7 @@ public class ArmMechanism implements IMechanism
             Helpers.WithinRange(this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_MIN_POSITION, TuningConstants.ARM_WRIST_MAX_POSITION))
         {
             this.updateCurrWristPosition = JumpProtectionReason.Reset;
+            this.wristPosition = this.wristAbsoluteEncoderPosition;
             this.wristMotor.setPosition(this.wristAbsoluteEncoderPosition);
             this.wristMotor.burnFlash();
         }
