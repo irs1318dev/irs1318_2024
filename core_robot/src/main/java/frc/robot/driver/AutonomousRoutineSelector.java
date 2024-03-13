@@ -1036,7 +1036,7 @@ public class AutonomousRoutineSelector
 
         else if (comeBack)
         {
-
+            return null;
         }
 
         else
@@ -1342,11 +1342,6 @@ public class AutonomousRoutineSelector
         {
             return GetFillerRoutine();
         }
-    }
-
-    private static IControlTask AmpStartClosePriority
-    {
-        
     }
 }
 

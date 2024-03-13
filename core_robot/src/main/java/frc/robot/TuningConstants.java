@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -27,7 +27,6 @@ public class TuningConstants
     public static final double EUGENE_HAROLD_KRABS = 0.0;
     public static final double ENDGAME_START_TIME = 30.0;
     public static final double ENDGAME_CLIMB_TIME = 5.0;
-
 
     //================================================== Logging  ==============================================================
 
@@ -515,7 +514,7 @@ public class TuningConstants
 
     // a transit node for going between tucked positions and ground pickup,
     // or ground pickup to tucked positions
-    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 3.0;
     public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 82.0;
 
     // another transit node for going between tucked positions and ground pickup,
