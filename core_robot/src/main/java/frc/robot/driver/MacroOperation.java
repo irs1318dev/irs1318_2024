@@ -51,5 +51,8 @@ public enum MacroOperation implements IOperation
     FollowPathTest2,
     FollowPathTest3,
     FollowPathTest4, 
+
+    //auto stop forward drive note intake
+    DriveAndIntake
     
 }

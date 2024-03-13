@@ -329,6 +329,7 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Simple),
 
+
         // Vision test operations:
         // new DigitalOperationDescription(
         //     DigitalOperation.VisionFindSpeakerAprilTagRear,
@@ -688,12 +689,14 @@ public class ButtonMap implements IButtonMap
 
         new MacroOperationDescription(
             MacroOperation.FollowPathTest4,
-            UserInputDevice.Test1,
-            90,
+            UserInputDevice.Test2,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
             EnumSet.noneOf(Shift.class),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
-            () -> new FollowPathTask("goRight22in", Type.RobotRelativeFromCurrentPose),
+            () ->
+                new ForwardsUntilNoteTask(),
+            
             new IOperation[]
             {
                 DigitalOperation.PositionResetFieldOrientation,
@@ -836,6 +839,56 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristPower,
             }),
 
+        new MacroOperationDescription(
+        MacroOperation.ArmShoulderWristPosition1,
+        UserInputDevice.Test2, 
+        90,
+        EnumSet.of(Shift.CodriverDebug),
+        EnumSet.noneOf(Shift.class),
+        ButtonType.Toggle, 
+        () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION),
+        new IOperation[]
+        {
+            DigitalOperation.PositionResetFieldOrientation,
+                DigitalOperation.PositionResetRobotLevel,
+                AnalogOperation.PositionStartingAngle,
+                DigitalOperation.DriveTrainResetXYPosition,
+                AnalogOperation.DriveTrainStartingXPosition,
+                AnalogOperation.DriveTrainStartingYPosition,
+                AnalogOperation.DriveTrainMoveForward,
+                AnalogOperation.DriveTrainMoveRight,
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+                AnalogOperation.DriveTrainRotationA,
+                AnalogOperation.DriveTrainRotationB,
+                AnalogOperation.DriveTrainPathXGoal,
+                AnalogOperation.DriveTrainPathYGoal,
+                AnalogOperation.DriveTrainPathXVelocityGoal,
+                AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleVelocityGoal,
+                AnalogOperation.DriveTrainPositionDrive1,
+                AnalogOperation.DriveTrainPositionDrive2,
+                AnalogOperation.DriveTrainPositionDrive3,
+                AnalogOperation.DriveTrainPositionDrive4,
+                AnalogOperation.DriveTrainPositionSteer1,
+                AnalogOperation.DriveTrainPositionSteer2,
+                AnalogOperation.DriveTrainPositionSteer3,
+                AnalogOperation.DriveTrainPositionSteer4,
+                DigitalOperation.DriveTrainSteerMode,
+                DigitalOperation.DriveTrainMaintainPositionMode,
+                DigitalOperation.DriveTrainPathMode,
+                DigitalOperation.DriveTrainReset,
+                DigitalOperation.DriveTrainEnableFieldOrientation,
+                DigitalOperation.DriveTrainDisableFieldOrientation,
+                DigitalOperation.DriveTrainUseRobotOrientation,
+                DigitalOperation.VisionEnableStream,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionForceDisable,
+        }),
         // new MacroOperationDescription(
         //     MacroOperation.ArmShoulderWristPosition1,
         //     UserInputDevice.Codriver, 
@@ -1126,6 +1179,7 @@ public class ButtonMap implements IButtonMap
         //         AnalogOperation.ClimberPower,
         //     }),
         
+        
         new MacroOperationDescription(
             MacroOperation.VisionTest,
             UserInputDevice.Driver, 
@@ -1188,7 +1242,6 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
             }),
-
             
         // new MacroOperationDescription(
         //     MacroOperation.AutoTrapScore,//a
@@ -1198,8 +1251,7 @@ public class ButtonMap implements IButtonMap
         //     EnumSet.noneOf(Shift.class),
         //     ButtonType.Toggle,
         //     () -> SequentialTask.Sequence(
-                
-        //         new ShootTrapTask(0,0,null) //add vision operation
+        //         new ShootTrapTask(0,0,  this.drive.getDigital(DigitalOperation.VisionFindStageAprilTagsFront))
         //     ),
         //     new IOperation[]
         //     {
