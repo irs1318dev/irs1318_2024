@@ -10,6 +10,7 @@ import frc.lib.driver.descriptions.*;
 import frc.lib.helpers.Helpers;
 import frc.robot.*;
 import frc.robot.driver.controltasks.*;
+import frc.robot.driver.controltasks.FieldOrientationTask.DesiredOrientation;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
 
 @Singleton
@@ -520,7 +521,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
-            () -> new OrientationTask(-90), // Add to work for both colors
+            () -> new FieldOrientationTask(DesiredOrientation.Amp),
             new IOperation[]
             {
                 AnalogOperation.DriveTrainTurnAngleGoal,
@@ -908,23 +909,23 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristPower,
            }),
 
-        // new MacroOperationDescription(
-            // MacroOperation.ArmShoulderWristPosition5,
-            // UserInputDevice.Codriver, 
-            // UserInputDeviceButton.XBONE_B_BUTTON,
-            // EnumSet.of(Shift.CodriverDebug),
-            // EnumSet.of(Shift.CodriverDebug),
-            // ButtonType.Toggle, 
-            // () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
-            // new IOperation[]
-            // {
-                // AnalogOperation.ArmShoulderPositionSetpoint,
-                // AnalogOperation.ArmWristPositionSetpoint,
-                // AnalogOperation.ArmShoulderAdjustment,
-                // AnalogOperation.ArmWristAdjustment,
-                // AnalogOperation.ArmShoulderPower,
-                // AnalogOperation.ArmWristPower,
-            // }),
+        new MacroOperationDescription(
+            MacroOperation.ArmShoulderWristPosition5,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Toggle, 
+            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TUCKED, TuningConstants.ARM_WRIST_POSITION_TUCKED_SHOT),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
+            }),
 
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPosition6,
