@@ -1126,6 +1126,7 @@ public class ButtonMap implements IButtonMap
         //         AnalogOperation.ClimberPower,
         //     }),
         
+        
         new MacroOperationDescription(
             MacroOperation.VisionTest,
             UserInputDevice.Driver, 
@@ -1188,7 +1189,6 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
             }),
-
             
         // new MacroOperationDescription(
         //     MacroOperation.AutoTrapScore,//a
@@ -1198,8 +1198,7 @@ public class ButtonMap implements IButtonMap
         //     EnumSet.noneOf(Shift.class),
         //     ButtonType.Toggle,
         //     () -> SequentialTask.Sequence(
-                
-        //         new ShootTrapTask(0,0,null) //add vision operation
+        //         new ShootTrapTask(0,0,  this.drive.getDigital(DigitalOperation.VisionFindStageAprilTagsFront))
         //     ),
         //     new IOperation[]
         //     {
