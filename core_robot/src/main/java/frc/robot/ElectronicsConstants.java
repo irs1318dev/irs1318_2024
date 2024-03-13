@@ -78,7 +78,7 @@ public class ElectronicsConstants
 
     public static final int ARM_SHOULDER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 3 : 6;
     public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 4 : 7;
-    public static final int ARM_WRIST_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 17 : 11;
+    public static final int ARM_WRIST_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 16 : 11;
     public static final int ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL = 1; // change 
 
     //================================================= Climber ====================================================================
