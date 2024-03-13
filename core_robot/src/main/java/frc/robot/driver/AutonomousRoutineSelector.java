@@ -15,8 +15,6 @@ import frc.robot.driver.SmartDashboardSelectionManager.PriorityPickupSide;
 import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
-import frc.robot.driver.controltasks.VisionMoveAndTurnTaskBase.MoveType;
-import frc.robot.driver.controltasks.VisionContinuousTurningTask.TurnType;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -1033,10 +1031,73 @@ public class AutonomousRoutineSelector
                 isRed ? new PositionUpdateTask() : null
                 ));
         }
-
+        
         else if (comeBack)
         {
-            return null;
+            return ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4500, 15.0),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P3,
+                            locManager.getOrientationOrHeading(180),
+                            true,
+                            true),
+                        new ArmZeroTask()),
+
+                ConcurrentTask.AllTasks(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_AUTO_P3_SHOT),
+                    new OrientationTask(locManager.getOrientationOrHeading(TuningConstants.DRIVE_P3_SHOOT_ORIENTATION), true)
+                ),
+
+                new FeedRingTask(true, 0.5),
+                
+                ConcurrentTask.AllTasks(
+                    new OrientationTask(locManager.getOrientationOrHeading(180), true),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed ? "P3toP7Red" : "P3toP7Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed? "P7toP4CSRed" : "P7toP4CSBlue"),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P4_SHOT)
+                ),
+
+                new FeedRingTask(true, 0.5),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed?"P4toP6Red":"P4toP6Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed? "P6toP4CSRed" : "P6toP4CSBlue"),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P4_SHOT)
+                ),
+
+                new FeedRingTask(true, 0.5),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed?"P4toP5Red":"P4toP5Blue", Type.Absolute),
+                    new IntakeControlTask(true, 1.4)
+                ),
+
+                ConcurrentTask.AllTasks(
+                    new FollowPathTask(isRed? "P5toP4CSRed" : "P5toP4CSBlue"),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P4_SHOT)
+                ),
+
+                new FeedRingTask(true, 0.5),
+
+
+                isRed ? new PositionUpdateTask() : null
+                ));
         }
 
         else

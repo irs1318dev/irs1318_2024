@@ -12,7 +12,6 @@ import frc.robot.*;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FieldOrientationTask.DesiredOrientation;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
-import frc.robot.driver.controltasks.VisionContinuousTurningTask.TurnType;
 
 @Singleton
 public class ButtonMap implements IButtonMap
