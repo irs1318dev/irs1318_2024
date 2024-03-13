@@ -485,14 +485,6 @@ public class ButtonMap implements IButtonMap
         
 
         new MacroOperationDescription(
-            MacroOperation.TrapCombo, 
-            UserInputDevice.Test2, 
-            45, 
-            EnumSet.of(Shift.DriverDebug),
-            EnumSet.noneOf(Shift.class), 
-            ButtonType.Toggle),
-
-        new MacroOperationDescription(
             MacroOperation.FaceLeft,
             UserInputDevice.Driver,
             270, // DPAD-up
