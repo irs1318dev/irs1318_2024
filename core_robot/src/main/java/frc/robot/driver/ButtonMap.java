@@ -12,6 +12,8 @@ import frc.robot.*;
 import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.FieldOrientationTask.DesiredOrientation;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
+import frc.robot.driver.controltasks.VisionContinuousTurningTask.TurnType;
+import frc.robot.driver.controltasks.VisionMoveAndTurnTaskBase.MoveType;
 
 @Singleton
 public class ButtonMap implements IButtonMap
@@ -507,7 +509,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
             ButtonType.Toggle,
-            () -> new ApproachAprilTagTask(24.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
+            () -> new ApproachAprilTagTask(36.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
             new IOperation[]
             {
                 DigitalOperation.VisionFindAnyAprilTagFront,
