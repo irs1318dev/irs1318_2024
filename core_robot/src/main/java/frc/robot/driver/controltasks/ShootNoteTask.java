@@ -63,13 +63,22 @@ public class ShootNoteTask extends DecisionSequentialTask
     {
         super.finishedTask(finishedTask);
 
-        if (finishedTask instanceof VisionSingleTurningTask) {
-            double distToTargetX = visionManager.getAprilTagXOffset() 
-            + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
-            + arm.getWristJointAbsPosition()[0];
+        if (finishedTask instanceof VisionSingleTurningTask)
+        {
+            Double visionX = visionManager.getAprilTagXOffset();
+            if (visionX != null)
+            {
+                // give up instead of crashing...
+                this.hasCompleted = true;
+                return;
+            }
+
+            double distToTargetX = (double)visionX
+                + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
+                + 12.0;//arm.getWristJointAbsPosition()[0];
             double distToTargetY = 57.5//visionManager.getAprilTagZOffset()
-            + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
-            - arm.getWristJointAbsPosition()[1];
+                + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
+                - 11.5;//arm.getWristJointAbsPosition()[1];
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;

@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 3.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 
@@ -636,7 +636,7 @@ public class TuningConstants
 
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 2.0;
+    public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
 
@@ -842,7 +842,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
     public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.85;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
