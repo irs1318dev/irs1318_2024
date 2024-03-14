@@ -531,6 +531,64 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
+            MacroOperation.FaceBackward,
+            UserInputDevice.Driver,
+            180, // DPAD-down
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.of(Shift.DriverDebug),
+            ButtonType.Toggle,
+            () -> SequentialTask.Sequence(
+                new FieldOrientationTask(DesiredOrientation.Amp),
+                new ApproachAprilTagTask(18.0, 0.0, DigitalOperation.VisionFindAmpAprilTagFront)),
+            new IOperation[]
+            {
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+                DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAnyAprilTagRear,
+                DigitalOperation.VisionFindSpeakerAprilTagFront,
+                DigitalOperation.VisionFindSpeakerAprilTagRear,
+                DigitalOperation.VisionFindAmpAprilTagFront,
+                DigitalOperation.VisionFindAmpAprilTagRear,
+                DigitalOperation.VisionFindStageAprilTagsFront,
+                DigitalOperation.VisionFindStageAprilTagsRear,
+                DigitalOperation.VisionEnableStream,
+                DigitalOperation.VisionForceDisable,
+                DigitalOperation.DriveTrainResetXYPosition,
+                DigitalOperation.DriveTrainEnableMaintainDirectionMode,
+                AnalogOperation.DriveTrainStartingXPosition,
+                AnalogOperation.DriveTrainStartingYPosition,
+                AnalogOperation.DriveTrainMoveForward,
+                AnalogOperation.DriveTrainMoveRight,
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+                AnalogOperation.DriveTrainRotationA,
+                AnalogOperation.DriveTrainRotationB,
+                AnalogOperation.DriveTrainPathXGoal,
+                AnalogOperation.DriveTrainPathYGoal,
+                AnalogOperation.DriveTrainPathXVelocityGoal,
+                AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleVelocityGoal,
+                AnalogOperation.DriveTrainPositionDrive1,
+                AnalogOperation.DriveTrainPositionDrive2,
+                AnalogOperation.DriveTrainPositionDrive3,
+                AnalogOperation.DriveTrainPositionDrive4,
+                AnalogOperation.DriveTrainPositionSteer1,
+                AnalogOperation.DriveTrainPositionSteer2,
+                AnalogOperation.DriveTrainPositionSteer3,
+                AnalogOperation.DriveTrainPositionSteer4,
+                DigitalOperation.DriveTrainSteerMode,
+                DigitalOperation.DriveTrainMaintainPositionMode,
+                DigitalOperation.DriveTrainPathMode,
+                DigitalOperation.DriveTrainReset,
+                DigitalOperation.DriveTrainEnableFieldOrientation,
+                DigitalOperation.DriveTrainDisableFieldOrientation,
+                DigitalOperation.DriveTrainUseRobotOrientation,
+            }),
+
+        new MacroOperationDescription(
             MacroOperation.FollowPathTest1,
             UserInputDevice.Test1,
             0,
@@ -1242,7 +1300,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
             }),
-            
+
         // new MacroOperationDescription(
         //     MacroOperation.AutoTrapScore,//a
         //     UserInputDevice.Test1,
@@ -1305,7 +1363,7 @@ public class ButtonMap implements IButtonMap
         // EnumSet.noneOf(Shift.class),
         // ButtonType.Toggle,
         // () -> SequentialTask.Sequence(
-        //     new ApproachAprilTagTask(0,0,null), //add vision operation
+        //     new ApproachAprilTagTask(24.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
         //     new ClimberWinchTask(ClimberWinchTask.WinchState.Retracted)
         // ),
         // new IOperation[]

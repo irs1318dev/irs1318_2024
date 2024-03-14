@@ -52,12 +52,6 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
     }
 
     private State state;
-
-    public ApproachAprilTagTask()
-    {
-        this(72.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront);
-    }
-
     /**
      * Initializes an instance of the ApproachAprilTagTask class
      * @param xOffset the distance the robot should end up in front of the tag
