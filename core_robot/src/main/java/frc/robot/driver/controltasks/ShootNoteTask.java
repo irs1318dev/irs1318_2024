@@ -66,14 +66,14 @@ public class ShootNoteTask extends DecisionSequentialTask
         if (finishedTask instanceof VisionSingleTurningTask)
         {
             Double visionX = visionManager.getAprilTagXOffset();
-            if (visionX != null)
+            if (visionX == null)
             {
                 // give up instead of crashing...
                 this.hasCompleted = true;
                 return;
             }
 
-            double distToTargetX = (double)visionX
+            double distToTargetX = visionX.doubleValue()
                 + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
                 + 12.0;//arm.getWristJointAbsPosition()[0];
             double distToTargetY = 57.5//visionManager.getAprilTagZOffset()
