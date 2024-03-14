@@ -840,6 +840,7 @@ public class TuningConstants
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
     public static final double CLIMBER_WINCH_DOWN_POWER = -0.85;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
