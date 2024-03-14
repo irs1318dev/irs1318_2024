@@ -23,12 +23,21 @@ public class ButtonMapVerifier
 
     public static void Verify(IButtonMap buttonMap, boolean failOnError, boolean printMapping)
     {
+        EnumSet<DigitalOperation> digitalOperations = EnumSet.noneOf(DigitalOperation.class);
+        EnumSet<AnalogOperation> analogOperations = EnumSet.noneOf(AnalogOperation.class);
+        EnumSet<MacroOperation> macroOperations = EnumSet.noneOf(MacroOperation.class);
         if (failOnError)
         {
             // verify that there isn't overlap between buttons
             HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription<?>>>> mapping = new HashMap<ButtonCombination, HashMap<EnumSet<Shift>, List<OperationDescription<?>>>>();
             for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
             {
+                DigitalOperation operation = description.getOperation();
+                if (!digitalOperations.add(operation))
+                {
+                    throw new RuntimeException("Two descriptions used for digital operation " + operation.toString());
+                }
+
                 ButtonCombination button = new ButtonCombination(
                     description.getUserInputDevice(),
                     description.getUserInputDeviceButton(),
@@ -65,7 +74,7 @@ public class ButtonMapVerifier
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
-                                    throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                    throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                                 }
                             }
 
@@ -88,7 +97,7 @@ public class ButtonMapVerifier
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
-                                throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                             }
                         }
 
@@ -105,6 +114,12 @@ public class ButtonMapVerifier
 
             for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
             {
+                AnalogOperation operation = description.getOperation();
+                if (!analogOperations.add(operation))
+                {
+                    throw new RuntimeException("Two descriptions used for analog operation " + operation.toString());
+                }
+
                 ButtonCombination button = new ButtonCombination(
                     description.getUserInputDevice(),
                     UserInputDeviceButton.ANALOG_AXIS_RANGE,
@@ -141,7 +156,7 @@ public class ButtonMapVerifier
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
-                                    throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                    throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                                 }
                             }
 
@@ -164,7 +179,7 @@ public class ButtonMapVerifier
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
-                                throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                             }
                         }
 
@@ -181,6 +196,12 @@ public class ButtonMapVerifier
 
             for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
             {
+                MacroOperation operation = description.getOperation();
+                if (!macroOperations.add(operation))
+                {
+                    throw new RuntimeException("Two descriptions used for macro operation " + operation.toString());
+                }
+
                 ButtonCombination button = new ButtonCombination(
                     description.getUserInputDevice(),
                     description.getUserInputDeviceButton(),
@@ -217,7 +238,7 @@ public class ButtonMapVerifier
                             {
                                 if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
-                                    throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                    throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                                 }
                             }
 
@@ -240,7 +261,7 @@ public class ButtonMapVerifier
                         {
                             if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
-                                throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
+                                throw new RuntimeException("Disagreement between " + operation.toString() + " and " + otherDescription.getOperation().toString());
                             }
                         }
 
