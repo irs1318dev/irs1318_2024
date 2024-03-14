@@ -406,15 +406,13 @@ public class AutonomousRoutineSelector
 
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                        new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute) //cpmes back
+                        new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute) //comes back
                     ),
 
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.7), //shooyt
+                    new FeedRingTask(true, 0.7), //shoot
                 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
-
-                    //success until here 
 
                     ConcurrentTask.AllTasks(
                         new FollowPathTask(isRed ? "P4toP7CSRed" : "P4toP7CSBlue", Type.Absolute),
@@ -487,6 +485,135 @@ public class AutonomousRoutineSelector
                 )
             );
         }
+
+        else if (routine == AutoRoutine.FourNote)
+        {
+            return ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4050, 15.0),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P4,
+                            locManager.getOrientationOrHeading(180),
+                            true,
+                            true),
+                        new ArmZeroTask()
+                    ),
+
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5), //shoot
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P4toP6CSRed" : "P4toP6CSBlue", Type.Absolute),
+                        new IntakeControlTask(true, 2.0) //go to p6
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute) //comes back
+                    ),
+
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5), //shoot
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P4toP7CSRed" : "P4toP7CSBlue", Type.Absolute),
+                        new IntakeControlTask(true, 2.5)
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P7toP4CSRed" : "P7toP4CSBlue", Type.Absolute)
+                    ),
+                    
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P4toP5CSRed" : "P4toP5CSBlue", Type.Absolute),
+                        new IntakeControlTask(true, 2.5)
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P5toP4CSRed" : "P5toP4CSBlue", Type.Absolute)
+                    ),                    
+
+                    isRed ? new PositionUpdateTask() : null
+                )
+            );
+        }
+
+        // Four note and shoot from far
+        // else if (routine == AutoRoutine.FourNote)
+        // {
+            // return ConcurrentTask.AllTasks(
+                // new ShooterSpinTask(4050, 15.0),
+                // SequentialTask.Sequence(
+                    // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
+                    // ConcurrentTask.AllTasks(
+                        // new ResetLevelTask(),
+                        // new PositionStartingTask(
+                            // locManager.P4,
+                            // locManager.getOrientationOrHeading(180),
+                            // true,
+                            // true),
+                        // new ArmZeroTask()
+                    // ),
+// 
+                    // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    // new WaitTask(0.3),
+                    // new FeedRingTask(true, 0.5), //shoot
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        // new FollowPathTask(isRed ? "P4toP6CSRed" : "P4toP6CSBlue", Type.Absolute),
+                        // new IntakeControlTask(true, 2.0) //go to p6
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
+                        // new FollowPathTask(isRed ? "P6toP6MCSRed" : "P6toP6MCSBlue", Type.Absolute) //comes back
+                    // ),
+// 
+                    // new WaitTask(0.3),
+                    // new FeedRingTask(true, 0.5), //shoot
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        // new FollowPathTask(isRed ? "P6MtoP7CSRed" : "P6MtoP7CSBlue", Type.Absolute),
+                        // new IntakeControlTask(true, 2.5)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
+                        // new FollowPathTask(isRed ? "P7toP6MCSRed" : "P7toP6MCSBlue", Type.Absolute)
+                    // ),
+                    // 
+                    // new WaitTask(0.3),
+                    // new FeedRingTask(true, 0.5),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        // new FollowPathTask(isRed ? "P6MtoP5CSRed" : "P6MtoP5CSBlue", Type.Absolute),
+                        // new IntakeControlTask(true, 2.5)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
+                        // new FollowPathTask(isRed ? "P5toP6MCSRed" : "P5toP6MCSBlue", Type.Absolute)
+                    // ),                    
+// 
+                    // isRed ? new PositionUpdateTask() : null
+                // )
+            // );
+        // }
 
         else
         {
