@@ -13,6 +13,8 @@ public enum MacroOperation implements IOperation
     FaceBackward,
     FaceLeft,
     FaceRight,
+    AlignStage,
+    AlignAmp,
 
     // Arm operations:
     ArmShoulderWristPosition1,
