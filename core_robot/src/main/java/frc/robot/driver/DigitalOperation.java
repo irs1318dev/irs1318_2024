@@ -37,6 +37,7 @@ public enum DigitalOperation implements IOperation
     DriveTrainDisableMaintainDirectionMode,
     DriveTrainResetXYPosition,
     DriveTrainIgnoreSlewRateLimitingMode,
+    DriveTrainKeepThisOrientation,
 
     // EndEffector operations:
     IntakeIn,

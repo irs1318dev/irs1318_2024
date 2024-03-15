@@ -378,6 +378,7 @@ public class TuningConstants
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
+    public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.45;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
@@ -562,8 +563,9 @@ public class TuningConstants
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 6.0;
 
-    public static final double ARM_SHOULDER_TRAP_SHOOT = 0 ;
-    public static final double ARM_WRIST_TRAP_SHOOT = 0;
+    public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
+    public static final double ARM_WRIST_TRAP_SHOOT = 127.33549499511719;
+    // vel - 1725.2799072265625 - 33 inches off
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's

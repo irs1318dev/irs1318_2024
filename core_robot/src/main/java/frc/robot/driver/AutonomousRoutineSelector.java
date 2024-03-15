@@ -423,8 +423,8 @@ public class AutonomousRoutineSelector
                     ),
                     
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.7)
-                    // isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7),
+                    isRed ? new PositionUpdateTask() : null
                 )
             );
         }
@@ -542,9 +542,9 @@ public class AutonomousRoutineSelector
                     ),
                     
                     new WaitTask(0.1),
-                    new FeedRingTask(true, 0.5)
+                    new FeedRingTask(true, 0.5),
 
-                    // isRed ? new PositionUpdateTask() : null
+                    isRed ? new PositionUpdateTask() : null
                 )
             );
         }
