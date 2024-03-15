@@ -24,10 +24,10 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(0.0, 0.0, 0.0, 0.0),
-                new PathPlannerWaypoint(15.0, 0.0, 0.0, 0.0),
-                new PathPlannerWaypoint(55.0, 0.0, 0.0, 0.0)),
-            "goForwards55in");
+                new PathPlannerWaypoint(0.0, 0.0, 90.0, 0.0),
+                new PathPlannerWaypoint(0.0, 15.0, 90.0, 0.0),
+                new PathPlannerWaypoint(0.0, 30.0, 90.0, 0.0)),
+            "goForwards30in");
         addTrajectory(
             trajectoryManager,
             pathPlanner.buildTrajectory(

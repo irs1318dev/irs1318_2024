@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 3.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 7.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 

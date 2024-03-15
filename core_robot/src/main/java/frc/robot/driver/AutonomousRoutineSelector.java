@@ -382,19 +382,17 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
                             locManager.P4,
                             locManager.getOrientationOrHeading(180),
                             true,
-                            true),
-                        new ArmZeroTask()
+                            true)
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    new WaitTask(0.5),
+                    new WaitTask(0.6),
                     new FeedRingTask(true, 0.7), //shoot
 
 
@@ -425,8 +423,8 @@ public class AutonomousRoutineSelector
                     ),
                     
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.7),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
+                    // isRed ? new PositionUpdateTask() : null
                 )
             );
         }
@@ -491,19 +489,17 @@ public class AutonomousRoutineSelector
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
                         new PositionStartingTask(
                             locManager.P4,
                             locManager.getOrientationOrHeading(180),
                             true,
-                            true),
-                        new ArmZeroTask()
+                            true)
                     ),
 
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    new WaitTask(0.3),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 2.0),
+                    new WaitTask(0.4),
                     new FeedRingTask(true, 0.5), //shoot
 
                     ConcurrentTask.AllTasks(
@@ -543,9 +539,12 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P5toP4CSRed" : "P5toP4CSBlue", Type.Absolute)
-                    ),                    
+                    ),
+                    
+                    new WaitTask(0.1),
+                    new FeedRingTask(true, 0.5)
 
-                    isRed ? new PositionUpdateTask() : null
+                    // isRed ? new PositionUpdateTask() : null
                 )
             );
         }

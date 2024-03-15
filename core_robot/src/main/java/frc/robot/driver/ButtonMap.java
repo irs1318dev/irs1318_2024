@@ -650,7 +650,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(
-                new FollowPathTask("goForwards55in", Type.RobotRelativeFromCurrentPose)
+                new FollowPathTask("goForwards30in", Type.RobotRelativeFromCurrentPose)
             ),
             new IOperation[]
             {
