@@ -475,7 +475,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.6; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
@@ -491,7 +491,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.37056350708008 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 34.26320724487305 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -539,7 +539,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0;
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 54.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -110.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;

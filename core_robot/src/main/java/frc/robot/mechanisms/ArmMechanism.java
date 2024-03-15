@@ -289,7 +289,7 @@ public class ArmMechanism implements IMechanism
 
         this.wristAbsoluteEncoderPosition =
             !this.wristAbsoluteEncoder.isConnected() ?
-                null : (this.wristAbsoluteEncoder.getDistance() - 48.5);
+                null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 48.5);
 
         // System.out.println(
         //     String.format(

@@ -1198,7 +1198,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(4000.0),
+            () -> new ShooterSpinTask(3800.0),
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
