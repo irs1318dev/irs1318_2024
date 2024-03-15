@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -27,7 +27,6 @@ public class TuningConstants
     public static final double EUGENE_HAROLD_KRABS = 0.0;
     public static final double ENDGAME_START_TIME = 30.0;
     public static final double ENDGAME_CLIMB_TIME = 5.0;
-
 
     //================================================== Logging  ==============================================================
 
@@ -46,6 +45,7 @@ public class TuningConstants
     public static final double AMP_OT = 90.0;
     public static final double SOURCE_OT = 290;
 
+    public static final double DRIVE_P3_SHOOT_ORIENTATION = 135;
     public static final double DRIVE_P19_SHOOT_ORIENTATION = 225;
     public static final double DRIVE_P17_SHOOT_ORIENTATION = 135;
 
@@ -448,7 +448,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 2.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 3.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 
@@ -475,10 +475,10 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.6; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
-    public static final double ARM_WRIST_COMP_MAX_POSITION = 210.0; // in degrees
+    public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
     public static final double ARM_SHOULDER_UNIVERSAL_DELTA = 3.0;
@@ -497,8 +497,10 @@ public class TuningConstants
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
     public static final double ARM_WRIST_AUTO_P6_SHOT = 2.727619171142578;
+    public static final double ARM_WRIST_AUTO_P6M_SHOT = 2.727619171142578;
     public static final double ARM_WRIST_AUTO_P3_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
+    public static final double ARM_WRIST_AUTO_P5M_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
 
     //Postion for going slightly out before a arm reset task, to gain momentum past limit switches
@@ -512,7 +514,7 @@ public class TuningConstants
 
     // a transit node for going between tucked positions and ground pickup,
     // or ground pickup to tucked positions
-    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 0.0;
+    public static final double ARM_SHOULDER_POSITION_TUCKED_TRANSIT = 3.0;
     public static final double ARM_WRIST_POSITION_TUCKED_TRANSIT = 82.0;
 
     // another transit node for going between tucked positions and ground pickup,
@@ -521,7 +523,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 190.47601318359375 : 179.59384155273438;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 170.47601318359375 : 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? 2.977274894714355 : TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? -60.00739669799805 : -65.0;
@@ -550,7 +552,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
     public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -70.380218;
-    
+
 
     public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
     public static final double ARM_WRIST_TRAP_OUTTAKE_POS = -1318;
@@ -755,14 +757,14 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KF = 0.0;
 
-    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP = 0.20;
+    public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KP = 0.15;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KI = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KD = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KF = 0.0;
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_TMP_PID_KVF = 0.0;
 
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 240.0;
-    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 360.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 300.0;
 
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
@@ -838,8 +840,9 @@ public class TuningConstants
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
+    public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.85;
+    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;

@@ -218,6 +218,7 @@ public class OffboardVisionManager implements IMechanism
         boolean enableAmpFront = this.driver.getDigital(DigitalOperation.VisionFindAmpAprilTagFront);
         boolean enableStageRear = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsRear);
         boolean enableStageFront = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsFront);
+        boolean enableSourceFront = this.driver.getDigital(DigitalOperation.VisionFindSourceAprilTagsFront);
 
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
@@ -231,7 +232,7 @@ public class OffboardVisionManager implements IMechanism
             {
                 visionProcessingMode = 1;
             }
-            else if (enableAnyFront || enableSpeakerFront || enableStageFront || enableAmpFront)
+            else if (enableAnyFront || enableSpeakerFront || enableStageFront || enableAmpFront || enableSourceFront)
             {
                 visionProcessingMode = 2;
             }

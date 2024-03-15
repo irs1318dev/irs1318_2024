@@ -13,6 +13,8 @@ public enum MacroOperation implements IOperation
     FaceBackward,
     FaceLeft,
     FaceRight,
+    AlignStage,
+    AlignAmp,
 
     // Arm operations:
     ArmShoulderWristPosition1,
@@ -37,6 +39,7 @@ public enum MacroOperation implements IOperation
 
     // Climber
     ClimbMacro,
+    TrapCombo,
 
     // Vision operations
     VisionTest,
@@ -50,5 +53,8 @@ public enum MacroOperation implements IOperation
     FollowPathTest2,
     FollowPathTest3,
     FollowPathTest4, 
+
+    //auto stop forward drive note intake
+    DriveAndIntake
     
 }

@@ -65,8 +65,17 @@ public class ClimberMechanism implements IMechanism
         // {
         //     climberPowerAdjustment = TuningConstants.CLIMBER_WINCH_DOWN_POWER;
         // }
-
+        
+        if (TuningConstants.USE_CLIMBER_LIMIT_SWITCH && this.isClimberDown)
+        {
+            this.climberMotor.set(TuningConstants.ZERO);
+        }
+        else
+        {
+            
         this.climberMotor.set(climberPowerAdjustment);
+        }
+
         this.logger.logNumber(LoggingKey.ClimberMotorPower, climberPowerAdjustment);
 
         // press button for servo to go down / up
