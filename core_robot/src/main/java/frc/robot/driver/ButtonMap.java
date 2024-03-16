@@ -1164,6 +1164,24 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmShoulderPower,
                 AnalogOperation.ArmWristPower,
             }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmShoulderWristPosition10,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_START_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
+            ButtonType.Toggle, 
+            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_BOT_DISTANCE_SHOT),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
+            }),
 // 
         // new MacroOperationDescription(
         //    MacroOperation.ArmWristPosition4,
@@ -1214,7 +1232,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(2500.0), // 3500.0
+            () -> new ShooterSpinTask(3000.0), // 3500.0
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,

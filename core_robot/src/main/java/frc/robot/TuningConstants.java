@@ -462,6 +462,8 @@ public class TuningConstants
 
     //==================================================== Arm ==============================================================
 
+    public static final boolean ARM_SHOULDER_STOP_WHEN_BOTTOM = true;
+
     public static final double ARM_SHOULDER_POWER_STRENGTH = 0.5;
     public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
     public static final double ARM_POWER_EXPONENTIAL = 1.0;
@@ -526,7 +528,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 170.47601318359375 : 179.59384155273438;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 158.5901641845703 : 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? 2.977274894714355 : TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? -60.00739669799805 : -65.0;
@@ -556,6 +558,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
     public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -70.380218;
 
+    public static final double ARM_WRIST_POSITION_BOT_DISTANCE_SHOT = 56.42597961425781;
 
     public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
     public static final double ARM_WRIST_TRAP_OUTTAKE_POS = -1318;
@@ -642,7 +645,7 @@ public class TuningConstants
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
-    public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
+    public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;

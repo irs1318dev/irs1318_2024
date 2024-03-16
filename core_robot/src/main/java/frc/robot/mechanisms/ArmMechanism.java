@@ -762,7 +762,11 @@ public class ArmMechanism implements IMechanism
 
         if (!useShoulderSimpleMode)
         {
-            if (this.shoulderStalled)
+            if (this.shoulderStalled ||
+                (TuningConstants.ARM_SHOULDER_STOP_WHEN_BOTTOM &&
+                    mode != RobotMode.Autonomous &&
+                    Helpers.RoughEquals(this.shoulderPosition, this.desiredShoulderPosition, 1.0) &&
+                    Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, 1.0)))
             {
                 this.shoulderMotor.stop();
             }

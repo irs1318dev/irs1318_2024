@@ -498,8 +498,7 @@ public class AutonomousRoutineSelector
         {
             return ConcurrentTask.AllTasks(
                 SequentialTask.Sequence(
-                    new ShooterSpinTask(4050, 11.0)
-                    
+                    new ShooterSpinTask(4050, 13.0)
                 ),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
