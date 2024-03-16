@@ -567,7 +567,11 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
     public static final double ARM_WRIST_TRAP_SHOOT = 127.33549499511719;
+
     // vel - 1725.2799072265625 rpm - 33 inches off
+    public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
+    public static final double TRAP_SHOT_FLYWHEEL_VELOCITY = 1725.2799072265625;
+    // vel - 1725.2799072265625 - 33 inches off
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
