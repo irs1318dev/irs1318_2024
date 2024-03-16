@@ -391,7 +391,7 @@ public class AutonomousRoutineSelector
                             true)
                     ),
 
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 1.5),
                     new WaitTask(0.6),
                     new FeedRingTask(true, 0.7), //shoot
 

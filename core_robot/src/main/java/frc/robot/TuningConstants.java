@@ -189,7 +189,7 @@ public class TuningConstants
 
     public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3046875 : 0.17212; // -0.198486 + 0.5; // rotations
     public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3129882 : 0.15698;//-0.186768 + 0.5; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.4375 : -0.28979;//0.46337890625; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3864746 : -0.28979;//0.46337890625; // rotations
     public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.1572265 : -0.35327;//0.336670 + 0.5; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
@@ -378,7 +378,7 @@ public class TuningConstants
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
-    public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.45;
+    public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.4;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
@@ -436,6 +436,8 @@ public class TuningConstants
     public static final double EFFECTOR_SHOOTING_DURATION = 1.0;
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 250;
+
+    public static final double INTAKE_HAS_NOTE_RUMBLE_DURATION = 1.0;
 
     //==================================================== ShootNoteTask =====================================================
 
@@ -565,7 +567,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
     public static final double ARM_WRIST_TRAP_SHOOT = 127.33549499511719;
-    // vel - 1725.2799072265625 - 33 inches off
+    // vel - 1725.2799072265625 rpm - 33 inches off
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
