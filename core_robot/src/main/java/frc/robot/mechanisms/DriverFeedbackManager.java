@@ -76,7 +76,7 @@ public class DriverFeedbackManager implements IMechanism
                         this.intakeState = IntakeState.NoNote;
                         this.intakeStateChangeTime = now;
                     }
-                    else if (this.intakeStateChangeTime + TuningConstants.INTAKE_HAS_NOTE_RUMBLE_DURATION > now)
+                    else if (this.intakeStateChangeTime + TuningConstants.INTAKE_HAS_NOTE_RUMBLE_DURATION < now)
                     {
                         this.intakeState = IntakeState.HasNoteRumbleOver;
                         this.intakeStateChangeTime = now;

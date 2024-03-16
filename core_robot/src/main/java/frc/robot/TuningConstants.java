@@ -437,7 +437,7 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 250;
 
-    public static final double INTAKE_HAS_NOTE_RUMBLE_DURATION = 1.0;
+    public static final double INTAKE_HAS_NOTE_RUMBLE_DURATION = 0.5;
 
     //==================================================== ShootNoteTask =====================================================
 
