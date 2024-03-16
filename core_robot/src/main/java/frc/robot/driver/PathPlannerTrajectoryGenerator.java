@@ -273,6 +273,32 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(locManager.P5, locManager.getOrientationOrHeading(45), locManager.getOrientationOrHeading(180)),
                 new PathPlannerWaypoint(locManager.P6M, locManager.getOrientationOrHeading(45), locManager.getOrientationOrHeading(180))),
                 isRed? "P5toP6MCSRed" : "P5toP6MCSBlue");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(locManager.P4, locManager.getOrientationOrHeading(225), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P5M, locManager.getOrientationOrHeading(225), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(225), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P8M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P8, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180))),
+                isRed? "P4toP8CSRed" : "P4toP8CSBlue");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(locManager.P8, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180))),
+                isRed? "P8toP19CSRed" : "P8toP19CSBlue"); 
+
         
                 
 
