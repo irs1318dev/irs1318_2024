@@ -425,6 +425,11 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.desiredYaw = this.robotYaw;
         }
 
+        if (this.driver.getDigital(DigitalOperation.DriveTrainKeepThisOrientation))
+        {
+            this.desiredYaw = this.robotYaw;
+        }
+
         if (this.driver.getDigital(DigitalOperation.DriveTrainDisableFieldOrientation) ||
             !this.imuManager.getIsConnected())
         {

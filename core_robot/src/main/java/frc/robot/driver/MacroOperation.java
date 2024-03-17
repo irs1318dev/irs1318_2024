@@ -26,6 +26,7 @@ public enum MacroOperation implements IOperation
     ArmShoulderWristPosition7,
     ArmShoulderWristPosition8,
     ArmShoulderWristPosition9,
+    ArmShoulderWristPosition10,
     //ArmWristPosition5,
     ResetArm,
 

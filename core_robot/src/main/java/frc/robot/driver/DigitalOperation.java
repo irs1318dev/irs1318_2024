@@ -9,7 +9,7 @@ public enum DigitalOperation implements IOperation
     PositionResetRobotLevel,
 
     // Driver interaction operations
-    ForceLightDriverRumble,
+    // ForceLightDriverRumble,
 
     // Vision operations:
     VisionForceDisable,
@@ -37,6 +37,7 @@ public enum DigitalOperation implements IOperation
     DriveTrainDisableMaintainDirectionMode,
     DriveTrainResetXYPosition,
     DriveTrainIgnoreSlewRateLimitingMode,
+    DriveTrainKeepThisOrientation,
 
     // EndEffector operations:
     IntakeIn,

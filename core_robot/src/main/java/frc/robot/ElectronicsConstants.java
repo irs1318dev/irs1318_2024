@@ -41,7 +41,7 @@ public class ElectronicsConstants
 
     //================================================== IMU ==============================================================
 
-    public static final int PIGEON_IMU_CAN_ID = 42;
+    public static final int PIGEON_IMU_CAN_ID = 0;
 
     //================================================== SDSDriveTrain ==============================================================
 

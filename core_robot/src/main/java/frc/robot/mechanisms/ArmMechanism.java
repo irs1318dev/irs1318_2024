@@ -289,7 +289,7 @@ public class ArmMechanism implements IMechanism
 
         this.wristAbsoluteEncoderPosition =
             !this.wristAbsoluteEncoder.isConnected() ?
-                null : (this.wristAbsoluteEncoder.getDistance() - 48.5);
+                null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 48.5);
 
         // System.out.println(
         //     String.format(
@@ -762,7 +762,11 @@ public class ArmMechanism implements IMechanism
 
         if (!useShoulderSimpleMode)
         {
-            if (this.shoulderStalled)
+            if (this.shoulderStalled ||
+                (TuningConstants.ARM_SHOULDER_STOP_WHEN_BOTTOM &&
+                    mode != RobotMode.Autonomous &&
+                    Helpers.RoughEquals(this.shoulderPosition, this.desiredShoulderPosition, 1.0) &&
+                    Helpers.RoughEquals(this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, 1.0)))
             {
                 this.shoulderMotor.stop();
             }

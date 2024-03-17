@@ -376,7 +376,7 @@ public class EndEffectorMechanism implements IMechanism
         switch (this.currentEffectorState)
         {
             case Intaking:
-                intakePower = TuningConstants.EFFECTOR_INTAKE_IN_POWER;
+                intakePower = mode == RobotMode.Autonomous ? TuningConstants.EFFECTOR_INTAKE_IN_AUTO_POWER : TuningConstants.EFFECTOR_INTAKE_IN_POWER;
                 break;
 
             case Outtaking:

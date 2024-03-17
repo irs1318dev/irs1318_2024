@@ -189,7 +189,7 @@ public class TuningConstants
 
     public static final double SDSDRIVETRAIN_STEER_MOTOR1_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3046875 : 0.17212; // -0.198486 + 0.5; // rotations
     public static final double SDSDRIVETRAIN_STEER_MOTOR2_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3129882 : 0.15698;//-0.186768 + 0.5; // rotations
-    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.4375 : -0.28979;//0.46337890625; // rotations
+    public static final double SDSDRIVETRAIN_STEER_MOTOR3_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? 0.3864746 : -0.28979;//0.46337890625; // rotations
     public static final double SDSDRIVETRAIN_STEER_MOTOR4_ABSOLUTE_OFFSET = TuningConstants.COMPETITION_ROBOT ? -0.1572265 : -0.35327;//0.336670 + 0.5; // rotations
 
     public static final boolean SDSDRIVETRAIN_USE_TRANSLATIONAL_RATE_LIMITING = true;
@@ -378,6 +378,7 @@ public class TuningConstants
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
+    public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.4;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
@@ -436,6 +437,8 @@ public class TuningConstants
 
     public static final double FLYWHEEL_ALLOWABLE_ERROR_RANGE = 250;
 
+    public static final double INTAKE_HAS_NOTE_RUMBLE_DURATION = 0.5;
+
     //==================================================== ShootNoteTask =====================================================
 
     // TODO get the actual values here
@@ -448,7 +451,7 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 3.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 7.5; //degrees
 
     public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
 
@@ -458,6 +461,8 @@ public class TuningConstants
     public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
 
     //==================================================== Arm ==============================================================
+
+    public static final boolean ARM_SHOULDER_STOP_WHEN_BOTTOM = true;
 
     public static final double ARM_SHOULDER_POWER_STRENGTH = 0.5;
     public static final double ARM_WRIST_POWER_STRENGTH = 0.6;
@@ -475,7 +480,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.6; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
@@ -491,7 +496,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 35.37056350708008 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 34.26320724487305 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.095434188842773 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -523,7 +528,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_TUCKED_GROUND_TRANSIT = 42.0;
 
     public static final double ARM_SHOULDER_POSITION_TUCKED = 10.236105918884277;
-    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 170.47601318359375 : 179.59384155273438;
+    public static final double ARM_WRIST_POSITION_TUCKED_SHOT = TuningConstants.COMPETITION_ROBOT ? 158.5901641845703 : 179.59384155273438;
 
     public static final double ARM_SHOULDER_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? 2.977274894714355 : TuningConstants.ARM_SHOULDER_POSITION_TUCKED;
     public static final double ARM_WRIST_POSITION_SOURCE_PICKUP = TuningConstants.COMPETITION_ROBOT ? -60.00739669799805 : -65.0;
@@ -539,7 +544,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_INTAKE_FLIPPED = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_FLIPPED = -90.0;
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 50.0;
+    public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 54.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -110.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -553,6 +558,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
     public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -70.380218;
 
+    public static final double ARM_WRIST_POSITION_BOT_DISTANCE_SHOT = 56.42597961425781;
 
     public static final double ARM_SHOULDER_TRAP_OUTTAKE_POS = -1318;
     public static final double ARM_WRIST_TRAP_OUTTAKE_POS = -1318;
@@ -562,8 +568,13 @@ public class TuningConstants
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 6.0;
 
-    public static final double ARM_SHOULDER_TRAP_SHOOT = 0 ;
-    public static final double ARM_WRIST_TRAP_SHOOT = 0;
+    public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
+    public static final double ARM_WRIST_TRAP_SHOOT = 127.33549499511719;
+
+    // vel - 1725.2799072265625 rpm - 33 inches off
+    public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
+    public static final double TRAP_SHOT_FLYWHEEL_VELOCITY = 1725.2799072265625;
+    // vel - 1725.2799072265625 - 33 inches off
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
@@ -634,7 +645,7 @@ public class TuningConstants
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
-    public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
+    public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
