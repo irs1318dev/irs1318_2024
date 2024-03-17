@@ -126,7 +126,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
             }
             else
             {
-                noAprilTags++;
+                this.noAprilTags++;
             }
         }
         else // if (this.state == State.ApproachAprilTag)
