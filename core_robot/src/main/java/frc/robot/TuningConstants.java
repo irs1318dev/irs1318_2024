@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +10,7 @@ import java.util.stream.Collectors;
 public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = true;
+    public static final boolean USE_ADVANTAGE_KIT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)

@@ -61,7 +61,7 @@ public class SmartDashboardSelectionManager
     {
         INetworkTableProvider networkTableProvider = provider.getNetworkTableProvider();
 
-        this.routineChooser = networkTableProvider.getSendableChooser();
+        this.routineChooser = networkTableProvider.getSendableChooser("Auto Routine");
         this.routineChooser.addDefault("None", AutoRoutine.None);
         this.routineChooser.addObject("Shoot", AutoRoutine.Shoot);
         this.routineChooser.addObject("Taxi", AutoRoutine.Taxi);
@@ -74,26 +74,22 @@ public class SmartDashboardSelectionManager
         this.routineChooser.addObject("One Plus Charge", AutoRoutine.FiveNote);
         this.routineChooser.addObject("One Pickup Charge", AutoRoutine.SixNote);
         this.routineChooser.addObject("One Note", AutoRoutine.OneNote);
-        networkTableProvider.addChooser("Auto Routine", this.routineChooser);
 
-        this.positionChooser = networkTableProvider.getSendableChooser();
+        this.positionChooser = networkTableProvider.getSendableChooser("Start Position");
         this.positionChooser.addDefault("None", StartPosition.None);
         this.positionChooser.addObject("sub-front", StartPosition.WooferFront);
         this.positionChooser.addObject("sub-side", StartPosition.WooferSide);
         this.positionChooser.addObject("near-amp", StartPosition.Amp);
         this.positionChooser.addObject("near-source", StartPosition.Source);
-        networkTableProvider.addChooser("Start Position", this.positionChooser);
 
-        this.pickupChooser = networkTableProvider.getSendableChooser();
+        this.pickupChooser = networkTableProvider.getSendableChooser("Pickup Chooser");
         this.pickupChooser.addDefault("None", PriorityPickupSide.None);
         this.pickupChooser.addObject("Near Subwoofer", PriorityPickupSide.Close);
         this.pickupChooser.addObject("Middle", PriorityPickupSide.Center);
-        networkTableProvider.addChooser("Pickup Chooser", this.pickupChooser);
 
-        this.wristSlopChooser = networkTableProvider.getSendableChooser();
+        this.wristSlopChooser = networkTableProvider.getSendableChooser("Use WristSlop");
         this.wristSlopChooser.addDefault("No", YesOrNo.No);
         this.wristSlopChooser.addObject("Yes", YesOrNo.Yes);
-        networkTableProvider.addChooser("Use WristSlop", this.wristSlopChooser);
 
         this.wristSlopSlider = networkTableProvider.getNumberSlider("WristSlopAdj", 0.0);
     }
@@ -120,7 +116,7 @@ public class SmartDashboardSelectionManager
 
     public double getWristSlopAdjustment()
     {
-        return this.wristSlopSlider.get(0.0);
+        return this.wristSlopSlider.get();
     }
 
     private static <T> T GetSelectedOrDefault(ISendableChooser<T> chooser, T defaultValue)

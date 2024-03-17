@@ -3,7 +3,8 @@ package frc.lib.robotprovider;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
+
 import frc.robot.LoggingKey;
 
 /**
@@ -11,14 +12,11 @@ import frc.robot.LoggingKey;
  *
  */
 @Singleton
-public class SmartDashboardLogger implements ISmartDashboardLogger
+public class AdvantageKitLogger implements ISmartDashboardLogger
 {
-    private int loggingCounter;
-
     @Inject
-    public SmartDashboardLogger()
+    public AdvantageKitLogger()
     {
-        this.loggingCounter = 0;
     }
 
     /**
@@ -29,13 +27,7 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void logBoolean(LoggingKey key, boolean value)
     {
-        if ((this.loggingCounter % key.loggingFrequency) == 0)
-        {
-            if (SmartDashboard.getBoolean(key.value, !value) != value)
-            {
-                SmartDashboard.putBoolean(key.value, value);
-            }
-        }
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -46,10 +38,7 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void logBooleanArray(LoggingKey key, boolean[] value)
     {
-        if ((this.loggingCounter % key.loggingFrequency) == 0)
-        {
-            SmartDashboard.putBooleanArray(key.value, value);
-        }
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -60,13 +49,7 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void logNumber(LoggingKey key, double value)
     {
-        if ((this.loggingCounter % key.loggingFrequency) == 0)
-        {
-            if (SmartDashboard.getNumber(key.value, value + 0.5) != value)
-            {
-                SmartDashboard.putNumber(key.value, value);
-            }
-        }
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -123,13 +106,7 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void logInteger(LoggingKey key, int value, String formatString)
     {
-        if ((this.loggingCounter % key.loggingFrequency) == 0)
-        {
-            if (SmartDashboard.getNumber(key.value, value + 0.5) != value)
-            {
-                SmartDashboard.putNumber(key.value, value);
-            }
-        }
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -140,20 +117,12 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void logString(LoggingKey key, String value)
     {
-        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        if (value == null)
         {
-            if (value == null)
-            {
-                value = "";
-            }
-
-            String currValue = SmartDashboard.getString(key.value, "");
-            if ((value != null && currValue != null && !currValue.equals(value)) ||
-                (value != null) != (currValue != null))
-            {
-                SmartDashboard.putString(key.value, value);
-            }
+            value = "";
         }
+
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -162,7 +131,6 @@ public class SmartDashboardLogger implements ISmartDashboardLogger
     @Override
     public void update()
     {
-        this.loggingCounter++;
     }
 
     /**

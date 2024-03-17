@@ -2,6 +2,8 @@ package frc.lib.robotprovider;
 
 import javax.inject.Singleton;
 
+import frc.robot.TuningConstants;
+
 @Singleton
 public class RobotProvider implements IRobotProvider
 {
@@ -218,7 +220,14 @@ public class RobotProvider implements IRobotProvider
     @Override
     public INetworkTableProvider getNetworkTableProvider()
     {
-        return new NetworkTableProvider();
+        if (TuningConstants.USE_ADVANTAGE_KIT)
+        {
+            return new AKNetworkTableProvider();
+        }
+        else
+        {
+            return new NetworkTableProvider();
+        }
     }
 
     @Override
