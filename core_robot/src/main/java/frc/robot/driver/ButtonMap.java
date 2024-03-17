@@ -1246,7 +1246,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Test1,
             UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
             ButtonType.Toggle,
-            () -> new ShootNoteTask(),
+            () -> new VisionShootNoteFullTask(),
             new IOperation[]
             {
                 DigitalOperation.PositionResetFieldOrientation,
@@ -1318,7 +1318,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Toggle, 
             // () -> new ApproachAprilTagTask(100.0, 10.0, DigitalOperation.VisionFindSpeakerAprilTagRear),
             // () -> new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-            () -> new ShootNoteTask(true),
+            () -> new VisionShootNoteFullTask(true),
             new IOperation[]
             {
                 AnalogOperation.ArmAbsWristAngle,

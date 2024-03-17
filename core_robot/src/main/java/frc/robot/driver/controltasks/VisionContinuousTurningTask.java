@@ -9,18 +9,6 @@ import frc.robot.mechanisms.OffboardVisionManager;
  */
 public class VisionContinuousTurningTask extends PIDTurnTaskBase
 {
-    private static final DigitalOperation[] PossibleVisionOperations =
-    {
-        DigitalOperation.VisionFindAnyAprilTagFront,
-        DigitalOperation.VisionFindAnyAprilTagRear,
-        DigitalOperation.VisionFindSpeakerAprilTagFront,
-        DigitalOperation.VisionFindSpeakerAprilTagRear,
-        DigitalOperation.VisionFindAmpAprilTagFront,
-        DigitalOperation.VisionFindAmpAprilTagRear,
-        DigitalOperation.VisionFindStageAprilTagsFront,
-        DigitalOperation.VisionFindStageAprilTagsRear,
-    };
-
     public enum TurnType
     {
         None,
@@ -75,7 +63,7 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
 
-        for (DigitalOperation op : VisionContinuousTurningTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, op == this.visionOperation);
         }
@@ -89,7 +77,7 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
     {
         super.end();
 
-        for (DigitalOperation op : VisionContinuousTurningTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, false);
         }

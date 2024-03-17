@@ -16,24 +16,6 @@ import frc.robot.mechanisms.OffboardVisionManager;
 public class ApproachAprilTagTask extends DecisionSequentialTask
 {
     private static final String PATH_NAME = "ApproachAprilTagTaskPath";
-    private static final List<DigitalOperation> PossibleFrontVisionOperations =
-        List.of(
-            DigitalOperation.VisionFindAnyAprilTagFront,
-            DigitalOperation.VisionFindSpeakerAprilTagFront,
-            DigitalOperation.VisionFindAmpAprilTagFront,
-            DigitalOperation.VisionFindStageAprilTagsFront);
-
-    private static final DigitalOperation[] PossibleVisionOperations =
-    {
-        DigitalOperation.VisionFindAnyAprilTagFront,
-        DigitalOperation.VisionFindAnyAprilTagRear,
-        DigitalOperation.VisionFindSpeakerAprilTagFront,
-        DigitalOperation.VisionFindSpeakerAprilTagRear,
-        DigitalOperation.VisionFindAmpAprilTagFront,
-        DigitalOperation.VisionFindAmpAprilTagRear,
-        DigitalOperation.VisionFindStageAprilTagsFront,
-        DigitalOperation.VisionFindStageAprilTagsRear,
-    };
 
     private final double xOffset;
     private final double yOffset;
@@ -65,7 +47,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
             // if we are cool with throwing exceptions (testing), check if toPerform is in
             // the possibleOperations set and throw an exception if it is not
             boolean containsToPerform = false;
-            for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+            for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
             {
                 if (op == visionOperation)
                 {
@@ -91,7 +73,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
         this.provider = this.getInjector().getInstance(IRobotProvider.class);
         this.trajectoryManager = this.getInjector().getInstance(TrajectoryManager.class);
 
-        for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, op == this.visionOperation);
         }
@@ -104,7 +86,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
     {
         if (this.state == State.ReadAprilTag)
         {
-            for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+            for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
             {
                 this.setDigitalOperationState(op, op == this.visionOperation);
             }
@@ -120,7 +102,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
                 double yGoal = tagYOffset + Helpers.cosd(tagYawOffset) * this.yOffset - Helpers.sind(tagYawOffset) * this.xOffset;
                 double angleGoal = tagYawOffset;
 
-                boolean backwards = !ApproachAprilTagTask.PossibleFrontVisionOperations.contains(this.visionOperation);
+                boolean backwards = !OffboardVisionManager.PossibleFrontVisionOperations.contains(this.visionOperation);
                 if (backwards)
                 {
                     xGoal *= -1.0;
@@ -161,7 +143,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
             super.end();
         }
 
-        for (DigitalOperation op : ApproachAprilTagTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, false);
         }
