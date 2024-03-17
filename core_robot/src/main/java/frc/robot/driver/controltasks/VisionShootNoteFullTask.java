@@ -13,7 +13,7 @@ import frc.robot.mechanisms.*;
  * Task that calculates desired angle and velocity to shoot note
  * @author FWJK35 (Calvin)
  */
-public class ShootNoteTask extends DecisionSequentialTask
+public class VisionShootNoteFullTask extends DecisionSequentialTask
 {
     private ArmMechanism arm;
     private OffboardVisionManager visionManager;
@@ -28,12 +28,12 @@ public class ShootNoteTask extends DecisionSequentialTask
 
     private boolean hasCompleted;
 
-    public ShootNoteTask()
+    public VisionShootNoteFullTask()
     {
         this(false);
     }
 
-    public ShootNoteTask(boolean useMaxVelocity)
+    public VisionShootNoteFullTask(boolean useMaxVelocity)
     {
         super();
 

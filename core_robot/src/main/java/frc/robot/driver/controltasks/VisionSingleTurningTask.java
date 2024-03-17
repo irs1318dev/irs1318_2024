@@ -10,18 +10,6 @@ import frc.robot.mechanisms.PigeonManager;
  */
 public class VisionSingleTurningTask extends PIDTurnTaskBase
 {
-    private static final DigitalOperation[] PossibleVisionOperations =
-    {
-        DigitalOperation.VisionFindAnyAprilTagFront,
-        DigitalOperation.VisionFindAnyAprilTagRear,
-        DigitalOperation.VisionFindSpeakerAprilTagFront,
-        DigitalOperation.VisionFindSpeakerAprilTagRear,
-        DigitalOperation.VisionFindAmpAprilTagFront,
-        DigitalOperation.VisionFindAmpAprilTagRear,
-        DigitalOperation.VisionFindStageAprilTagsFront,
-        DigitalOperation.VisionFindStageAprilTagsRear,
-    };
-
     public enum TurnType
     {
         None,
@@ -80,7 +68,7 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.pigeonManager = this.getInjector().getInstance(PigeonManager.class);
 
-        for (DigitalOperation op : VisionSingleTurningTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, op == this.visionOperation);
         }
@@ -94,7 +82,7 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
     {
         super.end();
 
-        for (DigitalOperation op : VisionSingleTurningTask.PossibleVisionOperations)
+        for (DigitalOperation op : OffboardVisionManager.PossibleVisionOperations)
         {
             this.setDigitalOperationState(op, false);
         }
