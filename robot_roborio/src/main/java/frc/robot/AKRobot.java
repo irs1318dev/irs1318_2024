@@ -7,8 +7,7 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import com.google.flatbuffers.Constants;
-
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.CoreRobot;
 
 /**
@@ -57,13 +56,13 @@ public class AKRobot extends LoggedRobot
                 break;
         }
 
-        if (this.isReal())
+        if (RobotBase.isReal())
         {
             // Running on a real robot, log to a USB stick ("/U/logs")
             Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
         }
-        else if (this.isSimulation())
+        else if (RobotBase.isSimulation())
         {
             Logger.addDataReceiver(new NT4Publisher());
         }
