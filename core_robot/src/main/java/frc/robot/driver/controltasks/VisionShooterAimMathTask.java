@@ -29,7 +29,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
                     ConcurrentTask.AnyTasks(
                         new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                         new VisionShooterAimMathTask(true, true),
-                        new FeedRingTask(true))));
+                        new FeedRingTask(true, 5.0))));
         }
 
         return ConcurrentTask.AllTasks(
@@ -39,7 +39,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 new VisionShooterAimMathTask(false, true),
-                new FeedRingTask(true))));
+                new FeedRingTask(true, 5.0))));
     }
 
     private final boolean continuous;
