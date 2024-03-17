@@ -20,7 +20,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT)),
                 new VisionShooterAimLinterpTask(),
-                new FeedRingTask(true)));
+                new FeedRingTask(true, 5.0)));
     }
 
     private enum State

@@ -2,8 +2,8 @@ package frc.robot.driver.controltasks;
 
 import frc.robot.driver.DigitalOperation;
 
-public class FeedRingTask extends CompositeOperationTask{
-
+public class FeedRingTask extends CompositeOperationTask
+{
     private static final DigitalOperation[] possibleOperations = 
     {
         DigitalOperation.ShooterFeedRing,
