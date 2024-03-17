@@ -7,7 +7,6 @@ import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,25 @@ import com.google.inject.Singleton;
 @Singleton
 public class OffboardVisionManager implements IMechanism
 {
+    public static final DigitalOperation[] PossibleVisionOperations =
+    {
+        DigitalOperation.VisionFindAnyAprilTagFront,
+        DigitalOperation.VisionFindAnyAprilTagRear,
+        DigitalOperation.VisionFindSpeakerAprilTagFront,
+        DigitalOperation.VisionFindSpeakerAprilTagRear,
+        DigitalOperation.VisionFindAmpAprilTagFront,
+        DigitalOperation.VisionFindAmpAprilTagRear,
+        DigitalOperation.VisionFindStageAprilTagsFront,
+        DigitalOperation.VisionFindStageAprilTagsRear,
+    };
+
+    public static final List<DigitalOperation> PossibleFrontVisionOperations =
+        List.of(
+            DigitalOperation.VisionFindAnyAprilTagFront,
+            DigitalOperation.VisionFindSpeakerAprilTagFront,
+            DigitalOperation.VisionFindAmpAprilTagFront,
+            DigitalOperation.VisionFindStageAprilTagsFront);
+
     private final IDriver driver;
     private final ILogger logger;
 
