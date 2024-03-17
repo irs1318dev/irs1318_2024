@@ -9,7 +9,7 @@ import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
-public class VisionShooterAimTask extends ControlTaskBase
+public class VisionShooterAimLinterpTask extends ControlTaskBase
 {
     public static IControlTask createShootMacroTask()
     {
@@ -19,7 +19,7 @@ public class VisionShooterAimTask extends ControlTaskBase
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT)),
-                new VisionShooterAimTask(),
+                new VisionShooterAimLinterpTask(),
                 new FeedRingTask(true)));
     }
 
@@ -40,7 +40,7 @@ public class VisionShooterAimTask extends ControlTaskBase
     private boolean shouldCancel;
     private int noTargetCount;
 
-    public VisionShooterAimTask()
+    public VisionShooterAimLinterpTask()
     {
         super();
 
