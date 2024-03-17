@@ -4,6 +4,7 @@ import frc.robot.TuningConstants;
 import frc.robot.FieldConstants;
 import frc.robot.HardwareConstants;
 import frc.lib.driver.IControlTask;
+import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.robot.driver.*;
 import frc.robot.mechanisms.*;
@@ -37,7 +38,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                new VisionShooterAimMathTask(),
+                new VisionShooterAimMathTask(false, true),
                 new FeedRingTask(true))));
     }
 
@@ -63,6 +64,11 @@ public class VisionShooterAimMathTask extends ControlTaskBase
 
     public VisionShooterAimMathTask(boolean continuous, boolean useMaxVelocity)
     {
+        if (!useMaxVelocity)
+        {
+            ExceptionHelpers.Assert(continuous, "non-max velocity mode requires continuous mode");
+        }
+
         this.continuous = continuous;
         this.useMaxVelocity = useMaxVelocity;
     }
@@ -116,7 +122,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);  
 
             // Assume the speed is being set elsewhere when useMaxVelocity is true...
-            if (!this.useMaxVelocity)
+            if (!this.useMaxVelocity && this.continuous)
             {
                 this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.desiredVelocity);
                 this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.desiredVelocity);
@@ -138,7 +144,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
         this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, TuningConstants.MAGIC_NULL_VALUE);
         this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
 
-        if (!this.useMaxVelocity)
+        if (!this.useMaxVelocity && this.continuous)
         {
             this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, TuningConstants.MAGIC_NULL_VALUE);
             this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, TuningConstants.MAGIC_NULL_VALUE);
