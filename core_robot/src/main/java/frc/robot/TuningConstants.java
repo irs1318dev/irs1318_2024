@@ -329,6 +329,8 @@ public class TuningConstants
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_MAX = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_CURRENT = 35.0;
     public static final double SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_DURATION = 0.25;
+    public static final boolean SDSDRIVETRAIN_DRIVE_STATOR_CURRENT_LIMITING_ENABLED = false;
+    public static final double SDSDRIVETRAIN_DRIVE_STATOR_CURRENT_LIMIT = 80.0;
 
     public static final boolean SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED = true;
     public static final double SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION = 12.0;
@@ -336,6 +338,8 @@ public class TuningConstants
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_MAX = 20.0;
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_CURRENT = 30.0;
     public static final double SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_DURATION = 0.1;
+    public static final boolean SDSDRIVETRAIN_STEER_STATOR_CURRENT_LIMITING_ENABLED = false;
+    public static final double SDSDRIVETRAIN_STEER_STATOR_CURRENT_LIMIT = 80.0;
 
     public static final int SDSDRIVETRAIN_FEEDBACK_UPDATE_RATE_HZ = 100;
     public static final int SDSDRIVETRAIN_ERROR_UPDATE_RATE_HZ = 10;

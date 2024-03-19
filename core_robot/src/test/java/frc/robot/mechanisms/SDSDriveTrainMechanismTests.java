@@ -520,6 +520,18 @@ public class SDSDriveTrainMechanismTests
         }
 
         @Override
+        public boolean getForwardLimitSwitchClosed()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean getReverseLimitSwitchClosed()
+        {
+            return false;
+        }
+
+        @Override
         public TalonXLimitSwitchStatus getLimitSwitchStatus()
         {
             return null;
@@ -562,7 +574,12 @@ public class SDSDriveTrainMechanismTests
         }
 
         @Override
-        public void setSupplyCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
+        public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
+        {
+        }
+
+        @Override
+        public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime, boolean statorLimiting, double statorCurrentLimit)
         {
         }
 
@@ -598,6 +615,21 @@ public class SDSDriveTrainMechanismTests
 
         @Override
         public void setErrorUpdateRate(double frequencyHz)
+        {
+        }
+
+        @Override
+        public void setForwardLimitSwitchUpdateRate(double frequencyHz)
+        {
+        }
+
+        @Override
+        public void setReverseLimitSwitchUpdateRate(double frequencyHz)
+        {
+        }
+
+        @Override
+        public void optimizeCanbus()
         {
         }
 

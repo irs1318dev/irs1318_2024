@@ -422,7 +422,38 @@ public class TalonFXWrapper implements ITalonFX
 
         CTREStatusCodeHelper.printError(
             this.error.setUpdateFrequency(frequencyHz, TalonFXWrapper.timeoutSecs),
-            "TalonFX.setPIDFFramePeriod");
+            "TalonFX.setErrorUpdateRate");
+    }
+
+    public void setForwardLimitSwitchUpdateRate(double frequencyHz)
+    {
+        if (this.forwardLimitSwitch == null)
+        {
+            this.forwardLimitSwitch = this.wrappedObject.getForwardLimit();
+        }
+
+        CTREStatusCodeHelper.printError(
+            this.forwardLimitSwitch.setUpdateFrequency(frequencyHz, TalonFXWrapper.timeoutSecs),
+            "TalonFXWrapper.setForwardLimitSwitchUpdateRate");
+    }
+
+    public void setReverseLimitSwitchUpdateRate(double frequencyHz)
+    {
+        if (this.reverseLimitSwitch == null)
+        {
+            this.reverseLimitSwitch = this.wrappedObject.getReverseLimit();
+        }
+
+        CTREStatusCodeHelper.printError(
+            this.reverseLimitSwitch.setUpdateFrequency(frequencyHz, TalonFXWrapper.timeoutSecs),
+            "TalonFXWrapper.setReverseLimitSwitchUpdateRate");
+    }
+
+    public void optimizeCanbus()
+    {
+        CTREStatusCodeHelper.printError(
+            this.wrappedObject.optimizeBusUtilization(),
+            "TalonFX.optimizeCanbus");
     }
 
     public void setSelectedSlot(int slotId)
@@ -673,6 +704,16 @@ public class TalonFXWrapper implements ITalonFX
         CTREStatusCodeHelper.printError(
             this.currentConfigurator.apply(hardwareLimitSwitchConfigs, TalonFXWrapper.timeoutSecs),
             "TalonFXWrapper.updateLimitSwitchConfig");
+
+        if (forwardEnabled && this.forwardLimitSwitch == null)
+        {
+            this.forwardLimitSwitch = this.wrappedObject.getForwardLimit();
+        }
+
+        if (reverseEnabled && this.reverseLimitSwitch == null)
+        {
+            this.reverseLimitSwitch = this.wrappedObject.getReverseLimit();
+        }
     }
 
     public void setMotorOutputSettings(boolean invert, MotorNeutralMode neutralMode)
@@ -709,13 +750,20 @@ public class TalonFXWrapper implements ITalonFX
         this.maxVoltage = maxVoltage;
     }
 
-    public void setSupplyCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
+    public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
+    {
+        this.setCurrentLimit(enabled, currentLimit, triggerThresholdCurrent, triggerThresholdTime, false, 0.0);
+    }
+
+    public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime, boolean statorLimiting, double statorCurrentLimit)
     {
         CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
         currentLimitsConfigs.SupplyCurrentLimitEnable = enabled;
         currentLimitsConfigs.SupplyCurrentLimit = currentLimit;
         currentLimitsConfigs.SupplyCurrentThreshold = triggerThresholdCurrent;
         currentLimitsConfigs.SupplyTimeThreshold = triggerThresholdTime;
+        currentLimitsConfigs.StatorCurrentLimitEnable = statorLimiting;
+        currentLimitsConfigs.StatorCurrentLimit = statorCurrentLimit;
 
         CTREStatusCodeHelper.printError(
             this.currentConfigurator.apply(currentLimitsConfigs, TalonFXWrapper.timeoutSecs),
@@ -778,6 +826,28 @@ public class TalonFXWrapper implements ITalonFX
         CTREStatusCodeHelper.printError(this.error.getStatus(), "TalonFX.getError");
 
         return this.error.getValue();
+    }
+
+    public boolean getForwardLimitSwitchClosed()
+    {
+        if (this.forwardLimitSwitch == null)
+        {
+            this.forwardLimitSwitch = this.wrappedObject.getForwardLimit();
+        }
+
+        this.forwardLimitSwitch.refresh();
+        return this.forwardLimitSwitch.getValue() == ForwardLimitValue.ClosedToGround;
+    }
+
+    public boolean getReverseLimitSwitchClosed()
+    {
+        if (this.reverseLimitSwitch == null)
+        {
+            this.reverseLimitSwitch = this.wrappedObject.getReverseLimit();
+        }
+
+        this.reverseLimitSwitch.refresh();
+        return this.reverseLimitSwitch.getValue() == ReverseLimitValue.ClosedToGround;
     }
 
     public TalonXLimitSwitchStatus getLimitSwitchStatus()

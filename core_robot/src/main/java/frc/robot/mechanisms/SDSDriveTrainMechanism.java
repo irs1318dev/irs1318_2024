@@ -203,6 +203,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.driveMotors[i].setMotorOutputSettings(driveMotorInvert[i], MotorNeutralMode.Brake);
             this.driveMotors[i].setFeedbackUpdateRate(TuningConstants.SDSDRIVETRAIN_FEEDBACK_UPDATE_RATE_HZ);
             this.driveMotors[i].setErrorUpdateRate(TuningConstants.SDSDRIVETRAIN_ERROR_UPDATE_RATE_HZ);
+            this.driveMotors[i].optimizeCanbus();
             this.driveMotors[i].setPIDF(
                 TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KP,
                 TuningConstants.SDSDRIVETRAIN_DRIVE_MOTORS_VELOCITY_PID_KI,
@@ -218,11 +219,13 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.driveMotors[i].setVoltageCompensation(
                 TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION_ENABLED,
                 TuningConstants.SDSDRIVETRAIN_DRIVE_VOLTAGE_COMPENSATION);
-            this.driveMotors[i].setSupplyCurrentLimit(
+            this.driveMotors[i].setCurrentLimit(
                 TuningConstants.SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_LIMITING_ENABLED,
                 TuningConstants.SDSDRIVETRAIN_DRIVE_SUPPLY_CURRENT_MAX,
                 TuningConstants.SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_CURRENT,
-                TuningConstants.SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_DURATION);
+                TuningConstants.SDSDRIVETRAIN_DRIVE_SUPPLY_TRIGGER_DURATION,
+                TuningConstants.SDSDRIVETRAIN_DRIVE_STATOR_CURRENT_LIMITING_ENABLED,
+                TuningConstants.SDSDRIVETRAIN_DRIVE_STATOR_CURRENT_LIMIT);
             this.driveMotors[i].setControlMode(TalonFXControlMode.Velocity);
             this.driveMotors[i].setSelectedSlot(SDSDriveTrainMechanism.defaultPidSlotId);
 
@@ -247,13 +250,16 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.steerMotors[i].setVoltageCompensation(
                 TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION_ENABLED,
                 TuningConstants.SDSDRIVETRAIN_STEER_VOLTAGE_COMPENSATION);
-            this.steerMotors[i].setSupplyCurrentLimit(
+            this.steerMotors[i].setCurrentLimit(
                 TuningConstants.SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_LIMITING_ENABLED,
                 TuningConstants.SDSDRIVETRAIN_STEER_SUPPLY_CURRENT_MAX,
                 TuningConstants.SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_CURRENT,
-                TuningConstants.SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_DURATION);
-            this.driveMotors[i].setFeedbackUpdateRate(TuningConstants.SDSDRIVETRAIN_FEEDBACK_UPDATE_RATE_HZ);
-            this.driveMotors[i].setErrorUpdateRate(TuningConstants.SDSDRIVETRAIN_ERROR_UPDATE_RATE_HZ);
+                TuningConstants.SDSDRIVETRAIN_STEER_SUPPLY_TRIGGER_DURATION,
+                TuningConstants.SDSDRIVETRAIN_STEER_STATOR_CURRENT_LIMITING_ENABLED,
+                TuningConstants.SDSDRIVETRAIN_STEER_STATOR_CURRENT_LIMIT);
+            this.steerMotors[i].setFeedbackUpdateRate(TuningConstants.SDSDRIVETRAIN_FEEDBACK_UPDATE_RATE_HZ);
+            this.steerMotors[i].setErrorUpdateRate(TuningConstants.SDSDRIVETRAIN_ERROR_UPDATE_RATE_HZ);
+            this.steerMotors[i].optimizeCanbus();
             if (TuningConstants.SDSDRIVETRAIN_STEER_MOTORS_USE_MOTION_MAGIC)
             {
                 this.steerMotors[i].setControlMode(TalonFXControlMode.MotionMagicPosition);
@@ -268,7 +274,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.absoluteEncoders[i] = provider.getCANCoder(absoluteEncoderCanIds[i], ElectronicsConstants.CANIVORE_NAME);
         }
 
-        //What does this do? Next few lines?
+        // prepare arrays for sensor data to re-use on each readSensors/update loop
         this.driveVelocities = new double[SDSDriveTrainMechanism.NUM_MODULES];
         this.drivePositions = new double[SDSDriveTrainMechanism.NUM_MODULES];
         this.driveErrors = new double[SDSDriveTrainMechanism.NUM_MODULES];
@@ -910,22 +916,22 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
         // rightRobotVelocity = (rightRobotVelocity1 + rightRobotVelocity2 + rightRobotVelocity3 + rightRobotVelocity4) / 4.0;
         // forwardRobotVelocity = (forwardRobotVelocity1 + forwardRobotVelocity2 + forwardRobotVelocity3 + forwardRobotVelocity4) / 4.0;
 
-        double a = 0.5 * (-rightRobotVelocity3 - rightRobotVelocity4);
-        double b = 0.5 * (-rightRobotVelocity1 - rightRobotVelocity2);
+        double a = -0.5 * (rightRobotVelocity3 + rightRobotVelocity4);
+        double b = -0.5 * (rightRobotVelocity1 + rightRobotVelocity2);
         double c = 0.5 * (forwardRobotVelocity1 + forwardRobotVelocity4);
         double d = 0.5 * (forwardRobotVelocity2 + forwardRobotVelocity3);
 
-        double omegaRadians1 = (b - a) / HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_SEPERATION_DISTANCE;
-        double omegaRadians2 = (c - d) / HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_SEPERATION_DISTANCE;
-        double omegaRadians = (omegaRadians1 + omegaRadians2) / 2.0;
+        double omegaRadians1 = (b - a) * HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_SEPERATION_DISTANCE_INV;
+        double omegaRadians2 = (c - d) * HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_SEPERATION_DISTANCE_INV;
+        double omegaRadians = 0.5 * (omegaRadians1 + omegaRadians2);
 
         double rightRobotVelocityA = omegaRadians * HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_CENTER_DISTANCE + a;
         double rightRobotVelocityB = -omegaRadians * HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_CENTER_DISTANCE + b;
-        rightRobotVelocity = -(rightRobotVelocityA + rightRobotVelocityB) / 2.0;
+        rightRobotVelocity = -0.5 * (rightRobotVelocityA + rightRobotVelocityB);
 
         double forwardRobotVelocityA = omegaRadians * HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE + c;
         double forwardRobotVelocityB = -omegaRadians * HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE + d;
-        forwardRobotVelocity = (forwardRobotVelocityA + forwardRobotVelocityB) / 2.0;
+        forwardRobotVelocity = 0.5 * (forwardRobotVelocityA + forwardRobotVelocityB);
 
         this.angle += omegaRadians * Helpers.RADIANS_TO_DEGREES * this.deltaT;
 
