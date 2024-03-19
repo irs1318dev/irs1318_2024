@@ -26,14 +26,17 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
         this.innerEncoder = new FauxbotEncoder(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonFX.class, this.connection.getPort()));
     }
 
+    @Override
     public void follow(ITalonFX talonFX)
     {
     }
 
+    @Override
     public void follow(ITalonFX talonFX, boolean invertDirection)
     {
     }
 
+    @Override
     public void setControlMode(TalonFXControlMode mode)
     {
         this.currentMode = mode;
@@ -61,19 +64,41 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
     }
 
     @Override
+    public void setForwardLimitSwitchUpdateRate(double frequencyHz)
+    {
+    }
+
+    @Override
+    public void setReverseLimitSwitchUpdateRate(double frequencyHz)
+    {
+    }
+
+    @Override
+    public void optimizeCanbus()
+    {
+    }
+
+    @Override
     public void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean forwardReset, double forwardResetPosition, boolean reverseEnabled, boolean reverseNormallyOpen, boolean reverseReset, double reverseResetPosition)
     {
     }
 
     @Override
-    public void setSupplyCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
+    public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime)
     {
     }
 
+    @Override
+    public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime, boolean statorLimiting, double statorCurrentLimit)
+    {
+    }
+
+    @Override
     public void setSelectedSlot(int slotId)
     {
     }
 
+    @Override
     public void setPIDF(double p, double i, double d, double f, int slotId)
     {
         this.kp = p;
@@ -83,6 +108,7 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
         this.resetPID();
     }
 
+    @Override
     public void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId)
     {
     }
@@ -158,53 +184,67 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
         }
     }
 
+    @Override
     public void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean reverseEnabled, boolean reverseNormallyOpen)
     {
     }
 
+    @Override
     public void setMotorOutputSettings(boolean invert, MotorNeutralMode neutralMode)
     {
     }
 
-    public void setInvertSensor(boolean flip)
-    {
-    }
-
-    public void setNeutralMode(MotorNeutralMode neutralMode)
-    {
-    }
-
+    @Override
     public void setVoltageCompensation(boolean enabled, double maxVoltage)
     {
     }
 
+    @Override
     public void stop()
     {
     }
 
+    @Override
     public void setPosition(double position)
     {
     }
 
+    @Override
     public void reset()
     {
     }
 
+    @Override
     public double getPosition()
     {
         return this.innerEncoder.getDistance();
     }
 
+    @Override
     public double getVelocity()
     {
         return 0.0;
     }
 
+    @Override
     public double getError()
     {
         return 0.0;
     }
 
+    @Override
+    public boolean getForwardLimitSwitchClosed()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean getReverseLimitSwitchClosed()
+    {
+        return false;
+    }
+
+    @Override
     public TalonXLimitSwitchStatus getLimitSwitchStatus()
     {
         return new TalonXLimitSwitchStatus(false, false);

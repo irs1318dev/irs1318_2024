@@ -34,7 +34,7 @@ public class ShootTrapTask extends DecisionSequentialTask
             ConcurrentTask.AllTasks(
                 new ShooterSpinTask(TuningConstants.TRAP_SHOT_FLYWHEEL_VELOCITY),
                 SequentialTask.Sequence(
-                    new ApproachAprilTagTask(this.xOffset, this.yOffset, this.visionOperation),
+                    new VisionApproachAprilTagTask(this.xOffset, this.yOffset, this.visionOperation),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_TRAP_SHOOT, TuningConstants.ARM_WRIST_TRAP_SHOOT),
                     new FeedRingTask(true))
         ));

@@ -13,7 +13,7 @@ import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
 import frc.robot.mechanisms.OffboardVisionManager;
 
-public class ApproachAprilTagTask extends DecisionSequentialTask
+public class VisionApproachAprilTagTask extends DecisionSequentialTask
 {
     private static final String PATH_NAME = "ApproachAprilTagTaskPath";
 
@@ -40,7 +40,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
      * @param yOFfset the distance the robot should end up to the left of the tag
      * @param visionOperation the vision operation to use to find the tag
      */
-    public ApproachAprilTagTask(double xOffset, double yOFfset, DigitalOperation visionOperation)
+    public VisionApproachAprilTagTask(double xOffset, double yOFfset, DigitalOperation visionOperation)
     {
         if (TuningConstants.THROW_EXCEPTIONS)
         {
@@ -113,7 +113,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
 
                 // generate the path
                 this.trajectoryManager.addTrajectory(
-                    ApproachAprilTagTask.PATH_NAME, 
+                    VisionApproachAprilTagTask.PATH_NAME, 
                     pathPlanner.buildTrajectory(
                         TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY,
                         TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
@@ -121,7 +121,7 @@ public class ApproachAprilTagTask extends DecisionSequentialTask
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                         new PathPlannerWaypoint(0, 0, tangent, 0),
                         new PathPlannerWaypoint(xGoal, yGoal, tangent, angleGoal)));
-                this.AppendTask(new FollowPathTask(ApproachAprilTagTask.PATH_NAME, Type.RobotRelativeFromCurrentPose));
+                this.AppendTask(new FollowPathTask(VisionApproachAprilTagTask.PATH_NAME, Type.RobotRelativeFromCurrentPose));
                 this.state = State.ApproachAprilTag;
             }
             else
