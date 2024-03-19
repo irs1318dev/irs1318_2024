@@ -509,7 +509,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
             ButtonType.Toggle,
-            () -> new ApproachAprilTagTask(36.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
+            () -> new VisionApproachAprilTagTask(36.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
             new IOperation[]
             {
                 DigitalOperation.VisionFindAnyAprilTagFront,
@@ -594,8 +594,8 @@ public class ButtonMap implements IButtonMap
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(
                 new FieldOrientationTask(DesiredOrientation.Amp),
-                new ApproachAprilTagTask(40.0, 0.0, DigitalOperation.VisionFindAmpAprilTagFront),
-                new ApproachAprilTagTask(20.0, 0.0, DigitalOperation.VisionFindAmpAprilTagFront),
+                new VisionApproachAprilTagTask(40.0, 0.0, DigitalOperation.VisionFindAmpAprilTagFront),
+                new VisionApproachAprilTagTask(20.0, 0.0, DigitalOperation.VisionFindAmpAprilTagFront),
                 new FieldOrientationTask(DesiredOrientation.Amp)),
             new IOperation[]
             {
