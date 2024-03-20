@@ -156,7 +156,7 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderAbsoluteEncoder = provider.getDutyCycleEncoder(ElectronicsConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_DIO_CHANNEL);
         this.shoulderAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
-        this.shoulderAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_TICK_DISTANCE);
+        this.shoulderAbsoluteEncoder.setDistancePerRotation(HardwareConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_TICK_DISTANCE);
         this.shoulderAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET);
 
         if (TuningConstants.ARM_USE_MM)
@@ -301,8 +301,8 @@ public class ArmMechanism implements IMechanism
 
         //dubious code here
         this.shoulderAbsoluteEncoderPosition =
-        !this.shoulderAbsoluteEncoder.isConnected() ?
-            null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance() - 48.5);
+            !this.shoulderAbsoluteEncoder.isConnected() ?
+                null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance() - 48.5);
 
         // System.out.println(
         //     String.format(
@@ -613,8 +613,8 @@ public class ArmMechanism implements IMechanism
         {
             this.updateCurrShoulderPosition = JumpProtectionReason.Reset;
             this.shoulderPosition = this.shoulderAbsoluteEncoderPosition;
-            this.wristMotor.setPosition(this.shoulderAbsoluteEncoderPosition);
-            this.wristMotor.burnFlash();
+            this.shoulderMotor.setPosition(this.shoulderAbsoluteEncoderPosition);
+            this.shoulderMotor.burnFlash();
         }
 
         if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&

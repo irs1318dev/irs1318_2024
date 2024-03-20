@@ -653,8 +653,8 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
-    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
+    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -667,12 +667,11 @@ public class TuningConstants
     public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
     
-    //copied from wrist constants, change as necessary
-    public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
+    public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
     public static final double ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 0.5;
     public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = -0.443333;
-    public static final double ARM_SHOULDER_RESET_DIFFERENCE_MAX = 45.0;
+    public static final double ARM_SHOULDER_RESET_DIFFERENCE_MAX = 15.0;
     
 
     // SHOULDER PID
