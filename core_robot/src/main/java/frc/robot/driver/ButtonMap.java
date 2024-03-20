@@ -225,13 +225,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple),
 
-        new DigitalOperationDescription(
-            DigitalOperation.IntakeIn,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
-            EnumSet.of(Shift.DriverDebug),
-            EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.IntakeIn,
+        //     UserInputDevice.Driver,
+        //     UserInputDeviceButton.XBONE_LEFT_BUTTON,
+        //     EnumSet.of(Shift.DriverDebug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
 
         new DigitalOperationDescription(
             DigitalOperation.IntakeOut,
@@ -257,13 +257,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Click),
     
-        new DigitalOperationDescription(
-            DigitalOperation.ShooterFeedRing,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
-            // EnumSet.of(Shift.DriverDebug),
-            // EnumSet.noneOf(Shift.class),
-            ButtonType.Simple),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.ShooterFeedRing,
+        //     UserInputDevice.Driver,
+        //     UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+        //     // EnumSet.of(Shift.DriverDebug),
+        //     // EnumSet.noneOf(Shift.class),
+        //     ButtonType.Simple),
 
         new DigitalOperationDescription(
             DigitalOperation.ArmEnableSimpleMode,
@@ -470,6 +470,42 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.DriveTrainDisableFieldOrientation,
                 DigitalOperation.DriveTrainUseRobotOrientation,
             }),
+
+        // new MacroOperationDescription(
+        //     MacroOperation.UpdatedIntakeIn,
+        //     UserInputDevice.Codriver,
+        //     UserInputDeviceButton.XBONE_LEFT_BUTTON,
+        //     EnumSet.of(Shift.DriverDebug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Toggle,
+        //     () -> ConcurrentTask.AnyTasks(
+        //         new IntakeControlTask(true),
+        //         new StowArmThroughBeamTask()
+        //     ),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ArmWristPositionSetpoint,
+        //         DigitalOperation.IntakeIn,
+        //         DigitalOperation.IntakeOut,
+        //     }),
+
+        // new MacroOperationDescription(
+        //     MacroOperation.UpdatedShoot,
+        //     UserInputDevice.Codriver,
+        //     UserInputDeviceButton.XBONE_RIGHT_BUTTON, 
+        //     EnumSet.of(Shift.DriverDebug),
+        //     EnumSet.noneOf(Shift.class),
+        //     ButtonType.Toggle,
+        //     () -> ConcurrentTask.AnyTasks(
+        //         new FeedRingTask(true),
+        //         new StowArmThroughBeamTask()
+        //     ),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ArmWristPositionSetpoint,
+        //         DigitalOperation.ShooterFeedRing,
+        //         DigitalOperation.IntakeForceOnAndIntakeIn,
+        //     }),
 
         new MacroOperationDescription(
             MacroOperation.FaceForward,

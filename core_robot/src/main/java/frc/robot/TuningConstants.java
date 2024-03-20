@@ -588,6 +588,8 @@ public class TuningConstants
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
     public static final double TRAP_SHOT_FLYWHEEL_VELOCITY = 1725.2799072265625;
     // vel - 1725.2799072265625 - 33 inches off
+    
+    public static final double STOW_WAIT_TIME = 0.25;
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
