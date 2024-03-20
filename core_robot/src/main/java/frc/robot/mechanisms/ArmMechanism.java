@@ -47,6 +47,7 @@ public class ArmMechanism implements IMechanism
     private final ISparkMax shoulderMotor;
     private final ISparkMax wristMotor;
     private final IDutyCycleEncoder wristAbsoluteEncoder;
+    private final IDutyCycleEncoder shoulderAbsoluteEncoder;
 
     private double desiredShoulderPosition;
     private double desiredWristPosition;
@@ -61,6 +62,7 @@ public class ArmMechanism implements IMechanism
     private double wristVelocity;
 
     private Double wristAbsoluteEncoderPosition;
+    private Double shoulderAbsoluteEncoderPosition;
 
     private double shoulderError;
     private double wristError;
@@ -150,6 +152,12 @@ public class ArmMechanism implements IMechanism
         this.wristAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
         this.wristAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE);
         this.wristAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_WRIST_ABSOLUTE_ENCODER_OFFSET);
+
+
+        this.shoulderAbsoluteEncoder = provider.getDutyCycleEncoder(ElectronicsConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_DIO_CHANNEL);
+        this.shoulderAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
+        this.shoulderAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_TICK_DISTANCE);
+        this.shoulderAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET);
 
         if (TuningConstants.ARM_USE_MM)
         {
@@ -290,6 +298,11 @@ public class ArmMechanism implements IMechanism
         this.wristAbsoluteEncoderPosition =
             !this.wristAbsoluteEncoder.isConnected() ?
                 null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 48.5);
+
+        //dubious code here
+        this.shoulderAbsoluteEncoderPosition =
+        !this.shoulderAbsoluteEncoder.isConnected() ?
+            null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance() - 48.5);
 
         // System.out.println(
         //     String.format(
@@ -590,6 +603,20 @@ public class ArmMechanism implements IMechanism
             }
         }
 
+        if (TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET &&
+            this.shoulderAbsoluteEncoderPosition != null &&
+            Helpers.RoughEquals(this.shoulderVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD) &&
+            Helpers.RoughEquals(this.shoulderPosition, this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD) &&
+            !Helpers.RoughEquals(this.shoulderPosition, this.shoulderAbsoluteEncoderPosition, TuningConstants.ARM_SHOULDER_RESET_CORRECTION_THRESHOLD) &&
+            Helpers.RoughEquals(this.shoulderPosition, this.shoulderAbsoluteEncoderPosition, TuningConstants.ARM_SHOULDER_RESET_DIFFERENCE_MAX) &&
+            Helpers.WithinRange(this.shoulderAbsoluteEncoderPosition, TuningConstants.ARM_SHOULDER_MIN_POSITION, TuningConstants.ARM_SHOULDER_MAX_POSITION))
+        {
+            this.updateCurrShoulderPosition = JumpProtectionReason.Reset;
+            this.shoulderPosition = this.shoulderAbsoluteEncoderPosition;
+            this.wristMotor.setPosition(this.shoulderAbsoluteEncoderPosition);
+            this.wristMotor.burnFlash();
+        }
+
         if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&
             this.wristAbsoluteEncoderPosition != null &&
             Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
@@ -613,6 +640,8 @@ public class ArmMechanism implements IMechanism
             this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
             this.wristMotor.burnFlash();
         }
+
+        
 
         // TMP
         this.currentDesiredShoulderPosition = this.desiredShoulderPosition;
