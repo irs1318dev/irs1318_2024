@@ -106,7 +106,6 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
             {
                 this.wristAngle = this.linterp.sample(distance);
                 this.currentState = State.SetWristAngle;
-                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristAngle);
             }
         }
 
