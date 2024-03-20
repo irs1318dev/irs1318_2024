@@ -153,7 +153,6 @@ public class ArmMechanism implements IMechanism
         this.wristAbsoluteEncoder.setDistancePerRotation(-HardwareConstants.ARM_WRIST_ABSOLUTE_ENCODER_TICK_DISTANCE);
         this.wristAbsoluteEncoder.setPositionOffset(TuningConstants.ARM_WRIST_ABSOLUTE_ENCODER_OFFSET);
 
-
         this.shoulderAbsoluteEncoder = provider.getDutyCycleEncoder(ElectronicsConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_DIO_CHANNEL);
         this.shoulderAbsoluteEncoder.setDutyCycleRange(ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MIN, ElectronicsConstants.REV_THROUGHBORE_ENCODER_DUTY_CYCLE_MAX);
         this.shoulderAbsoluteEncoder.setDistancePerRotation(HardwareConstants.ARM_SHOULDER_ABSOLUTE_ENCODER_TICK_DISTANCE);
@@ -299,10 +298,9 @@ public class ArmMechanism implements IMechanism
             !this.wristAbsoluteEncoder.isConnected() ?
                 null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 48.5);
 
-        //dubious code here
         this.shoulderAbsoluteEncoderPosition =
             !this.shoulderAbsoluteEncoder.isConnected() ?
-                null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance() - 48.5);
+                null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance());
 
         // System.out.println(
         //     String.format(
@@ -641,8 +639,6 @@ public class ArmMechanism implements IMechanism
             this.wristMotor.setPosition(TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION);
             this.wristMotor.burnFlash();
         }
-
-        
 
         // TMP
         this.currentDesiredShoulderPosition = this.desiredShoulderPosition;
