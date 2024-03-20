@@ -166,13 +166,13 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
     protected PIDHandler createTurnHandler()
     {
         return new PIDHandler(
-            TuningConstants.STATIONARY_PID_TURNING_PID_KP,
-            TuningConstants.STATIONARY_PID_TURNING_PID_KI,
-            TuningConstants.STATIONARY_PID_TURNING_PID_KD,
-            TuningConstants.STATIONARY_PID_TURNING_PID_KF,
-            TuningConstants.STATIONARY_PID_TURNING_PID_KS,
-            TuningConstants.STATIONARY_PID_TURNING_PID_MIN,
-            TuningConstants.STATIONARY_PID_TURNING_PID_MAX,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_KP,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_KI,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_KD,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_KF,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_KS,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_MIN,
+            TuningConstants.STATIONARY_SINGLE_TURNING_PID_MAX,
             this.getInjector().getInstance(ITimer.class));
     }
 }
