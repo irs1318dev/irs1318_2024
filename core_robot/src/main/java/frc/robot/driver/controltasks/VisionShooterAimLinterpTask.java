@@ -11,16 +11,33 @@ import frc.robot.mechanisms.OffboardVisionManager;
 
 public class VisionShooterAimLinterpTask extends ControlTaskBase
 {
-    public static IControlTask createShootMacroTask()
+    public static IControlTask createShootMacroTask(boolean continuous)
     {
-        return ConcurrentTask.AllTasks(
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 10.0),
+        if (continuous)
+        {
+            return ConcurrentTask.AnyTasks(
+                new RumbleTask(),
+                new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
+                SequentialTask.Sequence(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    ConcurrentTask.AllTasks(
+                        new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                        new VisionShooterAimLinterpTask(false)),
+                    ConcurrentTask.AnyTasks(
+                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
+                        new VisionShooterAimLinterpTask(true),
+                        new FeedRingTask(true, 5.0))));
+        }
+
+        return ConcurrentTask.AnyTasks(
+            new RumbleTask(),
+            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
             SequentialTask.Sequence(
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_UPPER_UNIVERSAL_SHOT)),
-                new VisionShooterAimLinterpTask(),
-                new FeedRingTask(true, 5.0)));
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                new VisionShooterAimLinterpTask(false),
+                new FeedRingTask(true, 5.0))));
     }
 
     private enum State
@@ -31,6 +48,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     }
 
     private final LinearInterpolator linterp;
+    private final boolean continuous;
 
     private OffboardVisionManager vision;
     private ArmMechanism arm;
@@ -40,11 +58,12 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     private boolean shouldCancel;
     private int noTargetCount;
 
-    public VisionShooterAimLinterpTask()
+    public VisionShooterAimLinterpTask(boolean continuous)
     {
         super();
 
         this.linterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
+        this.continuous = continuous;
     }
 
     @Override
@@ -76,9 +95,10 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                 }
             }
 
-             // if distance is out of range cancel, avoid inaccuracy in interpolation
-            if (distance < TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[0] ||
-                distance > TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES.length - 1])
+            // if distance is out of range cancel, avoid inaccuracy in interpolation
+            if (!this.continuous &&
+                (distance < TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[0] ||
+                    distance > TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES.length - 1]))
             {
                 this.shouldCancel = true;
             }
@@ -92,9 +112,17 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
 
         if (this.currentState == State.SetWristAngle)
         {
+            this.noTargetCount = 0;
             if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD))
             {
-                this.currentState = State.Completed;
+                if (this.continuous)
+                {
+                    this.currentState = State.FindSpeakerAprilTag;
+                }
+                else
+                {
+                    this.currentState = State.Completed;
+                }
             }
         }
 

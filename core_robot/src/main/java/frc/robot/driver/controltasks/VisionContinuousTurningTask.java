@@ -18,26 +18,40 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
 
     protected final TurnType rotateType;
     protected final DigitalOperation visionOperation;
+    protected final boolean continuous;
 
     protected OffboardVisionManager visionManager;
 
     /**
     * Initializes a new VisionContinuousTurningTask
      * @param rotateType what type of turning to do
+     * @param visionOperation the type of vision to perform (front/rear, which apriltags, etc.)
     */
     public VisionContinuousTurningTask(TurnType rotateType, DigitalOperation visionOperation)
     {
-        this(true, rotateType, false, visionOperation);
+        this(true, rotateType, false, visionOperation, false);
+    }
+
+    /**
+    * Initializes a new VisionContinuousTurningTask
+     * @param rotateType what type of turning to do
+     * @param visionOperation the type of vision to perform (front/rear, which apriltags, etc.)
+     * @param continuous whether to keep trying to center as long as we can see the vision target
+    */
+    public VisionContinuousTurningTask(TurnType rotateType, DigitalOperation visionOperation, boolean continuous)
+    {
+        this(true, rotateType, false, visionOperation, continuous);
     }
 
     /**
     * Initializes a new VisionContinuousTurningTask
      * @param rotateType what type of turning to do
      * @param bestEffort whether to end (true) or cancel (false, default) when we cannot see the game piece or vision target (for sequential tasks, whether to continue on or not)
+     * @param visionOperation the type of vision to perform (front/rear, which apriltags, etc.)
     */
     public VisionContinuousTurningTask(TurnType rotateType, boolean bestEffort, DigitalOperation visionOperation)
     {
-        this(true, rotateType, bestEffort, visionOperation);
+        this(true, rotateType, bestEffort, visionOperation, false);
     }
 
     /**
@@ -45,12 +59,15 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
      * @param useTime whether to make sure we are centered for a second or not
      * @param rotateType what type of turning to do
      * @param bestEffort whether to end (true) or cancel (false, default) when we cannot see the game piece or vision target (for sequential tasks, whether to continue on or not)
+     * @param visionOperation the type of vision to perform (front/rear, which apriltags, etc.)
+     * @param continuous whether to keep trying to center as long as we can see the vision target
      */
-    public VisionContinuousTurningTask(boolean useTime, TurnType rotateType, boolean bestEffort, DigitalOperation visionOperation)
+    public VisionContinuousTurningTask(boolean useTime, TurnType rotateType, boolean bestEffort, DigitalOperation visionOperation, boolean continuous)
     {
         super(useTime, bestEffort);
         this.rotateType = rotateType;
         this.visionOperation = visionOperation;
+        this.continuous = continuous;
     }
 
     /**
@@ -81,6 +98,21 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
         {
             this.setDigitalOperationState(op, false);
         }
+    }
+
+    /**
+     * Checks whether this task has completed, or whether it should continue being processed
+     * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
+     */
+    @Override
+    public boolean hasCompleted()
+    {
+        if (this.continuous)
+        {
+            return false;
+        }
+
+        return super.hasCompleted();
     }
 
     @Override
