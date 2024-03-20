@@ -48,7 +48,7 @@ public class EndEffectorMechanism implements IMechanism
         Outtaking,
         Shooting
     };
-
+    
     private EffectorState currentEffectorState;
 
     private boolean useShootAnywayMode;
@@ -428,5 +428,10 @@ public class EndEffectorMechanism implements IMechanism
     public boolean hasGamePiece()
     {
         return this.throughBeamBroken;
+    }
+
+    public String getEndEffectorState() 
+    {
+        return currentEffectorState.toString();
     }
 }

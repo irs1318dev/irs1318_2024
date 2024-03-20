@@ -86,7 +86,12 @@ public class HardwareConstants
 
     public static final double MIN_USABLE_HEIGHT = 5.0; // bars running across robot height
 
+    //================================================= Shoulder ===============================================================//
+
+    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_TICK_DISTANCE = 360; //needs change
+
     //=============================================== Vision ==================================================================//
+
 
     public static final double CAMERA_TO_ARM_X_OFFSET = 20;
     public static final double CAMERA_TO_ARM_Z_OFFSET = 20;
