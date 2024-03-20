@@ -107,14 +107,23 @@ public class TuningConstants
     // Acceptable vision distance from tape in angles 
     public static final double MAX_VISION_ACCEPTABLE_MOVING_RR_ANGLE_ERROR = 4.0;
 
-    // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double STATIONARY_PID_TURNING_PID_KP = 0.02;
-    public static final double STATIONARY_PID_TURNING_PID_KI = 0.0;
-    public static final double STATIONARY_PID_TURNING_PID_KD = 0.0;
-    public static final double STATIONARY_PID_TURNING_PID_KF = 0.0;
-    public static final double STATIONARY_PID_TURNING_PID_KS = 1.0;
-    public static final double STATIONARY_PID_TURNING_PID_MIN = -0.4;
-    public static final double STATIONARY_PID_TURNING_PID_MAX = 0.4;
+    // PID settings for Centering the robot on a vision target from one stationary place, based on a single sample
+    public static final double STATIONARY_SINGLE_TURNING_PID_KP = 0.02;
+    public static final double STATIONARY_SINGLE_TURNING_PID_KI = 0.0;
+    public static final double STATIONARY_SINGLE_TURNING_PID_KD = 0.0;
+    public static final double STATIONARY_SINGLE_TURNING_PID_KF = 0.0;
+    public static final double STATIONARY_SINGLE_TURNING_PID_KS = 1.0;
+    public static final double STATIONARY_SINGLE_TURNING_PID_MIN = -0.4;
+    public static final double STATIONARY_SINGLE_TURNING_PID_MAX = 0.4;
+
+    // PID settings for Centering the robot on a vision target from one stationary place, based on continuous samples
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_KP = 0.02;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_KI = 0.0;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_KD = 0.0;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_KF = 0.0;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_KS = 1.0;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_MIN = -0.4;
+    public static final double STATIONARY_CONTINUOUS_TURNING_PID_MAX = 0.4;
 
     // PID settings for rotating the robot based on a vision target while in-motion
     public static final double VISION_MOVING_TURNING_PID_KP = 0.012;
