@@ -30,9 +30,9 @@ public abstract class VisionMoveAndTurnTaskBase extends VisionContinuousTurningT
     /**
     * Initializes a new VisionAdvanceAndCenterTaskBase
     */
-    protected VisionMoveAndTurnTaskBase(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle, DigitalOperation visionOperation, boolean driveBackwards)
+    protected VisionMoveAndTurnTaskBase(TurnType rotateType, MoveType translateType, MoveSpeed moveSpeed, boolean bestEffort, boolean verifyAngle, DigitalOperation visionOperation, boolean driveBackwards, boolean continuous)
     {
-        super(false, rotateType, bestEffort, visionOperation);
+        super(false, rotateType, bestEffort, visionOperation, continuous);
 
         this.driveBackwards = driveBackwards;
         this.translateType = translateType;

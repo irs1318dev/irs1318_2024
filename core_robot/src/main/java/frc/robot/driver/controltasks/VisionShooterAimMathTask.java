@@ -19,21 +19,23 @@ public class VisionShooterAimMathTask extends ControlTaskBase
     {
         if (continuous)
         {
-            return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 10.0),
+            return ConcurrentTask.AnyTasks(
+                new RumbleTask(),
+                new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
                 SequentialTask.Sequence(
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                     ConcurrentTask.AllTasks(
                         new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
                         new VisionShooterAimMathTask(false, true)),
                     ConcurrentTask.AnyTasks(
-                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
+                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
                         new VisionShooterAimMathTask(true, true),
                         new FeedRingTask(true, 5.0))));
         }
 
-        return ConcurrentTask.AllTasks(
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 10.0),
+        return ConcurrentTask.AnyTasks(
+            new RumbleTask(),
+            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
             SequentialTask.Sequence(
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
@@ -95,7 +97,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
     public void update()
     {
         Double visionX = visionManager.getAprilTagXOffset();
-        Double visionY = visionManager.getAprilTagXOffset();
+        Double visionY = visionManager.getAprilTagYOffset();
         if (visionX == null || visionY == null)
         {
             this.noAprilTags++;
@@ -118,7 +120,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
             pivotToTargetYDist = distToTargetY;
             this.setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
 
-            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, TuningConstants.MAGIC_NULL_VALUE);
+            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, this.desiredAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);  
 
             // Assume the speed is being set elsewhere when useMaxVelocity is true...

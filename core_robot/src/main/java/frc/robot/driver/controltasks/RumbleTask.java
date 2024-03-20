@@ -16,13 +16,13 @@ public class RumbleTask extends ControlTaskBase
     @Override
     public void update()
     {
-        // this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
+        this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
     }
 
     @Override
     public void end()
     {
-        // this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, false);
+        this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, false);
     }
 
     @Override
