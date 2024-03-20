@@ -9,41 +9,41 @@ import frc.robot.mechanisms.*;
 
 public class StowArmThroughBeamTask extends ControlTaskBase
 {
-
     private ArmMechanism armMechanism;
     private EndEffectorMechanism endEffectorMechanism;
-    private boolean hasCompleted;
     private ITimer timer;
+
+    private boolean hasCompleted;
     private double startTime;
     private double currentTime;
-    
+
+    public StowArmThroughBeamTask()
+    {
+        super();
+    }
 
     @Override
     public void begin()
     {
-
         this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
         this.endEffectorMechanism = this.getInjector().getInstance(EndEffectorMechanism.class);
         this.timer = this.getInjector().getInstance(ITimer.class);
-        
     }
 
-    
     @Override
     public void update()
     {
         this.currentTime = timer.get();
-        
-        if ((endEffectorMechanism.getEndEffectorState().equals("Intaking")) &&
+
+        if (endEffectorMechanism.getEndEffectorState() == EndEffectorMechanism.EffectorState.Intaking &&
                 endEffectorMechanism.hasGamePiece() &&
                 Helpers.RoughEquals(armMechanism.getShoulderPosition(), TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_AUTO_STOW_THRESHOLD) &&
                 Helpers.RoughEquals(armMechanism.getWristPosition(), TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP, TuningConstants.ARM_WRIST_AUTO_STOW_THRESHOLD)) 
         {
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK);
-            hasCompleted = true;
+            this.hasCompleted = true;
         }
-
-        else if ((endEffectorMechanism.getEndEffectorState().equals("Shooting")) &&
+        else if (endEffectorMechanism.getEndEffectorState() == EndEffectorMechanism.EffectorState.Shooting &&
                 !endEffectorMechanism.hasGamePiece() &&
                 Helpers.RoughEquals(armMechanism.getShoulderPosition(), TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_SHOULDER_AUTO_STOW_THRESHOLD) &&
                 Helpers.RoughEquals(armMechanism.getWristPosition(), TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT, TuningConstants.ARM_WRIST_AUTO_STOW_THRESHOLD)) 
@@ -52,13 +52,11 @@ public class StowArmThroughBeamTask extends ControlTaskBase
             if (this.currentTime - this.startTime >= TuningConstants.STOW_WAIT_TIME) 
             {
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK);
-                hasCompleted = true;
+                this.hasCompleted = true;
             }
-
         }
     }
 
-    
     @Override
     public void end()
     {
@@ -70,6 +68,5 @@ public class StowArmThroughBeamTask extends ControlTaskBase
     {
         return this.hasCompleted;
     }
-
 }
 
