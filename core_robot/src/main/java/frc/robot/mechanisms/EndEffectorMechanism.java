@@ -41,14 +41,14 @@ public class EndEffectorMechanism implements IMechanism
     private double nearFlywheelSetpoint;
     private double farFlywheelSetpoint;
 
-    private enum EffectorState
+    public enum EffectorState
     {
         Off,
         Intaking,
         Outtaking,
         Shooting
     };
-    
+
     private EffectorState currentEffectorState;
 
     private boolean useShootAnywayMode;
@@ -430,8 +430,8 @@ public class EndEffectorMechanism implements IMechanism
         return this.throughBeamBroken;
     }
 
-    public String getEndEffectorState() 
+    public EffectorState getEndEffectorState() 
     {
-        return currentEffectorState.toString();
+        return this.currentEffectorState;
     }
 }
