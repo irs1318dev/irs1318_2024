@@ -1,6 +1,9 @@
 package frc.robot.driver.controltasks;
 
+import frc.lib.controllers.PIDHandler;
 import frc.lib.helpers.Helpers;
+import frc.lib.robotprovider.ITimer;
+import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.OffboardVisionManager;
 
@@ -113,6 +116,20 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
         }
 
         return super.hasCompleted();
+    }
+
+    @Override
+    protected PIDHandler createTurnHandler()
+    {
+        return new PIDHandler(
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_KP,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_KI,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_KD,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_KF,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_KS,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_MIN,
+            TuningConstants.STATIONARY_CONTINUOUS_TURNING_PID_MAX,
+            this.getInjector().getInstance(ITimer.class));
     }
 
     @Override
