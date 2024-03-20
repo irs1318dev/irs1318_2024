@@ -135,7 +135,11 @@ public enum LoggingKey
     ArmWristPowerAverage("arm.wrPowAvg", false),
     ArmWristStalled("arm.wrStalled", false),
     ArmWristLimitSwitch("arm.wrLimitSwitch", true),
+
+    ArmShoulderPosAdjustment("arm.sh_pos_adj", false),
+    ArmWristPosAdjustment("arm.wr_pos_adj", false),
     ArmWristAbsoluteEncoderPosition("arm.wrAbsPos", true),
+    ArmShoulderAbsoluteEncoderPosition("arm.shAbsPos", true),
 
     ArmExtensionBreaking("arm.exten_broken", false),
     ArmFixedWithIK("arm.fixed_with_IK", false),
@@ -158,9 +162,6 @@ public enum LoggingKey
 
     ActWristDesired("arm.sh_nt_tsk_wr_ang", false),
     ArmTheta4("arm.theta_4", false),
-
-    ArmShoulderPosAdjustment("arm.sh_pos_adj", false),
-    ArmWristPosAdjustment("arm.wr_pos_adj", false),
 
     // Climber stuff
     ClimberMotorPower("cl.motor", false),

@@ -586,6 +586,8 @@ public class TuningConstants
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
     public static final double TRAP_SHOT_FLYWHEEL_VELOCITY = 1725.2799072265625;
     // vel - 1725.2799072265625 - 33 inches off
+    
+    public static final double STOW_WAIT_TIME = 0.15;
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
@@ -649,18 +651,32 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
+    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
+    // Through Bore Reset Wrist
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
     public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
+    
+    // Through Bore Reset Shoulder
+    public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
+    public static final double ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD = 3.0;
+    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 0.5;
+    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = -0.443333;
+    public static final double ARM_SHOULDER_RESET_DIFFERENCE_MAX = 15.0;
+    
+    // Wrist Auto Stow variables
+    public static final double ARM_SHOULDER_AUTO_STOW_THRESHOLD = 1.0;
+    public static final double ARM_WRIST_AUTO_STOW_THRESHOLD = 10.0;
+    
 
     // SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP;
@@ -788,6 +804,7 @@ public class TuningConstants
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 240.0;
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 300.0;
 
+    // Arm Stall protection
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
     public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 8.0;
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 8.0;
@@ -801,7 +818,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors
     public static final double ARM_SHOULDER_MOTOR_POWER_MIN_DIFFERENCE = 12.0; // Minimum average power consumption to pay attention to the difference
 
-    // Arm/shoulder zeroingT
+    // Arm zeroing
     public static final double ARM_SHOULDER_ZEROING_VELOCITY_THRESHOLD = 1.0; // degrees per second
     public static final double ARM_WRIST_ZEROING_VELOCITY_POS_THRESHOLD = 0.5; // degrees per second
     public static final double ARM_WRIST_ZEROING_VELOCITY_POW_THRESHOLD = 5.0; // degrees per second
@@ -820,6 +837,7 @@ public class TuningConstants
     public static final double ARM_WRIST_VELOCITY_TRACKING_DURATION = TuningConstants.ARM_WRIST_POWER_TRACKING_DURATION;
     public static final double ARM_WRIST_VELOCITY_SAMPLES_PER_SECOND = TuningConstants.ARM_WRIST_POWER_SAMPLES_PER_SECOND;
 
+    // Shoulder Gravity Comp
     public static final double[] ARM_GRAVITY_COMPENSATION_SHOULDER_SAMPLE_LOCATIONS =
         {
             TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, // shoulder first position
