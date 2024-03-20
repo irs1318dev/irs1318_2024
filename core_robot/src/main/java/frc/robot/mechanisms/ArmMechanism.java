@@ -347,6 +347,7 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmWristPowerAverage, this.wristPowerAverage);
         this.logger.logBoolean(LoggingKey.ArmWristLimitSwitch, this.wristLimitSwitchHit);
         this.logger.logNumber(LoggingKey.ArmWristAbsoluteEncoderPosition, this.wristAbsoluteEncoderPosition);
+        this.logger.logNumber(LoggingKey.ArmShoulderAbsoluteEncoderPosition, this.shoulderAbsoluteEncoderPosition);
     }
 
     @Override
