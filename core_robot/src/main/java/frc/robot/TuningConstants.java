@@ -464,14 +464,15 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 7.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0.0; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
+    public static final double SHOOTER_MAX_VELOCITY = 3800 / 60.0 * 2 * 2 * Math.PI; //inches per second
+    public static final double SHOOTER_VEL_DAMPNER = 0.59;
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
 
-    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.0; //multiplier
 
     //==================================================== Arm ==============================================================
 
