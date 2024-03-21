@@ -119,7 +119,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
             double absAngle = getAngleSimple(distToTargetX, distToTargetY, TuningConstants.SHOOTER_MAX_VELOCITY);
             this.setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
 
-            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, this.desiredAngle);
+            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, absAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);  
 
             // Assume the speed is being set elsewhere when useMaxVelocity is true...
