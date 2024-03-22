@@ -75,10 +75,10 @@ public class AKRobot extends LoggedRobot
             Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         }
 
+        this.robot.robotInit();
+
         // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in the "Understanding Data Flow" page
         Logger.start();
-
-        this.robot.robotInit();
     }
 
     /**
