@@ -221,13 +221,13 @@ public class AutonomousRoutineSelector
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    new FeedRingTask(true, 0.7),
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5),
 
-
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                     ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new FollowPathTask(isRed ? "P2AtoP7ASUBRed" : "P2AtoP7ASUBBlue", Type.Absolute),
-                        new IntakeControlTask(true, 2.5)
+                        new IntakeControlTask(true, 2.0)
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -241,7 +241,7 @@ public class AutonomousRoutineSelector
             );
         }
 
-        if (routine == AutoRoutine.ThreeNote)
+        else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
                 new ShooterSpinTask(4050, 15.0),
@@ -256,13 +256,13 @@ public class AutonomousRoutineSelector
                     ),
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    new FeedRingTask(true, 0.7),
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5),
 
-
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                     ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new FollowPathTask(isRed ? "P2AtoP7ASUBRed" : "P2AtoP7ASUBBlue", Type.Absolute),
-                        new IntakeControlTask(true, 2.0)
+                        new IntakeControlTask(true, 1.5)
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -275,7 +275,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new FollowPathTask(isRed ? "P2AtoP12ASUBRed" : "P2AtoP12ASUBBlue", Type.Absolute),
-                        new IntakeControlTask(true, 3.5)
+                        new IntakeControlTask(true, 2.5)
                     ),
 
                     ConcurrentTask.AllTasks(
@@ -284,6 +284,68 @@ public class AutonomousRoutineSelector
                     ),
 
                     new FeedRingTask(true, 0.7),
+                    isRed ? new PositionUpdateTask() : null
+                )
+            );
+        }
+
+        else if (routine == AutoRoutine.FourNote)
+        {
+            return ConcurrentTask.AllTasks(
+                new ShooterSpinTask(4050, 15.0),
+                SequentialTask.Sequence( 
+                    ConcurrentTask.AllTasks(
+                        new ResetLevelTask(),
+                        new PositionStartingTask(
+                            locManager.P2A,
+                            locManager.getOrientationOrHeading(123.3),
+                            true,
+                            true)  
+                    ),
+
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    new WaitTask(0.3),
+                    new FeedRingTask(true, 0.5),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P2AtoP7ASUBRed" : "P2AtoP7ASUBBlue", Type.Absolute),
+                        new IntakeControlTask(true, 1.5)
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P7toP2AASUBRed" : "P7toP2AASUBBlue", Type.Absolute)
+                    ),
+
+                    new FeedRingTask(true, 0.7),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P2AtoP12ASUBRed" : "P2AtoP12ASUBBlue", Type.Absolute),
+                        new IntakeControlTask(true, 2.5)
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P12toP2ASUBRed" : "P12toP2ASUBBlue", Type.Absolute)
+                    ),
+
+                    new FeedRingTask(true, 0.7),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+                        new FollowPathTask(isRed ? "P2AtoP11ASUBRed" : "P2AtoP11ASUBBlue", Type.Absolute),
+                        new IntakeControlTask(true, 3.0)
+                    ),
+
+                    ConcurrentTask.AllTasks(
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new FollowPathTask(isRed ? "P11toP2ASUBRed" : "P11toP2ASUBBlue", Type.Absolute)
+                    ),
+
+                    new FeedRingTask(true, 0.7),
+
                     isRed ? new PositionUpdateTask() : null
                 )
             );
