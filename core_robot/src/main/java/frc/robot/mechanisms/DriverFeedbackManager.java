@@ -106,8 +106,8 @@ public class DriverFeedbackManager implements IMechanism
 
         if (this.driver.getDigital(DigitalOperation.ForceLightDriverRumble))
         {
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.25);
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.25);
+            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.05);
+            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.05);
         }
         else
         {

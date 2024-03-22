@@ -113,8 +113,8 @@ public class VisionApproachAprilTagTask extends DecisionSequentialTask
                 this.trajectoryManager.addTrajectory(
                     VisionApproachAprilTagTask.PATH_NAME, 
                     pathPlanner.buildTrajectory(
-                        TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY,
-                        TuningConstants.SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_ACCELERATION,
+                        TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                        TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                         TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                         new PathPlannerWaypoint(0, 0, tangent, 0),
