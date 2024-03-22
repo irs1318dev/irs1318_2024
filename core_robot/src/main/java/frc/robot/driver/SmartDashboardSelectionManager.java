@@ -19,7 +19,8 @@ public class SmartDashboardSelectionManager
         None,
         Amp,
         WooferFront,
-        WooferSide,
+        WooferAmpSide,
+        WooferSourceSide,
         Source,
     }
 
@@ -78,7 +79,8 @@ public class SmartDashboardSelectionManager
         this.positionChooser = networkTableProvider.getSendableChooser("Start Position");
         this.positionChooser.addDefault("None", StartPosition.None);
         this.positionChooser.addObject("sub-front", StartPosition.WooferFront);
-        this.positionChooser.addObject("sub-side", StartPosition.WooferSide);
+        this.positionChooser.addObject("sub-source-side", StartPosition.WooferSourceSide);
+        this.positionChooser.addObject("sub-amp-side", StartPosition.WooferAmpSide);
         this.positionChooser.addObject("near-amp", StartPosition.Amp);
         this.positionChooser.addObject("near-source", StartPosition.Source);
 

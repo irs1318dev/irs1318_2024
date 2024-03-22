@@ -462,14 +462,17 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 7.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0.0; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
+    public static final double SHOOTER_MAX_VELOCITY = 3800 / 60.0 * 2 * 2 * Math.PI; //inches per second
+    public static final double SHOOTER_VEL_DAMPNER = 0.8;
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
 
-    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.0; //multiplier
+
+    public static final double CODRIVER_CONTROLLER_RUMBLE_DURATION = 1.0; 
 
     //==================================================== Arm ==============================================================
 
@@ -899,10 +902,14 @@ public class TuningConstants
        136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
        216.644, 226.644, 231.733 };
 
-    // angles where successful shots were made at the given speed
-    public static final double[] SHOOT_VISION_SAMPLE_ANGLES = { 50.0, 47.0, 45.0, 39.0, 37.0 }; // 20 angles
+    // angles where successful shots were made at the given velocity and location
+    public static final double[] SHOOT_VISION_SAMPLE_ANGLES = { 50.0, 47.0, 45.0, 39.0, 37.0}; // 20 angles
+    // velocities where successful shots were made at the given angle and location
+    public static final double[] SHOOT_VISION_SAMPLE_VELOCITIES = { 20.0, 29.0, 38.0, 47.0, }; // 20 velocities
 
     public static final double SHOOT_VISION_SPEED = 4000;
     public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
+
+    public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;
 }

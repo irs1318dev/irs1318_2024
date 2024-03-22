@@ -7,6 +7,7 @@ import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.ArmMechanism;
+import frc.robot.mechanisms.EndEffectorMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
 public class VisionShooterAimLinterpTask extends ControlTaskBase
@@ -43,26 +44,32 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     private enum State
     {
         FindSpeakerAprilTag,
-        SetWristAngle,
+        SetWristAndVelocity,
         Completed
     }
 
-    private final LinearInterpolator linterp;
+    private final LinearInterpolator angleLinterp;
+    private final LinearInterpolator velocityLinterp;
     private final boolean continuous;
 
     private OffboardVisionManager vision;
     private ArmMechanism arm;
+    private EndEffectorMechanism endEffector;
 
     private State currentState;
     private double wristAngle;
     private boolean shouldCancel;
     private int noTargetCount;
+    private double farFlywheelVelocity;
+    private double nearFlywheelVelocity;
+
 
     public VisionShooterAimLinterpTask(boolean continuous)
     {
         super();
 
-        this.linterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
+        this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
+        this.velocityLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES);
         this.continuous = continuous;
     }
 
@@ -71,9 +78,12 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     {
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
+        this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
         this.currentState = State.FindSpeakerAprilTag;
         this.wristAngle = 0.0;
         this.noTargetCount = 0;
+        this.farFlywheelVelocity = 0.0;
+        this.nearFlywheelVelocity = 0.0;
 
         this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
         this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
@@ -104,15 +114,20 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
             }
             else
             {
-                this.wristAngle = this.linterp.sample(distance);
-                this.currentState = State.SetWristAngle;
+                this.wristAngle = this.angleLinterp.sample(distance);
+                this.farFlywheelVelocity = this.angleLinterp.sample(distance);
+                this.nearFlywheelVelocity = this.angleLinterp.sample(distance);
+                this.currentState = State.SetWristAndVelocity;
             }
         }
 
-        if (this.currentState == State.SetWristAngle)
+        if (this.currentState == State.SetWristAndVelocity)
         {
             this.noTargetCount = 0;
-            if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD))
+            if (
+                (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD)) && 
+                (Helpers.RoughEquals(this.endEffector.getNearFlywheelVelocity(), this.nearFlywheelVelocity, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD)) &&
+                (Helpers.RoughEquals(this.endEffector.getFarFlywheelVelocity(), this.farFlywheelVelocity, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD)))
             {
                 if (this.continuous)
                 {
@@ -123,6 +138,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     this.currentState = State.Completed;
                 }
             }
+            
         }
 
         switch (this.currentState)
@@ -131,8 +147,10 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                 this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
                 break;
 
-            case SetWristAngle:
+            case SetWristAndVelocity:
                 this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristAngle);
+                this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
+                this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.nearFlywheelVelocity);
                 break;
 
             default:
