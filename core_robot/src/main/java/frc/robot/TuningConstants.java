@@ -29,7 +29,7 @@ public class TuningConstants
     //================================================== Logging  ==============================================================
 
     public static final int CALENDAR_YEAR = 2024;
-    public static final boolean LOG_TO_FILE = true; // TuningConstants.COMPETITION_ROBOT;
+    public static final boolean LOG_TO_FILE = false; // TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space
     public static final int LOG_FLUSH_THRESHOLD = 25;
@@ -464,8 +464,8 @@ public class TuningConstants
 
     public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0.0; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 3800 / 60.0 * 2 * 2 * Math.PI; //inches per second
-    public static final double SHOOTER_VEL_DAMPNER = 0.8;
+    public static final double SHOOTER_MAX_VELOCITY = 2400 / 60.0 * 2 * 2 * Math.PI; //inches per second
+    public static final double SHOOTER_VEL_DAMPNER = 1.0;
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
@@ -494,9 +494,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.5; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.58;//-114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -654,8 +654,8 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
-    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -672,8 +672,8 @@ public class TuningConstants
     // Through Bore Reset Shoulder
     public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
     public static final double ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 0.5;
-    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = -0.443333;
+    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = 0.0;
     public static final double ARM_SHOULDER_RESET_DIFFERENCE_MAX = 15.0;
     
     // Wrist Auto Stow variables
@@ -757,7 +757,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP = 0.08;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.04;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
     public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 120.0;
@@ -897,15 +897,42 @@ public class TuningConstants
     //=================================================== Lookup-Table Shooter ==================================================
  
     // Distances that shot samples were captured from
-    public static final double[] SHOOT_VISION_SAMPLE_DISTANCES = { 
-       76.644, 86.644, 76.644, 76.644, 86.644, 96.644, 106.644, 116.644, 126.644, 
-       136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
-       216.644, 226.644, 231.733 };
+    public static final double[] SHOOT_VISION_SAMPLE_DISTANCES =
+        { 
+            54,
+            63.5,
+            74.0,
+            90.0,
+            105.0,
+            117.0,
+            128.0,
+            135.0,
+        };
 
     // angles where successful shots were made at the given velocity and location
-    public static final double[] SHOOT_VISION_SAMPLE_ANGLES = { 50.0, 47.0, 45.0, 39.0, 37.0}; // 20 angles
+    public static final double[] SHOOT_VISION_SAMPLE_ANGLES =
+        { 
+            22.0,
+            20.854788811169144,
+            14.874019471826017,
+            13.065879904117615,
+            8.588995878301198,
+            6.415751205574793,
+            5.033567593720811,
+            4.35850910326311,
+        };
     // velocities where successful shots were made at the given angle and location
-    public static final double[] SHOOT_VISION_SAMPLE_VELOCITIES = { 20.0, 29.0, 38.0, 47.0, }; // 20 velocities
+    public static final double[] SHOOT_VISION_SAMPLE_VELOCITIES =
+        {
+            4500.0,
+            4500.0,
+            4500.0,
+            4500.0,
+            4500.0,
+            4500.0,
+            4500.0,
+            4500.0,
+        };
 
     public static final double SHOOT_VISION_SPEED = 4000;
     public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;

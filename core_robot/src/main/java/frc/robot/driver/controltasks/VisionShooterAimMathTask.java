@@ -270,7 +270,7 @@ public class VisionShooterAimMathTask extends ControlTaskBase
     private double getAngleSimple(double xDist, double zDist, double shootingVel)
     {
         double vel = shootingVel * TuningConstants.SHOOTER_VEL_DAMPNER;
-        double k = - TuningConstants.GRAVITY_CONSTANT * xDist /  (2.0 * Math.pow(vel, 2)); // constant used throughout
+        double k = -TuningConstants.GRAVITY_CONSTANT * xDist /  (2.0 * Math.pow(vel, 2)); // constant used throughout
         double tanTheta = ( xDist - Math.sqrt(xDist * xDist - 4 * k * (k - zDist)) ) / (2 * k);
         double theta = Math.abs(Helpers.atand(tanTheta));
 

@@ -300,7 +300,7 @@ public class ArmMechanism implements IMechanism
 
         this.shoulderAbsoluteEncoderPosition =
             !this.shoulderAbsoluteEncoder.isConnected() ?
-                null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance());
+                null : Helpers.updateAngleRange180(this.shoulderAbsoluteEncoder.getDistance() - 39.5);
 
         // System.out.println(
         //     String.format(
