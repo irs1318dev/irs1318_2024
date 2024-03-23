@@ -84,6 +84,7 @@ public class PowerManager implements IMechanism
     public void readSensors()
     {
         this.batteryVoltage = this.powerDistribution.getBatteryVoltage();
+        this.logger.logNumber(LoggingKey.PowerBatteryVoltage, this.batteryVoltage);
 
         this.batteryVoltageFilter.update(this.batteryVoltage);
         this.logger.logNumber(LoggingKey.PowerBatteryVoltage, this.batteryVoltageFilter.getValue());

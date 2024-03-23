@@ -111,16 +111,15 @@ public class VisionShooterAimMathTask extends ControlTaskBase
 
             double distToTargetX = distance
                 + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_X
-                + 12.0; // this.armMechanism.getWristJointAbsPosition()[0];
-            double distToTargetY = 57.5 // this.visionManager.getAprilTagZOffset()
-                + FieldConstants.APRILTAG_TO_SPEAKER_TARGET_Y
-                - 11.5; // this.armMechanism.getWristJointAbsPosition()[1];
+                + 13.0; // this.armMechanism.getWristJointAbsPosition()[0];
+            double distToTargetY = 81.0 - 15.0; // this.armMechanism.getWristJointAbsPosition()[1];
 
             pivotToTargetXDist = distToTargetX;
             pivotToTargetYDist = distToTargetY;
+            double absAngle = getAngleSimple(distToTargetX, distToTargetY, TuningConstants.SHOOTER_MAX_VELOCITY);
             this.setDesiredAngleFromXYOffsets(distToTargetX, distToTargetY);
 
-            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, this.desiredAngle);
+            this.setAnalogOperationState(AnalogOperation.ArmAbsWristAngle, absAngle);
             this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);  
 
             // Assume the speed is being set elsewhere when useMaxVelocity is true...
@@ -266,6 +265,16 @@ public class VisionShooterAimMathTask extends ControlTaskBase
         double sum = firstTerm + TuningConstants.GRAVITY_CONSTANT * secondTerm * secondTerm / (TuningConstants.SHOOTER_MAX_VELOCITY * TuningConstants.SHOOTER_MAX_VELOCITY);
         
         return sum;
+    }
+
+    private double getAngleSimple(double xDist, double zDist, double shootingVel)
+    {
+        double vel = shootingVel * TuningConstants.SHOOTER_VEL_DAMPNER;
+        double k = -TuningConstants.GRAVITY_CONSTANT * xDist /  (2.0 * Math.pow(vel, 2)); // constant used throughout
+        double tanTheta = ( xDist - Math.sqrt(xDist * xDist - 4 * k * (k - zDist)) ) / (2 * k);
+        double theta = Math.abs(Helpers.atand(tanTheta));
+
+        return theta;
     }
 
 }

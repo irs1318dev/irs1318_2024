@@ -72,16 +72,11 @@ public class NetworkTableProvider implements INetworkTableProvider
     }
 
     @Override
-    public <V> ISendableChooser<V> getSendableChooser()
+    public <V> ISendableChooser<V> getSendableChooser(String name)
     {
-        return new SendableChooserWrapper<V>();
-    }
-
-    @Override
-    public <V> void addChooser(String name, ISendableChooser<V> chooser)
-    {
-        SendableChooserWrapper<V> wrappedChooser = (SendableChooserWrapper<V>)chooser;
+        SendableChooserWrapper<V> wrappedChooser = new SendableChooserWrapper<V>();
         SmartDashboard.putData(name, wrappedChooser.wrappedObject);
+        return wrappedChooser;
     }
 
     @Override
