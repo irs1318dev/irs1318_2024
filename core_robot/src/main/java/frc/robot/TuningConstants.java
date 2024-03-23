@@ -898,20 +898,20 @@ public class TuningConstants
  
     // Distances that shot samples were captured from
     public static final double[] SHOOT_VISION_SAMPLE_DISTANCES =
-        { 
-            54,
-            63.5,
-            74.0,
-            90.0,
-            105.0,
-            117.0,
-            128.0,
-            135.0,
+        {
+            -54.0,
+            -63.5,
+            -74.0,
+            -90.0,
+            -105.0,
+            -117.0,
+            -128.0,
+            -135.0,
         };
 
     // angles where successful shots were made at the given velocity and location
     public static final double[] SHOOT_VISION_SAMPLE_ANGLES =
-        { 
+        {
             22.0,
             20.854788811169144,
             14.874019471826017,

@@ -103,8 +103,7 @@ public class VisionApproachAprilTagTask extends DecisionSequentialTask
                 boolean backwards = !OffboardVisionManager.PossibleFrontVisionOperations.contains(this.visionOperation);
                 if (backwards)
                 {
-                    xGoal *= -1.0;
-                    yGoal *= -1.0;
+                    angleGoal *= -1.0;
                 }
 
                 double tangent = Helpers.atan2d(yGoal, angleGoal);
