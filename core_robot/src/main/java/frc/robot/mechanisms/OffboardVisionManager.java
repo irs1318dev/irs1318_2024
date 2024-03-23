@@ -29,6 +29,7 @@ public class OffboardVisionManager implements IMechanism
         DigitalOperation.VisionFindAmpAprilTagRear,
         DigitalOperation.VisionFindStageAprilTagsFront,
         DigitalOperation.VisionFindStageAprilTagsRear,
+        DigitalOperation.VisionFindAbsolutePosition,
     };
 
     public static final List<DigitalOperation> PossibleFrontVisionOperations =
@@ -237,6 +238,7 @@ public class OffboardVisionManager implements IMechanism
         boolean enableStageRear = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsRear);
         boolean enableStageFront = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsFront);
         boolean enableSourceFront = this.driver.getDigital(DigitalOperation.VisionFindSourceAprilTagsFront);
+        boolean enableAbsolutePosition = this.driver.getDigital(DigitalOperation.VisionFindAbsolutePosition);
 
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
@@ -253,6 +255,10 @@ public class OffboardVisionManager implements IMechanism
             else if (enableAnyFront || enableSpeakerFront || enableStageFront || enableAmpFront || enableSourceFront)
             {
                 visionProcessingMode = 2;
+            }
+            else if (enableAbsolutePosition)
+            {
+                visionProcessingMode = 3;
             }
 
             if (enableSpeakerFront || enableSpeakerRear)

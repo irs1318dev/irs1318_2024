@@ -23,6 +23,7 @@ public enum DigitalOperation implements IOperation
     VisionFindAnyAprilTagRear,
     VisionFindAnyAprilTagFront,
     VisionFindSourceAprilTagsFront,
+    VisionFindAbsolutePosition,
 
     // DriveTrain operations:
     DriveTrainSlowMode,

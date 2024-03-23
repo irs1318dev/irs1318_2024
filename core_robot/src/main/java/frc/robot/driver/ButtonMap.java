@@ -389,6 +389,11 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.Test1Debug),
             EnumSet.of(Shift.Test1Debug),
             ButtonType.Simple),
+        new DigitalOperationDescription(
+            DigitalOperation.VisionFindAbsolutePosition,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_X_BUTTON,
+            ButtonType.Simple),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -520,6 +525,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAmpAprilTagRear,
                 DigitalOperation.VisionFindStageAprilTagsFront,
                 DigitalOperation.VisionFindStageAprilTagsRear,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionEnableStream,
                 DigitalOperation.VisionForceDisable,
                 DigitalOperation.DriveTrainResetXYPosition,
@@ -607,6 +613,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAmpAprilTagRear,
                 DigitalOperation.VisionFindStageAprilTagsFront,
                 DigitalOperation.VisionFindStageAprilTagsRear,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionEnableStream,
                 DigitalOperation.VisionForceDisable,
                 DigitalOperation.DriveTrainResetXYPosition,
@@ -693,6 +700,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -745,6 +753,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -796,6 +805,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -849,6 +859,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -910,6 +921,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -999,6 +1011,7 @@ public class ButtonMap implements IButtonMap
         //         DigitalOperation.VisionFindSpeakerAprilTagFront,
         //         DigitalOperation.VisionFindAnyAprilTagRear,
         //         DigitalOperation.VisionFindAnyAprilTagFront,
+        //         DigitalOperation.VisionFindAbsolutePosition,
         //         DigitalOperation.VisionForceDisable,
         // }),
 
@@ -1288,6 +1301,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.IntakeIn,
                 DigitalOperation.IntakeOut,
                 DigitalOperation.ShooterFeedRing,
@@ -1369,6 +1383,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindAmpAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.ForceLightDriverRumble,
             }),
 
@@ -1422,6 +1437,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.VisionFindSpeakerAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
                 DigitalOperation.VisionFindAnyAprilTagFront,
+                DigitalOperation.VisionFindAbsolutePosition,
                 DigitalOperation.VisionForceDisable,
             }),
 
@@ -1477,6 +1493,7 @@ public class ButtonMap implements IButtonMap
         //     DigitalOperation.VisionFindSpeakerAprilTagFront,
         //     DigitalOperation.VisionFindAnyAprilTagRear,
         //     DigitalOperation.VisionFindAnyAprilTagFront,
+        //     DigitalOperation.VisionFindAbsolutePosition,
         //     DigitalOperation.VisionForceDisable,
         // }),
     };
