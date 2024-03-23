@@ -70,11 +70,11 @@ public class TuningConstants
     public static final int ARPILTAG_RED_SOURCE_RIGHT_ID = 9;
     public static final int APRILTAG_RED_SOURCE_LEFT_ID = 10;
     public static final int APRILTAG_RED_STAGE_LEFT_ID = 11;
-    public static final int APRILTAG_RED_CENTER_STAGE_ID = 12;
-    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 13;
+    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 12;
+    public static final int APRILTAG_RED_CENTER_STAGE_ID = 13;
     public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
-    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
-    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 15;
+    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 16;
 
     public static final List<Integer> VISION_SPEAKER_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
     public static final String VISION_SPEAKER_BLUE_STRING = TuningConstants.VISION_SPEAKER_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
