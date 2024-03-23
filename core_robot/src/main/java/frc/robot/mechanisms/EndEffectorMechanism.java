@@ -434,4 +434,12 @@ public class EndEffectorMechanism implements IMechanism
     {
         return this.currentEffectorState;
     }
+
+    public double getFarFlywheelVelocity() {
+        return farFlywheelVelocity;
+    }
+
+    public double getNearFlywheelVelocity() {
+        return nearFlywheelVelocity;
+    }
 }

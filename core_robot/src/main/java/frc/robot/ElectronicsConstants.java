@@ -79,14 +79,14 @@ public class ElectronicsConstants
     public static final int ARM_SHOULDER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 3 : 6;
     public static final int ARM_SHOULDER_FOLLOWER_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 4 : 7;
     public static final int ARM_WRIST_PDH_CHANNEL = TuningConstants.COMPETITION_ROBOT ? 16 : 11;
-    public static final int ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL = 0;
-    public static final int ARM_SHOULDER_ABSOLUTE_ENCODER_DIO_CHANNEL = 1;
+    public static final int ARM_WRIST_ABSOLUTE_ENCODER_DIO_CHANNEL = 1;
+    public static final int ARM_SHOULDER_ABSOLUTE_ENCODER_DIO_CHANNEL = 0;
 
     //================================================= Climber ====================================================================
 
     public static final int CLIMBER_MOTOR_CAN_ID = 16;
     public static final int CLIMBER_MOTOR_FOLLOWER_CAN_ID = 17;
     public static final int CLIMBER_SERVO_MOTOR_CAN_ID = 1;
-    public static final int CLIMBER_LIMIT_SWITCH_DIO_CHANNEL = 0;
+    public static final int CLIMBER_LIMIT_SWITCH_DIO_CHANNEL = 2;
 }
 

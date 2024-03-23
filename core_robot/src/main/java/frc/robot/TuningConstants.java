@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +10,7 @@ import java.util.stream.Collectors;
 public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = true;
+    public static final boolean USE_ADVANTAGE_KIT = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
@@ -31,7 +29,7 @@ public class TuningConstants
     //================================================== Logging  ==============================================================
 
     public static final int CALENDAR_YEAR = 2024;
-    public static final boolean LOG_TO_FILE = true; // TuningConstants.COMPETITION_ROBOT;
+    public static final boolean LOG_TO_FILE = false; // TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space
     public static final int LOG_FLUSH_THRESHOLD = 25;
@@ -70,11 +68,11 @@ public class TuningConstants
     public static final int ARPILTAG_RED_SOURCE_RIGHT_ID = 9;
     public static final int APRILTAG_RED_SOURCE_LEFT_ID = 10;
     public static final int APRILTAG_RED_STAGE_LEFT_ID = 11;
-    public static final int APRILTAG_RED_CENTER_STAGE_ID = 12;
-    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 13;
+    public static final int APRILTAG_RED_STAGE_RIGHT_ID = 12;
+    public static final int APRILTAG_RED_CENTER_STAGE_ID = 13;
     public static final int APRILTAG_BLUE_CENTER_STAGE_ID = 14;
-    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 15;
-    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 16;
+    public static final int APRILTAG_BLUE_STAGE_LEFT_ID = 15;
+    public static final int APRILTAG_BLUE_STAGE_RIGHT_ID = 16;
 
     public static final List<Integer> VISION_SPEAKER_BLUE_APRILTAGS = List.of(TuningConstants.APRILTAG_BLUE_SPEAKER_CENTER_ID);
     public static final String VISION_SPEAKER_BLUE_STRING = TuningConstants.VISION_SPEAKER_BLUE_APRILTAGS.stream().map((i) -> Integer.toString(i)).collect(Collectors.joining(","));
@@ -464,14 +462,17 @@ public class TuningConstants
 
     public static final int ANGLE_FINDING_ITERATIONS = 20;
 
-    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 7.5; //degrees
+    public static final double SHOOTER_FINAL_ANGLE_OFFSET = 0.0; //degrees
 
-    public static final double SHOOTER_MAX_VELOCITY = 730; //inches per second
+    public static final double SHOOTER_MAX_VELOCITY = 2400 / 60.0 * 2 * 2 * Math.PI; //inches per second
+    public static final double SHOOTER_VEL_DAMPNER = 1.0;
 
     public static final double KICK_OUTTAKE_TIME = 0.2; //seconds
     public static final double KICK_INTAKE_TIME = 0.5; //seconds
 
-    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.1; //multiplier
+    public static final double SHOOTER_DRAG_COMPENSATION_MULTIPLIER = 1.0; //multiplier
+
+    public static final double CODRIVER_CONTROLLER_RUMBLE_DURATION = 1.0; 
 
     //==================================================== Arm ==============================================================
 
@@ -493,9 +494,9 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -31.6; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.5; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -114.23; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.58;//-114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -569,7 +570,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_QUICK_TUCK = -66.80892944335938;
 
     public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
-    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -70.380218;
+    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -80.380218;
 
     public static final double ARM_WRIST_POSITION_BOT_DISTANCE_SHOT = 56.42597961425781;
 
@@ -653,8 +654,8 @@ public class TuningConstants
     public static final boolean ARM_USE_GRAVITY_COMPENSATION = true;
     public static final boolean ARM_USE_COAST_ON_DISABLE = true;
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
-    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
-    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? false : false;
+    public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
@@ -671,8 +672,8 @@ public class TuningConstants
     // Through Bore Reset Shoulder
     public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
     public static final double ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD = 3.0;
-    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 0.5;
-    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = -0.443333;
+    public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 1.0;
+    public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = 0.0;
     public static final double ARM_SHOULDER_RESET_DIFFERENCE_MAX = 15.0;
     
     // Wrist Auto Stow variables
@@ -756,7 +757,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KP = 0.08;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KI = 0.0;
-    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.03;
+    public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KD = 0.04;
     public static final double ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_TMP_PID_KF = 0.0;
 
     public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 120.0;
@@ -873,8 +874,8 @@ public class TuningConstants
             { 0.057802058756351, 0.049989320337772, 0.049989320337772, 0.057649463415146, 0.069978944957256, 0.077394939959049, 0.079989016056061, 0.0, 0.0, 0.0, 0.0 }, // shoulder second position
             { 0.042695395648479, 0.055574204772711, 0.049989320337772, 0.057649463415146, 0.074983976781368, 0.081989016056061, 0.086994047880173, 0.089999087154865, 0.089999087154865, 0.093813896179199, 0.0949736014008522}, // shoulder third position
             { 0.059999391436577, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.074983976781368, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.094973601400852, 0.0949736014008522}, // shoulder fourth position
-            { 0.049989320337772, 0.03662221133709, 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.079989016056061, 0.084994047880173, 0.089999087154865, 0.089999087154865, 0.085604421794415, 0.0949736014008522}, // shoulder fifth position
-            { 0.049989320337772, 0.049989320337772, 0.049989320337772, 0.070894494652748, 0.099978640675545, 0.119978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545, 0.099978640675545} // shoulder sixth position
+            { 0.054989320337772, 0.05462221133709, 0.054989320337772, 0.054989320337772, 0.054989320337772, 0.084989016056061, 0.089994047880173, 0.094999087154865, 0.094999087154865, 0.090604421794415, 0.0999736014008522}, // shoulder fifth position
+            { 0.054989320337772, 0.054989320337772, 0.054989320337772, 0.075894494652748, 0.104978640675545, 0.124978640675545, 0.104978640675545, 0.104978640675545, 0.104978640675545, 0.104978640675545, 0.104978640675545} // shoulder sixth position
         };
 
 
@@ -896,15 +897,46 @@ public class TuningConstants
     //=================================================== Lookup-Table Shooter ==================================================
  
     // Distances that shot samples were captured from
-    public static final double[] SHOOT_VISION_SAMPLE_DISTANCES = { 
-       76.644, 86.644, 76.644, 76.644, 86.644, 96.644, 106.644, 116.644, 126.644, 
-       136.644, 146.644, 156.644, 166.644, 176.644, 186.644, 196.644, 206.644, 
-       216.644, 226.644, 231.733 };
+    public static final double[] SHOOT_VISION_SAMPLE_DISTANCES =
+        { 
+            54,
+            63.5,
+            74.0,
+            90.0,
+            105.0,
+            117.0,
+            128.0,
+            135.0,
+        };
 
-    // angles where successful shots were made at the given speed
-    public static final double[] SHOOT_VISION_SAMPLE_ANGLES = { 50.0, 47.0, 45.0, 39.0, 37.0 }; // 20 angles
+    // angles where successful shots were made at the given velocity and location
+    public static final double[] SHOOT_VISION_SAMPLE_ANGLES =
+        { 
+            22.0,
+            20.854788811169144,
+            14.874019471826017,
+            13.065879904117615,
+            8.588995878301198,
+            6.415751205574793,
+            5.033567593720811,
+            4.35850910326311,
+        };
+    // velocities where successful shots were made at the given angle and location
+    public static final double[] SHOOT_VISION_SAMPLE_VELOCITIES =
+        {
+            4800.0,
+            4800.0,
+            4800.0,
+            4800.0,
+            4800.0,
+            4800.0,
+            4800.0,
+            4800.0,
+        };
 
     public static final double SHOOT_VISION_SPEED = 4000;
     public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
+
+    public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;
 }

@@ -20,8 +20,16 @@ public class RobotModule extends AbstractModule
         this.bind(IRobotProvider.class).to(RobotProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
         this.bind(IButtonMap.class).to(ButtonMap.class);
-        this.bind(ISmartDashboardLogger.class).to(SmartDashboardLogger.class);
         this.bind(IFile.class).to(FileWrapper.class);
+
+        if (TuningConstants.USE_ADVANTAGE_KIT)
+        {
+            this.bind(ISmartDashboardLogger.class).to(SmartDashboardLogger.class);
+        }
+        else
+        {
+            this.bind(ISmartDashboardLogger.class).to(AdvantageKitLogger.class);
+        }
     }
 
     @Singleton

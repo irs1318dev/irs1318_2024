@@ -34,12 +34,7 @@ public class FauxbotNetworkTableProvider implements INetworkTableProvider
      * Add a sendable chooser to the smart dashboard
      */
     @Override
-    public <V> void addChooser(String name, ISendableChooser<V> chooser)
-    {
-    }
-
-    @Override
-    public <V> ISendableChooser<V> getSendableChooser()
+    public <V> ISendableChooser<V> getSendableChooser(String name)
     {
         return new FauxbotSendableChooser<V>();
     }
