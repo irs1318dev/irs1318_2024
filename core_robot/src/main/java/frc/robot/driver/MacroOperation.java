@@ -34,6 +34,7 @@ public enum MacroOperation implements IOperation
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
     ShootAuto,
+    IntakeFix,
 
     // Shooter Operations
     ShootNote,

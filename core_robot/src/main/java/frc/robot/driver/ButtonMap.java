@@ -320,6 +320,22 @@ public class ButtonMap implements IButtonMap
         //     ButtonType.Simple),
 
         new DigitalOperationDescription(
+            DigitalOperation.ArmDisableThroughBore,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_SELECT_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Click),
+
+        // new DigitalOperationDescription(
+        //     DigitalOperation.ArmEnableThroughBore,
+        //     UserInputDevice.Codriver,
+        //     UserInputDeviceButton.XBONE_START_BUTTON,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     ButtonType.Click),
+
+        new DigitalOperationDescription(
             DigitalOperation.ClimberServoUp,
             UserInputDevice.Test2,
             UserInputDeviceButton.XBONE_B_BUTTON,
@@ -1020,6 +1036,21 @@ public class ButtonMap implements IButtonMap
                 // AnalogOperation.ArmWristPower,
         //     }),
 
+        new MacroOperationDescription(
+            MacroOperation.IntakeFix,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_START_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Toggle,
+            () -> new IntakeFixerTask(),
+            new IOperation[]
+            {
+                DigitalOperation.IntakeOutSlow,
+                DigitalOperation.IntakeOut,
+                DigitalOperation.IntakeIn,
+            }),
+
 
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPosition2,
@@ -1216,7 +1247,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(5000.0),
+            () -> new ShooterSpinTask(3800.0),
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
@@ -1232,7 +1263,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Simple,
-            () -> new ShooterSpinTask(3800.0), // 3500.0
+            () -> new ShooterSpinTask(3200.0), // 3500.0
             new IOperation[]
             {
                 AnalogOperation.EndEffectorFarFlywheelVelocityGoal,

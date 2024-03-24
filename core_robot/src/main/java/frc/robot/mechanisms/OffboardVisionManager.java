@@ -50,7 +50,7 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atrYawSubscriber;
     private IDoubleSubscriber atrPitchSubscriber;
     private IDoubleSubscriber atrRollSubscriber;
-    private IIntegerSubscriber atrIdSubscriber;
+    private IDoubleSubscriber atrIdSubscriber;
 
     private IDoubleSubscriber atfXOffsetSubscriber;
     private IDoubleSubscriber atfYOffsetSubscriber;
@@ -58,9 +58,9 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atfYawSubscriber;
     private IDoubleSubscriber atfPitchSubscriber;
     private IDoubleSubscriber atfRollSubscriber;
-    private IIntegerSubscriber atfIdSubscriber;
+    private IDoubleSubscriber atfIdSubscriber;
 
-    private IIntegerSubscriber heartbeatSubscriber;
+    private IDoubleSubscriber heartbeatSubscriber;
 
     private Double atXOffset;
     private Double atYOffset;
@@ -96,7 +96,7 @@ public class OffboardVisionManager implements IMechanism
         this.atrYawSubscriber = this.networkTable.getDoubleSubscriber("atr.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atrPitchSubscriber = this.networkTable.getDoubleSubscriber("atr.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atrRollSubscriber = this.networkTable.getDoubleSubscriber("atr.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atrIdSubscriber = this.networkTable.getIntegerSubscriber("atr.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+        this.atrIdSubscriber = this.networkTable.getDoubleSubscriber("atr.tagId", (int)TuningConstants.MAGIC_NULL_VALUE);
 
         this.atfXOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.xOffset", TuningConstants.MAGIC_NULL_VALUE);
         this.atfYOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.yOffset", TuningConstants.MAGIC_NULL_VALUE);
@@ -104,9 +104,9 @@ public class OffboardVisionManager implements IMechanism
         this.atfYawSubscriber = this.networkTable.getDoubleSubscriber("atf.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfPitchSubscriber = this.networkTable.getDoubleSubscriber("atf.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfRollSubscriber = this.networkTable.getDoubleSubscriber("atf.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atfIdSubscriber = this.networkTable.getIntegerSubscriber("atf.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+        this.atfIdSubscriber = this.networkTable.getDoubleSubscriber("atf.tagId", (int)TuningConstants.MAGIC_NULL_VALUE);
 
-        this.heartbeatSubscriber = this.networkTable.getIntegerSubscriber("v.heartbeat", 0);
+        this.heartbeatSubscriber = this.networkTable.getDoubleSubscriber("v.heartbeat", 0);
 
         this.ds = provider.getDriverStation();
 
@@ -147,7 +147,7 @@ public class OffboardVisionManager implements IMechanism
         double atfRoll = this.atfRollSubscriber.get();
         int atfId = (int)this.atfIdSubscriber.get();
 
-        long newHeartbeat = this.heartbeatSubscriber.get();
+        double newHeartbeat = this.heartbeatSubscriber.get();
         if (this.prevHeartbeat != newHeartbeat)
         {
             this.missedHeartbeats = 0;
@@ -177,8 +177,8 @@ public class OffboardVisionManager implements IMechanism
                 case 1:
                     if (atrXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atrYOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        atrZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
+                        atrZOffset != TuningConstants.MAGIC_NULL_VALUE) // &&
+                        //(this.prevTargets == null || this.prevTargets.contains(atrId)))
                     {
                         this.atXOffset = atrXOffset;
                         this.atYOffset = atrYOffset;
@@ -194,8 +194,8 @@ public class OffboardVisionManager implements IMechanism
                 case 2:
                     if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        (this.prevTargets == null || this.prevTargets.contains(atfId)))
+                        atfZOffset != TuningConstants.MAGIC_NULL_VALUE) // &&
+                        // (this.prevTargets == null || this.prevTargets.contains(atfId)))
                     {
                         this.atXOffset = atfXOffset;
                         this.atYOffset = atfYOffset;

@@ -135,7 +135,7 @@ public class AutonomousRoutineSelector
             new ArmZeroTask(),
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             ConcurrentTask.AnyTasks(
-                new ShooterSpinTask(4500, 10.0),
+                new ShooterSpinTask(4050, 10.0),
                 SequentialTask.Sequence(
                     new WaitTask(3.0),
                     new FeedRingTask(true, 2.0)
@@ -158,7 +158,7 @@ public class AutonomousRoutineSelector
         if(position == StartPosition.WooferFront)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -179,7 +179,7 @@ public class AutonomousRoutineSelector
         else if(position == StartPosition.WooferSourceSide)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -209,7 +209,7 @@ public class AutonomousRoutineSelector
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -244,7 +244,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -292,7 +292,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.FourNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -362,7 +362,7 @@ public class AutonomousRoutineSelector
         if(routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -413,7 +413,7 @@ public class AutonomousRoutineSelector
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -450,7 +450,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -502,7 +502,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.FourNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -513,7 +513,7 @@ public class AutonomousRoutineSelector
                             true)
                     ),
 
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 2.0),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 3.0),
                     new WaitTask(0.4),
                     new FeedRingTask(true, 0.5), //shoot
 
@@ -568,7 +568,7 @@ public class AutonomousRoutineSelector
         {
             return ConcurrentTask.AllTasks(
                 SequentialTask.Sequence(
-                    new ShooterSpinTask(4500, 13.0)
+                    new ShooterSpinTask(4050, 13.0)
                 ),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
@@ -639,7 +639,7 @@ public class AutonomousRoutineSelector
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -683,7 +683,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -739,7 +739,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreePickupNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -865,7 +865,7 @@ public class AutonomousRoutineSelector
         {
             return 
             ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15),
+                new ShooterSpinTask(4050, 15),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -944,7 +944,7 @@ public class AutonomousRoutineSelector
         else if (comeBack)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -1010,7 +1010,7 @@ public class AutonomousRoutineSelector
         else
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -1114,7 +1114,7 @@ public class AutonomousRoutineSelector
         {
             return 
             ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15),
+                new ShooterSpinTask(4050, 15),
             SequentialTask.Sequence(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
@@ -1194,7 +1194,7 @@ public class AutonomousRoutineSelector
         if(numberNotes == 3)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
