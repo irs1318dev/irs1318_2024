@@ -73,6 +73,11 @@ public class AutonomousRoutineSelector
 
             this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
 
+            // if(routine == AutoRoutine.SixNote)
+            // {
+                // return Sammamish(locManager, isRed);
+            // }
+
             if(routine == AutoRoutine.Shoot)
             {
                 return Shoot();
@@ -203,6 +208,47 @@ public class AutonomousRoutineSelector
             return GetFillerRoutine();
         }
     }
+
+    // private static IControlTask Sammamish(AutonLocManager locManager, boolean isRed)
+    // {
+        // return ConcurrentTask.AllTasks(
+                // new ShooterSpinTask(4050, 5.0),
+                // SequentialTask.Sequence(
+                    // ConcurrentTask.AllTasks(
+                        // new ResetLevelTask(),
+                        // new PositionStartingTask(
+                            // locManager.P2A,
+                            // locManager.getOrientationOrHeading(123.3),
+                            // true,
+                            // true)  
+                    // ),
+// 
+                    // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 2.0),
+                    // new FeedRingTask(true, 1.0),
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "P2AtoNearAmpRed" : "P2toNearAmpBlue", Type.Absolute),
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "NearAmptoP11Red" : "NearAmptoP11Blue", Type.Absolute),
+                        // SequentialTask.Sequence(
+                            // new WaitTask(1.0),
+                            // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                        // ),
+                        // new IntakeControlTask(true, 5.0)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "P11toNearAmpRed" : "P11toNearAmpBlue", Type.Absolute),
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK)
+                    // ),
+                    // 
+                    // isRed ? new PositionUpdateTask() : null
+                // )
+            // );
+    // }
+    
 
     private static IControlTask SubwooferAmpMultiPiece(AutonLocManager locManager, AutoRoutine routine, boolean isRed)
     {
@@ -382,10 +428,26 @@ public class AutonomousRoutineSelector
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new IntakeControlTask(true, 5.0)
                     ),
-                    
-                    ConcurrentTask.AllTasks(
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                        new FollowPathTask(isRed ? "P8toP2SSRed" : "P8toP2SSBlue", Type.Absolute)
+
+                    new DecisionNoteTask(
+                        SequentialTask.Sequence(
+                            ConcurrentTask.AllTasks(
+                                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                                new FollowPathTask(isRed ? "P8toP2SSRed" : "P8toP2SSBlue", Type.Absolute)
+                            )
+                        ),
+
+                        SequentialTask.Sequence(
+                            ConcurrentTask.AllTasks(
+                                new FollowPathTask(isRed ? "P8toP9SSRed" : "P8toP9SSBlue", Type.Absolute),
+                                new IntakeControlTask(true, 3.0)
+                            ),
+                            
+                            ConcurrentTask.AllTasks(
+                                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                                new FollowPathTask(isRed ? "P9toP2SSRed" : "P9toP2SSBlue", Type.Absolute)
+                            )
+                        )
                     ),
 
                     new WaitTask(0.4),
@@ -395,8 +457,8 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P2toP9SSRed" : "P2toP9SSBlue", Type.Absolute),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new IntakeControlTask(true, 5.0)
-                    ),
-                    
+                    ), 
+
                     isRed ? new PositionUpdateTask() : null
                 )
             );
