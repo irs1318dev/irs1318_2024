@@ -4,25 +4,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class Graph<TGraphNode extends GraphNode>
 {
-    private final Set<TGraphNode> nodes;
-    private final Map<TGraphNode, Map<TGraphNode, TGraphNode>> optimalPathMap;
+    private final ArrayList<TGraphNode> nodes;
+    private final ArrayList<ArrayList<TGraphNode>> optimalPredecessorPathMap;
+    private int nodeCount;
 
     protected Graph()
     {
-        this.nodes = new HashSet<TGraphNode>();
-        this.optimalPathMap = new HashMap<TGraphNode, Map<TGraphNode, TGraphNode>>();
+        this.nodeCount = 0;
+        this.optimalPredecessorPathMap = new ArrayList<ArrayList<TGraphNode>>();
+        this.nodes = new ArrayList<TGraphNode>();
     }
 
     protected void addNode(TGraphNode node)
     {
+        node.ordinal = this.nodeCount++;
         this.nodes.add(node);
+        this.optimalPredecessorPathMap.add(null);
     }
 
     public void connectBidirectional(TGraphNode node1, TGraphNode node2)
@@ -51,7 +53,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
         from.addLink(new GraphLink(from, to, weight));
     }
 
-    public Set<TGraphNode> getNodes()
+    public List<TGraphNode> getNodes()
     {
         return this.nodes;
     }
@@ -60,17 +62,17 @@ public abstract class Graph<TGraphNode extends GraphNode>
     {
         for (TGraphNode node : this.nodes)
         {
-            this.optimalPathMap.put(node, this.dijkstra(node));
+            this.optimalPredecessorPathMap.set(node.ordinal, this.dijkstra(node));
         }
     }
 
     public List<TGraphNode> getOptimalPath(TGraphNode start, TGraphNode end)
     {
-        Map<TGraphNode, TGraphNode> optimalPreviousNodes = this.optimalPathMap.get(start);
-        if (optimalPreviousNodes == null)
+        ArrayList<TGraphNode> optimalPredecessorNodes = this.optimalPredecessorPathMap.get(start.ordinal);
+        if (optimalPredecessorNodes == null)
         {
-            optimalPreviousNodes = this.dijkstra(start);
-            this.optimalPathMap.put(start, optimalPreviousNodes);
+            optimalPredecessorNodes = this.dijkstra(start);
+            this.optimalPredecessorPathMap.set(start.ordinal, optimalPredecessorNodes);
         }
 
         // build the list in reverse order
@@ -79,7 +81,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
         while (node != null)
         {
             optimalPath.add(node);
-            node = optimalPreviousNodes.get(node);
+            node = optimalPredecessorNodes.get(node.ordinal);
         }
 
         Collections.reverse(optimalPath);
@@ -92,18 +94,21 @@ public abstract class Graph<TGraphNode extends GraphNode>
         return optimalPath;
     }
 
-    // Java sucks and doesn't have actualized generics, so we have to suppress the unchecked warning
-    @SuppressWarnings("unchecked")
-    private Map<TGraphNode, TGraphNode> dijkstra(TGraphNode start)
+    private ArrayList<TGraphNode> dijkstra(TGraphNode start)
     {
-        // the optimal previous node along each potential path for each node based on the provided starting node
-        Map<TGraphNode, TGraphNode> optimalPreviousNode = new HashMap<TGraphNode, TGraphNode>(this.nodes.size());
+        // the optimal previous node along each potential path for each node based on the provided starting node,
+        // where the index is the ordinal number for the node.
+        ArrayList<TGraphNode> optimalPreviousNode = new ArrayList<TGraphNode>(this.nodeCount);
+        for (int i = 0; i < this.nodeCount; i++)
+        {
+            optimalPreviousNode.add(null);
+        }
 
         // the current distance to each node from the starting node
-        Map<GraphNode, Double> distanceMap = new HashMap<GraphNode, Double>(this.nodes.size());
+        Map<GraphNode, Double> distanceMap = new HashMap<GraphNode, Double>(this.nodeCount);
 
         // the set of nodes that have not yet been visited
-        HashSet<TGraphNode> unvisitedNodes = new HashSet<TGraphNode>(this.nodes.size());
+        HashSet<TGraphNode> unvisitedNodes = new HashSet<TGraphNode>(this.nodeCount);
         for (TGraphNode node : this.nodes)
         {
             if (node == start)
@@ -139,7 +144,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
                 if (distance < distanceMap.get(to))
                 {
                     distanceMap.put(to, distance);
-                    optimalPreviousNode.put((TGraphNode)to, node);
+                    optimalPreviousNode.set(to.ordinal, node);
                 }
             }
         }

@@ -1,7 +1,6 @@
 package frc.robot.mechanisms;
 
 import java.util.List;
-import java.util.Set;
 
 import frc.lib.helpers.Graph;
 import frc.lib.helpers.GraphNode;
@@ -657,7 +656,7 @@ public class ArmKinematicsCalculator
         return ArmKinematicsCalculator.graph.getOptimalPath(startArmGraphNode, goalArmGraphNode);
     }
 
-    public static Set<ArmGraphNode> getAllGraphNodes()
+    public static List<ArmGraphNode> getAllGraphNodes()
     {
         return ArmKinematicsCalculator.graph.getNodes();
     }
@@ -754,25 +753,6 @@ public class ArmKinematicsCalculator
         public Double getWristAngle()
         {
             return this.wristAngle;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return this.name.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object other)
-        {
-            if (other instanceof ArmGraphNode)
-            {
-                ArmGraphNode otherNode = (ArmGraphNode)other;
-                return (this.name == null) && (otherNode.name == null) ||
-                    this.name.equals(otherNode.name);
-            }
-
-            return false;
         }
 
         @Override
