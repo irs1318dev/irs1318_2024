@@ -1,5 +1,7 @@
 package frc.lib.helpers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -71,15 +73,17 @@ public abstract class Graph<TGraphNode extends GraphNode>
             this.optimalPathMap.put(start, optimalPreviousNodes);
         }
 
-        LinkedList<TGraphNode> optimalPath = new LinkedList<TGraphNode>();
+        // build the list in reverse order
+        List<TGraphNode> optimalPath = new ArrayList<TGraphNode>(16);
         TGraphNode node = end;
         while (node != null)
         {
-            optimalPath.addFirst(node);
+            optimalPath.add(node);
             node = optimalPreviousNodes.get(node);
         }
 
-        if (optimalPath.getFirst() != start)
+        Collections.reverse(optimalPath);
+        if (optimalPath.size() < 1 || optimalPath.get(0) != start)
         {
             ExceptionHelpers.Assert(false, "The provided start node is not reachable from the provided end node.");
             return null;

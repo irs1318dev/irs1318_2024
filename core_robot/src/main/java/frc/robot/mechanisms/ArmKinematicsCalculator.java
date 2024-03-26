@@ -757,6 +757,25 @@ public class ArmKinematicsCalculator
         }
 
         @Override
+        public int hashCode()
+        {
+            return this.name.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object other)
+        {
+            if (other instanceof ArmGraphNode)
+            {
+                ArmGraphNode otherNode = (ArmGraphNode)other;
+                return (this.name == null) && (otherNode.name == null) ||
+                    this.name.equals(otherNode.name);
+            }
+
+            return false;
+        }
+
+        @Override
         public String toString()
         {
             if (this.wristAngle == null)
