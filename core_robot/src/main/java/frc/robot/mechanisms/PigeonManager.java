@@ -2,7 +2,7 @@ package frc.robot.mechanisms;
 
 import frc.robot.*;
 import frc.lib.driver.IDriver;
-import frc.lib.mechanisms.IPositionManager;
+import frc.lib.mechanisms.IIMUManager;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.AnalogOperation;
@@ -15,7 +15,7 @@ import com.google.inject.Singleton;
  * Pigeon manager
  */
 @Singleton
-public class PigeonManager implements IPositionManager
+public class PigeonManager implements IIMUManager
 {
     private final IDriver driver;
     private final ILogger logger;

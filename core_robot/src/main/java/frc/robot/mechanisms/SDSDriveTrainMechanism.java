@@ -63,6 +63,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
     private final PigeonManager imuManager;
     private final PowerManager powerManager;
+    private final OffboardVisionManager visionManager;
 
     private final ITalonFX[] steerMotors;
     private final ITalonFX[] driveMotors;
@@ -84,7 +85,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     private final double[] steerErrors;
     private final double[] encoderAngles;
 
-    private final Triple<Double, Double, Double> twistCorrection;
+    private final Triple<Double, Double, Double> driveTwistCorrection;
+    private final Triple<Double, Double, Double> odometryTwistCorrection;
     private final Setpoint[] result;
 
     private final SlewRateLimiter xVelocityLimiter;
@@ -112,6 +114,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
         IRobotProvider provider,
         PigeonManager imuManager,
         PowerManager powerManager,
+        OffboardVisionManager visionManager,
         ITimer timer)
     {
         this.driver = driver;
@@ -120,6 +123,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
         this.imuManager = imuManager;
         this.powerManager = powerManager;
+        this.visionManager = visionManager;
 
         this.steerMotors = new ITalonFX[SDSDriveTrainMechanism.NUM_MODULES];
         this.driveMotors = new ITalonFX[SDSDriveTrainMechanism.NUM_MODULES];
@@ -327,7 +331,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             TuningConstants.SDSDRIVETRAIN_PATH_Y_MAX_OUTPUT,
             this.timer);
 
-        this.twistCorrection = new Triple<Double,Double,Double>(0.0, 0.0, 0.0);
+        this.driveTwistCorrection = new Triple<Double, Double, Double>(0.0, 0.0, 0.0);
+        this.odometryTwistCorrection = new Triple<Double, Double, Double>(0.0, 0.0, 0.0);
         this.result = new Setpoint[SDSDriveTrainMechanism.NUM_MODULES];
         for (int i = 0; i < SDSDriveTrainMechanism.NUM_MODULES; i++)
         {
@@ -808,16 +813,16 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
         if (TuningConstants.SDSDRIVETRAIN_USE_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION)
         {
-            this.twistCorrection.set(
+            this.driveTwistCorrection.set(
                 centerVelocityForward * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP,
                 centerVelocityLeft * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP,
                 omega * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP);
 
-            PoseHelpers.inversePoseExponential(this.twistCorrection);
+            PoseHelpers.inversePoseExponential(this.driveTwistCorrection);
 
-            centerVelocityForward = this.twistCorrection.getFirst() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
-            centerVelocityLeft = this.twistCorrection.getSecond() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
-            omega = this.twistCorrection.getThird() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+            centerVelocityForward = this.driveTwistCorrection.getFirst() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+            centerVelocityLeft = this.driveTwistCorrection.getSecond() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+            omega = this.driveTwistCorrection.getThird() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
         }
 
         double maxModuleDriveVelocityGoal = 0.0;
@@ -899,7 +904,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     private void calculateOdometry(double deltaImuYaw)
     {
         // double imuOmega = deltaImuYaw / this.deltaT; // in degrees
-        double rightRobotVelocity;
+        double leftRobotVelocity;
         double forwardRobotVelocity;
 
         // calculate our right and forward velocities using an average of our various velocities and the angle.
@@ -927,18 +932,33 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
         double rightRobotVelocityA = omegaRadians * HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_CENTER_DISTANCE + a;
         double rightRobotVelocityB = -omegaRadians * HardwareConstants.SDSDRIVETRAIN_HORIZONTAL_WHEEL_CENTER_DISTANCE + b;
-        rightRobotVelocity = -0.5 * (rightRobotVelocityA + rightRobotVelocityB);
+        leftRobotVelocity = 0.5 * (rightRobotVelocityA + rightRobotVelocityB);
 
         double forwardRobotVelocityA = omegaRadians * HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE + c;
         double forwardRobotVelocityB = -omegaRadians * HardwareConstants.SDSDRIVETRAIN_VERTICAL_WHEEL_CENTER_DISTANCE + d;
         forwardRobotVelocity = 0.5 * (forwardRobotVelocityA + forwardRobotVelocityB);
 
-        this.angle += omegaRadians * Helpers.RADIANS_TO_DEGREES * this.deltaT;
+        double leftFieldVelocity = leftRobotVelocity * Helpers.cosd(this.robotYaw) + forwardRobotVelocity * Helpers.sind(this.robotYaw);
+        double forwardFieldVelocity = -leftRobotVelocity * Helpers.sind(this.robotYaw) + forwardRobotVelocity * Helpers.cosd(this.robotYaw);
 
-        double rightFieldVelocity = rightRobotVelocity * Helpers.cosd(this.robotYaw) - forwardRobotVelocity * Helpers.sind(this.robotYaw);
-        double forwardFieldVelocity = rightRobotVelocity * Helpers.sind(this.robotYaw) + forwardRobotVelocity * Helpers.cosd(this.robotYaw);
+        double omegaDegrees = omegaRadians * Helpers.RADIANS_TO_DEGREES;
+        if (TuningConstants.SDSDRIVETRAIN_USE_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION)
+        {
+            this.odometryTwistCorrection.set(
+                forwardFieldVelocity * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP,
+                leftFieldVelocity * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP,
+                omegaDegrees * TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP);
+
+            PoseHelpers.poseExponential(this.odometryTwistCorrection);
+
+            forwardFieldVelocity = this.odometryTwistCorrection.getFirst() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+            leftFieldVelocity = this.odometryTwistCorrection.getSecond() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+            omegaDegrees = this.odometryTwistCorrection.getThird() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
+        }
+
+        this.angle += omegaDegrees * this.deltaT;
         this.xPosition += forwardFieldVelocity * this.deltaT;
-        this.yPosition -= rightFieldVelocity * this.deltaT;
+        this.yPosition += leftFieldVelocity * this.deltaT;
     }
 
     /**

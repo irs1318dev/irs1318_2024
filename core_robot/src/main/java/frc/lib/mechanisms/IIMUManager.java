@@ -1,6 +1,6 @@
 package frc.lib.mechanisms;
 
-public interface IPositionManager extends IMechanism
+public interface IIMUManager extends IMechanism
 {
     /**
      * Retrieve whether the device is connected
