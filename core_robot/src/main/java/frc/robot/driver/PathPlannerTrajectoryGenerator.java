@@ -24,9 +24,9 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
-                new PathPlannerWaypoint(0.0, 0.0, 90.0, 0.0),
-                new PathPlannerWaypoint(0.0, 15.0, 90.0, 0.0),
-                new PathPlannerWaypoint(0.0, 30.0, 90.0, 0.0)),
+                new PathPlannerWaypoint(0.0, 0.0, 0.0, 0.0),
+                new PathPlannerWaypoint(15.0, 0.0, 0.0, 0.0),
+                new PathPlannerWaypoint(30.0, 0.0, 0.0, 0.0)),
             "goForwards30in");
         addTrajectory(
             trajectoryManager,
@@ -398,8 +398,8 @@ public class PathPlannerTrajectoryGenerator
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
                 TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
                 new PathPlannerWaypoint(locManager.P8, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180)),
-                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(240), locManager.getOrientationOrHeading(240)),
-                new PathPlannerWaypoint(locManager.P2, locManager.getOrientationOrHeading(240), locManager.getOrientationOrHeading(240))),
+                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(60), locManager.getOrientationOrHeading(240)),
+                new PathPlannerWaypoint(locManager.P2, locManager.getOrientationOrHeading(60), locManager.getOrientationOrHeading(240))),
                 isRed? "P8toP2SSRed" : "P8toP2SSBlue");
 
         addTrajectory(
@@ -413,9 +413,36 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerRotationTarget(locManager.getOrientationOrHeading(240), 0.3),
                 new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(200)),
                 new PathPlannerRotationTarget(locManager.getOrientationOrHeading(180), 0.5),
+                new PathPlannerWaypoint(locManager.P13, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
                 new PathPlannerWaypoint(locManager.P7M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
                 new PathPlannerWaypoint(locManager.P7, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180))),
                 isRed? "P2toP7SSRed" : "P2toP7SSBlue");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(locManager.P8, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P8M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P9M, locManager.getOrientationOrHeading(90), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P9, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180))),
+                isRed? "P8toP9SSRed" : "P8toP9SSBlue");
+
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(locManager.P9, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P13, locManager.getOrientationOrHeading(0), locManager.getOrientationOrHeading(200)),
+                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(60), locManager.getOrientationOrHeading(240)),
+                new PathPlannerWaypoint(locManager.P2, locManager.getOrientationOrHeading(60), locManager.getOrientationOrHeading(240))),
+                isRed? "P9toP2SSRed" : "P9toP2SSBlue");
 
         // ----------------------> AMP START PATHS <-----------------------------
         addTrajectory(

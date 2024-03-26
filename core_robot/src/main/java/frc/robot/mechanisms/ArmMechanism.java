@@ -111,6 +111,8 @@ public class ArmMechanism implements IMechanism
     private JumpProtectionReason updateCurrWristPosition;
     private JumpProtectionReason updateCurrShoulderPosition;
 
+    private boolean useThroughBoreEncoders;
+
     @Inject
     public ArmMechanism(
         IRobotProvider provider,
@@ -281,6 +283,7 @@ public class ArmMechanism implements IMechanism
         this.lastLegalShoulderPosition = TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION;
         this.lastLegalWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
+        this.useThroughBoreEncoders = TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET || TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET;
         this.wasEnabled = false;
     }
 
@@ -359,6 +362,15 @@ public class ArmMechanism implements IMechanism
         if (this.selectionManager.getUseWristSlop())
         {
             wristSlopAdjustment = this.selectionManager.getWristSlopAdjustment() * TuningConstants.ARM_SLOP_ADJUSTMENT_MULTIPLIER;
+        }
+
+        if (this.driver.getDigital(DigitalOperation.ArmEnableThroughBore))
+        {
+            this.useThroughBoreEncoders = true;
+        }
+        else if (this.driver.getDigital(DigitalOperation.ArmDisableThroughBore))
+        {
+            this.useThroughBoreEncoders = false;
         }
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
@@ -484,6 +496,7 @@ public class ArmMechanism implements IMechanism
                 // Update changed time and stalled constants
                 this.shoulderSetpointChangedTime = currTime;
                 this.shoulderStalled = false;
+                this.updateCurrShoulderPosition = JumpProtectionReason.PositionChange;
 
                 // Update this power value
                 shoulderPower = shoulderPowerAdjustment;
@@ -499,6 +512,7 @@ public class ArmMechanism implements IMechanism
                 // Update changed time and stalled constants
                 this.wristSetpointChangedTime = currTime;
                 this.wristStalled = false;
+                this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
 
                 // Update this power value
                 wristPower = wristPowerAdjustment;
@@ -603,6 +617,7 @@ public class ArmMechanism implements IMechanism
         }
 
         if (TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET &&
+            this.useThroughBoreEncoders &&
             this.shoulderAbsoluteEncoderPosition != null &&
             Helpers.RoughEquals(this.shoulderVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.shoulderPosition, this.desiredShoulderPosition, TuningConstants.ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD) &&
@@ -617,6 +632,7 @@ public class ArmMechanism implements IMechanism
         }
 
         if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET &&
+            this.useThroughBoreEncoders &&
             this.wristAbsoluteEncoderPosition != null &&
             Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.wristPosition, this.desiredWristPosition, TuningConstants.ARM_WRIST_RESET_AT_POSITION_THRESHOLD) &&
@@ -631,6 +647,8 @@ public class ArmMechanism implements IMechanism
         }
         else if (TuningConstants.ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT &&
             this.wristLimitSwitchHit &&
+            Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
+            Helpers.RoughEquals(this.shoulderVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) &&
             !Helpers.RoughEquals(this.wristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, 1.5))
         {

@@ -43,6 +43,7 @@ public enum DigitalOperation implements IOperation
     // EndEffector operations:
     IntakeIn,
     IntakeOut,
+    IntakeOutSlow,
     IntakeForceOnAndIntakeIn,
     IntakeForceStop,
     IntakeForceSpinOn,
@@ -56,6 +57,8 @@ public enum DigitalOperation implements IOperation
     ArmDisableSimpleMode,
     ArmStop,
     ArmForceReset,
+    ArmEnableThroughBore,
+    ArmDisableThroughBore,
 
     // Climber operations:
     ClimberServoUp,

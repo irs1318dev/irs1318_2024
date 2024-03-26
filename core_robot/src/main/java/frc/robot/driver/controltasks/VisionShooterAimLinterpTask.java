@@ -16,8 +16,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     {
         if (continuous)
         {
-            return ConcurrentTask.AnyTasks(
-                new RumbleTask(),
+            return 
                 SequentialTask.Sequence(
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                     ConcurrentTask.AllTasks(
@@ -25,7 +24,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                         new VisionShooterAimLinterpTask(false)),
                     ConcurrentTask.AnyTasks(
                         new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                        new VisionShooterAimLinterpTask(true))));
+                        new VisionShooterAimLinterpTask(true)));
         }
 
         return ConcurrentTask.AnyTasks(
@@ -88,7 +87,6 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     private int noTargetCount;
     private double farFlywheelVelocity;
     private double nearFlywheelVelocity;
-
 
     public VisionShooterAimLinterpTask(boolean continuous)
     {
@@ -179,6 +177,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                 {
                     this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.nearFlywheelVelocity);
                     this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
+                    this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
                 }
 
                 break;

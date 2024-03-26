@@ -241,6 +241,7 @@ public class EndEffectorMechanism implements IMechanism
         }
 
         // STATE SWITCHING
+        boolean intakeOutSlow = this.driver.getDigital(DigitalOperation.IntakeOutSlow);
         switch (this.currentEffectorState)
         {
             case Off:
@@ -263,7 +264,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // Start outtaking when told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -295,7 +297,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -326,7 +329,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.currentEffectorState = EffectorState.Shooting;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -358,7 +362,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -380,7 +385,7 @@ public class EndEffectorMechanism implements IMechanism
                 break;
 
             case Outtaking:
-                intakePower = TuningConstants.EFFECTOR_INTAKE_OUT_POWER;
+                intakePower = intakeOutSlow ? TuningConstants.EFFECTOR_INTAKE_OUT_SLOW_POWER : TuningConstants.EFFECTOR_INTAKE_OUT_POWER;
                 break;
 
             case Shooting:

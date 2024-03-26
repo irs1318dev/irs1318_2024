@@ -73,6 +73,11 @@ public class AutonomousRoutineSelector
 
             this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
 
+            // if(routine == AutoRoutine.SixNote)
+            // {
+                // return Sammamish(locManager, isRed);
+            // }
+
             if(routine == AutoRoutine.Shoot)
             {
                 return Shoot();
@@ -135,7 +140,7 @@ public class AutonomousRoutineSelector
             new ArmZeroTask(),
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             ConcurrentTask.AnyTasks(
-                new ShooterSpinTask(4500, 10.0),
+                new ShooterSpinTask(4050, 10.0),
                 SequentialTask.Sequence(
                     new WaitTask(3.0),
                     new FeedRingTask(true, 2.0)
@@ -158,7 +163,7 @@ public class AutonomousRoutineSelector
         if(position == StartPosition.WooferFront)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -179,7 +184,7 @@ public class AutonomousRoutineSelector
         else if(position == StartPosition.WooferSourceSide)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -204,12 +209,53 @@ public class AutonomousRoutineSelector
         }
     }
 
+    // private static IControlTask Sammamish(AutonLocManager locManager, boolean isRed)
+    // {
+        // return ConcurrentTask.AllTasks(
+                // new ShooterSpinTask(4050, 5.0),
+                // SequentialTask.Sequence(
+                    // ConcurrentTask.AllTasks(
+                        // new ResetLevelTask(),
+                        // new PositionStartingTask(
+                            // locManager.P2A,
+                            // locManager.getOrientationOrHeading(123.3),
+                            // true,
+                            // true)  
+                    // ),
+// 
+                    // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 2.0),
+                    // new FeedRingTask(true, 1.0),
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "P2AtoNearAmpRed" : "P2toNearAmpBlue", Type.Absolute),
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "NearAmptoP11Red" : "NearAmptoP11Blue", Type.Absolute),
+                        // SequentialTask.Sequence(
+                            // new WaitTask(1.0),
+                            // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
+                        // ),
+                        // new IntakeControlTask(true, 5.0)
+                    // ),
+// 
+                    // ConcurrentTask.AllTasks(
+                        // new FollowPathTask(isRed ? "P11toNearAmpRed" : "P11toNearAmpBlue", Type.Absolute),
+                        // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK)
+                    // ),
+                    // 
+                    // isRed ? new PositionUpdateTask() : null
+                // )
+            // );
+    // }
+    
+
     private static IControlTask SubwooferAmpMultiPiece(AutonLocManager locManager, AutoRoutine routine, boolean isRed)
     {
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -244,7 +290,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -292,7 +338,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.FourNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -362,7 +408,7 @@ public class AutonomousRoutineSelector
         if(routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -382,10 +428,26 @@ public class AutonomousRoutineSelector
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new IntakeControlTask(true, 5.0)
                     ),
-                    
-                    ConcurrentTask.AllTasks(
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                        new FollowPathTask(isRed ? "P8toP2SSRed" : "P8toP2SSBlue", Type.Absolute)
+
+                    new DecisionNoteTask(
+                        SequentialTask.Sequence(
+                            ConcurrentTask.AllTasks(
+                                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                                new FollowPathTask(isRed ? "P8toP2SSRed" : "P8toP2SSBlue", Type.Absolute)
+                            )
+                        ),
+
+                        SequentialTask.Sequence(
+                            ConcurrentTask.AllTasks(
+                                new FollowPathTask(isRed ? "P8toP9SSRed" : "P8toP9SSBlue", Type.Absolute),
+                                new IntakeControlTask(true, 3.0)
+                            ),
+                            
+                            ConcurrentTask.AllTasks(
+                                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                                new FollowPathTask(isRed ? "P9toP2SSRed" : "P9toP2SSBlue", Type.Absolute)
+                            )
+                        )
                     ),
 
                     new WaitTask(0.4),
@@ -395,8 +457,8 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P2toP9SSRed" : "P2toP9SSBlue", Type.Absolute),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new IntakeControlTask(true, 5.0)
-                    ),
-                    
+                    ), 
+
                     isRed ? new PositionUpdateTask() : null
                 )
             );
@@ -413,7 +475,7 @@ public class AutonomousRoutineSelector
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -450,7 +512,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -502,7 +564,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.FourNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -513,7 +575,7 @@ public class AutonomousRoutineSelector
                             true)
                     ),
 
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 2.0),
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT - 3.0),
                     new WaitTask(0.4),
                     new FeedRingTask(true, 0.5), //shoot
 
@@ -568,7 +630,7 @@ public class AutonomousRoutineSelector
         {
             return ConcurrentTask.AllTasks(
                 SequentialTask.Sequence(
-                    new ShooterSpinTask(4500, 13.0)
+                    new ShooterSpinTask(4050, 13.0)
                 ),
                 SequentialTask.Sequence(
                     ConcurrentTask.AllTasks(
@@ -639,7 +701,7 @@ public class AutonomousRoutineSelector
         if (routine == AutoRoutine.TwoNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -683,7 +745,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreeNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -739,7 +801,7 @@ public class AutonomousRoutineSelector
         else if (routine == AutoRoutine.ThreePickupNote)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -865,7 +927,7 @@ public class AutonomousRoutineSelector
         {
             return 
             ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15),
+                new ShooterSpinTask(4050, 15),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -944,7 +1006,7 @@ public class AutonomousRoutineSelector
         else if (comeBack)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -1010,7 +1072,7 @@ public class AutonomousRoutineSelector
         else
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
@@ -1114,7 +1176,7 @@ public class AutonomousRoutineSelector
         {
             return 
             ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15),
+                new ShooterSpinTask(4050, 15),
             SequentialTask.Sequence(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_MINOR_TILT),
                 ConcurrentTask.AllTasks(
@@ -1194,7 +1256,7 @@ public class AutonomousRoutineSelector
         if(numberNotes == 3)
         {
             return ConcurrentTask.AllTasks(
-                new ShooterSpinTask(4500, 15.0),
+                new ShooterSpinTask(4050, 15.0),
                 SequentialTask.Sequence( 
                     ConcurrentTask.AllTasks(
                         new ResetLevelTask(),
