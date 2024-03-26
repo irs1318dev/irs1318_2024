@@ -587,6 +587,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
     public static final double ARM_WRIST_TRAP_SHOOT = 127.33549499511719;
 
+    public static final double ARM_SHOULDER_POSITION_GROUND_AMP_INT = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
+    public static final double ARM_WRIST_POSITION_GROUND_AMP_INT = 0.0;
+
     // vel - 1725.2799072265625 rpm - 33 inches off
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
     public static final double TRAP_SHOT_FLYWHEEL_VELOCITY = 1725.2799072265625;
@@ -638,6 +641,10 @@ public class TuningConstants
     // Tucked
     public static final double TUCKED_TRANSIT_TO_TUCKED_WEIGHT = 0.6; // good
     public static final double UPPER_OBTEUSE_WRIST_AND_TUCKED_WEIGHT = 0.5;
+
+    // Quick Amp Stuff
+    public static final double GROUND_PICKUP_AND_AMP_INT_WEIGHT = 0.3;
+    public static final double AMP_INT_WEIGHT_AND_AMP_OUTTAKE_WEIGHT = 0.3;
 
     // -------------------------------------------> END OF WEIGHTS <---------------------------------------------
 

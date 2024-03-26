@@ -32,6 +32,7 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode trapIntermediate;
     private static ArmGraphNode upperObtuseWrist;
     private static ArmGraphNode ampScoreOuttakeUp;
+    private static ArmGraphNode groundAmpIntermediate;
 
     static
     {
@@ -118,6 +119,11 @@ public class ArmKinematicsCalculator
             "trapIntermediate",
             TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE,
             TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE);
+
+        ArmKinematicsCalculator.groundAmpIntermediate = ArmKinematicsCalculator.graph.createNode(
+            "groundAmpInt",
+            TuningConstants.ARM_SHOULDER_POSITION_GROUND_AMP_INT,
+            TuningConstants.ARM_WRIST_POSITION_GROUND_AMP_INT);
 
         // create all of the links between the nodes
 
@@ -251,11 +257,22 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT);
 
-        // TEST - SPEEDS UP AMP EVEN MORE
+        // AMP FAST CONNECTIONS
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedGroundTransit,
             ArmKinematicsCalculator.ampScore,
             TuningConstants.AMP_SCORE_AND_TUCKED_GROUND_TRANSIT_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.groundAmpIntermediate,
+            ArmKinematicsCalculator.groundPickup,
+            TuningConstants.GROUND_PICKUP_AND_AMP_INT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.groundAmpIntermediate,
+            ArmKinematicsCalculator.ampScoreOuttakeUp,
+            TuningConstants.AMP_INT_WEIGHT_AND_AMP_OUTTAKE_WEIGHT);
+
+        
     }
 
     public enum ExtensionType
