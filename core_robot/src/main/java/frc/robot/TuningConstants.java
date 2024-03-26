@@ -925,9 +925,11 @@ public class TuningConstants
             3.533567593720811,
             2.85850910326311,
         };
+
     // velocities where successful shots were made at the given angle and location
     public static final double[] SHOOT_VISION_SAMPLE_VELOCITIES =
         {
+            3800.0,
             3800.0,
             3800.0,
             3800.0,
