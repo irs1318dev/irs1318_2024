@@ -101,8 +101,9 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
             {
                 this.currentState = State.FindSpeakerAprilTag;  
             }
-            if ((Helpers.RoughEquals(driveTrain.getForwardFieldVelocity(), 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE)) && 
-            (Helpers.RoughEquals(driveTrain.getLeftFieldVelocity(), 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))) 
+            
+            if ((Helpers.RoughEquals(driveTrain.getForwardFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE)) && 
+            (Helpers.RoughEquals(driveTrain.getLeftFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))) 
             {
                 this.currentState = State.RumbleDriver;
             }
@@ -110,7 +111,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
 
         if(this.currentState == State.RumbleDriver)
         {
-            driverFeedbackManager.rumble = true;
+            driverFeedbackManager.setRumble(true);
         }
         
         switch (this.currentState)

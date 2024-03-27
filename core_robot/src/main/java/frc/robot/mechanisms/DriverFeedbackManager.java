@@ -35,7 +35,7 @@ public class DriverFeedbackManager implements IMechanism
     }
 
     private IntakeState intakeState;
-    public Boolean rumble;
+    private Boolean rumble;
     private double intakeStateChangeTime;
 
     @Inject
@@ -141,6 +141,10 @@ public class DriverFeedbackManager implements IMechanism
 
             }
         }
+    }
+
+    public void setRumble(boolean setRumble) {
+        this.rumble = setRumble;
     }
 
     @Override
