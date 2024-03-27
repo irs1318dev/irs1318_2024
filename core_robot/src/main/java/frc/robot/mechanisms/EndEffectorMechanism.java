@@ -186,7 +186,7 @@ public class EndEffectorMechanism implements IMechanism
             this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
 
             this.nearFlywheelMotor.set(noteOut);
-            this.farFlywheelMotor.set(-noteOut);            
+            this.farFlywheelMotor.set(-noteOut);
         }
         else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
         {
@@ -225,16 +225,16 @@ public class EndEffectorMechanism implements IMechanism
         //     this.useShootAnywayMode = false;
         // }
 
-        if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
+        if (this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
         {
             this.useIntakeForceSpin = true;
         }
-        else if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOff))
+        else if (this.driver.getDigital(DigitalOperation.IntakeForceSpinOff))
         {
             this.useIntakeForceSpin = false;
         }
 
-        if(this.driver.getDigital(DigitalOperation.IntakeForceOnAndIntakeIn))
+        if (this.driver.getDigital(DigitalOperation.IntakeForceOnAndIntakeIn))
         {
             this.useIntakeForceSpin = true;
             this.currentEffectorState = EffectorState.Intaking;

@@ -691,6 +691,7 @@ public class TuningConstants
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_PROTECTION = false;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;

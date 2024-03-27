@@ -17,6 +17,7 @@ import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.SmartDashboardSelectionManager;
 import frc.robot.mechanisms.EndEffectorMechanism;
+import frc.robot.mechanisms.EndEffectorMechanism.EffectorState;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,12 +37,11 @@ public class ArmMechanism implements IMechanism
 
     private enum ArmProtectionState
     {
-        OutOfRange, //Shoulder is raised, or wrist is inside of the frame perimeter.
-        WristOutIntaking, //Wrist is outside of the frame perimeter, and the EndEffector is intaking.
-        WristOutFlywheelSpinning, //Wrist is outside the frame perimeter, shooter flywheels are spinning.
-        WristOutWaiting, //Wrist is outside of the frame perimeter, we last intaked/spun the flywheels at a certain recorded time.
-        NoteLoaded, //Through beam sensor has been broken, indicating that there is a note in the intake
-        RetractingWrist, //Wrist is currently being retracted to inside the frame perimeter
+        OutOfRange, // Shoulder is raised, or wrist is inside of the frame perimeter.
+        WristOutIntaking, // Wrist is outside of the frame perimeter, and the EndEffector is intaking.
+        WristOutFlywheelSpinning, // Wrist is outside the frame perimeter, shooter flywheels are spinning.
+        WristOutWaiting, // Wrist is outside of the frame perimeter, we last intaked/spun the flywheels at a certain recorded time.
+        RetractingWrist, // Wrist is currently being retracted to inside the frame perimeter
     }
 
     private static final int DefaultPidSlotId = 0;
@@ -54,7 +54,7 @@ public class ArmMechanism implements IMechanism
     private final EndEffectorMechanism endEffectorMechanism;
     private final SmartDashboardSelectionManager selectionManager;
 
-private double prevTime[];
+    private double prevTime;
 
     private final ISparkMax shoulderMotor;
     private final ISparkMax wristMotor;
@@ -83,7 +83,6 @@ private double prevTime[];
     private double wristSetpointChangedTime;
     private boolean shoulderStalled;
     private boolean wristStalled;
-    
     private boolean wristLimitSwitchHit;
 
     private FloatingAverageCalculator shoulderMasterPowerAverageCalculator;
@@ -125,7 +124,8 @@ private double prevTime[];
 
     private boolean useThroughBoreEncoders;
 
-    private ArmProtectionState CurrProtectionState; 
+    private ArmProtectionState currWristProtectionState;
+    private double lastWristActionTime;
 
     @Inject
     public ArmMechanism(
@@ -134,19 +134,21 @@ private double prevTime[];
         LoggingManager logger,
         ITimer timer,
         PowerManager powerManager,
+        EndEffectorMechanism endEffectorMechanism,
         SmartDashboardSelectionManager selectionManager)
     {
         this.driver = driver;
         this.logger = logger;
         this.timer = timer;
         this.powerManager = powerManager;
+        this.endEffectorMechanism = endEffectorMechanism;
         this.selectionManager = selectionManager;
 
         this.inSimpleMode = TuningConstants.ARM_USE_SIMPLE_MODE;
         this.updateCurrShoulderPosition = JumpProtectionReason.Startup;
         this.updateCurrWristPosition = JumpProtectionReason.Startup;
 
-        this.CurrProtectionState = ArmProtectionState.OutOfRange;
+        this.currWristProtectionState = ArmProtectionState.OutOfRange;
 
         this.shoulderMotor = provider.getSparkMax(ElectronicsConstants.ARM_SHOULDER_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
         this.wristMotor = provider.getSparkMax(ElectronicsConstants.ARM_WRIST_MOTOR_CAN_ID, SparkMaxMotorType.Brushless);
@@ -630,6 +632,68 @@ private double prevTime[];
                     this.desiredWristPosition = clampedDesiredWristPosition;
                 }
             }
+
+            // ------------------------ Arm Automatic Wrist Protection ---------------------------- //
+            if (TuningConstants.ARM_USE_WRIST_PROTECTION)
+            {
+                switch (this.currWristProtectionState)
+                {
+                    case OutOfRange:
+                        // TODO: compare our actual position - switch to WristOutWaiting when the wrist is "out" (angle > some value).
+                        // Also, if the end-effector is intaking or the flywheel is being commanded, we should go into WristOutIntaking or WristOutFlywheelSpinning instead
+                        this.lastWristActionTime = currTime;
+                        break;
+
+                    case WristOutIntaking:
+                        if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.hasGamePiece())
+                        {
+                            this.currWristProtectionState = ArmProtectionState.RetractingWrist;
+                        }
+                        else
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                        }
+
+                        break;
+
+                    case WristOutFlywheelSpinning:
+                        if (Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.lastWristActionTime = currTime;
+                        }
+                        else
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                        }
+
+                        break;
+
+                    case WristOutWaiting:
+                        // TODO: if the flywheel starts spinning again or the driver starts intaking again, we should switch back into WristOutFlywheelSpinning/WristOutIntaking respectively
+                        if (currTime > this.lastWristActionTime + 0.5)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.RetractingWrist;
+
+                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK;
+                            this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
+                        }
+
+                        break;
+
+                    case RetractingWrist:
+                        if (false) // TODO: compare our actual position - we should switch to "out of range" when the wrist is no longer "out" (angle > some value), or shoulder not in starting configuration
+                        {
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;
+                        }
+
+                        break;
+                }
+            }
         }
 
         if (TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET &&
@@ -875,76 +939,6 @@ private double prevTime[];
         {
             this.wristMotor.set(SparkMaxControlMode.PercentOutput, wristPower);
         }
-        // ------------------------ Arm Automatic Protection ---------------------------- //
-
-        ArmProtectionState.CurrProtectionState = this.CurrProtectionState;
-        endEffectorMechanism = this.endEffectorMechanism;
-
-        switch (this.CurrProtectionState)
-        {
-
-            case ArmProtectionState.OutOfRange:
-                break;
-
-
-            case ArmProtectionState.WristOutIntaking:
-                if (this.endEffectorMechanism.intaking())
-                {
-                    this.currIdleTime = currTime;
-                }
-                else
-                {
-                    this.CurrProtectionState = ArmProtectionState.WristOutWaiting;
-                }
-
-                break;
-
-
-            case ArmProtectionState.WristOutFlywheelSpinning:
-                if (this.endEffectorMechanism.isFlywheelSpunUp())
-                {
-                    this.currIdleTime = currTime;
-                }
-                else
-                {
-                    this.CurrProtectionState = ArmProtectionState.WristOutWaiting;
-                }
-
-                break;
-
-            case ArmProtectionState.WristOutWaiting:
-                if (currTime > this.currIdleTime + 0.5)
-                {
-                    this.CurrProtectionState = ArmProtectionState.RetractingWrist;
-                    this.currRetractingTime = currTime;
-                    this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-                    this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
-                }
-
-                break;
-            
-            case ArmProtectionState.NoteLoaded:
-                if(this.endEffectorMechanism.throughBeamBroken)
-                {
-                    this.CurrProtectionState = ArmProtectionState.RetractingWrist;
-                    this.currRetractingTime = currTime;
-                    this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
-                    this.updateCurrWristPosition = JumpProtectionReason.PositionChange;  
-                }
-
-                break;
-
-            case ArmProtectionState.RetractingWrist:
-                if (currTime > this.currRetractingTime + 0.4)
-                {
-                    this.CurrProtectionState = ArmProtectionState.OutOfRange;
-                    this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
-                }
-
-                break;    
-       
-        }
-
 
         this.logger.logNumber(LoggingKey.ArmShoulderOutput, this.shoulderMotor.getOutput());
         this.logger.logNumber(LoggingKey.ArmWristOutput, this.wristMotor.getOutput());
