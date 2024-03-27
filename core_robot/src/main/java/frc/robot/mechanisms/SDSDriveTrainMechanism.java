@@ -100,9 +100,15 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     private double desiredYaw;
 
     private double time;
+
+    // position, angle, and velocity of the robot based on odometry
     private double angle;
     private double xPosition;
     private double yPosition;
+    private double forwardFieldVelocity;
+    private double leftFieldVelocity;
+    private double angularVelocity;
+
     private double deltaT;
 
     private double robotYaw;
@@ -436,11 +442,6 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.desiredYaw = this.robotYaw;
         }
 
-        if (this.driver.getDigital(DigitalOperation.DriveTrainKeepThisOrientation))
-        {
-            this.desiredYaw = this.robotYaw;
-        }
-
         if (this.driver.getDigital(DigitalOperation.DriveTrainDisableFieldOrientation) ||
             !this.imuManager.getIsConnected())
         {
@@ -615,6 +616,16 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
     private void calculateSetpoints(boolean useFieldOriented, boolean maintainOrientation)
     {
+        double xMult = 1.0;
+        double yMult = 1.0;
+        double yawAdj = 0.0;
+        if (this.imuManager.getAllianceSwapForward())
+        {
+            xMult = -1.0;
+            yMult = -1.0;
+            yawAdj = 180.0;
+        }
+
         boolean maintainPositionMode = this.driver.getDigital(DigitalOperation.DriveTrainMaintainPositionMode);
         if (maintainPositionMode || this.driver.getDigital(DigitalOperation.DriveTrainSteerMode))
         {
@@ -707,8 +718,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             boolean useSlowMode = this.driver.getDigital(DigitalOperation.DriveTrainSlowMode);
 
             // get the center velocity control values (could be field-oriented or robot-oriented center velocity)
-            double centerVelocityLeftRaw = -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
-            double centerVelocityForwardRaw = this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
+            double centerVelocityLeftRaw = yMult * -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
+            double centerVelocityForwardRaw = xMult * this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
             if (useSlowMode)
             {
                 centerVelocityLeftRaw *= TuningConstants.SDSDRIVETRAIN_SLOW_MODE_MAX_VELOCITY;
@@ -782,7 +793,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 {
                     updatedOrientation = true;
 
-                    AnglePair anglePair = AnglePair.getClosestAngle(yawGoal, this.robotYaw, false);
+                    AnglePair anglePair = AnglePair.getClosestAngle(yawGoal + yawAdj, this.robotYaw, false);
                     this.desiredYaw = anglePair.getAngle();
                 }
 
@@ -956,6 +967,10 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             omegaDegrees = this.odometryTwistCorrection.getThird() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
         }
 
+        this.forwardFieldVelocity = forwardFieldVelocity;
+        this.leftFieldVelocity = leftFieldVelocity;
+        this.angularVelocity = omegaDegrees;
+
         this.angle += omegaDegrees * this.deltaT;
         this.xPosition += forwardFieldVelocity * this.deltaT;
         this.yPosition += leftFieldVelocity * this.deltaT;
@@ -984,4 +999,19 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     { 
         return this.yPosition; 
     } 
+
+    public double getForwardFieldVelocity()
+    {
+        return this.forwardFieldVelocity;
+    }
+
+    public double getLeftFieldVelocity()
+    {
+        return this.leftFieldVelocity;
+    }
+
+    public double getAngularVelocity()
+    {
+        return this.angularVelocity;
+    }
 }

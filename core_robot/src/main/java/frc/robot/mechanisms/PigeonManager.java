@@ -8,6 +8,8 @@ import frc.lib.robotprovider.*;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
+import java.util.Optional;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -19,6 +21,8 @@ public class PigeonManager implements IIMUManager
 {
     private final IDriver driver;
     private final ILogger logger;
+
+    private final IDriverStation ds;
 
     private final IPigeon2 pigeon;
 
@@ -40,6 +44,9 @@ public class PigeonManager implements IIMUManager
     private double pitchOffset;
     private double rollOffset;
 
+    private boolean firstUpdate; // whether this is the first update after (re-)enabling the robot
+    private boolean allianceSwapForward; // whether we will want to swap the forward direction when driving...
+
     /**
      * Initializes a new PigeonManager
      * @param logger to use
@@ -53,6 +60,8 @@ public class PigeonManager implements IIMUManager
     {
         this.driver = driver;
         this.logger = logger;
+
+        this.ds = provider.getDriverStation();
 
         this.pigeon = provider.getPigeon2(ElectronicsConstants.PIGEON_IMU_CAN_ID, ElectronicsConstants.CANIVORE_NAME);
         this.pigeon.setYaw(0.0);
@@ -75,6 +84,9 @@ public class PigeonManager implements IIMUManager
         this.startYaw = 0.0;
         this.pitchOffset = 0.0;
         this.rollOffset = 0.0;
+
+        this.firstUpdate = true;
+        this.allianceSwapForward = false;
     }
 
     /**
@@ -117,6 +129,16 @@ public class PigeonManager implements IIMUManager
     @Override
     public void update(RobotMode mode)
     {
+        if (this.firstUpdate)
+        {
+            this.firstUpdate = false;
+            if (mode == RobotMode.Teleop)
+            {
+                Optional<Alliance> alliance = this.ds.getAlliance();
+                this.allianceSwapForward = alliance.isPresent() && alliance.get() == Alliance.Red;
+            }
+        }
+
         double newYaw = this.driver.getAnalog(AnalogOperation.PositionStartingAngle);
         if (newYaw != 0.0)
         {
@@ -127,11 +149,6 @@ public class PigeonManager implements IIMUManager
         {
             // clear the startAngle too if we are not actively setting it
             this.reset(newYaw == 0.0);
-        }
-
-        if (this.driver.getDigital(DigitalOperation.PositionSwapFieldOrientation))
-        {
-            this.startYaw += 180.0;
         }
 
         if (this.driver.getDigital(DigitalOperation.PositionResetRobotLevel))
@@ -147,6 +164,8 @@ public class PigeonManager implements IIMUManager
     @Override
     public void stop()
     {
+        this.firstUpdate = true;
+        this.allianceSwapForward = false;
     }
 
     /**
@@ -192,6 +211,11 @@ public class PigeonManager implements IIMUManager
         return this.rollRate;
     }
 
+    public boolean getAllianceSwapForward()
+    {
+        return this.allianceSwapForward;
+    }
+
     /**
      * reset the position manager so it considers the current location to be "0"
      * @param resetStartAngle - whether to reset the start angle as well
@@ -210,6 +234,6 @@ public class PigeonManager implements IIMUManager
             this.startYaw = 0.0;
         }
 
-        this.pigeon.setYaw(0.0);
+        this.pigeon.setYaw(this.allianceSwapForward ? 180.0 : 0.0);
     }
 }

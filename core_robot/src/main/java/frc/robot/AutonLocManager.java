@@ -134,6 +134,8 @@ public class AutonLocManager
         this.C1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
         this.C2 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
         this.C3 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);
+
+        
     }
 
     private static double getOrientationOrHeading(boolean isRed, double orientationOrHeading)
