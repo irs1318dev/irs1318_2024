@@ -675,7 +675,7 @@ public class ArmMechanism implements IMechanism
 
                     case WristOutWaiting:
                         // TODO: if the flywheel starts spinning again or the driver starts intaking again, we should switch back into WristOutFlywheelSpinning/WristOutIntaking respectively
-                        if (currTime > this.lastWristActionTime + 0.5)
+                        if (currTime > this.lastWristActionTime + TuningConstants.ARM_WRIST_PROTECTION_EXTEND_TIMEOUT)
                         {
                             this.currWristProtectionState = ArmProtectionState.RetractingWrist;
 
