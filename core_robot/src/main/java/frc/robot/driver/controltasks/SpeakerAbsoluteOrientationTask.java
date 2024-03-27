@@ -21,10 +21,10 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
     
     private PigeonManager pigeonManager;
     private IDriver driver;
-    private AutonLocManager manager;
-    private IRobotProvider provider;
     private LoggingManager loggingManager;
     private OffboardVisionManager visionManager;
+    private IRobotProvider provider;
+    private AutonLocManager manager;
 
 
     /**
@@ -32,10 +32,7 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
      */
     public SpeakerAbsoluteOrientationTask(
         boolean bestEffort,
-        boolean useTime,
-        AutonLocManager manager,
-        IRobotProvider provider,
-        OffboardVisionManager visionManager)
+        boolean useTime)
     {
         super(useTime,bestEffort);
         //parameter initializations
@@ -56,8 +53,8 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
         this.provider = this.getInjector().getInstance(IRobotProvider.class);
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.pigeonManager = this.getInjector().getInstance(PigeonManager.class);
+        this.manager = new AutonLocManager(this.provider);
 
-        this.manager = new AutonLocManager(this.getInjector().getInstance(IRobotProvider.class));
         this.pigeonManager = new PigeonManager(this.driver,this.loggingManager,this.provider);
         this.isRedAlliance = manager.getRedUpdateAlliance();
 

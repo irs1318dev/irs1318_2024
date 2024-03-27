@@ -1,9 +1,8 @@
+package frc.robot.driver.controltasks;
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.IDriver;
-import frc.lib.driver.descriptions.UserInputDevice;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.LinearInterpolator;
-import frc.lib.robotprovider.JoystickRumbleType;
+import frc.lib.robotprovider.IRobotProvider;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -21,8 +20,8 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
             SequentialTask.Sequence(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 ConcurrentTask.AllTasks(
-                    new SpeakerAbsoluteOrientationTask(),
-                    new ShootVisionMasterTask()));          
+                    new SpeakerAbsoluteOrientationTask(true, true),
+                    new VisionShooterAimMasterTask()));
     }
 
     private OffboardVisionManager vision;
