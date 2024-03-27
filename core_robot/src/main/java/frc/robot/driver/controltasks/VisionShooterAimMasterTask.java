@@ -1,3 +1,18 @@
+import frc.lib.driver.IControlTask;
+import frc.lib.driver.IDriver;
+import frc.lib.driver.descriptions.UserInputDevice;
+import frc.lib.helpers.Helpers;
+import frc.lib.helpers.LinearInterpolator;
+import frc.lib.robotprovider.JoystickRumbleType;
+import frc.robot.TuningConstants;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
+import frc.robot.mechanisms.ArmMechanism;
+import frc.robot.mechanisms.DriverFeedbackManager;
+import frc.robot.mechanisms.EndEffectorMechanism;
+import frc.robot.mechanisms.OffboardVisionManager;
+import frc.robot.mechanisms.SDSDriveTrainMechanism;
+
 public class VisionShooterAimMasterTask extends ControlTaskBase
 {
     public static IControlTask createShootMacroTask(boolean continuous)
@@ -14,6 +29,8 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     private ArmMechanism arm;
     private EndEffectorMechanism endEffector;
     private SDSDriveTrainMechanism driveTrain;
+    private DriverFeedbackManager driverFeedbackManager;
+
 
     private final LinearInterpolator angleLinterp;
     private final LinearInterpolator velocityLinterp;
@@ -34,7 +51,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
 
     private State currentState;
     
-    public ShootVisionMasterTask()
+    public VisionShooterAimMasterTask()
     {
         super();
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
@@ -48,9 +65,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.endEffector = this.getInjector().getInstance(EndEffectorMechanism.class);
         this.driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
-
-        this.farFlywheelVelocity = TuningConstants.MAGIC_NULL_VALUE;
-        this.nearFlywheelVelocity = TuningConstants.MAGIC_NULL_VALUE;
+        this.driverFeedbackManager = this.getInjector().getInstance(DriverFeedbackManager.class);
     }
 
     @Override 
@@ -58,9 +73,9 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     {
         if (this.currentState == State.FindSpeakerAprilTag) 
         {
-            distancetoSpeaker = Math.sqrt(
-                (Math.pow(vision.getAbsX() - TuningConstants.CENTER_TO_SPEAKER_X_DISTANCE), 2) +
-                (Math.pow(vision.getAbsY() - TuningConstants.CENTER_TO_SPEAKER_Y_DISTANCE), 2));
+            distanceToSpeaker = Math.sqrt(
+                (Math.pow((vision.getAbsolutePositionX() - TuningConstants.CENTER_TO_SPEAKER_X_DISTANCE), 2)) +
+                (Math.pow((vision.getAbsolutePositionY() - TuningConstants.CENTER_TO_SPEAKER_Y_DISTANCE), 2)));
             
             if (distanceToSpeaker == null) 
             {

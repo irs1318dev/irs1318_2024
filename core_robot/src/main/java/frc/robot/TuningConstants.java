@@ -978,4 +978,8 @@ public class TuningConstants
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 
     public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;
+    
+    //check
+    public static final double CENTER_TO_SPEAKER_X_DISTANCE = 288.0;
+    public static final double CENTER_TO_SPEAKER_Y_DISTANCE = 239.0;
 }
