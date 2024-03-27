@@ -126,25 +126,23 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     this.shouldCancel = true;
                 }
             }
-            // else if (!this.continuous &&
-            //     (distance < TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[0] ||
-            //         distance > TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES.length - 1]))
-            // {
-            //     // if distance is out of range cancel, avoid inaccuracy in interpolation
-            //     this.shouldCancel = true;
-            // }
             else
             {
+                distance = Math.abs(distance);
+
                 this.wristAngle = this.angleLinterp.sample(distance);
-                this.farFlywheelVelocity = this.velocityLinterp.sample(distance);
-                this.nearFlywheelVelocity = this.velocityLinterp.sample(distance);
+
+                double flywheelVelocity = this.velocityLinterp.sample(distance);
+                this.farFlywheelVelocity = flywheelVelocity;
+                this.nearFlywheelVelocity = flywheelVelocity;
+
+                this.noTargetCount = 0;
                 this.currentState = State.SetWristAndVelocity;
             }
         }
 
         if (this.currentState == State.SetWristAndVelocity)
         {
-            this.noTargetCount = 0;
             if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD))
             {
                 if (this.continuous)
@@ -179,7 +177,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
                 }
 
-                break;  
+                break;
 
             default:
             case Completed:

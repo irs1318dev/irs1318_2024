@@ -35,7 +35,6 @@ public class DriverFeedbackManager implements IMechanism
     }
 
     private IntakeState intakeState;
-    private Boolean rumble;
     private double intakeStateChangeTime;
 
     @Inject
@@ -105,12 +104,6 @@ public class DriverFeedbackManager implements IMechanism
             }
         }
 
-        if(rumble)
-        {
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.5);
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
-        }
-
         if (this.driver.getDigital(DigitalOperation.ForceLightDriverRumble))
         {
             this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.25);
@@ -141,10 +134,6 @@ public class DriverFeedbackManager implements IMechanism
 
             }
         }
-    }
-
-    public void setRumble(boolean setRumble) {
-        this.rumble = setRumble;
     }
 
     @Override

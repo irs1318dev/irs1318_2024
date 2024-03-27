@@ -1,80 +1,98 @@
 package frc.robot.driver.controltasks;
 
-import frc.lib.driver.IDriver;
+import java.util.Optional;
+
 import frc.lib.helpers.Helpers;
-import frc.lib.mechanisms.LoggingManager;
+import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
-import frc.robot.AutonLocManager;
 import frc.robot.TuningConstants;
 import frc.robot.mechanisms.OffboardVisionManager;
 import frc.robot.mechanisms.PigeonManager;
 
 public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
 {
-    private double absoluteXSpeakerWResToCenter;
-    private double absoluteYSpeakerWResToCenter;
-    private double absoluteXRobotWResToCenter;
-    private double absoluteYRobotWResToCenter;
-    private double orientationTheta;
-    
+    private final boolean continuous;
+
+    private double absoluteSpeakerX;
+    private double absoluteSpeakerY;
+
+    private Double absoluteRobotX;
+    private Double absoluteRobotY;
+
     private boolean isRedAlliance;
-    
+
     private PigeonManager pigeonManager;
-    private IDriver driver;
-    private LoggingManager loggingManager;
     private OffboardVisionManager visionManager;
-    private IRobotProvider provider;
-    private AutonLocManager manager;
 
-
-    /**
-     * 
-     */
-    public SpeakerAbsoluteOrientationTask(
-        boolean bestEffort,
-        boolean useTime)
+    public SpeakerAbsoluteOrientationTask(boolean continuous)
     {
-        super(useTime,bestEffort);
-        //parameter initializations
-        //to determine position of the speaker depending on the side
-        this.absoluteXSpeakerWResToCenter = TuningConstants.CENTER_TO_SPEAKER_X_DISTANCE;
-        this.absoluteYSpeakerWResToCenter = TuningConstants.CENTER_TO_SPEAKER_Y_DISTANCE;
-    }
+        super(true, false);
 
+        this.continuous = continuous;
+    }
 
     @Override
     public void begin()
     {
         super.begin();
 
-        
-
-        this.driver = this.getInjector().getInstance(IDriver.class);
-        this.provider = this.getInjector().getInstance(IRobotProvider.class);
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.pigeonManager = this.getInjector().getInstance(PigeonManager.class);
-        this.manager = new AutonLocManager(this.provider);
 
-        this.pigeonManager = new PigeonManager(this.driver,this.loggingManager,this.provider);
-        this.isRedAlliance = manager.getRedUpdateAlliance();
+        IRobotProvider provider = this.getInjector().getInstance(IRobotProvider.class);
+        Optional<Alliance> alliance = provider.getDriverStation().getAlliance();
 
+        this.isRedAlliance = alliance.isPresent() && alliance.get() == Alliance.Red;
+        if (this.isRedAlliance)
+        {
+            this.absoluteSpeakerX = TuningConstants.APRILTAG_RED_SPEAKER_X_POSITION;
+            this.absoluteSpeakerY = TuningConstants.APRILTAG_RED_SPEAKER_Y_POSITION;
+        }
+        else
+        {
+            this.absoluteSpeakerX = TuningConstants.APRILTAG_BLUE_SPEAKER_X_POSITION;
+            this.absoluteSpeakerY = TuningConstants.APRILTAG_BLUE_SPEAKER_Y_POSITION;
+        }
     }
 
+    @Override
+    public boolean hasCompleted()
+    {
+        if (this.continuous)
+        {
+            return false;
+        }
+
+        return super.hasCompleted();
+    }
 
     @Override
     protected Double getHorizontalAngle()
     {
-        // TODO Auto-generated method stub
-        this.absoluteXRobotWResToCenter = this.visionManager.getAbsolutePositionX();
-        this.absoluteYRobotWResToCenter = this.visionManager.getAbsolutePositionY();
+        Double absoluteRobotX = this.visionManager.getAbsolutePositionX();
+        Double absoluteRobotY = this.visionManager.getAbsolutePositionY();
 
-        double absoluteDeltaXSpeakerToRobot = this.absoluteXRobotWResToCenter - this.absoluteXSpeakerWResToCenter;
-        double absoluteDeltaYSpeakerToRobot = this.absoluteYRobotWResToCenter - this.absoluteYSpeakerWResToCenter;
-        
-        this.orientationTheta = this.pigeonManager.getYaw() - Helpers.atan2d(
+        boolean canSeeAprilTag = absoluteRobotX != null && absoluteRobotY != null;
+        if (!canSeeAprilTag &&
+            (this.absoluteRobotX == null || this.absoluteRobotY == null))
+        {
+            // couldn't find an AprilTag
+            return null;
+        }
+
+        if (canSeeAprilTag)
+        {
+            this.absoluteRobotX = absoluteRobotX;
+            this.absoluteRobotY = absoluteRobotY;
+        }
+
+        double absoluteDeltaXSpeakerToRobot = this.absoluteRobotX - this.absoluteSpeakerX;
+        double absoluteDeltaYSpeakerToRobot = this.absoluteRobotY - this.absoluteSpeakerY;
+
+        double orientationTheta = this.pigeonManager.getYaw() - Helpers.atan2d(
             absoluteDeltaXSpeakerToRobot,
             absoluteDeltaYSpeakerToRobot);
 
-        return (this.isRedAlliance) ? this.orientationTheta : - 1 * this.orientationTheta;
+        return this.isRedAlliance ? orientationTheta : -1.0 * orientationTheta;
     }
 }

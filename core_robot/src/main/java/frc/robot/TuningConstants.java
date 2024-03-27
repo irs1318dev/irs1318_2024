@@ -16,7 +16,6 @@ public class TuningConstants
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
-    public static double ACCEPTABLE_NOT_MOVING_RANGE;
 
     public static final boolean EXPECT_UNUSED_JOYSTICKS = true;
 
@@ -979,8 +978,5 @@ public class TuningConstants
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 
     public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;
-    
-    //check
-    public static final double CENTER_TO_SPEAKER_X_DISTANCE = 288.0;
-    public static final double CENTER_TO_SPEAKER_Y_DISTANCE = 239.0;
+    public static final double ACCEPTABLE_NOT_MOVING_RANGE = 1.0;
 }
