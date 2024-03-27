@@ -16,6 +16,7 @@ public class TuningConstants
     public static boolean LOG_EXCEPTIONS = true;
     public static double LOOP_DURATION = 0.02; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
+    public static double ACCEPTABLE_NOT_MOVING_RANGE;
 
     public static final boolean EXPECT_UNUSED_JOYSTICKS = true;
 

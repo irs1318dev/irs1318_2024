@@ -34,7 +34,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
 
     private final LinearInterpolator angleLinterp;
     private final LinearInterpolator velocityLinterp;
-    private double distanceToSpeaker;
+    private Double distanceToSpeaker;
     private double farFlywheelVelocity;
     private double nearFlywheelVelocity;
     private double wristAngle;
@@ -77,7 +77,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
                 (Math.pow((vision.getAbsolutePositionX() - TuningConstants.CENTER_TO_SPEAKER_X_DISTANCE), 2)) +
                 (Math.pow((vision.getAbsolutePositionY() - TuningConstants.CENTER_TO_SPEAKER_Y_DISTANCE), 2)));
             
-            if (distanceToSpeaker == null) 
+            if (distanceToSpeaker == null)
             {
                 this.noTargetCount++;
                 if (this.noTargetCount > TuningConstants.SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD)
@@ -101,8 +101,8 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
             {
                 this.currentState = State.FindSpeakerAprilTag;  
             }
-            if ((Helpers.RoughEquals(driveTrain.getForwardFieldVelocity, 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE)) && 
-            (Helpers.RoughEquals(driveTrain.getLeftFieldVelocity, 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))) 
+            if ((Helpers.RoughEquals(driveTrain.getForwardFieldVelocity(), 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE)) && 
+            (Helpers.RoughEquals(driveTrain.getLeftFieldVelocity(), 0, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))) 
             {
                 this.currentState = State.RumbleDriver;
             }
@@ -110,8 +110,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
 
         if(this.currentState == State.RumbleDriver)
         {
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.5);
-            this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
+            driverFeedbackManager.rumble = true;
         }
         
         switch (this.currentState)
