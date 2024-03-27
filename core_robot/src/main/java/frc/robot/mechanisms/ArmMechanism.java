@@ -33,6 +33,15 @@ public class ArmMechanism implements IMechanism
         IK,
     }
 
+    private enum ArmProtectionState
+    {
+        OutOfRange,
+        WristOutIntaking,
+        WristOutFlywheelSpinning,
+        WristOutWaiting,
+        RetractingWrist,
+    }
+
     private static final int DefaultPidSlotId = 0;
     private static final int AltPidSlotId = 1;
 
