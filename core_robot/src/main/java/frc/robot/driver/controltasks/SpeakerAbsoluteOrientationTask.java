@@ -68,8 +68,8 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
     protected Double getHorizontalAngle()
     {
         // TODO Auto-generated method stub
-        this.absoluteXRobotWResToCenter = this.visionManager.getAbsX();
-        this.absoluteYRobotWResToCenter = this.visionManager.getAbsY();
+        this.absoluteXRobotWResToCenter = this.visionManager.getAbsolutePositionX();
+        this.absoluteYRobotWResToCenter = this.visionManager.getAbsolutePositionY();
 
         double absoluteDeltaXSpeakerToRobot = this.absoluteXRobotWResToCenter - this.absoluteXSpeakerWResToCenter;
         double absoluteDeltaYSpeakerToRobot = this.absoluteYRobotWResToCenter - this.absoluteYSpeakerWResToCenter;
