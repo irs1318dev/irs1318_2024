@@ -436,11 +436,6 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.desiredYaw = this.robotYaw;
         }
 
-        if (this.driver.getDigital(DigitalOperation.DriveTrainKeepThisOrientation))
-        {
-            this.desiredYaw = this.robotYaw;
-        }
-
         if (this.driver.getDigital(DigitalOperation.DriveTrainDisableFieldOrientation) ||
             !this.imuManager.getIsConnected())
         {
@@ -615,6 +610,16 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
     private void calculateSetpoints(boolean useFieldOriented, boolean maintainOrientation)
     {
+        double xMult = 1.0;
+        double yMult = 1.0;
+        double yawAdj = 0.0;
+        if (this.imuManager.getAllianceSwapForward())
+        {
+            xMult = -1.0;
+            yMult = -1.0;
+            yawAdj = 180.0;
+        }
+
         boolean maintainPositionMode = this.driver.getDigital(DigitalOperation.DriveTrainMaintainPositionMode);
         if (maintainPositionMode || this.driver.getDigital(DigitalOperation.DriveTrainSteerMode))
         {
@@ -707,8 +712,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             boolean useSlowMode = this.driver.getDigital(DigitalOperation.DriveTrainSlowMode);
 
             // get the center velocity control values (could be field-oriented or robot-oriented center velocity)
-            double centerVelocityLeftRaw = -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
-            double centerVelocityForwardRaw = this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
+            double centerVelocityLeftRaw = yMult * -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
+            double centerVelocityForwardRaw = xMult * this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
             if (useSlowMode)
             {
                 centerVelocityLeftRaw *= TuningConstants.SDSDRIVETRAIN_SLOW_MODE_MAX_VELOCITY;
@@ -782,7 +787,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
                 {
                     updatedOrientation = true;
 
-                    AnglePair anglePair = AnglePair.getClosestAngle(yawGoal, this.robotYaw, false);
+                    AnglePair anglePair = AnglePair.getClosestAngle(yawGoal + yawAdj, this.robotYaw, false);
                     this.desiredYaw = anglePair.getAngle();
                 }
 

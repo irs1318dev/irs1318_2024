@@ -5,7 +5,6 @@ import frc.lib.driver.IOperation;
 public enum DigitalOperation implements IOperation
 {
     PositionResetFieldOrientation,
-    PositionSwapFieldOrientation,
     PositionResetRobotLevel,
 
     // Driver interaction operations
@@ -38,7 +37,6 @@ public enum DigitalOperation implements IOperation
     DriveTrainDisableMaintainDirectionMode,
     DriveTrainResetXYPosition,
     DriveTrainIgnoreSlewRateLimitingMode,
-    DriveTrainKeepThisOrientation,
 
     // EndEffector operations:
     IntakeIn,
