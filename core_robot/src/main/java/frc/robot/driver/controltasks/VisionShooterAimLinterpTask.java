@@ -91,7 +91,6 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     public VisionShooterAimLinterpTask(boolean continuous)
     {
         super();
-
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
         this.velocityLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES);
         this.continuous = continuous;
@@ -180,7 +179,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
                 }
 
-                break;
+                break;  
 
             default:
             case Completed:

@@ -45,6 +45,7 @@ public enum MacroOperation implements IOperation
 
     // Vision operations
     VisionTest,
+    VisionMasterTest
 
     // Trap
     AutoTrapScore,
@@ -61,6 +62,5 @@ public enum MacroOperation implements IOperation
 
     // Wrist
     UpdatedIntakeIn,
-    UpdatedShoot
-    
+    UpdatedShoot,
 }
