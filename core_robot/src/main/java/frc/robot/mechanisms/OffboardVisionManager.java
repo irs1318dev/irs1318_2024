@@ -421,4 +421,24 @@ public class OffboardVisionManager implements IMechanism
     {
         return this.atId;
     }
+
+    public Double getAbsolutePositionX()
+    {
+        return this.absXOffset;
+    }
+
+    public Double getAbsolutePositionY()
+    {
+        return this.absYOffset;
+    }
+
+    public Double getAbsolutePositionZ()
+    {
+        return this.absZOffset;
+    }
+
+    public Double getAbsolutePositionYaw()
+    {
+        return this.absYawAngle;
+    }
 }
