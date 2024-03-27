@@ -69,6 +69,14 @@ public class AutonLocManager
         this.setValues();
     }
 
+    public boolean getRedUpdateAlliance()
+    {
+        Optional<Alliance> alliance = driverStation.getAlliance();
+        this.isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
+        this.setValues();
+        return isRed;
+    }
+
     public double getOrientationOrHeading(double orientationOrHeading)
     {
         return AutonLocManager.getOrientationOrHeading(this.isRed, orientationOrHeading);
