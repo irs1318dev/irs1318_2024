@@ -61,6 +61,16 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atfRollSubscriber;
     private IDoubleSubscriber atfIdSubscriber;
 
+    private IDoubleSubscriber absXOffsetSubscriber;
+    private IDoubleSubscriber absYOffsetSubscriber;
+    private IDoubleSubscriber absZOffsetSubscriber;
+    private IDoubleSubscriber absRollAngleSubscriber;
+    private IDoubleSubscriber absPitchAngleSubscriber;
+    private IDoubleSubscriber absYawAngleSubscriber;
+    private IDoubleSubscriber absTagIdSubscriber;
+    private IDoubleSubscriber absDecisionMarginSubscriber;
+    private IDoubleSubscriber absErrorSubscriber;
+
     private IDoubleSubscriber heartbeatSubscriber;
 
     private Double atXOffset;
@@ -70,6 +80,16 @@ public class OffboardVisionManager implements IMechanism
     private Double atPitch;
     private Double atRoll;
     private Integer atId;
+
+    private Double absXOffset;
+    private Double absYOffset;
+    private Double absZOffset;
+    private Double absRollAngle;
+    private Double absPitchAngle;
+    private Double absYawAngle;
+    private Integer absTagId;
+    private Double absDecisionMargin;
+    private Double absError;
 
     private int prevMode;
     private List<Integer> prevTargets;
@@ -106,6 +126,16 @@ public class OffboardVisionManager implements IMechanism
         this.atfPitchSubscriber = this.networkTable.getDoubleSubscriber("atf.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfRollSubscriber = this.networkTable.getDoubleSubscriber("atf.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfIdSubscriber = this.networkTable.getDoubleSubscriber("atf.tagId", (int)TuningConstants.MAGIC_NULL_VALUE);
+
+        this.absXOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.xOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absYOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.yOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absZOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.zOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absRollAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absPitchAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absYawAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absTagIdSubscriber = this.networkTable.getDoubleSubscriber("abs.tagId", TuningConstants.MAGIC_NULL_VALUE);
+        this.absDecisionMarginSubscriber = this.networkTable.getDoubleSubscriber("abs.decisionMargin", TuningConstants.MAGIC_NULL_VALUE);
+        this.absErrorSubscriber = this.networkTable.getDoubleSubscriber("abs.error", TuningConstants.MAGIC_NULL_VALUE);
 
         this.heartbeatSubscriber = this.networkTable.getDoubleSubscriber("v.heartbeat", 0);
 
@@ -148,6 +178,16 @@ public class OffboardVisionManager implements IMechanism
         double atfRoll = this.atfRollSubscriber.get();
         int atfId = (int)this.atfIdSubscriber.get();
 
+        double absXOffset = this.absXOffsetSubscriber.get();
+        double absYOffset = this.absYOffsetSubscriber.get();
+        double absZOffset = this.absZOffsetSubscriber.get();
+        double absRollAngle = this.absRollAngleSubscriber.get();
+        double absPitchAngle = this.absPitchAngleSubscriber.get();
+        double absYawAngle = this.absYawAngleSubscriber.get();
+        int absTagId = (int)this.absTagIdSubscriber.get();
+        double absDecisionMargin = this.absDecisionMarginSubscriber.get();
+        double absError = this.absErrorSubscriber.get();
+
         double newHeartbeat = this.heartbeatSubscriber.get();
         if (this.prevHeartbeat != newHeartbeat)
         {
@@ -171,6 +211,16 @@ public class OffboardVisionManager implements IMechanism
         this.atRoll = null;
         this.atId = null;
 
+        this.absXOffset = null;
+        this.absYOffset = null;
+        this.absZOffset = null;
+        this.absRollAngle = null;
+        this.absPitchAngle = null;
+        this.absYawAngle = null;
+        this.absTagId = null;
+        this.absDecisionMargin = null;
+        this.absError = null;
+
         if (!missedHeartbeatExceedsThreshold)
         {
             switch (this.prevMode)
@@ -178,8 +228,8 @@ public class OffboardVisionManager implements IMechanism
                 case 1:
                     if (atrXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atrYOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        atrZOffset != TuningConstants.MAGIC_NULL_VALUE) // &&
-                        //(this.prevTargets == null || this.prevTargets.contains(atrId)))
+                        atrZOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        (this.prevTargets == null || this.prevTargets.contains(atrId)))
                     {
                         this.atXOffset = atrXOffset;
                         this.atYOffset = atrYOffset;
@@ -195,8 +245,8 @@ public class OffboardVisionManager implements IMechanism
                 case 2:
                     if (atfXOffset != TuningConstants.MAGIC_NULL_VALUE &&
                         atfYOffset != TuningConstants.MAGIC_NULL_VALUE &&
-                        atfZOffset != TuningConstants.MAGIC_NULL_VALUE) // &&
-                        // (this.prevTargets == null || this.prevTargets.contains(atfId)))
+                        atfZOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        (this.prevTargets == null || this.prevTargets.contains(atfId)))
                     {
                         this.atXOffset = atfXOffset;
                         this.atYOffset = atfYOffset;
@@ -208,6 +258,22 @@ public class OffboardVisionManager implements IMechanism
                     }
 
                     break;
+
+                case 3:
+                    if (absXOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        absYOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        absZOffset != TuningConstants.MAGIC_NULL_VALUE)
+                    {
+                        this.absXOffset = absXOffset;
+                        this.absYOffset = absYOffset;
+                        this.absZOffset = absZOffset;
+                        this.absRollAngle = absRollAngle;
+                        this.absPitchAngle = absPitchAngle;
+                        this.absYawAngle = absYawAngle;
+                        this.absTagId = absTagId;
+                        this.absDecisionMargin = absDecisionMargin;
+                        this.absError = absError;
+                    }
 
                 case 0:
                 default:

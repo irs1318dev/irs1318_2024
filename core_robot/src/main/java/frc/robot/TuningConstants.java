@@ -58,6 +58,32 @@ public class TuningConstants
 
     //================================================= Macros/Vision ======================================================
 
+    //=========================================== 2024 AprilTag Location guide ==============================================
+    //// | TAG                                 |  ID  |    X    |    Y    |   Z    | THETA |
+    //// |-------------------------------------|------|---------|---------|--------|-------|
+    //// | APRILTAG_BLUE_SOURCE_RIGHT_ID       |   1  |  268.07 |    6.26 |  53.38 | 120.0 |
+    //// | APRILTAG_BLUE_SOURCE_LEFT_ID        |   2  |  311.59 |   31.37 |  53.38 | 120.0 |
+    //// | APRILTAG_RED_SPEAKER_OFFCENTER_ID   |   3  |  327.12 |  192.75 |  57.13 | 180.0 |
+    //// | APRILTAG_RED_SPEAKER_CENTER_ID      |   4  |  327.12 |  215.0  |  57.13 | 180.0 |
+    //// | APRILTAG_RED_AMP_ID                 |   5  |  253.16 |  319.58 |  53.38 | 270.0 |
+    //// | APRILTAG_BLUE_AMP_ID                |   6  | -253.16 |  319.58 |  53.38 | 270.0 |
+    //// | APRILTAG_BLUE_SPEAKER_CENTER_ID     |   7  | -327.12 |  215.0  |  57.13 |   0.0 |
+    //// | APRILTAG_BLUE_SPEAKER_OFFCENTER_ID  |   8  | -327.12 |  192.75 |  57.13 |   0.0 |
+    //// | ARPILTAG_RED_SOURCE_RIGHT_ID        |   9  | -311.59 |   31.37 |  53.38 |  60.0 |
+    //// | APRILTAG_RED_SOURCE_LEFT_ID         |  10  | -268.07 |    6.26 |  53.38 |  60.0 |
+    //// | APRILTAG_RED_STAGE_LEFT_ID          |  11  |  143.0  |  142.77 |  52.0  | 300.0 |
+    //// | APRILTAG_RED_STAGE_RIGHT_ID         |  12  |  143.0  |  173.68 |  52.0  |  60.0 |
+    //// | APRILTAG_RED_CENTER_STAGE_ID        |  13  |  116.13 |  158.5  |  52.0  | 180.0 |
+    //// | APRILTAG_BLUE_CENTER_STAGE_ID       |  14  | -116.13 |  158.5  |  52.0  |   0.0 |
+    //// | APRILTAG_BLUE_STAGE_LEFT_ID         |  15  | -143.0  |  173.68 |  52.0  | 120.0 |
+    //// | APRILTAG_BLUE_STAGE_RIGHT_ID        |  16  | -143.0  |  142.77 |  52.0  | 240.0 |
+    //// 
+    //// Conversion from FIRST's published values: (x - 325.615, y - ~3.42, z, rot)
+    public static final double APRILTAG_RED_SPEAKER_X_POSITION = 327.12;
+    public static final double APRILTAG_RED_SPEAKER_Y_POSITION = 215.0;
+    public static final double APRILTAG_BLUE_SPEAKER_X_POSITION = -327.12;
+    public static final double APRILTAG_BLUE_SPEAKER_Y_POSITION = 215.0;
+
     public static final int APRILTAG_BLUE_SOURCE_RIGHT_ID = 1;
     public static final int APRILTAG_BLUE_SOURCE_LEFT_ID = 2;
     public static final int APRILTAG_RED_SPEAKER_OFFCENTER_ID = 3;

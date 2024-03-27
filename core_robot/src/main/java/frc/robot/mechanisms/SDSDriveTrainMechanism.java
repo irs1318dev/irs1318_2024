@@ -100,9 +100,15 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     private double desiredYaw;
 
     private double time;
+
+    // position, angle, and velocity of the robot based on odometry
     private double angle;
     private double xPosition;
     private double yPosition;
+    private double forwardFieldVelocity;
+    private double leftFieldVelocity;
+    private double angularVelocity;
+
     private double deltaT;
 
     private double robotYaw;
@@ -961,6 +967,10 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             omegaDegrees = this.odometryTwistCorrection.getThird() / TuningConstants.SDSDRIVETRAIN_POSE_ESTIMATION_INVERSE_TWIST_CORRECTION_TIMESTEP;
         }
 
+        this.forwardFieldVelocity = forwardFieldVelocity;
+        this.leftFieldVelocity = leftFieldVelocity;
+        this.angularVelocity = omegaDegrees;
+
         this.angle += omegaDegrees * this.deltaT;
         this.xPosition += forwardFieldVelocity * this.deltaT;
         this.yPosition += leftFieldVelocity * this.deltaT;
@@ -989,4 +999,19 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
     { 
         return this.yPosition; 
     } 
+
+    public double getForwardFieldVelocity()
+    {
+        return this.forwardFieldVelocity;
+    }
+
+    public double getLeftFieldVelocity()
+    {
+        return this.leftFieldVelocity;
+    }
+
+    public double getAngularVelocity()
+    {
+        return this.angularVelocity;
+    }
 }
