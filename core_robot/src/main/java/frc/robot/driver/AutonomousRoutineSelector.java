@@ -175,8 +175,7 @@ public class AutonomousRoutineSelector
                     ),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                     new FeedRingTask(true, 3.0),
-                    new FollowPathTask(isRed ? "P4toP6Red" : "P4toP6Blue", Type.Absolute),
-                    isRed ? new PositionUpdateTask() : null
+                    new FollowPathTask(isRed ? "P4toP6Red" : "P4toP6Blue", Type.Absolute)
                 )
             );
         }
@@ -197,8 +196,7 @@ public class AutonomousRoutineSelector
 
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                     new FeedRingTask(true, 3.0),
-                    new FollowPathTask(isRed ? "P2toP19Red" : "P2to19Blue", Type.Absolute),
-                    isRed ? new PositionUpdateTask() : null
+                    new FollowPathTask(isRed ? "P2toP19Red" : "P2to19Blue", Type.Absolute)
                 )
             );
         }
@@ -242,9 +240,7 @@ public class AutonomousRoutineSelector
                     // ConcurrentTask.AllTasks(
                         // new FollowPathTask(isRed ? "P11toNearAmpRed" : "P11toNearAmpBlue", Type.Absolute),
                         // new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK)
-                    // ),
-                    // 
-                    // isRed ? new PositionUpdateTask() : null
+                    // )
                 // )
             // );
     // }
@@ -281,8 +277,7 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P7toP2AASUBRed" : "P7toP2AASUBBlue", Type.Absolute)
                     ),
 
-                    new FeedRingTask(true, 0.7),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
                 )
             );
         }
@@ -329,8 +324,7 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P12toP2ASUBRed" : "P12toP2ASUBBlue", Type.Absolute)
                     ),
 
-                    new FeedRingTask(true, 0.7),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
                 )
             );
         }
@@ -390,9 +384,7 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P11toP2ASUBRed" : "P11toP2ASUBBlue", Type.Absolute)
                     ),
 
-                    new FeedRingTask(true, 0.7),
-
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
                 )
             );
         }
@@ -457,9 +449,7 @@ public class AutonomousRoutineSelector
                         new FollowPathTask(isRed ? "P2toP9SSRed" : "P2toP9SSBlue", Type.Absolute),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new IntakeControlTask(true, 5.0)
-                    ), 
-
-                    isRed ? new PositionUpdateTask() : null
+                    )
                 )
             );
         }
@@ -503,8 +493,7 @@ public class AutonomousRoutineSelector
                     ),
 
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.7),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
                 )
             );
         }
@@ -555,8 +544,7 @@ public class AutonomousRoutineSelector
                     ),
                     
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.7),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.7)
                 )
             );
         }
@@ -619,9 +607,7 @@ public class AutonomousRoutineSelector
                     ),
                     
                     new WaitTask(0.1),
-                    new FeedRingTask(true, 0.5),
-
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.5)
                 )
             );
         }
@@ -683,9 +669,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION),
                         new FollowPathTask(isRed ? "P8toP19CSRed" : "P8toP19CSBlue", Type.Absolute)
-                    ),
-
-                    isRed ? new PositionUpdateTask() : null
+                    )
                 )
             );
         }
@@ -736,8 +720,7 @@ public class AutonomousRoutineSelector
                     ),
 
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.5),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.5)
                 )
             );
         }
@@ -792,8 +775,7 @@ public class AutonomousRoutineSelector
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6_SHOT),
 
                     new WaitTask(0.5),
-                    new FeedRingTask(true, 0.5),
-                    isRed ? new PositionUpdateTask() : null
+                    new FeedRingTask(true, 0.5)
                 )
             );
         }
@@ -851,8 +833,7 @@ public class AutonomousRoutineSelector
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
                         new FollowPathTask(isRed ? "P6toP12ASRed" : "P6toP12ASBlue", Type.Absolute),
                         new IntakeControlTask(true, 3.0)
-                    ),
-                    isRed ? new PositionUpdateTask() : null
+                    )
                 )
             );
         }
@@ -911,8 +892,7 @@ public class AutonomousRoutineSelector
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT)
             ),
             new FeedRingTask(true, 0.5),
-            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
-            isRed ? new PositionUpdateTask() : null
+            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP)
             ));
         }
         else
@@ -998,8 +978,7 @@ public class AutonomousRoutineSelector
                     new IntakeControlTask(false, 0.07)
                 ),
                 
-                new FeedRingTask(true, 0.5),
-                isRed ? new PositionUpdateTask() : null
+                new FeedRingTask(true, 0.5)
                 ));
         }
         
@@ -1062,10 +1041,7 @@ public class AutonomousRoutineSelector
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P4_SHOT)
                 ),
 
-                new FeedRingTask(true, 0.5),
-
-
-                isRed ? new PositionUpdateTask() : null
+                new FeedRingTask(true, 0.5)
                 ));
         }
 
@@ -1120,10 +1096,7 @@ public class AutonomousRoutineSelector
                 ),
 
                 new OrientationTask(locManager.getOrientationOrHeading(TuningConstants.ARM_WRIST_AUTO_P5_SHOT)),
-                new FeedRingTask(true, 0.5),
-
-
-                isRed ? new PositionUpdateTask() : null
+                new FeedRingTask(true, 0.5)
                 ));
         }
     }
@@ -1143,9 +1116,7 @@ public class AutonomousRoutineSelector
                         true,
                         true),
                     new ArmZeroTask()
-            ),
-            isRed ? new PositionUpdateTask() : null
-
+            )
             );
         }
 
@@ -1163,9 +1134,7 @@ public class AutonomousRoutineSelector
                         true,
                         true),
                     new ArmZeroTask()
-            ),
-            isRed ? new PositionUpdateTask() : null
-
+            )
             );
         }
 
@@ -1244,9 +1213,7 @@ public class AutonomousRoutineSelector
                 new IntakeControlTask(false, 0.07)
             ),
             
-            new FeedRingTask(true, 0.5),
-            isRed ? new PositionUpdateTask() : null
-
+            new FeedRingTask(true, 0.5)
             ));
         }
     }
@@ -1293,8 +1260,7 @@ public class AutonomousRoutineSelector
                     new FollowPathTask(isRed ? "P9toP19Red" : "P9toP19Blue", Type.Absolute),
                     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT)
                 ),
-                new FeedRingTask(true, 0.5),
-                isRed ? new PositionUpdateTask() : null
+                new FeedRingTask(true, 0.5)
                 ));
         }
         else
