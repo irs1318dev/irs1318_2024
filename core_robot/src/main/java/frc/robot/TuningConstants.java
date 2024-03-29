@@ -694,6 +694,7 @@ public class TuningConstants
     public static final boolean ARM_USE_WRIST_PROTECTION = false;
 
     public static final double ARM_WRIST_PROTECTION_EXTEND_TIMEOUT = 1.0; // how long we should spend with the wrist out before retracting it when using wrist protection
+    public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;

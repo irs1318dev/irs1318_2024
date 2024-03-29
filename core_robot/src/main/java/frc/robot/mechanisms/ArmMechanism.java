@@ -642,6 +642,24 @@ public class ArmMechanism implements IMechanism
                         // TODO: compare our actual position - switch to WristOutWaiting when the wrist is "out" (angle > some value).
                         // Also, if the end-effector is intaking or the flywheel is being commanded, we should go into WristOutIntaking or WristOutFlywheelSpinning instead
                         this.lastWristActionTime = currTime;
+                        if(this.endEffectorMechanism.isFlywheelSpunUp)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+
+                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT;
+                            this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
+                        }
+                        else if(this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+
+                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
+                            this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
+                        }
+                        else if(this.wristPosition > TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                        }
                         break;
 
                     case WristOutIntaking:
@@ -682,11 +700,19 @@ public class ArmMechanism implements IMechanism
                             this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK;
                             this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
+                        else if(this.endEffectorMechanism.isFlywheelSpunUp)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                        }
+                        else if(this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+                        }
 
                         break;
 
                     case RetractingWrist:
-                        if (false) // TODO: compare our actual position - we should switch to "out of range" when the wrist is no longer "out" (angle > some value), or shoulder not in starting configuration
+                        if (this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET) // TODO: compare our actual position - we should switch to "out of range" when the wrist is no longer "out" (angle > some value), or shoulder not in starting configuration
                         {
                             this.currWristProtectionState = ArmProtectionState.OutOfRange;
                         }
