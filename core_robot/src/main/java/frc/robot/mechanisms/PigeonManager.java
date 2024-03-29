@@ -222,7 +222,7 @@ public class PigeonManager implements IIMUManager
      */
     public void reset(boolean resetStartAngle)
     {
-        this.yaw = 0.0;
+        this.yaw = this.allianceSwapForward ? 180.0 : 0.0;
         this.pitch = 0.0;
         this.roll = 0.0;
         this.yawRate = 0.0;
@@ -234,6 +234,6 @@ public class PigeonManager implements IIMUManager
             this.startYaw = 0.0;
         }
 
-        this.pigeon.setYaw(this.allianceSwapForward ? 180.0 : 0.0);
+        this.pigeon.setYaw(this.yaw);
     }
 }

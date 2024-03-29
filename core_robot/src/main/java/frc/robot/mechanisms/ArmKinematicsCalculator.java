@@ -32,7 +32,7 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode trapIntermediate;
     private static ArmGraphNode upperObtuseWrist;
     private static ArmGraphNode ampScoreOuttakeUp;
-    private static ArmGraphNode groundAmpIntermediate;
+    private static ArmGraphNode quickTuck;
 
     static
     {
@@ -120,10 +120,10 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE,
             TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE);
 
-        ArmKinematicsCalculator.groundAmpIntermediate = ArmKinematicsCalculator.graph.createNode(
+        ArmKinematicsCalculator.quickTuck = ArmKinematicsCalculator.graph.createNode(
             "groundAmpInt",
-            TuningConstants.ARM_SHOULDER_POSITION_GROUND_AMP_INT,
-            TuningConstants.ARM_WRIST_POSITION_GROUND_AMP_INT);
+            TuningConstants.ARM_SHOULDER_POSITION_QUICK_TUCK,
+            TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK);
 
         // create all of the links between the nodes
 
@@ -168,6 +168,11 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.groundPickup,
             ArmKinematicsCalculator.groundShot,
             TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.startingConfiguration,
+            TuningConstants.QUICK_TUCK_AND_STARTING_CONFIGURATION_WEIGHT);
+        
 
         // links between each of the upper-universal node combinations
         ArmKinematicsCalculator.graph.connectBidirectional(
@@ -264,13 +269,13 @@ public class ArmKinematicsCalculator
             TuningConstants.AMP_SCORE_AND_TUCKED_GROUND_TRANSIT_WEIGHT);
 
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.groundAmpIntermediate,
+            ArmKinematicsCalculator.quickTuck,
             ArmKinematicsCalculator.groundPickup,
-            TuningConstants.GROUND_PICKUP_AND_AMP_INT_WEIGHT);
+            TuningConstants.GROUND_PICKUP_AND_QUICK_TUCK_WEIGHT);
         ArmKinematicsCalculator.graph.connectBidirectional(
-            ArmKinematicsCalculator.groundAmpIntermediate,
+            ArmKinematicsCalculator.quickTuck,
             ArmKinematicsCalculator.ampScoreOuttakeUp,
-            TuningConstants.AMP_INT_WEIGHT_AND_AMP_OUTTAKE_WEIGHT);
+            TuningConstants.QUICK_TUCK_AND_AMP_OUTTAKE_WEIGHT);
 
         
     }

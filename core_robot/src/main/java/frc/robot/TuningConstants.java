@@ -524,7 +524,7 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.24; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
-    public static final double ARM_WRIST_COMP_MIN_POSITION = -113.58;//-114.23; // in degrees
+    public static final double ARM_WRIST_COMP_MIN_POSITION = -118.58;//-114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
 
     // -------------------> SHOULDER POSITIONS <------------------- (all in degrees)
@@ -625,8 +625,8 @@ public class TuningConstants
 
     // --------------------------------------> ARM GRAPH WEIGHTS <---------------------------------------
     // Shoulder Univ's
-    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 1.1;
-    public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 1.0;
+    public static final double STARTUP_AND_GROUND_PICKUP_WEIGHT = 0.9;
+    public static final double STARTUP_AND_GROUND_SHOT_WEIGHT = 0.8;
     public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 0.2;
 
     // Universal Transit's
@@ -637,6 +637,7 @@ public class TuningConstants
     public static final double STARTUP_AND_SOURCE_PICKUP_WEIGHT = 0.5;
     public static final double STARTUP_AMP_OUTTAKE_WEIGHT = 0.6;
     public static final double STARTUP_AND_UPPER_INTAKE_FLIPPED_WEIGHT = 0.9;
+    public static final double QUICK_TUCK_AND_STARTING_CONFIGURATION_WEIGHT = 0.4;
 
     // Trap Int's
     public static final double UPPER_INTAKE_FLIPPED_AND_TRAP_INTER_WEIGHT = 0.4;
@@ -669,8 +670,8 @@ public class TuningConstants
     public static final double UPPER_OBTEUSE_WRIST_AND_TUCKED_WEIGHT = 0.5;
 
     // Quick Amp Stuff
-    public static final double GROUND_PICKUP_AND_AMP_INT_WEIGHT = 0.3;
-    public static final double AMP_INT_WEIGHT_AND_AMP_OUTTAKE_WEIGHT = 0.3;
+    public static final double GROUND_PICKUP_AND_QUICK_TUCK_WEIGHT = 0.6;
+    public static final double QUICK_TUCK_AND_AMP_OUTTAKE_WEIGHT = 0.3;
 
     // -------------------------------------------> END OF WEIGHTS <---------------------------------------------
 
@@ -701,7 +702,7 @@ public class TuningConstants
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 15.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = -0.443333;
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.2035;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
     
     // Through Bore Reset Shoulder
