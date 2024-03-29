@@ -317,7 +317,7 @@ public class ArmMechanism implements IMechanism
 
         this.wristAbsoluteEncoderPosition =
             !this.wristAbsoluteEncoder.isConnected() ?
-                null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 48.5);
+                null : Helpers.updateAngleRange180(this.wristAbsoluteEncoder.getDistance() - 5.0);
 
         this.shoulderAbsoluteEncoderPosition =
             !this.shoulderAbsoluteEncoder.isConnected() ?

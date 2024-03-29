@@ -19,7 +19,9 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     {
         return 
             SequentialTask.Sequence(
-                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                ConcurrentTask.AnyTasks(
+                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                    new ShooterSpinTask(TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES[0], 20.0)),
                 ConcurrentTask.AllTasks(
                     new SpeakerAbsoluteOrientationTask(true),
                     new VisionShooterAimMasterTask()));
@@ -131,9 +133,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
         switch (this.currentState)
         {
             case FindSpeakerAprilTag:
-                this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, true);
-                this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.nearFlywheelVelocity);
-                this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
+                this.setDigitalOperationState(DigitalOperation.VisionFindAbsolutePosition, true);
                 break;
 
             case SetWristAndVelocity:
@@ -150,7 +150,8 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     @Override
     public void end()
     {
-        this.setDigitalOperationState(DigitalOperation.VisionFindSpeakerAprilTagRear, false);
+        this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, false);
+        this.setDigitalOperationState(DigitalOperation.VisionFindAbsolutePosition, false);
         this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, TuningConstants.MAGIC_NULL_VALUE);
         this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, TuningConstants.MAGIC_NULL_VALUE);
         this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, TuningConstants.MAGIC_NULL_VALUE);

@@ -88,10 +88,10 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
 
         double absoluteDeltaXSpeakerToRobot = this.absoluteRobotX - this.absoluteSpeakerX;
         double absoluteDeltaYSpeakerToRobot = this.absoluteRobotY - this.absoluteSpeakerY;
-
+        
         double orientationTheta = this.pigeonManager.getYaw() - Helpers.atan2d(
-            absoluteDeltaXSpeakerToRobot,
-            absoluteDeltaYSpeakerToRobot);
+            absoluteDeltaYSpeakerToRobot,
+            absoluteDeltaXSpeakerToRobot);
 
         return this.isRedAlliance ? orientationTheta : -1.0 * orientationTheta;
     }

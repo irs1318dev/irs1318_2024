@@ -474,7 +474,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
         {
             this.robotYaw = this.imuManager.getYaw();
             this.desiredYaw = this.robotYaw;
-            this.angle = 0.0;
+            this.angle = this.robotYaw;
         }
 
         if (this.driver.getDigital(DigitalOperation.DriveTrainResetXYPosition))
@@ -672,7 +672,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             // Note: using the right-hand rule, "x" is forward, "y" is left, and "angle" is 0 straight ahead and increases counter-clockwise
             double xGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathXGoal);
             double yGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathYGoal);
-            double angleGoal = this.driver.getAnalog(AnalogOperation.DriveTrainTurnAngleGoal);
+            double angleGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathAngleGoal);
             double xVelocityGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathXVelocityGoal);
             double yVelocityGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathYVelocityGoal);
             double angleVelocityGoal = this.driver.getAnalog(AnalogOperation.DriveTrainPathAngleVelocityGoal);
@@ -718,8 +718,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             boolean useSlowMode = this.driver.getDigital(DigitalOperation.DriveTrainSlowMode);
 
             // get the center velocity control values (could be field-oriented or robot-oriented center velocity)
-            double centerVelocityLeftRaw = yMult * -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
-            double centerVelocityForwardRaw = xMult * this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
+            double centerVelocityLeftRaw = -this.driver.getAnalog(AnalogOperation.DriveTrainMoveRight);
+            double centerVelocityForwardRaw = this.driver.getAnalog(AnalogOperation.DriveTrainMoveForward);
             if (useSlowMode)
             {
                 centerVelocityLeftRaw *= TuningConstants.SDSDRIVETRAIN_SLOW_MODE_MAX_VELOCITY;
@@ -733,8 +733,8 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
 
             if (useFieldOriented)
             {
-                centerVelocityLeft = Helpers.cosd(this.robotYaw) * centerVelocityLeftRaw - Helpers.sind(this.robotYaw) * centerVelocityForwardRaw;
-                centerVelocityForward = Helpers.cosd(this.robotYaw) * centerVelocityForwardRaw + Helpers.sind(this.robotYaw) * centerVelocityLeftRaw;
+                centerVelocityLeft = yMult * (Helpers.cosd(this.robotYaw) * centerVelocityLeftRaw - Helpers.sind(this.robotYaw) * centerVelocityForwardRaw);
+                centerVelocityForward = xMult * (Helpers.cosd(this.robotYaw) * centerVelocityForwardRaw + Helpers.sind(this.robotYaw) * centerVelocityLeftRaw);
             }
             else
             {
