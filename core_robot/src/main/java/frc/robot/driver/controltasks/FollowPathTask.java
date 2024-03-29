@@ -147,7 +147,7 @@ public class FollowPathTask extends ControlTaskBase
 
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathXGoal, xGoal);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathYGoal, yGoal);
-        this.setAnalogOperationState(AnalogOperation.DriveTrainTurnAngleGoal, angleGoal);
+        this.setAnalogOperationState(AnalogOperation.DriveTrainPathAngleGoal, angleGoal);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathXVelocityGoal, xVelGoal);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathYVelocityGoal, yVelGoal);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathAngleVelocityGoal, angleVelGoal);
@@ -162,7 +162,7 @@ public class FollowPathTask extends ControlTaskBase
         this.setDigitalOperationState(DigitalOperation.DriveTrainPathMode, false);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathXGoal, 0.0);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathYGoal, 0.0);
-        this.setAnalogOperationState(AnalogOperation.DriveTrainTurnAngleGoal, TuningConstants.MAGIC_NULL_VALUE);
+        this.setAnalogOperationState(AnalogOperation.DriveTrainPathAngleGoal, TuningConstants.MAGIC_NULL_VALUE);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathXVelocityGoal, 0.0);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathYVelocityGoal, 0.0);
         this.setAnalogOperationState(AnalogOperation.DriveTrainPathAngleVelocityGoal, 0.0);
