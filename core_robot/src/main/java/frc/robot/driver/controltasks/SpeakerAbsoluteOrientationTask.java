@@ -32,7 +32,7 @@ public class SpeakerAbsoluteOrientationTask extends PIDTurnTaskBase
 
     public SpeakerAbsoluteOrientationTask(boolean continuous)
     {
-        super(true, false);
+        super(true, false, TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD);
 
         this.continuous = continuous;
     }

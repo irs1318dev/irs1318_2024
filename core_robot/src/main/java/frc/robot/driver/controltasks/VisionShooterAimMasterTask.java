@@ -138,7 +138,8 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
         }
 
         boolean shouldRumble = false;
-        if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD) &&
+        if (this.hasEverSeenTarget &&
+            Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD) &&
             Helpers.RoughEquals(this.driveTrain.getForwardFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE) &&
             Helpers.RoughEquals(this.driveTrain.getLeftFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))
         {
