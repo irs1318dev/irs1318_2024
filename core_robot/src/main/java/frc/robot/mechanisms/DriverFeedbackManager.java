@@ -67,7 +67,7 @@ public class DriverFeedbackManager implements IMechanism
 
         if (mode == RobotMode.Teleop)
         {
-            if(ds.getMatchTime() <= 30)
+            if(ds.getMatchTime() <= TuningConstants.ENDGAME_RUMBLE)
             {
                 this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
             }
