@@ -40,16 +40,14 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     private double farFlywheelVelocity;
     private double nearFlywheelVelocity;
     private double wristAngle;
+
+    private double visionAbsX;
+    private double visionAbsY;
+    private double dtStartingX;
+    private double dtStartingY;
+
+    private boolean hasEverSeenTarget;
     private int noTargetCount;
-    private boolean shouldCancel;
-
-    private enum State
-    {
-        FindSpeakerAprilTag,
-        SetWristAndVelocity,
-    }
-
-    private State currentState;
 
     public VisionShooterAimMasterTask()
     {
@@ -65,6 +63,14 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
+
+        this.hasEverSeenTarget = false;
+        this.distanceToSpeaker = null;
+
+        this.visionAbsX = 0.0;
+        this.visionAbsY = 0.0;
+        this.dtStartingX = 0.0;
+        this.dtStartingY = 0.0;
 
         IRobotProvider provider = this.getInjector().getInstance(IRobotProvider.class);
         Optional<Alliance> alliance = provider.getDriverStation().getAlliance();
@@ -84,66 +90,69 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     @Override 
     public void update()
     {
-        if (this.currentState == State.FindSpeakerAprilTag) 
-        {
-            Double absoluteRobotX = this.vision.getAbsolutePositionX();
-            Double absoluteRobotY = this.vision.getAbsolutePositionY();
+        Double absoluteRobotX = this.vision.getAbsolutePositionX();
+        Double absoluteRobotY = this.vision.getAbsolutePositionY();
 
-            if (absoluteRobotX == null || absoluteRobotY == null)
+        if (absoluteRobotX == null || absoluteRobotY == null)
+        {
+            this.noTargetCount++;
+            if (this.hasEverSeenTarget)
             {
-                this.noTargetCount++;
-                if (this.noTargetCount > TuningConstants.SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD)
-                {
-                    this.shouldCancel = true;
-                }
-            }
-            else
-            {
-                distanceToSpeaker = Math.sqrt(
+                double xMovement = this.driveTrain.getPositionX() - this.dtStartingX;
+                double yMovement = this.driveTrain.getPositionY() - this.dtStartingY;
+
+                absoluteRobotX = this.visionAbsX + xMovement;
+                absoluteRobotY = this.visionAbsY + yMovement;
+
+                this.distanceToSpeaker = Math.sqrt(
                     Math.pow(absoluteRobotX - this.absoluteSpeakerX, 2) +
                     Math.pow(absoluteRobotY - this.absoluteSpeakerY, 2));
-
-                this.wristAngle = this.angleLinterp.sample(distanceToSpeaker);
-
-                double flywheelVelocity = this.velocityLinterp.sample(distanceToSpeaker);
+    
+                this.wristAngle = this.angleLinterp.sample(this.distanceToSpeaker);
+    
+                double flywheelVelocity = this.velocityLinterp.sample(this.distanceToSpeaker);
                 this.farFlywheelVelocity = flywheelVelocity;
                 this.nearFlywheelVelocity = flywheelVelocity;
-
-                this.noTargetCount = 0;
-                this.currentState = State.SetWristAndVelocity;
             }
+        }
+        else
+        {
+            this.visionAbsX = absoluteRobotX;
+            this.visionAbsY = absoluteRobotY;
+
+            this.dtStartingX = this.driveTrain.getPositionX();
+            this.dtStartingY = this.driveTrain.getPositionY();
+
+            this.distanceToSpeaker = Math.sqrt(
+                Math.pow(absoluteRobotX - this.absoluteSpeakerX, 2) +
+                Math.pow(absoluteRobotY - this.absoluteSpeakerY, 2));
+
+            this.wristAngle = this.angleLinterp.sample(this.distanceToSpeaker);
+
+            double flywheelVelocity = this.velocityLinterp.sample(this.distanceToSpeaker);
+            this.farFlywheelVelocity = flywheelVelocity;
+            this.nearFlywheelVelocity = flywheelVelocity;
+
+            this.hasEverSeenTarget = true;
+            this.noTargetCount = 0;
         }
 
         boolean shouldRumble = false;
-        if (this.currentState == State.SetWristAndVelocity)
+        if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD) &&
+            Helpers.RoughEquals(this.driveTrain.getForwardFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE) &&
+            Helpers.RoughEquals(this.driveTrain.getLeftFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))
         {
-            if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD))
-            {
-                this.currentState = State.FindSpeakerAprilTag;
-            }
-
-            if (Helpers.RoughEquals(driveTrain.getForwardFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE) &&
-                Helpers.RoughEquals(driveTrain.getLeftFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE))
-            {
-                shouldRumble = true;
-            }
+            shouldRumble = true;
         }
 
         this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, shouldRumble);
-        switch (this.currentState)
+        this.setDigitalOperationState(DigitalOperation.VisionFindAbsolutePosition, true);
+
+        if (this.hasEverSeenTarget)
         {
-            case FindSpeakerAprilTag:
-                this.setDigitalOperationState(DigitalOperation.VisionFindAbsolutePosition, true);
-                break;
-
-            case SetWristAndVelocity:
-                this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristAngle); 
-                this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.nearFlywheelVelocity);
-                this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
-                break;
-
-            default:
-                break;
+            this.setAnalogOperationState(AnalogOperation.ArmWristPositionSetpoint, this.wristAngle); 
+            this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.nearFlywheelVelocity);
+            this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
         }
     }
 
@@ -160,7 +169,12 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     @Override
     public boolean shouldCancel()
     {
-        return this.shouldCancel;
+        if (!this.hasEverSeenTarget)
+        {
+            return this.noTargetCount > TuningConstants.SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD;
+        }
+
+        return false;
     }
 
     @Override
