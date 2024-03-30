@@ -923,7 +923,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
     public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
+    public static final double CLIMBER_WINCH_DOWN_POWER = TuningConstants.COMPETITION_ROBOT ? -0.75 : 0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
