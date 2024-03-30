@@ -62,14 +62,13 @@ public class DriverFeedbackManager implements IMechanism
     @Override
     public void update(RobotMode mode)
     {
-        RobotMode currentMode = this.ds.getMode();
         boolean isCurrentLimiting = this.powerMan.getCurrentLimitingValue() != CurrentLimiting.Normal;
 
         if (mode == RobotMode.Teleop)
         {
-            if(ds.getMatchTime() <= 30)
+            if (this.ds.isFMSMode() && this.ds.getMatchTime() <= TuningConstants.ENDGAME_RUMBLE)
             {
-                this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
+                this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.25);
             }
         }
 

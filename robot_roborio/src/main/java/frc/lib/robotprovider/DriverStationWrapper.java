@@ -107,6 +107,12 @@ public class DriverStationWrapper implements IDriverStation
     }
 
     @Override
+    public boolean isFMSMode()
+    {
+        return DriverStation.isFMSAttached();
+    }
+
+    @Override
     public String getGameSpecificMessage()
     {
         return DriverStation.getGameSpecificMessage();

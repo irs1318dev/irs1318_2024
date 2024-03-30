@@ -63,6 +63,12 @@ public class FauxbotDriverStation implements IDriverStation
     }
 
     @Override
+    public boolean isFMSMode()
+    {
+        return false;
+    }
+
+    @Override
     public String getGameSpecificMessage()
     {
         return "LLL";

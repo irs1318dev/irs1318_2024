@@ -13,5 +13,6 @@ public interface IDriverStation
     public int getReplayNumber();
     public double getMatchTime();
     public RobotMode getMode();
+    public boolean isFMSMode();
     public String getGameSpecificMessage();
 }

@@ -682,6 +682,8 @@ public class TuningConstants
 
     // ----------------> OTHER THINGS <----------------
 
+    public static final double ENDGAME_RUMBLE = 30.0;
+
     public static final boolean ARM_SHOULDER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean ARM_SHOULDER_MOTOR_FOLLOWER_INVERT_OUTPUT = false;
     public static final boolean ARM_WRIST_MOTOR_INVERT_OUTPUT = true;
