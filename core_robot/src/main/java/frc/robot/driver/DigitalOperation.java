@@ -57,6 +57,8 @@ public enum DigitalOperation implements IOperation
     ArmForceReset,
     ArmEnableThroughBore,
     ArmDisableThroughBore,
+    ArmEnableProtection,
+    ArmDisableProtection,
 
     // Climber operations:
     ClimberServoUp,

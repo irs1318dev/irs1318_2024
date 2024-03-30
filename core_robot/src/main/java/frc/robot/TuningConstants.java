@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = true;
+    public static final boolean COMPETITION_ROBOT = false;
     public static final boolean USE_ADVANTAGE_KIT = true;
     public static final boolean RETREIVE_PDH_FIRST = true;
     public static boolean THROW_EXCEPTIONS = false;
@@ -632,7 +632,7 @@ public class TuningConstants
     public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 0.2;
 
     // Universal Transit's
-    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.7;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.1;
     public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.5;
 
     // Lower quartile stuff

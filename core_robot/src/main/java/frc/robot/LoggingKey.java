@@ -115,6 +115,7 @@ public enum LoggingKey
 
     // Arm stuff
     ArmClamped("arm.clamped", false, true),
+    ArmProtectionState("arm.protect", false, false),
     ArmShoulderSetpointTMP("arm.shPosDesCurr", false, true),
     ArmShoulderSetpoint("arm.shPosDesired", false, true),
     ArmShoulderPosition("arm.shPos", true, true),

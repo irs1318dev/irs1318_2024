@@ -516,6 +516,7 @@ public class ArmMechanism implements IMechanism
                 this.shoulderSetpointChangedTime = currTime;
                 this.shoulderStalled = false;
                 this.updateCurrShoulderPosition = JumpProtectionReason.PositionChange;
+                this.currWristProtectionState = ArmProtectionState.OutOfRange;
 
                 // Update this power value
                 shoulderPower = shoulderPowerAdjustment;
@@ -532,6 +533,7 @@ public class ArmMechanism implements IMechanism
                 this.wristSetpointChangedTime = currTime;
                 this.wristStalled = false;
                 this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
+                this.currWristProtectionState = ArmProtectionState.OutOfRange;
 
                 // Update this power value
                 wristPower = wristPowerAdjustment;
@@ -563,6 +565,8 @@ public class ArmMechanism implements IMechanism
                     newDesiredWristPosition != TuningConstants.MAGIC_NULL_VALUE)
                 {
                     // controlled by macro
+                    this.currWristProtectionState = ArmProtectionState.OutOfRange;
+
                     if (newDesiredShoulderPosition != TuningConstants.MAGIC_NULL_VALUE &&
                         (!Helpers.RoughEquals(this.desiredShoulderPosition, newDesiredShoulderPosition, 0.1) ||
                          (!Helpers.RoughEquals(this.shoulderPosition, newDesiredShoulderPosition, 1.0) && this.shoulderStalled)))
@@ -590,7 +594,7 @@ public class ArmMechanism implements IMechanism
                         }
 
                         this.wristSetpointChangedTime = currTime;
-                        this.wristStalled = false;
+                        this.currWristProtectionState = ArmProtectionState.OutOfRange;
 
                         this.desiredWristPosition = newDesiredWristPosition;
                     }
@@ -637,7 +641,7 @@ public class ArmMechanism implements IMechanism
             // ------------------------ Arm Automatic Wrist Protection ---------------------------- //
             if (TuningConstants.ARM_USE_WRIST_PROTECTION)
             {
-                System.out.println(currWristProtectionState);
+                this.logger.logString(LoggingKey.ArmProtectionState, this.currWristProtectionState.toString());
                 switch (this.currWristProtectionState)
                 {
                     case OutOfRange:
