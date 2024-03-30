@@ -171,7 +171,7 @@ public class VisionShooterAimMasterTask extends ControlTaskBase
     {
         if (!this.hasEverSeenTarget)
         {
-            return this.noTargetCount > TuningConstants.SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD;
+            return this.noTargetCount > TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD;
         }
 
         return false;

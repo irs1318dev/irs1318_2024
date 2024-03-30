@@ -976,6 +976,7 @@ public class TuningConstants
 
     public static final double SHOOT_VISION_SPEED = 4000;
     public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
+    public static final int SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD = 100;
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 
     public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;
