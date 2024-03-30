@@ -632,7 +632,7 @@ public class TuningConstants
     public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 0.2;
 
     // Universal Transit's
-    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.7;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.1;
     public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.5;
 
     // Lower quartile stuff
@@ -696,6 +696,10 @@ public class TuningConstants
     public static final boolean ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
+    public static final boolean ARM_USE_WRIST_PROTECTION = true;
+
+    public static final double ARM_WRIST_PROTECTION_EXTEND_TIMEOUT = 1.0; // how long we should spend with the wrist out before retracting it when using wrist protection
+    public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
     public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;

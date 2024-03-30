@@ -327,13 +327,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Click),
 
-        // new DigitalOperationDescription(
-        //     DigitalOperation.ArmEnableThroughBore,
-        //     UserInputDevice.Codriver,
-        //     UserInputDeviceButton.XBONE_START_BUTTON,
-        //     EnumSet.of(Shift.CodriverDebug),
-        //     EnumSet.of(Shift.CodriverDebug),
-        //     ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ArmDisableProtection,
+            UserInputDevice.Codriver,
+            UserInputDeviceButton.XBONE_START_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Click),
 
         new DigitalOperationDescription(
             DigitalOperation.ClimberServoUp,
@@ -1053,8 +1053,8 @@ public class ButtonMap implements IButtonMap
             MacroOperation.IntakeFix,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_START_BUTTON,
-            // EnumSet.of(Shift.CodriverDebug),
-            // EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> new IntakeFixerTask(),
             new IOperation[]
