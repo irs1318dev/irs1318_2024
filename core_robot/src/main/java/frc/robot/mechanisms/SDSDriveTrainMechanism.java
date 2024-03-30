@@ -412,6 +412,9 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.logger.logNumber(SDSDriveTrainMechanism.ENCODER_ANGLE_LOGGING_KEYS[i], this.encoderAngles[i]);
         }
 
+        
+        
+
         double prevYaw = this.robotYaw;
         double prevTime = this.time;
         this.robotYaw = this.imuManager.getYaw();
@@ -423,37 +426,44 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
             this.deltaT = 0.001;
         }
 
+        // if (TuningConstants.SDSDRIVETRAIN_USE_ODOMETRY)
+        // {
+        //     double deltaImuYaw = (this.robotYaw - prevYaw) / this.deltaT;
+
+        //     Double absoluteRobotX = this.visionManager.getAbsolutePositionX();
+        //     Double absoluteRobotY = this.visionManager.getAbsolutePositionY();
+
+        //     if (absoluteRobotX != null && absoluteRobotY != null && TuningConstants.SDSDRIVETRAIN_USE_VISION)
+        //     {
+        //         if (Helpers.RoughEquals(absoluteRobotX, xPosition, TuningConstants.VISION_ODOMETRY_ACCURACY_TRESHOLD_RANGE) && 
+        //         Helpers.RoughEquals(absoluteRobotY, yPosition, TuningConstants.VISION_ODOMETRY_ACCURACY_TRESHOLD_RANGE) &&
+        //         Math.abs(absoluteRobotX) <= HardwareConstants.FIELD_HALF_WIDTH_X && 
+        //         Math.abs(absoluteRobotY) <= HardwareConstants.FIELD_LENGTH_Y)
+        //         {
+        //             xPosition = absoluteRobotX;
+        //             yPosition = absoluteRobotY;
+        //         }
+        //         else
+        //         {
+        //             this.calculateOdometry(deltaImuYaw);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         this.calculateOdometry(deltaImuYaw);
+        //     }
+        // }
+
         if (TuningConstants.SDSDRIVETRAIN_USE_ODOMETRY)
         {
             double deltaImuYaw = (this.robotYaw - prevYaw) / this.deltaT;
-
-            Double absoluteRobotX = this.visionManager.getAbsolutePositionX();
-            Double absoluteRobotY = this.visionManager.getAbsolutePositionY();
-
-            if (absoluteRobotX != null && absoluteRobotY != null && TuningConstants.SDSDRIVETRAIN_USE_VISION)
-            {
-                if (Helpers.RoughEquals(absoluteRobotX, xPosition, TuningConstants.VISION_ODOMETRY_ACCURACY_TRESHOLD_RANGE) && 
-                Helpers.RoughEquals(absoluteRobotY, yPosition, TuningConstants.VISION_ODOMETRY_ACCURACY_TRESHOLD_RANGE) &&
-                Math.abs(absoluteRobotX) <= HardwareConstants.FIELD_HALF_WIDTH_X && 
-                Math.abs(absoluteRobotY) <= HardwareConstants.FIELD_LENGTH_Y)
-                {
-                    xPosition = absoluteRobotX;
-                    yPosition = absoluteRobotY;
-                }
-                else
-                {
-                    this.calculateOdometry(deltaImuYaw);
-                }
-            }
-            else
-            {
-                this.calculateOdometry(deltaImuYaw);
-            }
-                
-            this.logger.logNumber(LoggingKey.DriveTrainXPosition, this.xPosition);
-            this.logger.logNumber(LoggingKey.DriveTrainYPosition, this.yPosition);
-            this.logger.logNumber(LoggingKey.DriveTrainAngle, this.angle);
+            this.calculateOdometry(deltaImuYaw);
         }
+
+                
+        this.logger.logNumber(LoggingKey.DriveTrainXPosition, this.xPosition);
+        this.logger.logNumber(LoggingKey.DriveTrainYPosition, this.yPosition);
+        this.logger.logNumber(LoggingKey.DriveTrainAngle, this.angle);
     }
 
     @Override
