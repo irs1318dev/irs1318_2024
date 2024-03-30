@@ -104,5 +104,12 @@ public class HardwareConstants
     public static final double SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE = 1.0;
     public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
 
-    public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;
+    public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;  
+
+    //=============================================== Field =====================================================================//
+    public static final double FIELD_WIDTH_X = 653.0;
+    public static final double FIELD_HALF_WIDTH_X = FIELD_WIDTH_X / 2.0;
+    public static final double FIELD_LENGTH_Y = 323.0;
+
+
 }

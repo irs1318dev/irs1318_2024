@@ -57,6 +57,8 @@ public class TuningConstants
     public static final double POWER_OVERCURREHT_HIGH_THRESHOLD = 180.0;
 
     //================================================= Macros/Vision ======================================================
+    public static final double VISION_ODOMETRY_ACCURACY_TRESHOLD_RANGE = 30;
+    public static final boolean SDSDRIVETRAIN_USE_VISION = true;
 
     //=========================================== 2024 AprilTag Location guide ==============================================
     //// | TAG                                 |  ID  |    X    |    Y    |   Z    | THETA |
@@ -925,7 +927,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
     public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
+    public static final double CLIMBER_WINCH_DOWN_POWER = TuningConstants.COMPETITION_ROBOT ? -0.75 : 0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
@@ -980,6 +982,7 @@ public class TuningConstants
 
     public static final double SHOOT_VISION_SPEED = 4000;
     public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
+    public static final int SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD = 100;
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 
     public static final double SHOOT_VISION_FLYWHEEL_VELOCITY_ACCURACY_THRESHOLD = 2.0;

@@ -65,6 +65,14 @@ public class DriverFeedbackManager implements IMechanism
         RobotMode currentMode = this.ds.getMode();
         boolean isCurrentLimiting = this.powerMan.getCurrentLimitingValue() != CurrentLimiting.Normal;
 
+        if (mode == RobotMode.Teleop)
+        {
+            if(ds.getMatchTime() <= 30)
+            {
+                this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
+            }
+        }
+
         if (mode == RobotMode.Teleop || mode == RobotMode.Test)
         {
             double now = this.timer.get();
