@@ -424,10 +424,10 @@ public class TuningConstants
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
 
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
 
     public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MAX_VELOCITY; // (RPM)
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KP : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP;
