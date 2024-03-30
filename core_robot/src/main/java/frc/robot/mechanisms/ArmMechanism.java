@@ -40,6 +40,7 @@ public class ArmMechanism implements IMechanism
         OutOfRange, // Shoulder is raised, or wrist is inside of the frame perimeter.
         WristOutIntaking, // Wrist is outside of the frame perimeter, and the EndEffector is intaking.
         WristOutFlywheelSpinning, // Wrist is outside the frame perimeter, shooter flywheels are spinning.
+        WristOutOuttaking, // Wrist is outside frame perimeter, outaking into trap or amp.
         WristOutWaiting, // Wrist is outside of the frame perimeter, we last intaked/spun the flywheels at a certain recorded time.
         RetractingWrist, // Wrist is currently being retracted to inside the frame perimeter
     }
@@ -668,6 +669,18 @@ public class ArmMechanism implements IMechanism
                         else if (this.endEffectorMechanism.hasGamePiece())
                         {
                             this.currWristProtectionState = ArmProtectionState.RetractingWrist;
+                        }
+                        else
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                        }
+
+                        break;
+
+                    case WristOutOuttaking:
+                        if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.lastWristActionTime = currTime;
                         }
                         else
                         {
