@@ -68,7 +68,7 @@ public class DriverFeedbackManager implements IMechanism
         {
             if (this.ds.isFMSMode() && this.ds.getMatchTime() <= TuningConstants.ENDGAME_RUMBLE)
             {
-                this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
+                this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.25);
             }
         }
 
