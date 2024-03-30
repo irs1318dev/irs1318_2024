@@ -44,8 +44,8 @@ public enum MacroOperation implements IOperation
     TrapCombo,
 
     // Vision operations
-    VisionTest,
-    VisionMasterTest,
+    VisionShootAim,
+    VisionAbsoluteShootAim,
 
     // Trap
     AutoTrapScore,

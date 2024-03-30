@@ -424,10 +424,10 @@ public class TuningConstants
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
     public static final boolean NEAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean NEAR_SHOOTER_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
 
     public static final boolean FAR_SHOOTER_MOTOR_INVERT_SENSOR = false;
-    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = false;
+    public static final boolean FAR_SHOOTER_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? false : true;
 
     public static final double SHOOTER_NEAR_FLYWHEEL_MAX_VELOCITY = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MAX_VELOCITY : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MAX_VELOCITY; // (RPM)
     public static final double SHOOTER_NEAR_FLYWHEEL_MOTOR_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.SHOOTER_NEAR_FLYWHEEL_COMP_MOTOR_PID_KP : TuningConstants.SHOOTER_NEAR_FLYWHEEL_PRACTICE_MOTOR_PID_KP;
@@ -925,7 +925,7 @@ public class TuningConstants
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
     public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
     
-    public static final double CLIMBER_WINCH_DOWN_POWER = -0.75;
+    public static final double CLIMBER_WINCH_DOWN_POWER = TuningConstants.COMPETITION_ROBOT ? -0.75 : 0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
 
     public static final double CLIMBER_SERVO_UP_POSITION = 0.0;
