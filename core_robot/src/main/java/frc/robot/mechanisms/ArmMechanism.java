@@ -637,34 +637,62 @@ public class ArmMechanism implements IMechanism
             // ------------------------ Arm Automatic Wrist Protection ---------------------------- //
             if (TuningConstants.ARM_USE_WRIST_PROTECTION)
             {
+                System.out.println(currWristProtectionState);
                 switch (this.currWristProtectionState)
                 {
                     case OutOfRange:
-                        // TODO: compare our actual position - switch to WristOutWaiting when the wrist is "out" (angle > some value).
-                        // Also, if the end-effector is intaking or the flywheel is being commanded, we should go into WristOutIntaking or WristOutFlywheelSpinning instead
-                        this.lastWristActionTime = currTime;
-                        if(this.endEffectorMechanism.isFlywheelSpunUp())
+                        if (Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) &&
+                            this.wristPosition > TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
                         {
-                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                            this.lastWristActionTime = currTime;
+                            if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                                !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                            {
+                                this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                            }
+                            else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                            {
+                                this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+                            }
+                            else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                            {
+                                this.currWristProtectionState = ArmProtectionState.WristOutOuttaking;
+                            }
+                            else
+                            {
+                                this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                            }
                         }
-                        else if(this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
-                        {
-                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
-                        }
-                        else if(this.wristPosition > TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
-                        {
-                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
-                        }
+
                         break;
 
                     case WristOutIntaking:
-                        if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        if (!Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) ||
+                            this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
                         {
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;                            
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutOuttaking;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
                             this.lastWristActionTime = currTime;
                         }
                         else if (this.endEffectorMechanism.hasGamePiece())
                         {
                             this.currWristProtectionState = ArmProtectionState.RetractingWrist;
+
+                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK;
+                            this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
                         else
                         {
@@ -674,8 +702,24 @@ public class ArmMechanism implements IMechanism
                         break;
 
                     case WristOutOuttaking:
-                        if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        if (!Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) ||
+                            this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
                         {
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;                            
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
                             this.lastWristActionTime = currTime;
                         }
                         else
@@ -686,9 +730,24 @@ public class ArmMechanism implements IMechanism
                         break;
 
                     case WristOutFlywheelSpinning:
-                        if (Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
-                            Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        if (!Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) ||
+                            this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
                         {
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;                            
+                        }
+                        else if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutOuttaking;
                             this.lastWristActionTime = currTime;
                         }
                         else
@@ -699,29 +758,63 @@ public class ArmMechanism implements IMechanism
                         break;
 
                     case WristOutWaiting:
-                        // TODO: if the flywheel starts spinning again or the driver starts intaking again, we should switch back into WristOutFlywheelSpinning/WristOutIntaking respectively
-                        if (currTime > this.lastWristActionTime + TuningConstants.ARM_WRIST_PROTECTION_EXTEND_TIMEOUT)
+                        if (!Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) ||
+                            this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;                            
+                        }
+                        else if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutOuttaking;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (currTime > this.lastWristActionTime + TuningConstants.ARM_WRIST_PROTECTION_EXTEND_TIMEOUT)
                         {
                             this.currWristProtectionState = ArmProtectionState.RetractingWrist;
 
                             this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK;
                             this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
-                        else if(this.endEffectorMechanism.isFlywheelSpunUp())
-                        {
-                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
-                        }
-                        else if(this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
-                        {
-                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
-                        }
 
                         break;
 
                     case RetractingWrist:
-                        if (this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET) // TODO: compare our actual position - we should switch to "out of range" when the wrist is no longer "out" (angle > some value), or shoulder not in starting configuration
+                        if (!Helpers.RoughEquals(this.shoulderPosition, TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, 1.5) ||
+                            this.wristPosition < TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
                         {
-                            this.currWristProtectionState = ArmProtectionState.OutOfRange;
+                            this.currWristProtectionState = ArmProtectionState.OutOfRange;                            
+                        }
+                        else if (this.desiredWristPosition > TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutWaiting;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (!Helpers.RoughEquals(this.endEffectorMechanism.getFarFlywheelSetpoint(), 0.0) ||
+                            !Helpers.RoughEquals(this.endEffectorMechanism.getNearFlywheelSetpoint(), 0.0))
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
+                            this.lastWristActionTime = currTime;
+                        }
+                        else if (this.endEffectorMechanism.getEndEffectorState() == EffectorState.Outtaking)
+                        {
+                            this.currWristProtectionState = ArmProtectionState.WristOutOuttaking;
+                            this.lastWristActionTime = currTime;
                         }
 
                         break;
