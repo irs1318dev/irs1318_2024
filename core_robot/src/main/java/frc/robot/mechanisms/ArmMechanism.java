@@ -124,6 +124,7 @@ public class ArmMechanism implements IMechanism
     private JumpProtectionReason updateCurrShoulderPosition;
 
     private boolean useThroughBoreEncoders;
+    private boolean useArmProtection;
 
     private ArmProtectionState currWristProtectionState;
     private double lastWristActionTime;
@@ -303,6 +304,7 @@ public class ArmMechanism implements IMechanism
         this.lastLegalWristPosition = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
         this.useThroughBoreEncoders = TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET || TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET;
+        this.useArmProtection = TuningConstants.ARM_USE_WRIST_PROTECTION;
         this.wasEnabled = false;
     }
 
@@ -390,6 +392,15 @@ public class ArmMechanism implements IMechanism
         else if (this.driver.getDigital(DigitalOperation.ArmDisableThroughBore))
         {
             this.useThroughBoreEncoders = false;
+        }
+
+        if (this.driver.getDigital(DigitalOperation.ArmEnableProtection))
+        {
+            this.useArmProtection = true;
+        }
+        else if (this.driver.getDigital(DigitalOperation.ArmDisableProtection))
+        {
+            this.useArmProtection = false;
         }
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
@@ -639,7 +650,7 @@ public class ArmMechanism implements IMechanism
             }
 
             // ------------------------ Arm Automatic Wrist Protection ---------------------------- //
-            if (TuningConstants.ARM_USE_WRIST_PROTECTION)
+            if (TuningConstants.ARM_USE_WRIST_PROTECTION && this.useArmProtection)
             {
                 this.logger.logString(LoggingKey.ArmProtectionState, this.currWristProtectionState.toString());
                 switch (this.currWristProtectionState)
