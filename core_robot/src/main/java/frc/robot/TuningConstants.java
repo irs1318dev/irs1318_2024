@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static final boolean USE_ADVANTAGE_KIT = true;
     public static final boolean RETREIVE_PDH_FIRST = true;
     public static boolean THROW_EXCEPTIONS = false;
