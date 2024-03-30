@@ -646,14 +646,12 @@ public class ArmMechanism implements IMechanism
                         {
                             this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
 
-                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT;
                             this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
                         else if(this.endEffectorMechanism.getEndEffectorState() == EffectorState.Intaking)
                         {
                             this.currWristProtectionState = ArmProtectionState.WristOutIntaking;
 
-                            this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
                             this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
                         else if(this.wristPosition > TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK + TuningConstants.ARM_WRIST_PROTECTION_OFFSET)
