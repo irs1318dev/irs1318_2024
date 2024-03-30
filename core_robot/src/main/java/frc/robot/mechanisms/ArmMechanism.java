@@ -643,7 +643,7 @@ public class ArmMechanism implements IMechanism
                         // TODO: compare our actual position - switch to WristOutWaiting when the wrist is "out" (angle > some value).
                         // Also, if the end-effector is intaking or the flywheel is being commanded, we should go into WristOutIntaking or WristOutFlywheelSpinning instead
                         this.lastWristActionTime = currTime;
-                        if(this.endEffectorMechanism.isFlywheelSpunUp)
+                        if(this.endEffectorMechanism.isFlywheelSpunUp())
                         {
                             this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
                         }
@@ -707,7 +707,7 @@ public class ArmMechanism implements IMechanism
                             this.desiredWristPosition = TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK;
                             this.updateCurrWristPosition = JumpProtectionReason.PositionChange;
                         }
-                        else if(this.endEffectorMechanism.isFlywheelSpunUp)
+                        else if(this.endEffectorMechanism.isFlywheelSpunUp())
                         {
                             this.currWristProtectionState = ArmProtectionState.WristOutFlywheelSpinning;
                         }
