@@ -2,7 +2,7 @@ package frc.lib.filters;
 
 import frc.lib.robotprovider.ITimer;
 
-public class FloatingAverageCalculator
+public class FloatingAverageCalculator implements ISimpleFilter
 {
     private final ITimer timer;
 
@@ -31,6 +31,8 @@ public class FloatingAverageCalculator
 
         this.totalSamples = (int)(this.duration * this.samplesPerSecond);
         this.samples = new double[this.totalSamples];
+
+        this.reset();
     }
 
     /*
@@ -46,7 +48,15 @@ public class FloatingAverageCalculator
         int slots = currIndex - prevIndex + 1;
         if (slots < 0)
         {
+            // wrap around the end of the samples array
             slots += this.totalSamples;
+        }
+
+        if (this.prevTime < 0.0)
+        {
+            prevIndex = 0;
+            currIndex = 0;
+            slots = this.totalSamples + 1;
         }
 
         for (int i = 1; i < slots; i++)
@@ -61,8 +71,14 @@ public class FloatingAverageCalculator
         return this.floatingAverage;
     }
 
+    public double getValue()
+    {
+        return this.floatingAverage;
+    }
+
     public void reset()
     {
+        this.prevTime = -1.0;
         this.floatingAverage = 0.0;
         for (int i = 0; i < this.totalSamples; i++)
         {

@@ -1,6 +1,6 @@
 package frc.lib.filters;
 
-public class ComplementaryFilter
+public class ComplementaryFilter implements ISimpleFilter
 {
     private final double kO;
     private final double kN;

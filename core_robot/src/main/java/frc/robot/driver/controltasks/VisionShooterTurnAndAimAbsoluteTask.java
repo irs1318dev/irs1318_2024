@@ -2,10 +2,14 @@ package frc.robot.driver.controltasks;
 import java.util.Optional;
 
 import frc.lib.driver.IControlTask;
+import frc.lib.filters.ComplementaryFilter;
+import frc.lib.filters.FloatingAverageCalculator;
+import frc.lib.filters.ISimpleFilter;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.LinearInterpolator;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -29,6 +33,9 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
 
     private final LinearInterpolator angleLinterp;
     private final LinearInterpolator velocityLinterp;
+
+    private ISimpleFilter visionAbsXFilter;
+    private ISimpleFilter visionAbsYFilter;
 
     private OffboardVisionManager vision;
     private ArmMechanism arm;
@@ -68,6 +75,10 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
     {
         super.begin();
 
+        ITimer timer = this.getInjector().getInstance(ITimer.class);
+        this.visionAbsXFilter = new FloatingAverageCalculator(timer, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
+        this.visionAbsYFilter = new FloatingAverageCalculator(timer, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
+
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
         this.driveTrain = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
@@ -97,9 +108,12 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
             this.absoluteSpeakerX = TuningConstants.APRILTAG_BLUE_SPEAKER_X_POSITION;
             this.absoluteSpeakerY = TuningConstants.APRILTAG_BLUE_SPEAKER_Y_POSITION;
         }
+
+        this.visionAbsXFilter.reset();
+        this.visionAbsYFilter.reset();
     }
 
-    @Override 
+    @Override
     public void update()
     {
         Double absoluteRobotX = this.vision.getAbsolutePositionX();
@@ -121,8 +135,13 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
             if (!this.hasEverSeenTarget ||
                 (this.skippedUpdates % VisionShooterTurnAndAimAbsoluteTask.NUM_UPDATES_TO_SKIP) == 0)
             {
-                this.visionAbsX = absoluteRobotX;
-                this.visionAbsY = absoluteRobotY;
+                this.visionAbsX = this.visionAbsXFilter.update(absoluteRobotX);
+                this.visionAbsY = this.visionAbsYFilter.update(absoluteRobotY);
+                if (!this.hasEverSeenTarget)
+                {
+                    this.visionAbsX = absoluteRobotX;
+                    this.visionAbsY = absoluteRobotY;
+                }
 
                 this.dtStartingX = dtX;
                 this.dtStartingY = dtY;
@@ -156,6 +175,9 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
             }
             else
             {
+                this.visionAbsXFilter.update(absoluteRobotX);
+                this.visionAbsYFilter.update(absoluteRobotY);
+
                 this.skippedUpdates++;
                 recalculateOdometry = true;
             }
