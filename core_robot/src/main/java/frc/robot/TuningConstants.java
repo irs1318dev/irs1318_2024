@@ -541,7 +541,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 29.5 : 37.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 20.472297748769293 : 28.634967803955078;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.5 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
@@ -698,7 +698,7 @@ public class TuningConstants
     public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_WRIST_PROTECTION = true;
 
-    public static final double ARM_WRIST_PROTECTION_EXTEND_TIMEOUT = 1.0; // how long we should spend with the wrist out before retracting it when using wrist protection
+    public static final double ARM_WRIST_PROTECTION_EXTEND_TIMEOUT = 2.0; // how long we should spend with the wrist out before retracting it when using wrist protection
     public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
@@ -943,29 +943,25 @@ public class TuningConstants
     // Distances that shot samples were captured from
     public static final double[] SHOOT_VISION_SAMPLE_DISTANCES =
         {
-            -54,
-            -63.5,
-            -74.0,
-            -90.0,
-            -98.0,
-            -105.0,
-            -117.0,
-            -128.0,
-            -135.0,
+            51,
+            65,
+            75,
+            85,
+            95,
+            105,
+            115,
         };
 
     // angles where successful shots were made at the given velocity and location
     public static final double[] SHOOT_VISION_SAMPLE_ANGLES =
         {
-            20.5,
-            19.354788811169144,
-            13.374019471826017,
-            11.565879904117615,
-            9.0,
-            7.088995878301198,
-            4.915751205574793,
-            3.533567593720811,
-            2.85850910326311,
+            21.09642896474634,
+            16,
+            13.5,
+            10.5,
+            6.5,
+            6.5,
+            5.5,
         };
 
     // velocities where successful shots were made at the given angle and location
@@ -976,10 +972,8 @@ public class TuningConstants
             3800.0,
             3800.0,
             3800.0,
-            3800.0,
-            3800.0,
-            3800.0,
-            3800.0,
+            4000.0,
+            4000.0,
         };
 
     public static final double SHOOT_VISION_SPEED = 4000;
