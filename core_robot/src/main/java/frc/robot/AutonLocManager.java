@@ -44,8 +44,11 @@ public class AutonLocManager
     public Point2d P17;
     public Point2d P18;
     public Point2d P19;
+    public Point2d P19S;
     public Point2d P20;
     public Point2d P21;
+    public Point2d PSNK1;
+    public Point2d PSNK2;
     public Point2d C1;
     public Point2d C2;
     public Point2d C3;
@@ -127,8 +130,13 @@ public class AutonLocManager
         this.P17 = new Point2d(AutonLocManager.getXPosition(this.isRed, 172.955),  231.777 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER);
         this.P18 = new Point2d(AutonLocManager.getXPosition(this.isRed, 115 + 21 + HardwareConstants.ROBOT_HALF_FRAME_PERIMETER), 162);
         this.P19 = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 57); // 107
-        this.P20 = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 217);
+        this.P19S = new Point2d(AutonLocManager.getXPosition(this.isRed, 204), 107);
+        this.P20 = new Point2d(AutonLocManager.getXPosition(this.isRed, 190), 217);
         this.P21 = new Point2d(AutonLocManager.getXPosition(this.isRed, 72), 0);
+
+        // Points for sneaking
+        this.PSNK1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 235), 310.0);
+        this.PSNK2 = new Point2d(AutonLocManager.getXPosition(this.isRed, 173), 310.0);
 
         //Climber
         this.C1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 1318), 1318);

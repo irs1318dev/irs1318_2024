@@ -172,6 +172,10 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.quickTuck,
             ArmKinematicsCalculator.startingConfiguration,
             TuningConstants.QUICK_TUCK_AND_STARTING_CONFIGURATION_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.GROUND_SHOT_AND_QUICK_TUCK_WEIGHT);
         
 
         // links between each of the upper-universal node combinations

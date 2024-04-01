@@ -405,8 +405,9 @@ public class TuningConstants
     public static final double SDSDRIVETRAIN_MAX_MODULE_PATH_VELOCITY = 0.85 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // up to x% of our max controllable speed
     public static final double SDSDRIVETRAIN_MAX_PATH_TURN_VELOCITY = 180.0; // in degrees per second
     public static final double SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY = 0.60 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second
-    public static final double SDSDRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_VELOCITY = 0.75 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second
-    public static final double SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION = 0.75 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second per second
+    public static final double SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION = 0.60 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second per second
+    public static final double SDSDRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_VELOCITY = 0.80 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second
+    public static final double SDSDRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_ACCELERATION = 0.80 * TuningConstants.SDSDRIVETRAIN_MAX_VELOCITY; // in inches per second per second
     public static final double SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY = 0.60 * TuningConstants.SDSDRIVETRAIN_MAX_PATH_TURN_VELOCITY; // in degrees per second
     public static final double SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION = 0.75 * TuningConstants.SDSDRIVETRAIN_MAX_PATH_TURN_VELOCITY; // in degrees per second per second
     public static final double SDSDRIVETRAIN_MID_PATH_TRANSLATIONAL_VELOCITY = TuningConstants.SDSDRIVETRAIN_MAX_PATH_TRANSLATIONAL_VELOCITY / 1.4; // in inches per second
@@ -551,6 +552,9 @@ public class TuningConstants
     public static final double ARM_WRIST_AUTO_P5_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P5M_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
+    public static final double ARM_WRIST_AUTO_P19S_SHOT = 11.0;
+    public static final double ARM_WRIST_AUTO_P17_SHOT = 11.0;
+    
 
     //Postion for going slightly out before a arm reset task, to gain momentum past limit switches
     public static final double ARM_WRIST_POSITION_MINOR_TILT = 10 + ARM_WRIST_POSITION_STARTING_CONFIGURATION;
@@ -674,6 +678,7 @@ public class TuningConstants
     // Quick Amp Stuff
     public static final double GROUND_PICKUP_AND_QUICK_TUCK_WEIGHT = 0.6;
     public static final double QUICK_TUCK_AND_AMP_OUTTAKE_WEIGHT = 0.3;
+    public static final double GROUND_SHOT_AND_QUICK_TUCK_WEIGHT = 0.55;
 
     // -------------------------------------------> END OF WEIGHTS <---------------------------------------------
 
