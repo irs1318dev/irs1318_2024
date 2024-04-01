@@ -927,7 +927,7 @@ public class TuningConstants
 
     public static final boolean CLIMBER_MOTOR_INVERT_OUTPUT = false;
     public static final boolean CLIMBER_MOTOR_FOLLOWER_INVERT_OUTPUT = true;
-    public static final boolean USE_CLIMBER_LIMIT_SWITCH = false;
+    public static final boolean USE_CLIMBER_LIMIT_SWITCH = true;
     
     public static final double CLIMBER_WINCH_DOWN_POWER = TuningConstants.COMPETITION_ROBOT ? -0.75 : 0.75;
     //public static final double CLIMBER_WINCH_DOWN_POWER = -0.5;
@@ -937,6 +937,19 @@ public class TuningConstants
 
     public static final double CLIMBER_FULL_EXTEND_TIME = -1318; // in seconds
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
+
+    // Climb and Trap Shooting Constants
+    public static final double CLIMBER_TRAP_ALIGN_X_OFFSET = 30.0;
+    public static final double CLIMBER_TRAP_ALIGN_Y_OFFSET = 0.0;
+    public static final double CLIMBER_MOVE_DISTANCE_AFTER_ALIGN = 10.0;
+    public static final double CLIMBER_SHOULDER_POSITION_AFTER_CLIMB = -10.0;
+    public static final double CLIMBER_WRIST_POSITION_AFTER_CLIMB = -80.0;
+    public static final double CLIMBER_SHOULDER_REACH_TRAP_POSITION = 30.0;
+    public static final double CLIMBER_WRIST_REACH_TRAP_POSITION = -30.0;
+    public static final double CLIMBER_INTAKE_OUT_TIMEOUT = 3.0;
+    public static final boolean CLIMBER_INTAKE_IN = false;
+
+
 
     //=================================================== Lookup-Table Shooter ==================================================
  
