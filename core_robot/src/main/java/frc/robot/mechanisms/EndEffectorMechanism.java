@@ -2,6 +2,7 @@ package frc.robot.mechanisms;
 
 import frc.robot.*;
 import frc.lib.driver.*;
+import frc.lib.filters.BooleanThresholdFilter;
 import frc.lib.mechanisms.*;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.*;
@@ -24,6 +25,8 @@ public class EndEffectorMechanism implements IMechanism
     private final ISparkMax farFlywheelMotor;
 
     private final IAnalogInput throughBeamSensor;
+
+    private final BooleanThresholdFilter throughBeamFilter;
 
     private double intakeMotorVelocity;
 
@@ -115,6 +118,7 @@ public class EndEffectorMechanism implements IMechanism
 
         // THROUGH BEAM
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
+        this.throughBeamFilter = new BooleanThresholdFilter(3);
 
         this.useShootAnywayMode = false;
         this.useIntakeForceSpin = false;
@@ -147,7 +151,7 @@ public class EndEffectorMechanism implements IMechanism
 
         this.logger.logBoolean(LoggingKey.ShooterSpunUp, this.isFlywheelSpunUp());
         this.throughBeamSensorValue = this.throughBeamSensor.getVoltage();
-        this.throughBeamBroken = this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF;
+        this.throughBeamBroken = this.throughBeamFilter.update(this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF);
 
         this.logger.logNumber(LoggingKey.IntakeThroughBeamSensorValue, this.throughBeamSensorValue);
         this.logger.logBoolean(LoggingKey.IntakeThroughBeamBroken, this.throughBeamBroken);
@@ -156,6 +160,15 @@ public class EndEffectorMechanism implements IMechanism
     @Override
     public void update(RobotMode mode)
     {
+        if (mode == RobotMode.Autonomous)
+        {
+            this.throughBeamFilter.setThreshold(3);
+        }
+        else
+        {
+            this.throughBeamFilter.setThreshold(0);
+        }
+
         double currTime = this.timer.get();
 
         // FLYWHEEL LOGIC

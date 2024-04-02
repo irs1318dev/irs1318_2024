@@ -13,6 +13,7 @@ public enum MacroOperation implements IOperation
     FaceBackward,
     FaceLeft,
     FaceRight,
+    FaceSource,
     AlignStage,
     AlignAmp,
 

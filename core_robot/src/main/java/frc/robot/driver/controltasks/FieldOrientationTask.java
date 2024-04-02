@@ -15,6 +15,7 @@ public class FieldOrientationTask extends UpdateCycleTask
     public enum DesiredOrientation
     {
         Amp,
+        Source,
     }
 
     private final boolean waitUntilGoalReached;
@@ -58,6 +59,10 @@ public class FieldOrientationTask extends UpdateCycleTask
         {
             case Amp:
                 this.desiredYaw = isRed ? -90.0 : 90.0;
+                break;
+
+            case Source:
+                this.desiredYaw = isRed ? 40.0 : -40.0;
                 break;
 
             default:

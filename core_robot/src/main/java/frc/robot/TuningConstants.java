@@ -553,7 +553,7 @@ public class TuningConstants
     public static final double ARM_WRIST_AUTO_P5M_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P7_SHOT = 16.201045989990234;
     public static final double ARM_WRIST_AUTO_P19S_SHOT = 11.0;
-    public static final double ARM_WRIST_AUTO_P17_SHOT = 11.0;
+    public static final double ARM_WRIST_AUTO_P17_SHOT = 7.0;
     
 
     //Postion for going slightly out before a arm reset task, to gain momentum past limit switches
@@ -707,7 +707,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 20.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 30.0;
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
@@ -944,7 +944,7 @@ public class TuningConstants
     public static final double CLIMBER_FULL_RETRACT_TIME = -1318; // in seconds
 
     // Climb and Trap Shooting Constants
-    public static final double CLIMBER_TRAP_ALIGN_X_OFFSET = 30.0;
+    public static final double CLIMBER_TRAP_ALIGN_X_OFFSET = 40.0;
     public static final double CLIMBER_TRAP_ALIGN_Y_OFFSET = 0.0;
     public static final double CLIMBER_MOVE_DISTANCE_AFTER_ALIGN = 10.0;
     public static final double CLIMBER_SHOULDER_POSITION_AFTER_CLIMB = -10.0;
