@@ -115,8 +115,8 @@ public class AutonLocManager
         this.P9M = new Point2d(AutonLocManager.getXPosition(this.isRed, 10 /*p9 */ + 20), 65.64);
         this.P10 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 161.64);
         this.P10M = new Point2d(AutonLocManager.getXPosition(this.isRed, 0 /*p10*/ + 20), 161.64);
-        this.P11 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 231.64);
-        this.P11M = new Point2d(AutonLocManager.getXPosition(this.isRed, 0 /*p11 */ + 20), 231.64);
+        this.P11 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 237.64);
+        this.P11M = new Point2d(AutonLocManager.getXPosition(this.isRed, 0 /*p11 */ + 20), 237.64);
         this.P12 = new Point2d(AutonLocManager.getXPosition(this.isRed, 0), 283.64);
         this.P12M = new Point2d(AutonLocManager.getXPosition(this.isRed, 0 + /*p12 */ 20), 283.64);
 

@@ -6,6 +6,7 @@ import frc.lib.robotprovider.*;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
 import frc.lib.driver.descriptions.UserInputDevice;
+import frc.lib.helpers.Helpers;
 import frc.robot.mechanisms.PowerManager.CurrentLimiting;
 
 import com.google.inject.Inject;
@@ -66,7 +67,8 @@ public class DriverFeedbackManager implements IMechanism
 
         if (mode == RobotMode.Teleop)
         {
-            if (this.ds.isFMSMode() && this.ds.getMatchTime() <= TuningConstants.ENDGAME_RUMBLE)
+            if (this.ds.isFMSMode() &&
+                Helpers.WithinRange(this.ds.getMatchTime(), TuningConstants.ENDGAME_RUMBLE - 3.0, TuningConstants.ENDGAME_RUMBLE))
             {
                 this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.25);
             }

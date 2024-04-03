@@ -91,7 +91,7 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
     @Override
     protected Double getHorizontalAngle()
     {
-        double pigeonYaw = this.pigeonManager.getYaw();
+        double pigeonYaw = this.pigeonManager.getYaw() + (this.pigeonManager.getAllianceSwapForward() ? 180.0 : 0.0);
         if (this.ultimateYawAngle == null)
         {
             Double angle;

@@ -12,58 +12,17 @@ import frc.robot.mechanisms.OffboardVisionManager;
 
 public class VisionShooterAimLinterpTask extends ControlTaskBase
 {
-    public static IControlTask createShootMacroTask(boolean continuous)
+    public static IControlTask createShootMacroTask()
     {
-        if (continuous)
-        {
-            return 
-                SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    ConcurrentTask.AllTasks(
-                        new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                        new VisionShooterAimLinterpTask(false)),
-                    ConcurrentTask.AnyTasks(
-                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                        new VisionShooterAimLinterpTask(true)));
-        }
-
-        return ConcurrentTask.AnyTasks(
-            new RumbleTask(),
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
+        return 
             SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                new VisionShooterAimLinterpTask(false))));
-    }
-
-    public static IControlTask createFullShootMacroTask(boolean continuous)
-    {
-        if (continuous)
-        {
-            return ConcurrentTask.AnyTasks(
-                new RumbleTask(),
-                new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
-                SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    ConcurrentTask.AllTasks(
-                        new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                        new VisionShooterAimLinterpTask(false)),
-                    ConcurrentTask.AnyTasks(
-                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                        new VisionShooterAimLinterpTask(true),
-                        new FeedRingTask(true, 5.0))));
-        }
-
-        return ConcurrentTask.AnyTasks(
-            new RumbleTask(),
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
-            SequentialTask.Sequence(
-                ConcurrentTask.AllTasks(
-                    new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                new VisionShooterAimLinterpTask(false),
-                new FeedRingTask(true, 5.0))));
+                    new VisionShooterAimLinterpTask(false)),
+                ConcurrentTask.AnyTasks(
+                    new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
+                    new VisionShooterAimLinterpTask(true)));
     }
 
     private enum State

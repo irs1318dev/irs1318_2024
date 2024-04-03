@@ -66,7 +66,6 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
-        this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, true);
     }
 
     /**
@@ -93,7 +92,6 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
-        this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, false);
     }
 
     /**
