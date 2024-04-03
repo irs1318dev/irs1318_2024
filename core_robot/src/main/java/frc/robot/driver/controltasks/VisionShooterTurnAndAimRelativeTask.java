@@ -7,6 +7,7 @@ import frc.lib.filters.FadingMemoryFilter;
 import frc.lib.filters.FloatingAverageCalculator;
 import frc.lib.filters.ISimpleFilter;
 import frc.lib.helpers.Helpers;
+import frc.lib.helpers.ImmutablePair;
 import frc.lib.helpers.LinearInterpolator;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
@@ -37,6 +38,7 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
 
     private ISimpleFilter visionRelXFilter;
     private ISimpleFilter visionRelYFilter;
+    private ISimpleFilter visionRelYawFilter;
 
     private OffboardVisionManager visionManager;
     private ArmMechanism armMechanism;
@@ -67,6 +69,7 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         // ITimer timer = this.getInjector().getInstance(ITimer.class);
         this.visionRelXFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
         this.visionRelYFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
+        this.visionRelYawFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
@@ -98,9 +101,10 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         // Note: we want to point toward the AprilTag, not match its yaw (make ourselves parallel to it), so we can use the fact that tan(angle) = opposite / adjacent
         Double xOffset = this.visionManager.getAprilTagXOffset();
         Double yOffset = this.visionManager.getAprilTagYOffset();
+        Double yaw = this.visionManager.getAprilTagYaw();
         Integer tagId = this.visionManager.getAprilTagId();
 
-        if (xOffset == null || yOffset == null || tagId == null)
+        if (xOffset == null || yOffset == null || yaw == null || tagId == null)
         {
             // for continuous turning - don't keep turning unless we still see the AprilTag
             this.turnAngle = null;
@@ -112,25 +116,27 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
             xOffset = this.visionRelXFilter.update(xOffset); // filter the data to avoid excessive noise
             yOffset = this.visionRelYFilter.update(yOffset); // filter the data to avoid excessive noise
 
-            if (TuningConstants.SHOOT_VISION_RELATIVE_FIND_OFFCENTER_TAG)
+            double goalAngle;
+            double goalDistance;
+            if (TuningConstants.SHOOT_VISION_RELATIVE_FIND_OFFCENTER_TAG &&
+                (tagId == TuningConstants.APRILTAG_RED_SPEAKER_OFFCENTER_ID || tagId == TuningConstants.APRILTAG_BLUE_SPEAKER_OFFCENTER_ID))
             {
-                if (this.isRedAlliance && tagId == TuningConstants.APRILTAG_RED_SPEAKER_OFFCENTER_ID)
-                {
-                    // TODO: aim 24" to the left of this april tag!
-                }
-                else if (!this.isRedAlliance && tagId == TuningConstants.APRILTAG_BLUE_SPEAKER_OFFCENTER_ID)
-                {
-                    // TODO: aim 24" to the right of this april tag!
-                }
+                // aim 24" left or right from this april tag
+                ImmutablePair<Double, Double> goal = VisionShooterTurnAndAimRelativeTask.calculateOffsetAngle(this.isRedAlliance, xOffset, yOffset, yaw);
+                goalDistance = goal.first;
+                goalAngle = goal.second;
+            }
+            else
+            {
+                goalAngle = Helpers.atan2d(yOffset, xOffset);
+                goalDistance = Math.sqrt(xOffset * xOffset + yOffset * yOffset);
             }
 
-            this.turnAngle = -Helpers.atan2d(yOffset, xOffset);
+            this.turnAngle = -goalAngle;
 
-            double distance = Math.abs(xOffset);
+            this.wristAngle = this.angleLinterp.sample(goalDistance);
 
-            this.wristAngle = this.angleLinterp.sample(distance);
-
-            double flywheelVelocity = this.velocityLinterp.sample(distance);
+            double flywheelVelocity = this.velocityLinterp.sample(goalDistance);
             this.farFlywheelVelocity = flywheelVelocity;
             this.nearFlywheelVelocity = flywheelVelocity;
 
@@ -194,5 +200,28 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
     protected Double getHorizontalAngle()
     {
         return this.turnAngle;
+    }
+
+    public static ImmutablePair<Double, Double> calculateOffsetAngle(boolean isRedAlliance, Double xOffset, Double yOffset, Double yaw)
+    {
+        double dtag = Math.sqrt(xOffset * xOffset + yOffset * yOffset);
+        double theta = Helpers.atan2d(yOffset, xOffset);
+        double length;
+        if (isRedAlliance)
+        {
+            length = 24.0;
+        }
+        else
+        {
+            length = -24.0;
+        }
+
+        double alpha = yaw - theta;
+        double goalDistance = Math.sqrt(length * length + dtag * dtag - 2 * length * dtag * Helpers.cosd(90 - alpha));
+        double goalAngle = Helpers.asind(length * Helpers.sind(90 - alpha) / goalDistance) + theta;
+        return new ImmutablePair<Double,Double>(
+            goalDistance,
+            goalAngle);
+
     }
 }
