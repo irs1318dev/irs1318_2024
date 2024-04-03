@@ -140,6 +140,7 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
 
         boolean shouldRumble = false;
         if (this.hasEverSeenTarget &&
+            (this.turnAngle == null || Helpers.RoughEquals(this.turnAngle, 0.0, 1.0)) &&
             Helpers.RoughEquals(this.armMechanism.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD) &&
             Helpers.RoughEquals(this.driveTrainMechanism.getForwardFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE) &&
             Helpers.RoughEquals(this.driveTrainMechanism.getLeftFieldVelocity(), TuningConstants.SDSDRIVETRAIN_STATIONARY_VELOCITY, TuningConstants.ACCEPTABLE_NOT_MOVING_RANGE) &&
