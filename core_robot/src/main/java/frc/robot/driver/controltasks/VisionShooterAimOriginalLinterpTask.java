@@ -10,7 +10,7 @@ import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.EndEffectorMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
-public class VisionShooterAimLinterpTask extends ControlTaskBase
+public class VisionShooterAimOriginalLinterpTask extends ControlTaskBase
 {
     public static IControlTask createShootMacroTask()
     {
@@ -19,10 +19,10 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new VisionShooterAimLinterpTask(false)),
+                    new VisionShooterAimOriginalLinterpTask(false)),
                 ConcurrentTask.AnyTasks(
                     new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                    new VisionShooterAimLinterpTask(true)));
+                    new VisionShooterAimOriginalLinterpTask(true)));
     }
 
     private enum State
@@ -47,7 +47,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     private double farFlywheelVelocity;
     private double nearFlywheelVelocity;
 
-    public VisionShooterAimLinterpTask(boolean continuous)
+    public VisionShooterAimOriginalLinterpTask(boolean continuous)
     {
         super();
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);

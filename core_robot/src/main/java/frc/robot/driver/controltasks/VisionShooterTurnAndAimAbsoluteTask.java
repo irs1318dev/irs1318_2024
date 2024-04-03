@@ -2,7 +2,6 @@ package frc.robot.driver.controltasks;
 import java.util.Optional;
 
 import frc.lib.driver.IControlTask;
-import frc.lib.filters.ComplementaryFilter;
 import frc.lib.filters.FloatingAverageCalculator;
 import frc.lib.filters.ISimpleFilter;
 import frc.lib.helpers.Helpers;

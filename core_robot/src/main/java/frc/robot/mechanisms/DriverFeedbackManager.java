@@ -122,7 +122,6 @@ public class DriverFeedbackManager implements IMechanism
         {
             switch (this.intakeState)
             {
-                
                 case HasNoteRumble:
                     this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Left, 0.5);
                     this.driver.setRumble(UserInputDevice.Driver, JoystickRumbleType.Right, 0.5);
@@ -138,9 +137,7 @@ public class DriverFeedbackManager implements IMechanism
 
                     this.driver.setRumble(UserInputDevice.Codriver, JoystickRumbleType.Left, 0.0);
                     this.driver.setRumble(UserInputDevice.Codriver, JoystickRumbleType.Right, 0.0);
-                
                     break;
-
             }
         }
     }

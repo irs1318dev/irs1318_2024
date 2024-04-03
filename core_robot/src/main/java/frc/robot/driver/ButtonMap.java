@@ -1459,7 +1459,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle,
-            () -> VisionShooterAimLinterpTask.createShootMacroTask(),
+            () -> VisionShooterTurnAndAimRelativeTask.createShootMacroTask(),
             new IOperation[]
             {
                 AnalogOperation.ArmWristPositionSetpoint,
