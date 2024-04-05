@@ -596,6 +596,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 54.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -110.0;
 
+    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY = 28.5; // COMES FROM ~0deg
+    public static final double ARM_WRIST_POSITION_TRAP_DELIVERY = -48.5; // COMES FROM ~-100deg
+
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
 
@@ -622,6 +625,8 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_POSITION_GROUND_AMP_INT = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_GROUND_AMP_INT = 0.0;
+
+    public static final double ARM_WRIST_POSITION_PASSING = 7.5;
 
     // vel - 1725.2799072265625 rpm - 33 inches off
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;

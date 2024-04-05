@@ -16,6 +16,7 @@ public enum MacroOperation implements IOperation
     FaceSource,
     AlignStage,
     AlignAmp,
+    FacePassing,
 
     // Arm operations:
     ArmShoulderWristPosition1,
@@ -28,6 +29,7 @@ public enum MacroOperation implements IOperation
     ArmShoulderWristPosition8,
     ArmShoulderWristPosition9,
     ArmShoulderWristPosition10,
+    ArmShoulderWristPosition11,
     //ArmWristPosition5,
     ResetArm,
 

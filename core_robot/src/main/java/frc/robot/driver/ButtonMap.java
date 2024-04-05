@@ -248,13 +248,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.noneOf(Shift.class),
             ButtonType.Click),
 
-        new DigitalOperationDescription(
-            DigitalOperation.IntakeForceSpinOff,
-            UserInputDevice.Codriver,
-            0,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Click),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.IntakeForceSpinOff,
+        //     UserInputDevice.Codriver,
+        //     0,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     ButtonType.Click),
     
         new DigitalOperationDescription(
             DigitalOperation.ShooterFeedRing,
@@ -508,11 +508,26 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.FaceSource,
+            MacroOperation.FacePassing,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON, // DPAD-up
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
+            ButtonType.Toggle,
+            () -> new FieldOrientationTask(DesiredOrientation.Passing),
+            new IOperation[]
+            {
+                AnalogOperation.DriveTrainTurnAngleGoal,
+                AnalogOperation.DriveTrainSpinLeft,
+                AnalogOperation.DriveTrainSpinRight,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.FaceSource,
+            UserInputDevice.Driver,
+            0, // DPAD-up
+            EnumSet.of(Shift.DriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> new FieldOrientationTask(DesiredOrientation.Source),
             new IOperation[]
@@ -1184,10 +1199,55 @@ public class ButtonMap implements IButtonMap
             MacroOperation.ArmShoulderWristPosition7,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_A_BUTTON,
-            // EnumSet.of(Shift.CodriverDebug),
-            // EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
             () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_AMP_OUTTAKE, TuningConstants.ARM_WRIST_POSITION_AMP_OUTTAKE),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmShoulderWristPosition6,
+            UserInputDevice.Codriver, 
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Toggle, 
+            () -> ConcurrentTask.AllTasks(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_PASSING),
+                new ShooterSpinTask(3300)
+            ),
+            new IOperation[]
+            {
+                AnalogOperation.ArmShoulderPositionSetpoint,
+                AnalogOperation.ArmWristPositionSetpoint,
+                AnalogOperation.ArmShoulderAdjustment,
+                AnalogOperation.ArmWristAdjustment,
+                AnalogOperation.ArmShoulderPower,
+                AnalogOperation.ArmWristPower,
+                AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorFlywheelMotorPower,
+            }),
+
+        new MacroOperationDescription(
+            MacroOperation.ArmShoulderWristPosition11,
+            UserInputDevice.Codriver,
+            0,
+            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.of(Shift.CodriverDebug),
+            ButtonType.Toggle, 
+            () -> ConcurrentTask.AllTasks(
+                new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY),
+                new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY)
+            ),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
