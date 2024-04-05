@@ -201,6 +201,7 @@ public class OffboardVisionManager implements IMechanism
         this.logger.logNumber(LoggingKey.OffboardVisionMissedHeartbeats, this.missedHeartbeats);
 
         boolean missedHeartbeatExceedsThreshold = this.missedHeartbeats > TuningConstants.VISION_MISSED_HEARTBEAT_THRESHOLD;
+        this.logger.logBoolean(LoggingKey.OffboardVisionExcessiveMissedHeartbeats, missedHeartbeatExceedsThreshold);
 
         // reset if we couldn't find the april tag
         this.atXOffset = null;

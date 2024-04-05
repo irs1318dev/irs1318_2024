@@ -13,8 +13,6 @@ import frc.robot.driver.controltasks.*;
 import frc.robot.driver.controltasks.ClimberWinchTask.WinchState;
 import frc.robot.driver.controltasks.FieldOrientationTask.DesiredOrientation;
 import frc.robot.driver.controltasks.FollowPathTask.Type;
-import frc.robot.driver.controltasks.VisionContinuousTurningTask.TurnType;
-import frc.robot.driver.controltasks.VisionMoveAndTurnTaskBase.MoveType;
 
 @Singleton
 public class ButtonMap implements IButtonMap
@@ -328,13 +326,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Click),
 
-        new DigitalOperationDescription(
-            DigitalOperation.ArmDisableProtection,
-            UserInputDevice.Codriver,
-            UserInputDeviceButton.XBONE_START_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Click),
+        // new DigitalOperationDescription(
+        //     DigitalOperation.ArmDisableProtection,
+        //     UserInputDevice.Codriver,
+        //     UserInputDeviceButton.XBONE_START_BUTTON,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     ButtonType.Click),
 
         new DigitalOperationDescription(
             DigitalOperation.ClimberServoUp,
@@ -475,6 +473,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -546,7 +545,10 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.DriverDebug),
             EnumSet.of(Shift.DriverDebug),
             ButtonType.Toggle,
-            () -> new VisionApproachAprilTagTask(36.0, 0.0, DigitalOperation.VisionFindStageAprilTagsFront),
+            () -> SequentialTask.Sequence(
+                new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindStageAprilTagsFront),
+                new VisionApproachAprilTagTask(36.0, 2.0, DigitalOperation.VisionFindStageAprilTagsFront),
+                new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagParallelizing, DigitalOperation.VisionFindStageAprilTagsFront)),
             new IOperation[]
             {
                 DigitalOperation.VisionFindAnyAprilTagFront,
@@ -575,6 +577,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -663,6 +666,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -711,6 +715,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -764,6 +769,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -816,6 +822,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -870,6 +877,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -932,6 +940,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -1069,8 +1078,8 @@ public class ButtonMap implements IButtonMap
             MacroOperation.IntakeFix,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_START_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
+            // EnumSet.of(Shift.CodriverDebug),
+            // EnumSet.noneOf(Shift.class),
             ButtonType.Toggle,
             () -> new IntakeFixerTask(),
             new IOperation[]
@@ -1326,6 +1335,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -1407,6 +1417,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 DigitalOperation.VisionFindAnyAprilTagFront,
                 DigitalOperation.VisionFindAnyAprilTagRear,
@@ -1434,6 +1445,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -1484,6 +1496,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,
@@ -1605,6 +1618,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainPathYGoal,
                 AnalogOperation.DriveTrainPathXVelocityGoal,
                 AnalogOperation.DriveTrainPathYVelocityGoal,
+                AnalogOperation.DriveTrainPathAngleGoal,
                 AnalogOperation.DriveTrainPathAngleVelocityGoal,
                 AnalogOperation.DriveTrainPositionDrive1,
                 AnalogOperation.DriveTrainPositionDrive2,

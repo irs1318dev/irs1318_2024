@@ -45,6 +45,7 @@ public class CoreRobot<T extends AbstractModule>
 
     private RobotMode currentMode;
     private int loggerUpdates;
+    private int disabledCount;
 
     public CoreRobot(T module)
     {
@@ -103,6 +104,7 @@ public class CoreRobot<T extends AbstractModule>
         this.logger.logString(LoggingKey.RobotState, "Disabled");
         this.logger.update();
         this.logger.flush();
+        this.disabledCount = 0;
     }
 
     /**
@@ -148,6 +150,49 @@ public class CoreRobot<T extends AbstractModule>
      */
     public void disabledPeriodic()
     {
+        if (!TuningConstants.TRY_AK_FIX)
+        {
+            return;
+        }
+
+        this.disabledCount++;
+        if ((this.disabledCount % 100) == 0)
+        {
+            this.disabledCount = 0;
+        }
+
+        for (LoggingKey key : LoggingKey.values())
+        {
+            if (key == LoggingKey.RobotState)
+            {
+                this.logger.logString(LoggingKey.RobotState, "Disabled");
+            }
+
+            switch (key.type)
+            {
+                case Boolean:
+                    this.logger.logBoolean(key, false);
+                    break;
+
+                case Integer:
+                    this.logger.logInteger(key, 0);
+                    break;
+
+                case Number:
+                    this.logger.logNumber(key, 0.0);
+                    break;
+
+                case String:
+                    this.logger.logString(key, "");
+                    break;
+
+                default:
+                    // skip
+                    break;
+            }
+        }
+
+        this.logger.update();
     }
 
     /**

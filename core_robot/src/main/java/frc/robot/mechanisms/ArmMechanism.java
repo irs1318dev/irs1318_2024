@@ -85,6 +85,7 @@ public class ArmMechanism implements IMechanism
     private boolean shoulderStalled;
     private boolean wristStalled;
     private boolean wristLimitSwitchHit;
+    private int wristLimitSwitchHitCount;
 
     private FloatingAverageCalculator shoulderMasterPowerAverageCalculator;
     private FloatingAverageCalculator shoulderFollowerPowerAverageCalculator;
@@ -335,6 +336,14 @@ public class ArmMechanism implements IMechanism
         //         this.wristAbsoluteEncoder.getDistance()));
 
         this.wristLimitSwitchHit = this.wristMotor.getReverseLimitSwitchStatus();
+        if (this.wristLimitSwitchHit)
+        {
+            this.wristLimitSwitchHitCount++;
+        }
+        else
+        {
+            this.wristLimitSwitchHitCount = 0;
+        }
 
         double shoulderCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_PDH_CHANNEL);
         double shoulderFollowerCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_SHOULDER_FOLLOWER_PDH_CHANNEL);
@@ -867,7 +876,8 @@ public class ArmMechanism implements IMechanism
             this.wristMotor.burnFlash();
         }
         else if (TuningConstants.ARM_RESET_WRIST_WHEN_LIMIT_SWITCH_HIT &&
-            this.wristLimitSwitchHit &&
+            this.wristLimitSwitchHitCount > 5 &&
+            this.wristSetpointChangedTime + 0.5 <= currTime &&
             Helpers.RoughEquals(this.wristVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.shoulderVelocityAverage, TuningConstants.ZERO, TuningConstants.ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD) &&
             Helpers.RoughEquals(this.desiredWristPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION) &&

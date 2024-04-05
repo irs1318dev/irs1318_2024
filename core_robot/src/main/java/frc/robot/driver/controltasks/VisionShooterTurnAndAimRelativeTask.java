@@ -27,9 +27,9 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         return 
             SequentialTask.Sequence(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                ConcurrentTask.AnyTasks(
-                    new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear), // centers to the apriltag we find, may be the off-centered one initially
-                    new ShooterSpinTask(TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES[0], 10.0)),
+                // ConcurrentTask.AnyTasks(
+                    // new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear), // centers to the apriltag we find, may be the off-centered one initially
+                    // new ShooterSpinTask(TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES[0], 10.0)),
                 new VisionShooterTurnAndAimRelativeTask());
     }
 
@@ -116,6 +116,10 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
             xOffset = this.visionRelXFilter.update(xOffset); // filter the data to avoid excessive noise
             yOffset = this.visionRelYFilter.update(yOffset); // filter the data to avoid excessive noise
 
+            xOffset *= -1.0;
+            yOffset *= -1.0;
+            yaw += 180.0;
+
             double goalAngle;
             double goalDistance;
             if (TuningConstants.SHOOT_VISION_RELATIVE_FIND_OFFCENTER_TAG &&
@@ -184,7 +188,7 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
     {
         if (this.hasEverSeenTarget)
         {
-            return this.noTargetCount > TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD;
+            return this.noTargetCount > TuningConstants.SHOOT_VISION_RELATIVE_APRILTAG_NOT_FOUND_THRESHOLD;
         }
 
         return this.noTargetCount > TuningConstants.SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD;

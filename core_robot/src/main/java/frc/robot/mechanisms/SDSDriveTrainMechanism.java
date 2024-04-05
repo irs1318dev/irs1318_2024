@@ -652,7 +652,7 @@ public class SDSDriveTrainMechanism implements IDriveTrainMechanism
         double xMult = 1.0;
         double yMult = 1.0;
         double yawAdj = 0.0;
-        if (this.imuManager.getAllianceSwapForward())
+        if (useFieldOriented && this.imuManager.getAllianceSwapForward())
         {
             xMult = -1.0;
             yMult = -1.0;

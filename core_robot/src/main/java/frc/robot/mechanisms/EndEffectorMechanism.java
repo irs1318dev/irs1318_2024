@@ -182,11 +182,8 @@ public class EndEffectorMechanism implements IMechanism
             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-
-            this.nearFlywheelMotor.set(flywheelMotorPower);
-            this.farFlywheelMotor.set(flywheelMotorPower);
+            this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, flywheelMotorPower);
+            this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, flywheelMotorPower);
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, flywheelMotorPower);
         }
@@ -195,22 +192,16 @@ public class EndEffectorMechanism implements IMechanism
             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-
-            this.nearFlywheelMotor.set(noteOut);
-            this.farFlywheelMotor.set(-noteOut);
+            this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, noteOut);
+            this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -noteOut);
         }
         else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
         {
             this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
             this.farFlywheelSetpoint = farFlywheelVelocityGoal;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-
-            this.nearFlywheelMotor.set(this.nearFlywheelSetpoint);
-            this.farFlywheelMotor.set(this.farFlywheelSetpoint);
+            this.nearFlywheelMotor.set(SparkMaxControlMode.Velocity, this.nearFlywheelSetpoint);
+            this.farFlywheelMotor.set(SparkMaxControlMode.Velocity, this.farFlywheelSetpoint);
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
         }
@@ -398,6 +389,12 @@ public class EndEffectorMechanism implements IMechanism
                 break;
 
             case Outtaking:
+                if (this.nearFlywheelSetpoint == TuningConstants.ZERO && this.farFlywheelSetpoint == TuningConstants.ZERO)
+                {
+                    this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -0.25);
+                    this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -0.25);
+                }
+
                 intakePower = intakeOutSlow ? TuningConstants.EFFECTOR_INTAKE_OUT_SLOW_POWER : TuningConstants.EFFECTOR_INTAKE_OUT_POWER;
                 break;
 

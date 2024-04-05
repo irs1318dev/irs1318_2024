@@ -11,6 +11,7 @@ public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = true;
     public static final boolean USE_ADVANTAGE_KIT = true;
+    public static final boolean TRY_AK_FIX = true;
     public static final boolean RETREIVE_PDH_FIRST = true;
     public static boolean THROW_EXCEPTIONS = false;
     public static boolean LOG_EXCEPTIONS = true;
@@ -418,7 +419,7 @@ public class TuningConstants
     //================================================== EndEffector ==============================================================
 
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
-    public static final double EFFECTOR_INTAKE_IN_POWER = 0.6;
+    public static final double EFFECTOR_INTAKE_IN_POWER = 0.5;
     public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.4;
     public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_OUT_SLOW_POWER = -0.2;
@@ -542,7 +543,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 29.5 : 37.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 22.5 : 28.634967803955078;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 20.76609577449192 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
@@ -603,8 +604,8 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_QUICK_TUCK = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_QUICK_TUCK = -66.80892944335938;
 
-    public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.325244;
-    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -80.380218;
+    public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.9;
+    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -83.0;
 
     public static final double ARM_WRIST_POSITION_BOT_DISTANCE_SHOT = 56.42597961425781;
 
@@ -707,7 +708,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;
 
     public static final double ARM_SHOULDER_PID_ADJUST_VEL = 40.0;
-    public static final double ARM_WRIST_PID_ADJUST_VEL = 30.0;
+    public static final double ARM_WRIST_PID_ADJUST_VEL = 50.0;
 
     public static final double ARM_SLOP_ADJUSTMENT_MULTIPLIER = 10.0;
 
@@ -995,7 +996,7 @@ public class TuningConstants
         };
 
     public static final double SHOOT_VISION_SPEED = 4000;
-    public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 20;
+    public static final int SHOOT_VISION_APRILTAG_NOT_FOUND_THRESHOLD = 100;
 
     public static final int SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD = 100;
     public static final int SHOOT_VISION_RELATIVE_APRILTAG_NOT_FOUND_THRESHOLD = 100;

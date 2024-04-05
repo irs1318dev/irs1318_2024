@@ -19,7 +19,7 @@ public class ArmGraphTask extends ControlTaskBase
         Completed
     }
 
-    private static final boolean DEBUG_PRINTS = false;
+    private static final boolean DEBUG_PRINTS = true;
     private final double shoulderGoalPos;
     private final double wristGoalPos;
 
