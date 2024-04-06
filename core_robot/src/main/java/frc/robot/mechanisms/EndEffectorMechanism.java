@@ -118,7 +118,7 @@ public class EndEffectorMechanism implements IMechanism
 
         // THROUGH BEAM
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
-        this.throughBeamFilter = new BooleanThresholdFilter(3);
+        this.throughBeamFilter = new BooleanThresholdFilter(2);
 
         this.useShootAnywayMode = false;
         this.useIntakeForceSpin = false;
@@ -162,7 +162,7 @@ public class EndEffectorMechanism implements IMechanism
     {
         if (mode == RobotMode.Autonomous)
         {
-            this.throughBeamFilter.setThreshold(3);
+            this.throughBeamFilter.setThreshold(2);
         }
         else
         {

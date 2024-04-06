@@ -103,10 +103,12 @@ public class ArmMechanism implements IMechanism
     private double wristVelocityAverage;
 
     private final TrapezoidProfile shoulderTrapezoidMotionProfile;
+    private final TrapezoidProfile shoulderTrapezoidMotionProfileSlow;
     private final TrapezoidProfile.State shoulderTMPCurrState;
     private final TrapezoidProfile.State shoulderTMPGoalState;
 
     private final TrapezoidProfile wristTrapezoidMotionProfile;
+    private final TrapezoidProfile wristTrapezoidMotionProfileSlow;
     private final TrapezoidProfile.State wristTMPCurrState;
     private final TrapezoidProfile.State wristTMPGoalState;
 
@@ -225,6 +227,9 @@ public class ArmMechanism implements IMechanism
             this.shoulderTrapezoidMotionProfile = new TrapezoidProfile(
                 TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC,
                 TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_ACCEL);
+            this.shoulderTrapezoidMotionProfileSlow = new TrapezoidProfile(
+                TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC_SLOW,
+                TuningConstants.ARM_SHOULDER_MOTOR_TMP_PID_ACCEL_SLOW);
             this.shoulderTMPCurrState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
             this.shoulderTMPGoalState = new TrapezoidProfile.State(this.shoulderPosition, 0.0);
 
@@ -233,6 +238,9 @@ public class ArmMechanism implements IMechanism
             this.wristTrapezoidMotionProfile = new TrapezoidProfile(
                 TuningConstants.ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC,
                 TuningConstants.ARM_WRIST_MOTOR_TMP_PID_ACCEL);
+            this.wristTrapezoidMotionProfileSlow = new TrapezoidProfile(
+                TuningConstants.ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC_SLOW,
+                TuningConstants.ARM_WRIST_MOTOR_TMP_PID_ACCEL_SLOW);
             this.wristTMPCurrState = new TrapezoidProfile.State(this.wristPosition, 0.0);
             this.wristTMPGoalState = new TrapezoidProfile.State(this.wristPosition, 0.0);
 
@@ -241,12 +249,14 @@ public class ArmMechanism implements IMechanism
         else
         {
             this.shoulderTrapezoidMotionProfile = null;
+            this.shoulderTrapezoidMotionProfileSlow = null;
             this.shoulderTMPCurrState = null;
             this.shoulderTMPGoalState = null;
 
             this.shoulderMotor.setSelectedSlot(ArmMechanism.DefaultPidSlotId);
 
             this.wristTrapezoidMotionProfile = null;
+            this.wristTrapezoidMotionProfileSlow = null;
             this.wristTMPCurrState = null;
             this.wristTMPGoalState = null;
             this.wristMotor.setSelectedSlot(ArmMechanism.DefaultPidSlotId);
@@ -394,6 +404,7 @@ public class ArmMechanism implements IMechanism
             wristSlopAdjustment = this.selectionManager.getWristSlopAdjustment() * TuningConstants.ARM_SLOP_ADJUSTMENT_MULTIPLIER;
         }
 
+        boolean useSlowMode = this.driver.getDigital(DigitalOperation.ArmSlowMode);
         if (this.driver.getDigital(DigitalOperation.ArmEnableThroughBore))
         {
             this.useThroughBoreEncoders = true;
@@ -912,7 +923,8 @@ public class ArmMechanism implements IMechanism
                 this.updateCurrShoulderPosition = JumpProtectionReason.None;
             }
 
-            if (this.shoulderTrapezoidMotionProfile.update(elapsedTime, shoulderCurr, shoulderGoal))
+            if ((useSlowMode && this.shoulderTrapezoidMotionProfileSlow.update(elapsedTime, shoulderCurr, shoulderGoal)) ||
+                (!useSlowMode && this.shoulderTrapezoidMotionProfile.update(elapsedTime, shoulderCurr, shoulderGoal)))
             {
                 this.currentDesiredShoulderPosition = shoulderCurr.getPosition();
             }
@@ -935,7 +947,8 @@ public class ArmMechanism implements IMechanism
                 this.updateCurrWristPosition = JumpProtectionReason.None;
             }
 
-            if (this.wristTrapezoidMotionProfile.update(elapsedTime, wristCurr, wristGoal))
+            if ((useSlowMode && this.wristTrapezoidMotionProfileSlow.update(elapsedTime, wristCurr, wristGoal)) ||
+                (!useSlowMode && this.wristTrapezoidMotionProfile.update(elapsedTime, wristCurr, wristGoal)))
             {
                 this.currentDesiredWristPosition = wristCurr.getPosition();
             }
@@ -995,7 +1008,6 @@ public class ArmMechanism implements IMechanism
         {
             // if we've past the velocity tracking duration since last desired position change we're using more power than expected and we're not moving that much
             // then either reset position (if past & present values tell us were trying to reset) and say were stalled or just say were stalled
-
             if (currTime > this.shoulderSetpointChangedTime + TuningConstants.ARM_SHOULDER_VELOCITY_TRACKING_DURATION &&
                 this.shoulderPowerAverage >= shoulderPowerStallingThreshold &&
                 Math.abs(this.shoulderVelocityAverage) <= TuningConstants.ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD)

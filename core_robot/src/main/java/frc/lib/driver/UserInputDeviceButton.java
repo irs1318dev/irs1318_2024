@@ -110,16 +110,16 @@ public enum UserInputDeviceButton
     BUTTON_PAD_BUTTON_16(16),
 
     // XBox One controller constants:
-    XBONE_A_BUTTON(1),
-    XBONE_B_BUTTON(2),
-    XBONE_X_BUTTON(3),
-    XBONE_Y_BUTTON(4),
-    XBONE_LEFT_BUTTON(5), // LB
-    XBONE_RIGHT_BUTTON(6), // RB
-    XBONE_SELECT_BUTTON(7), // aka "View", the one with the squares
-    XBONE_START_BUTTON(8), // aka "Menu", the hamburgler one
-    XBONE_LEFT_STICK_BUTTON(9), // LS
-    XBONE_RIGHT_STICK_BUTTON(10), // RS
+    XBONE_A_BUTTON(1), // 1
+    XBONE_B_BUTTON(2), // 2
+    XBONE_X_BUTTON(3), // 4
+    XBONE_Y_BUTTON(4), // 8
+    XBONE_LEFT_BUTTON(5), // 16 (LB)
+    XBONE_RIGHT_BUTTON(6), // 32 (RB)
+    XBONE_SELECT_BUTTON(7), // 64 (aka "View", the one with the squares)
+    XBONE_START_BUTTON(8), // 128 (aka "Menu", the hamburgler one)
+    XBONE_LEFT_STICK_BUTTON(9), // 256 (LS)
+    XBONE_RIGHT_STICK_BUTTON(10), // 512 (RS)
 
     // Playstation 4 controller constants:
     PS4_SQUARE_BUTTON(1),

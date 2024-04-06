@@ -19,6 +19,7 @@ public class TuningConstants
     public static int LOOPS_PER_SECOND = 50; // we expect the robot's main loop to run at roughly ~50 Hz, or 1 update per 20ms (0.02s)
 
     public static final boolean EXPECT_UNUSED_JOYSTICKS = true;
+    public static final boolean PERFORM_COSTLY_TASKS_WHILE_DISABLED = true;
 
     //================================================== Magic Values ==============================================================
 
@@ -596,8 +597,11 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE = 54.0;
     public static final double ARM_WRIST_POSITION_TRAP_INTERMEDIATE = -110.0;
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY = 28.5; // COMES FROM ~0deg
-    public static final double ARM_WRIST_POSITION_TRAP_DELIVERY = -48.5; // COMES FROM ~-100deg
+    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY_APPROACH = 15.0; // COMES FROM ~0deg
+    public static final double ARM_WRIST_POSITION_TRAP_DELIVERY_APPROACH = -80.0; // COMES FROM ~-100deg
+
+    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY = 27.5;
+    public static final double ARM_WRIST_POSITION_TRAP_DELIVERY = -55.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_INTAKE_OBTUSE = 113.0;
@@ -618,6 +622,7 @@ public class TuningConstants
     public static final double ARM_WRIST_NODE_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_NODE_THRESHOLD = 3.0;
     public static final double ARM_WRIST_GOAL_THRESHOLD = 3.0;
+    public static final double ARM_WRIST_GOAL_THRESHOLD_STOW = 10.0;
     public static final double ARM_SHOULDER_GOAL_THRESHOLD = 6.0;
 
     public static final double ARM_SHOULDER_TRAP_SHOOT = 14.28231430053711;
@@ -642,7 +647,7 @@ public class TuningConstants
     public static final double GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT = 0.2;
 
     // Universal Transit's
-    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 0.1;
+    public static final double LOWER_UNIVERSAL_TRANSIT_WEIGHT = 1.5;
     public static final double UPPER_UNIVERSAL_TRANSIT_WEIGHT = 1.5;
 
     // Lower quartile stuff
@@ -750,6 +755,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC;
     public static final double ARM_SHOULDER_MOTOR_TMP_PID_ACCEL = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL;
 
+    public static final double ARM_SHOULDER_MOTOR_TMP_PID_CRUISE_VELOC_SLOW = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC_SLOW : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC_SLOW;
+    public static final double ARM_SHOULDER_MOTOR_TMP_PID_ACCEL_SLOW = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL_SLOW : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL_SLOW;
+
     // PRACTICE ROBOT SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KP;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_POSITIONAL_PID_KI = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_GRAVPOSITIONAL_PID_KI : TuningConstants.ARM_SHOULDER_MOTOR_PRACTICE_PLAINPOSITIONAL_PID_KI;
@@ -783,6 +791,9 @@ public class TuningConstants
 
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 120.0;
     public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL = 200.0;
+
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC_SLOW = 60.0;
+    public static final double ARM_SHOULDER_MOTOR_PRACTICE_TMP_PID_ACCEL_SLOW = 100.0;
 
     // COMP ROBOT SHOULDER PID
     public static final double ARM_SHOULDER_MOTOR_COMP_POSITIONAL_PID_KP = TuningConstants.ARM_USE_GRAVITY_COMPENSATION ? TuningConstants.ARM_SHOULDER_MOTOR_COMP_GRAVPOSITIONAL_PID_KP : TuningConstants.ARM_SHOULDER_MOTOR_COMP_PLAINPOSITIONAL_PID_KP;
@@ -818,6 +829,9 @@ public class TuningConstants
     public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 120.0;
     public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL = 200.0;
 
+    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_CRUISE_VELOC_SLOW = 60.0;
+    public static final double ARM_SHOULDER_MOTOR_COMP_TMP_PID_ACCEL_SLOW = 40.0;
+
     // WRSIT PID
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KP = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KP;
     public static final double ARM_WRIST_MOTOR_POSITIONAL_PID_KI = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KI : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KI;
@@ -831,6 +845,9 @@ public class TuningConstants
 
     public static final double ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC;
     public static final double ARM_WRIST_MOTOR_TMP_PID_ACCEL = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL;
+
+    public static final double ARM_WRIST_MOTOR_TMP_PID_CRUISE_VELOC_SLOW = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC_SLOW : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC_SLOW;
+    public static final double ARM_WRIST_MOTOR_TMP_PID_ACCEL_SLOW = TuningConstants.COMPETITION_ROBOT ? TuningConstants.ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL_SLOW : TuningConstants.ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL_SLOW;
 
     // PRACTICE ROBOT WRIST PID
     public static final double ARM_WRIST_MOTOR_PRACTICE_POSITIONAL_PID_KP = 0.02;
@@ -846,6 +863,9 @@ public class TuningConstants
 
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC = 180.0;
     public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL = 360.0;//180.0;
+    
+    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_CRUISE_VELOC_SLOW = 90.0;
+    public static final double ARM_WRIST_MOTOR_PRACTICE_TMP_PID_ACCEL_SLOW = 180.0;//180.0;
 
     // COMP ROBOT WRIST PID
     public static final double ARM_WRIST_MOTOR_COMP_POSITIONAL_PID_KP = 0.02;
@@ -861,6 +881,9 @@ public class TuningConstants
 
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC = 240.0;
     public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL = 300.0;
+    
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_CRUISE_VELOC_SLOW = 80.0;
+    public static final double ARM_WRIST_MOTOR_COMP_TMP_PID_ACCEL_SLOW = 75.0;
 
     // Arm Stall protection
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;

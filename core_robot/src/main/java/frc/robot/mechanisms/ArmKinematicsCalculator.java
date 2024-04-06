@@ -16,8 +16,8 @@ public class ArmKinematicsCalculator
 {
     private static ArmGraph graph;
 
+    public static ArmGraphNode startingConfiguration;
     private static ArmGraphNode lowerUniversalTransit;
-    private static ArmGraphNode startingConfiguration;
     private static ArmGraphNode groundPickup;
     private static ArmGraphNode groundShot;
     private static ArmGraphNode upperUniversalTransit;
@@ -685,6 +685,11 @@ public class ArmKinematicsCalculator
     public static List<ArmGraphNode> getAllGraphNodes()
     {
         return ArmKinematicsCalculator.graph.getNodes();
+    }
+
+    public static void precalculateOptimalPaths()
+    {
+        ArmKinematicsCalculator.graph.precalculateOptimalPaths();
     }
 
     private static class ArmGraph extends Graph<ArmGraphNode>

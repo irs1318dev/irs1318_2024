@@ -309,6 +309,20 @@ public class PathPlannerTrajectoryGenerator
                 new PathPlannerWaypoint(locManager.P20, locManager.getOrientationOrHeading(45), locManager.getOrientationOrHeading(180))),
                 isRed? "P10toP20CSRed" : "P10toP20CSBlue");
 
+        addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.SDSDRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_VELOCITY,
+                TuningConstants.SDSDRIVETRAIN_MAX_PATH_ROTATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(locManager.P4, locManager.getOrientationOrHeading(270), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P19, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P13, locManager.getOrientationOrHeading(135), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P9M, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180)),
+                new PathPlannerWaypoint(locManager.P9, locManager.getOrientationOrHeading(180), locManager.getOrientationOrHeading(180))),
+                isRed? "P4toP8CSRed" : "P4toP8CSBlue");
+
         // ----------------------> AMP SUB PATHS <-----------------------------
         addTrajectory(
             trajectoryManager,

@@ -1200,7 +1200,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
-            EnumSet.noneOf(Shift.class),
+            EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle, 
             () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_AMP_OUTTAKE, TuningConstants.ARM_WRIST_POSITION_AMP_OUTTAKE),
             new IOperation[]
@@ -1218,11 +1218,11 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
+            EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
             () -> ConcurrentTask.AllTasks(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_PASSING),
-                new ShooterSpinTask(3300)
+                new ShooterSpinTask(2600)
             ),
             new IOperation[]
             {
@@ -1243,10 +1243,12 @@ public class ButtonMap implements IButtonMap
             0,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Toggle, 
-            () -> ConcurrentTask.AllTasks(
-                new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY),
-                new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY)
+            ButtonType.Toggle,
+            () -> ConcurrentTask.AnyTasks(
+                ConcurrentTask.AllTasks(
+                    new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY, true),
+                    new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY, true)),
+                new ArmSlowModeTask()
             ),
             new IOperation[]
             {
@@ -1256,6 +1258,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristAdjustment,
                 AnalogOperation.ArmShoulderPower,
                 AnalogOperation.ArmWristPower,
+                DigitalOperation.ArmSlowMode,
             }),
 
         new MacroOperationDescription(

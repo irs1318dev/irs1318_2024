@@ -7,6 +7,9 @@ import frc.lib.mechanisms.MechanismManager;
 import frc.lib.robotprovider.*;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
+import frc.robot.driver.controltasks.ArmGraphTask;
+import frc.robot.mechanisms.ArmKinematicsCalculator;
+import frc.robot.mechanisms.ArmKinematicsCalculator.ArmGraphNode;
 
 import java.util.Calendar;
 import java.util.Optional;
@@ -45,7 +48,9 @@ public class CoreRobot<T extends AbstractModule>
 
     private RobotMode currentMode;
     private int loggerUpdates;
+
     private int disabledCount;
+    private boolean completedCostlyTasks;
 
     public CoreRobot(T module)
     {
@@ -77,6 +82,8 @@ public class CoreRobot<T extends AbstractModule>
 
         // reset number of logger updates
         this.loggerUpdates = 0;
+
+        this.completedCostlyTasks = false;
     }
 
     /**
@@ -156,8 +163,18 @@ public class CoreRobot<T extends AbstractModule>
         }
 
         this.disabledCount++;
-        if ((this.disabledCount % 100) == 0)
+        if ((this.disabledCount % 500) == 0)
         {
+            if (!this.completedCostlyTasks)
+            {
+                if (TuningConstants.PERFORM_COSTLY_TASKS_WHILE_DISABLED)
+                {
+                    ArmKinematicsCalculator.getAllGraphNodes();
+                }
+
+                this.completedCostlyTasks = true;
+            }
+
             this.disabledCount = 0;
         }
 

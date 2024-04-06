@@ -105,8 +105,12 @@ public class ArmGraphTask extends ControlTaskBase
 
             double armShoulderPosition = this.arm.getShoulderPosition();
             double armWristPosition = this.arm.getWristPosition();
-            if (Helpers.RoughEquals(currNode.getShoulderAngle(), armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
-                (currNode.isUniversal() || Helpers.RoughEquals(currNode.getWristAngle(), armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD)))
+            if ((Helpers.RoughEquals(currNode.getShoulderAngle(), armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                    (currNode.isUniversal() || Helpers.RoughEquals(currNode.getWristAngle(), armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD))) ||
+                (currNode.equals(ArmKinematicsCalculator.startingConfiguration) && 
+                    (this.arm.getWristLimitSwitchStatus() ||
+                        (Helpers.RoughEquals(currNode.getShoulderAngle(), armShoulderPosition, TuningConstants.ARM_SHOULDER_GOAL_THRESHOLD) &&
+                        Helpers.RoughEquals(currNode.getWristAngle(), armWristPosition, TuningConstants.ARM_WRIST_GOAL_THRESHOLD_STOW)))))
             {
                 if (ArmGraphTask.DEBUG_PRINTS)
                 {
