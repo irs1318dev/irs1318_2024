@@ -1245,9 +1245,13 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle,
             () -> ConcurrentTask.AnyTasks(
-                ConcurrentTask.AllTasks(
-                    new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY, true),
-                    new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY, true)),
+                SequentialTask.Sequence(
+                    ConcurrentTask.AllTasks(
+                        new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY_APPROACH, true),
+                        new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY_APPROACH, true)),
+                    ConcurrentTask.AllTasks(
+                        new ArmShoulderPositionTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_DELIVERY, true),
+                        new ArmWristPositionTask(TuningConstants.ARM_WRIST_POSITION_TRAP_DELIVERY, true))),
                 new ArmSlowModeTask()
             ),
             new IOperation[]

@@ -600,7 +600,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY_APPROACH = 15.0; // COMES FROM ~0deg
     public static final double ARM_WRIST_POSITION_TRAP_DELIVERY_APPROACH = -80.0; // COMES FROM ~-100deg
 
-    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY = 27.5;
+    public static final double ARM_SHOULDER_POSITION_TRAP_DELIVERY = 28.5;
     public static final double ARM_WRIST_POSITION_TRAP_DELIVERY = -55.0;
 
     public static final double ARM_SHOULDER_POSITION_INTAKE_OBTUSE = TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL;
@@ -631,7 +631,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_GROUND_AMP_INT = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_GROUND_AMP_INT = 0.0;
 
-    public static final double ARM_WRIST_POSITION_PASSING = 7.5;
+    public static final double ARM_WRIST_POSITION_PASSING = 9.5;
 
     // vel - 1725.2799072265625 rpm - 33 inches off
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
@@ -887,13 +887,13 @@ public class TuningConstants
 
     // Arm Stall protection
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 27.0;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 10.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 35.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 20.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 5.0; // degrees per second
-    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 6.0;
+    public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 12.0;
     public static final double ARM_WRIST_STALLED_POWER_THRESHOLD = TuningConstants.ARM_WRIST_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_WRIST_STALLED_VELOCITY_THRESHOLD = 0.5; // degrees per second
     public static final double ARM_SHOULDER_MOTOR_POWER_DIFFERENCE = 0.50; // Percentage difference allowed between the two motors

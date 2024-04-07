@@ -372,7 +372,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P7toP2AASUBRed" : "P7toP2AASUBBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.25)
@@ -405,7 +405,7 @@ public class AutonomousRoutineSelector
                     ),
 
                     ConcurrentTask.AllTasks(
-                        new IntakeControlTask(false, 0.15),
+                        new IntakeFixerTask(0.15),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P7toP2AASUBRed" : "P7toP2AASUBBlue", Type.Absolute)
                     ),
@@ -427,7 +427,7 @@ public class AutonomousRoutineSelector
                         ConcurrentTask.AllTasks(
                             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P17_SHOT),
                             new FollowPathTask(isRed ? "P12toP17SNKRed" : "P12toP17SNKBlue", Type.Absolute),
-                            new IntakeControlTask(false, 0.15)
+                            new IntakeFixerTask(0.15)
                         ),
 
                         SequentialTask.Sequence(
@@ -439,7 +439,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P11toP17SNKRed" : "P11toP17SNKBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             )
                         )
                     ),
@@ -474,7 +474,7 @@ public class AutonomousRoutineSelector
                     ),
 
                     ConcurrentTask.AllTasks(
-                        new IntakeControlTask(false, 0.1),
+                        new IntakeFixerTask(0.1),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P7toP2AASUBRed" : "P7toP2AASUBBlue", Type.Absolute)
                     ),
@@ -499,7 +499,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P12toP17SNKRed" : "P12toP17SNKBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.7),
@@ -513,7 +513,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P11toP17SNKRed" : "P11toP17SNKBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.7)
@@ -529,7 +529,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P11toP17SNKRed" : "P11toP17SNKBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.35),
@@ -582,7 +582,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P8toP2SSRed" : "P8toP2SSBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             )
                         ),
 
@@ -595,7 +595,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                                 new FollowPathTask(isRed ? "P9toP2SSRed" : "P9toP2SSBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             )
                         )
                     ),
@@ -634,7 +634,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P19S_SHOT),
                                 new FollowPathTask(isRed ? "P8toP19SSSRed" : "P8toP19SSSBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.35),
@@ -648,7 +648,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P19S_SHOT),
                                 new FollowPathTask(isRed ? "P9toP19SSSRed" : "P9toP19SSSBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.25)
@@ -663,7 +663,7 @@ public class AutonomousRoutineSelector
                             ConcurrentTask.AllTasks(
                                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P19S_SHOT),
                                 new FollowPathTask(isRed ? "P9toP19SSSRed" : "P9toP19SSSBlue", Type.Absolute),
-                                new IntakeControlTask(false, 0.15)
+                                new IntakeFixerTask(0.15)
                             ),
 
                             new FeedRingTask(true, 0.35),
@@ -714,7 +714,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute), //comes back
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.25) //shoot
@@ -749,7 +749,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute), //comes back
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
 
                     ),
 
@@ -764,7 +764,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P7toP4CSRed" : "P7toP4CSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
                     
                     new FeedRingTask(true, 0.25)
@@ -784,10 +784,10 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT)
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 19.5)
                     ),
 
-                    new WaitTask(0.7),
+                    new WaitTask(0.9),
                     new FeedRingTask(true, 0.35), //shoot
 
                     ConcurrentTask.AllTasks(
@@ -797,9 +797,9 @@ public class AutonomousRoutineSelector
                     ),
 
                     ConcurrentTask.AllTasks(
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 19.5),
                         new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute), //comes back
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.35), //shoot
@@ -811,9 +811,9 @@ public class AutonomousRoutineSelector
                     ),
 
                     ConcurrentTask.AllTasks(
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 19.5),
                         new FollowPathTask(isRed ? "P7toP4CSRed" : "P7toP4CSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
 
                     ),
                     
@@ -826,9 +826,9 @@ public class AutonomousRoutineSelector
                     ),
 
                     ConcurrentTask.AllTasks(
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 19.5),
                         new FollowPathTask(isRed ? "P5toP4CSRed" : "P5toP4CSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
                     
                     new FeedRingTask(true, 0.25)
@@ -863,7 +863,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P6toP4CSRed" : "P6toP4CSBlue", Type.Absolute), //comes back
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.35), //shoot
@@ -877,7 +877,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                         new FollowPathTask(isRed ? "P5toP4CSRed" : "P5toP4CSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
 
                     ),
                     
@@ -919,7 +919,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
                         new FollowPathTask(isRed ? "P6toP6MCSRed" : "P6toP6MCSBlue", Type.Absolute), //comes back
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.35), //shoot
@@ -933,7 +933,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
                         new FollowPathTask(isRed ? "P7toP6MCSRed" : "P7toP6MCSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
                     
                     new FeedRingTask(true, 0.35),
@@ -947,7 +947,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_AUTO_P6M_SHOT),
                         new FollowPathTask(isRed ? "P5toP6MCSRed" : "P5toP6MCSBlue", Type.Absolute),
-                        new IntakeControlTask(false, 0.15)
+                        new IntakeFixerTask(0.15)
                     ),
 
                     new FeedRingTask(true, 0.35),

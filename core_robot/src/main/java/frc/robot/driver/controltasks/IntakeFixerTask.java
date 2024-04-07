@@ -9,7 +9,12 @@ public class IntakeFixerTask extends TimedTask
 
     public IntakeFixerTask()
     {
-        super(0.1);
+        this(0.1);
+    }
+
+    public IntakeFixerTask(double duration)
+    {
+        super(duration);
     }
 
     @Override
