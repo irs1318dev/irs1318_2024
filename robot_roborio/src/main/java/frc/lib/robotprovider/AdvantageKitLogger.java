@@ -63,6 +63,7 @@ public class AdvantageKitLogger implements ISmartDashboardLogger
         if (value == null)
         {
             Logger.recordOutput(key.value, -1318.0);
+            return;
         }
 
         Logger.recordOutput(key.value, value.doubleValue());
@@ -90,6 +91,7 @@ public class AdvantageKitLogger implements ISmartDashboardLogger
         if (value == null)
         {
             Logger.recordOutput(key.value, -1318);
+            return;
         }
 
         Logger.recordOutput(key.value, value.intValue());
