@@ -66,6 +66,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     public void precalculateOptimalPaths()
     {
+        System.out.println("Precalculating optimal paths through the graph");
         for (int i = 0; i < this.nodeCount; i++)
         {
             TGraphNode node = this.nodes.get(i);
