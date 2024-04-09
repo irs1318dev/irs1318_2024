@@ -126,7 +126,7 @@ public enum LoggingKey
     ArmShoulderError("arm/shErr", LoggingType.Number, false, true),
     ArmShoulderOutput("arm/shOutput", LoggingType.Number, false, true),
     ArmShoulderPowerAverage("arm/shPowAvg", LoggingType.Number, false, true),
-    ArmShoulderMotorPowerDiscrepancy("arm/shPowDiscrp", LoggingType.Number, false, true),
+    ArmShoulderMotorPowerDiscrepancy("arm/shPowDiscrp", LoggingType.Boolean, false, true),
     ArmShoulderVelocityAverage("arm/shVelAvg", LoggingType.Number, false, true),
     ArmShoulderStalled("arm/shStalled", LoggingType.Boolean, false, true),
     ArmWristSetpointTMP("arm/wrPosDesCurr", LoggingType.Number, false, true),
