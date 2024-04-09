@@ -195,8 +195,16 @@ public class CoreRobot<T extends AbstractModule>
                     this.logger.logInteger(key, 0);
                     break;
 
+                case NullableInteger:
+                    this.logger.logInteger(key, null);
+                    break;
+
                 case Number:
                     this.logger.logNumber(key, 0.0);
+                    break;
+
+                case NullableNumber:
+                    this.logger.logNumber(key, null);
                     break;
 
                 case String:

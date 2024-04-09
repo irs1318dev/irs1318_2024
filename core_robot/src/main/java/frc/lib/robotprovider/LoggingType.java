@@ -4,6 +4,8 @@ public enum LoggingType
 {
     String,
     Number,
+    NullableNumber,
     Integer,
+    NullableInteger,
     Boolean,
 }

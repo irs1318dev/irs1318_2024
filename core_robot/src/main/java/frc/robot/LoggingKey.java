@@ -16,13 +16,13 @@ public enum LoggingKey
     DriverActiveShifts("driver/activeShifts", LoggingType.String, false),
     AutonomousSelection("auto/selected", LoggingType.String, false),
     AutonomousDSMessage("auto/dsMessage", LoggingType.String, false),
-    OffboardVisionAprilTagXOffset("vision/atXOffset", LoggingType.String, true, 1),
-    OffboardVisionAprilTagYOffset("vision/atYOffset", LoggingType.String, true, 1),
-    OffboardVisionAprilTagZOffset("vision/atZOffset", LoggingType.String, true, 1),
-    OffboardVisionAprilTagYaw("vision/atYaw", LoggingType.String, true, 1),
-    OffboardVisionAprilTagPitch("vision/atPitch", LoggingType.String, true, 1),
-    OffboardVisionAprilTagRoll("vision/atRoll", LoggingType.String, true, 1),
-    OffboardVisionAprilTagId("vision/atId", LoggingType.String, true, 1),
+    OffboardVisionAprilTagXOffset("vision/atXOffset", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagYOffset("vision/atYOffset", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagZOffset("vision/atZOffset", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagYaw("vision/atYaw", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagPitch("vision/atPitch", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagRoll("vision/atRoll", LoggingType.NullableNumber, true, 1),
+    OffboardVisionAprilTagId("vision/atId", LoggingType.NullableInteger, true, 1),
     OffboardVisionProcessingMode("vision/processingMode", LoggingType.Integer, false, 1),
     OffboardVisionEnableStream("vision/enableStream", LoggingType.Boolean, false, 1),
     OffboardVisionDesiredTarget("vision/desiredTarget", LoggingType.String, false, 1),
@@ -65,7 +65,7 @@ public enum LoggingKey
     DriveTrainSteerPosition1("dt/steer_pos1", LoggingType.Number, true), // SDS-only
     DriveTrainSteerAngle1("dt/steer_ang1", LoggingType.Number, false),
     DriveTrainSteerError1("dt/steer_err1", LoggingType.Number, true), // SDS-only
-    DriveTrainSteerPositionGoal1("dt/steer_goal1", LoggingType.String, false),
+    DriveTrainSteerPositionGoal1("dt/steer_goal1", LoggingType.NullableNumber, false),
 
     DriveTrainAbsoluteEncoderAngle2("dt/absenc_ang2", LoggingType.Number, true),
     DriveTrainDriveVelocity2("dt/drive_vel2", LoggingType.Number, true),
@@ -76,7 +76,7 @@ public enum LoggingKey
     DriveTrainSteerPosition2("dt/steer_pos2", LoggingType.Number, true), // SDS-only
     DriveTrainSteerAngle2("dt/steer_ang2", LoggingType.Number, false),
     DriveTrainSteerError2("dt/steer_err2", LoggingType.Number, true), // SDS-only
-    DriveTrainSteerPositionGoal2("dt/steer_goal2", LoggingType.String, false),
+    DriveTrainSteerPositionGoal2("dt/steer_goal2", LoggingType.NullableNumber, false),
 
     DriveTrainAbsoluteEncoderAngle3("dt/absenc_ang3", LoggingType.Number, true),
     DriveTrainDriveVelocity3("dt/drive_vel3", LoggingType.Number, true),
@@ -87,7 +87,7 @@ public enum LoggingKey
     DriveTrainSteerPosition3("dt/steer_pos3", LoggingType.Number, true), // SDS-only
     DriveTrainSteerAngle3("dt/steer_ang3", LoggingType.Number, false),
     DriveTrainSteerError3("dt/steer_err3", LoggingType.Number, true), // SDS-only
-    DriveTrainSteerPositionGoal3("dt/steer_goal3", LoggingType.String, false),
+    DriveTrainSteerPositionGoal3("dt/steer_goal3", LoggingType.NullableNumber, false),
     
     DriveTrainAbsoluteEncoderAngle4("dt/absenc_ang4", LoggingType.Number, true),
     DriveTrainDriveVelocity4("dt/drive_vel4", LoggingType.Number, true),
@@ -98,7 +98,7 @@ public enum LoggingKey
     DriveTrainSteerPosition4("dt/steer_pos4", LoggingType.Number, true), // SDS-only
     DriveTrainSteerAngle4("dt/steer_ang4", LoggingType.Number, false),
     DriveTrainSteerError4("dt/steer_err4", LoggingType.Number, true), // SDS-only
-    DriveTrainSteerPositionGoal4("dt/steer_goal4", LoggingType.String, false),
+    DriveTrainSteerPositionGoal4("dt/steer_goal4", LoggingType.NullableNumber, false),
 
     // End Effector stuff
     IntakeMotorVelocity("ee/int_vel", LoggingType.Number, true),
@@ -142,8 +142,8 @@ public enum LoggingKey
 
     ArmShoulderPosAdjustment("arm/sh_pos_adj", LoggingType.Number, false),
     ArmWristPosAdjustment("arm/wr_pos_adj", LoggingType.Number, false),
-    ArmWristAbsoluteEncoderPosition("arm/wrAbsPos", LoggingType.String, true, true),
-    ArmShoulderAbsoluteEncoderPosition("arm/shAbsPos", LoggingType.String, true, true),
+    ArmWristAbsoluteEncoderPosition("arm/wrAbsPos", LoggingType.NullableNumber, true, true),
+    ArmShoulderAbsoluteEncoderPosition("arm/shAbsPos", LoggingType.NullableNumber, true, true),
 
     ArmExtensionBreaking("arm/exten_broken", LoggingType.Boolean, false),
     ArmFixedWithIK("arm/fixed_with_IK", LoggingType.Boolean, false),
