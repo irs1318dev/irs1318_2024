@@ -7,11 +7,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import com.google.inject.Injector;
-
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.CoreRobot;
-import frc.lib.robotprovider.IPowerDistribution;
 import frc.lib.robotprovider.IRobotProvider;
 
 /**
@@ -66,10 +63,10 @@ public class AKRobot extends LoggedRobot
             Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
         }
-        else if (RobotBase.isSimulation())
-        {
-            Logger.addDataReceiver(new NT4Publisher());
-        }
+        // else if (RobotBase.isSimulation())
+        // {
+        //     Logger.addDataReceiver(new NT4Publisher());
+        // }
         else
         {
             // Replaying a log, set up replay source
