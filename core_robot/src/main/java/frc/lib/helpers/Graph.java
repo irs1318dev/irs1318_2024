@@ -11,13 +11,17 @@ public abstract class Graph<TGraphNode extends GraphNode>
 {
     private final ArrayList<TGraphNode> nodes;
     private final ArrayList<ArrayList<TGraphNode>> optimalPredecessorPathMap;
+
     private int nodeCount;
+    private boolean precalculated;
 
     protected Graph()
     {
-        this.nodeCount = 0;
         this.optimalPredecessorPathMap = new ArrayList<ArrayList<TGraphNode>>();
         this.nodes = new ArrayList<TGraphNode>();
+
+        this.nodeCount = 0;
+        this.precalculated = false;
     }
 
     protected void addNode(TGraphNode node)
@@ -25,6 +29,8 @@ public abstract class Graph<TGraphNode extends GraphNode>
         node.ordinal = this.nodeCount++;
         this.nodes.add(node);
         this.optimalPredecessorPathMap.add(null);
+        ExceptionHelpers.Assert(this.nodes.size() == this.nodeCount, "Expect node count %d to equal node count %d", this.nodes.size(), this.nodeCount);
+        ExceptionHelpers.Assert(this.optimalPredecessorPathMap.size() == this.nodeCount, "Expect optimal predecessor map count %d to equal node count %d", this.nodes.size(), this.nodeCount);
     }
 
     public void connectBidirectional(TGraphNode node1, TGraphNode node2)
@@ -60,10 +66,15 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     public void precalculateOptimalPaths()
     {
-        for (TGraphNode node : this.nodes)
+        for (int i = 0; i < this.nodeCount; i++)
         {
-            this.optimalPredecessorPathMap.set(node.ordinal, this.dijkstra(node));
+            TGraphNode node = this.nodes.get(i);
+            ExceptionHelpers.Assert(node.ordinal == i, "Expect node ordinal %d to equal index %d", node.ordinal, i);
+            ArrayList<TGraphNode> optimalPredecessorNodes = this.dijkstra(node);
+            this.optimalPredecessorPathMap.set(i, optimalPredecessorNodes);
         }
+
+        this.precalculated = true;
     }
 
     public List<TGraphNode> getOptimalPath(TGraphNode start, TGraphNode end)
@@ -71,6 +82,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
         ArrayList<TGraphNode> optimalPredecessorNodes = this.optimalPredecessorPathMap.get(start.ordinal);
         if (optimalPredecessorNodes == null)
         {
+            ExceptionHelpers.Assert(!this.precalculated, "Didn't expect to need to calculate the optimal path if we precalculated them...");
             optimalPredecessorNodes = this.dijkstra(start);
             this.optimalPredecessorPathMap.set(start.ordinal, optimalPredecessorNodes);
         }
