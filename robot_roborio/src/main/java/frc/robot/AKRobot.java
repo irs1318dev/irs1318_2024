@@ -63,10 +63,10 @@ public class AKRobot extends LoggedRobot
             Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
         }
-        // else if (RobotBase.isSimulation())
-        // {
-        //     Logger.addDataReceiver(new NT4Publisher());
-        // }
+        else if (RobotBase.isSimulation())
+        {
+            Logger.addDataReceiver(new NT4Publisher());
+        }
         else
         {
             // Replaying a log, set up replay source
