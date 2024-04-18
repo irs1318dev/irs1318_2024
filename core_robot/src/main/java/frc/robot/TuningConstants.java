@@ -1035,6 +1035,7 @@ public class TuningConstants
     public static final int SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD = 100;
     public static final int SHOOT_VISION_RELATIVE_APRILTAG_NOT_FOUND_THRESHOLD = 100;
     public static final boolean SHOOT_VISION_RELATIVE_FIND_OFFCENTER_TAG = true;
+    public static final boolean SHOOT_VISION_RELATIVE_USE_ROBOT_YAW = true;
 
     public static final double SHOOT_VISION_WRIST_ACCURACY_THRESHOLD = 1.0;
 

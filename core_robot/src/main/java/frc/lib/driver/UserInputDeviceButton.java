@@ -43,16 +43,16 @@ package frc.lib.driver;
  * POV - Not supported... DPAD on the Tartarus is used for X/Y axes (up/right positive y/x, respectively).
  * -----------------------
  * XBox One Controller (and Logitech F310):
- * 1 - A
- * 2 - B
- * 3 - X
- * 4 - Y
- * 5 - LB (left button)
- * 6 - RB (right button)
- * 7 - Select (two squares)
- * 8 - Start (hamburger)
- * 9 - LS (left stick)
- * 10 - RS (right stick)
+ * 1 - A (1)
+ * 2 - B (2)
+ * 3 - X (4)
+ * 4 - Y (8)
+ * 5 - LB (16,  left button)
+ * 6 - RB (32, right button)
+ * 7 - Select (64, two squares)
+ * 8 - Start (128, hamburger)
+ * 9 - LS (256, left stick)
+ * 10 - RS (512, right stick)
  * POV - DPAD (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * -----------------------
  * PS4 Controller:
