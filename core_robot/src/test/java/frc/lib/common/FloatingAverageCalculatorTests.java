@@ -15,7 +15,7 @@ public class FloatingAverageCalculatorTests
     public void testFloatingAverageOverOneSecond()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1.0, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 1.0, 50.0);
 
         when(timer.get()).thenReturn(0.1);
         double result = calc.update(3.0);
@@ -62,7 +62,7 @@ public class FloatingAverageCalculatorTests
     public void testFloatingAverageOverHalfSecond()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 0.5, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 0.5, 50.0);
 
         when(timer.get()).thenReturn(0.1);
         double result = calc.update(13.0);
@@ -105,7 +105,7 @@ public class FloatingAverageCalculatorTests
     public void testFloatingAverageOverTwoSeconds()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 2.0, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 2.0, 50.0);
 
         when(timer.get()).thenReturn(1.0);
         double result = calc.update(10.0);
@@ -142,5 +142,38 @@ public class FloatingAverageCalculatorTests
         when(timer.get()).thenReturn(1.52);
         result = calc.update(10.5);
         Assertions.assertEquals(10.125, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
+    }
+
+    // @Test
+    public void testFloatingAverageOverQuarterSecond()
+    {
+        ITimer timer = mock(ITimer.class);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 20.0, 0.25, 100.0);
+
+        when(timer.get()).thenReturn(0.1);
+        double result = calc.update(13.0);
+        Assertions.assertEquals(13.0, result, 0.0001, "expect floating average to start at the initial value");
+        Assertions.assertEquals(13.0, calc.getValue(), 0.0001, "expect floating average to maintain its value when no updates have been applied");
+        Assertions.assertEquals(13.0, calc.getValue(), 0.0001, "expect floating average to maintain its value when no updates have been applied");
+
+        when(timer.get()).thenReturn(0.2);
+        result = calc.update(25.0);// over limit!
+        Assertions.assertEquals(15.8, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
+        Assertions.assertEquals(15.8, calc.getValue(), 0.0001, "expect floating average to maintain its value when no updates have been applied");
+        Assertions.assertEquals(15.8, calc.getValue(), 0.0001, "expect floating average to maintain its value when no updates have been applied");
+
+        when(timer.get()).thenReturn(0.3);
+        result = calc.update(13.5);
+        Assertions.assertEquals(16.0, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
+
+        when(timer.get()).thenReturn(0.4);
+        result = calc.update(13.5);
+        Assertions.assertEquals(14.8, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
+
+        // calc.setValue(25.0);
+
+        when(timer.get()).thenReturn(0.5);
+        result = calc.update(13.5);
+        Assertions.assertEquals(13.5, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
     }
 }

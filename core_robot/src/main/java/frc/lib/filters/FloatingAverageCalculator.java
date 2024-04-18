@@ -1,13 +1,17 @@
 package frc.lib.filters;
 
+import frc.lib.helpers.ExceptionHelpers;
+import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
 public class FloatingAverageCalculator implements ISimpleFilter
 {
     private final ITimer timer;
 
+    private final double maxValue;
     private final double duration;
     private final double samplesPerSecond;
+    private final double sampleDurationRate; // 1 / (#samples*duration)
     private final double sampleDuration;
 
     private final int totalSamples;
@@ -24,10 +28,24 @@ public class FloatingAverageCalculator implements ISimpleFilter
      */
     public FloatingAverageCalculator(ITimer timer, double duration, double samplesPerSecond)
     {
+        this(timer, Double.MAX_VALUE, duration, samplesPerSecond);
+    }
+
+    /**
+     * Average calculator to determine the mean value across a certain look-back time period
+     * @param maxValue the max value to accept as an input
+     * @param timer to calculate elapsed time between updates
+     * @param duration over which to maintain the average
+     * @param samplesPerSecond number of samples to keep per second
+     */
+    public FloatingAverageCalculator(ITimer timer, double maxValue, double duration, double samplesPerSecond)
+    {
         this.timer = timer;
+        this.maxValue = maxValue;
         this.duration = duration;
         this.samplesPerSecond = samplesPerSecond;
         this.sampleDuration = 1.0 / samplesPerSecond;
+        this.sampleDurationRate = 1.0 / (samplesPerSecond * duration);
 
         this.totalSamples = (int)(this.duration * this.samplesPerSecond);
         this.samples = new double[this.totalSamples];
@@ -42,6 +60,12 @@ public class FloatingAverageCalculator implements ISimpleFilter
     {
         double currTime = this.timer.get();
 
+        // ignore sample values that are too high to be realistic
+        if (!Helpers.WithinRange(value, -this.maxValue, this.maxValue))
+        {
+            value = this.maxValue;
+        }
+
         int prevIndex = (int)(this.prevTime * this.samplesPerSecond) % this.totalSamples;
         int currIndex = (int)(currTime * this.samplesPerSecond) % this.totalSamples;
 
@@ -54,6 +78,11 @@ public class FloatingAverageCalculator implements ISimpleFilter
 
         if (this.prevTime < 0.0)
         {
+            if (this.floatingAverage != 0.0)
+            {
+                this.reset();
+            }
+
             prevIndex = 0;
             currIndex = 0;
             slots = this.totalSamples + 1;
@@ -62,11 +91,25 @@ public class FloatingAverageCalculator implements ISimpleFilter
         for (int i = 1; i < slots; i++)
         {
             int index = (prevIndex + i) % this.totalSamples;
-            this.floatingAverage += ((value - this.samples[index]) * this.sampleDuration) / this.duration;
+            this.floatingAverage += (value - this.samples[index]) * this.sampleDurationRate;
             this.samples[index] = value;
         }
 
         this.prevTime = currTime;
+
+        if (!Helpers.WithinRange(this.floatingAverage, -this.maxValue, this.maxValue))
+        {
+            ExceptionHelpers.Assert(false, "How was our floating average above max value? %f", this.floatingAverage);
+
+            // not sure how this was possible.  Let's recalculate
+            double total = 0.0;
+            for (double sample : this.samples)
+            {
+                total += sample;
+            }
+
+            this.floatingAverage = total * this.sampleDurationRate;
+        }
 
         return this.floatingAverage;
     }
@@ -85,4 +128,10 @@ public class FloatingAverageCalculator implements ISimpleFilter
             this.samples[i] = 0.0;
         }
     }
+
+    // for testing:
+    // public void setValue(double value)
+    // {
+    //     this.floatingAverage = value;
+    // }
 }

@@ -9,6 +9,7 @@ import frc.lib.helpers.LinearInterpolator;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.ITimer;
+import frc.robot.HardwareConstants;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -75,8 +76,8 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
         super.begin();
 
         ITimer timer = this.getInjector().getInstance(ITimer.class);
-        this.visionAbsXFilter = new FloatingAverageCalculator(timer, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
-        this.visionAbsYFilter = new FloatingAverageCalculator(timer, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
+        this.visionAbsXFilter = new FloatingAverageCalculator(timer, HardwareConstants.FIELD_WIDTH_X, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
+        this.visionAbsYFilter = new FloatingAverageCalculator(timer, HardwareConstants.FIELD_LENGTH_Y, 0.5, TuningConstants.LOOPS_PER_SECOND); //new ComplementaryFilter(0.5, 0.5);
 
         this.vision = this.getInjector().getInstance(OffboardVisionManager.class);
         this.arm = this.getInjector().getInstance(ArmMechanism.class);

@@ -104,7 +104,14 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         Double yaw = this.visionManager.getAprilTagYaw();
         Integer tagId = this.visionManager.getAprilTagId();
 
-        if (xOffset == null || yOffset == null || yaw == null || tagId == null)
+        if (xOffset == null ||
+            yOffset == null ||
+            yaw == null ||
+            tagId == null ||
+            Helpers.RoughEquals(xOffset, -1318.0) ||
+            Helpers.RoughEquals(yOffset, -1318.0) ||
+            Helpers.RoughEquals(yaw, -1318.0) ||
+            tagId == -1318)
         {
             // for continuous turning - don't keep turning unless we still see the AprilTag
             this.turnAngle = null;

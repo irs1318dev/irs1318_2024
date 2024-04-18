@@ -50,7 +50,7 @@ public class PowerManager implements IMechanism
         this.batteryVoltage = this.powerDistribution.getBatteryVoltage();
         this.batteryVoltageFilter = new FadingMemoryFilter(0.4, 0.6, this.batteryVoltage);
 
-        this.currentAverageCalculator = new FloatingAverageCalculator(timer, TuningConstants.POWER_OVERCURRENT_TRACKING_DURATION, TuningConstants.POWER_OVERCURRENT_SAMPLES_PER_SECOND);
+        this.currentAverageCalculator = new FloatingAverageCalculator(timer, TuningConstants.POWER_OVERCURRENT_TRACKING_MAX_VALUE, TuningConstants.POWER_OVERCURRENT_TRACKING_DURATION, TuningConstants.POWER_OVERCURRENT_SAMPLES_PER_SECOND);
         this.currentFloatingAverage = 0.0;
     }
 

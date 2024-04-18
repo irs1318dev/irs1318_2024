@@ -53,6 +53,7 @@ public class TuningConstants
     //================================================= Power ======================================================
 
     public static final double POWER_OVERCURRENT_TRACKING_DURATION = 5.0; // duration of time to keep track of the average current
+    public static final double POWER_OVERCURRENT_TRACKING_MAX_VALUE = 1000.0; // 1000 amos is an unrealistic max value to use for overcurrent
     public static final double POWER_OVERCURRENT_SAMPLES_PER_LOOP = 1.0; // we may want to increase this if we find our update loop duration isn't very consistent...
     public static final double POWER_OVERCURRENT_SAMPLES_PER_SECOND = TuningConstants.LOOPS_PER_SECOND * TuningConstants.POWER_OVERCURRENT_SAMPLES_PER_LOOP;
     public static final double POWER_OVERCURRENT_THRESHOLD = 140.0;
@@ -631,7 +632,7 @@ public class TuningConstants
     public static final double ARM_SHOULDER_POSITION_GROUND_AMP_INT = TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL;
     public static final double ARM_WRIST_POSITION_GROUND_AMP_INT = 0.0;
 
-    public static final double ARM_WRIST_POSITION_PASSING = 9.5;
+    public static final double ARM_WRIST_POSITION_PASSING = 10.5;
 
     // vel - 1725.2799072265625 rpm - 33 inches off
     public static final double TRAP_DRIVE_SHOT_X_OFFSET = 32.95;
@@ -891,6 +892,8 @@ public class TuningConstants
     public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 10.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
+    public static final double MAX_POWER_VALUE = 250.0 * 12.0; // 250A at 12V, completely unrealistic amount of power
+    public static final double ARM_JOINT_VELOCITY_AVERAGE_VALUE = 2880.0; // our actual max is around much smaller, 8 rotations/sec is unrealistic
     public static final double ARM_SHOULDER_STALLED_POWER_THRESHOLD = TuningConstants.ARM_SHOULDER_STALLED_CURRENT_THRESHOLD * TuningConstants.BATTERY_AVERAGE_EXPECTED_VOLTAGE;
     public static final double ARM_SHOULDER_STALLED_VELOCITY_THRESHOLD = 1.0; // degrees per second
     public static final double ARM_WRIST_STALLED_CURRENT_THRESHOLD = 8.0;
@@ -997,6 +1000,7 @@ public class TuningConstants
             95,
             105,
             115,
+            125,
         };
 
     // angles where successful shots were made at the given velocity and location
@@ -1004,11 +1008,12 @@ public class TuningConstants
         {
             21.09642896474634,
             16,
-            13.5,
-            10.5,
-            6.5,
-            6.5,
+            12.5,
+            9.5,
             5.5,
+            5.5,
+            4.0,
+            2.5,
         };
 
     // velocities where successful shots were made at the given angle and location
@@ -1019,6 +1024,7 @@ public class TuningConstants
             3800.0,
             3800.0,
             3800.0,
+            4000.0,
             4000.0,
             4000.0,
         };

@@ -1222,7 +1222,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Toggle, 
             () -> ConcurrentTask.AllTasks(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_PASSING),
-                new ShooterSpinTask(2600)
+                new ShooterSpinTask(2900)
             ),
             new IOperation[]
             {
