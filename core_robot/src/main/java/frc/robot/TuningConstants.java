@@ -211,7 +211,7 @@ public class TuningConstants
     public static final double VISION_FAST_MOVING_PID_MIN = -0.45;
     public static final double VISION_FAST_MOVING_PID_MAX = 0.45;
 
-    public static final int VISION_MISSED_HEARTBEAT_THRESHOLD = 500;
+    public static final int VISION_MISSED_HEARTBEAT_THRESHOLD = 50;
 
     public static final double ORIENTATION_TURN_THRESHOLD = 2.0; // number of degrees off at which point we give up trying to face an angle
 
@@ -528,7 +528,7 @@ public class TuningConstants
     public static final double ARM_WRIST_PRACTICE_MIN_POSITION = -112.0; // in degrees
     public static final double ARM_WRIST_PRACTICE_MAX_POSITION = 180.0; // in degrees
 
-    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -28.24; // in degrees
+    public static final double ARM_SHOULDER_COMP_MIN_POSITION = -29.0; // in degrees
     public static final double ARM_SHOULDER_COMP_MAX_POSITION = 58.0; // in degrees
     public static final double ARM_WRIST_COMP_MIN_POSITION = -118.58;//-114.23; // in degrees
     public static final double ARM_WRIST_COMP_MAX_POSITION = 180.0; // in degrees
@@ -544,7 +544,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 29.5 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 31.6 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 20.76609577449192 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -613,7 +613,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_QUICK_TUCK = -66.80892944335938;
 
     public static final double ARM_SHOULDER_POSITION_AMP_OUTTAKE = -15.9;
-    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -83.0;
+    public static final double ARM_WRIST_POSITION_AMP_OUTTAKE = -80.0;
 
     public static final double ARM_WRIST_POSITION_BOT_DISTANCE_SHOT = 56.42597961425781;
 

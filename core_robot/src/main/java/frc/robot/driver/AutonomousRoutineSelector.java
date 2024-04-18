@@ -574,7 +574,7 @@ public class AutonomousRoutineSelector
                     ConcurrentTask.AllTasks(
                         new FollowPathTask(isRed ? "P2toP8SSRed" : "P2toP8SSBlue", Type.Absolute),
                         new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
-                        new IntakeControlTask(true, 3.5)
+                        new IntakeControlTask(true, 4.5)
                     ),
 
                     new DecisionNoteTask(

@@ -2,6 +2,7 @@ package frc.robot.mechanisms;
 
 import frc.robot.*;
 import frc.lib.driver.IDriver;
+import frc.lib.helpers.Helpers;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
@@ -95,7 +96,7 @@ public class OffboardVisionManager implements IMechanism
     private List<Integer> prevTargets;
 
     private int missedHeartbeats;
-    private long prevHeartbeat;
+    private double prevHeartbeat;
 
     /**
      * Initializes a new OffboardVisionManager
@@ -153,7 +154,7 @@ public class OffboardVisionManager implements IMechanism
         this.prevTargets = null;
 
         this.missedHeartbeats = 0;
-        this.prevHeartbeat = 0L;
+        this.prevHeartbeat = 0.0;
     }
 
     /**
@@ -189,7 +190,7 @@ public class OffboardVisionManager implements IMechanism
         double absError = this.absErrorSubscriber.get();
 
         double newHeartbeat = this.heartbeatSubscriber.get();
-        if (this.prevHeartbeat != newHeartbeat)
+        if (!Helpers.RoughEquals(this.prevHeartbeat, newHeartbeat, 0.5))
         {
             this.missedHeartbeats = 0;
         }
@@ -198,6 +199,7 @@ public class OffboardVisionManager implements IMechanism
             this.missedHeartbeats++;
         }
 
+        this.prevHeartbeat = newHeartbeat;
         this.logger.logNumber(LoggingKey.OffboardVisionMissedHeartbeats, this.missedHeartbeats);
 
         boolean missedHeartbeatExceedsThreshold = this.missedHeartbeats > TuningConstants.VISION_MISSED_HEARTBEAT_THRESHOLD;

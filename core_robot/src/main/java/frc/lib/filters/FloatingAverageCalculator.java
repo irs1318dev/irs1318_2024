@@ -6,6 +6,7 @@ import frc.lib.robotprovider.ITimer;
 
 public class FloatingAverageCalculator implements ISimpleFilter
 {
+    private static final double RECALC_PERIOD = 1.0;
     private final ITimer timer;
 
     private final double maxValue;
@@ -17,6 +18,7 @@ public class FloatingAverageCalculator implements ISimpleFilter
     private final int totalSamples;
     private final double[] samples;
 
+    private double lastRecalcTime;
     private double prevTime;
     private double floatingAverage;
 
@@ -95,11 +97,10 @@ public class FloatingAverageCalculator implements ISimpleFilter
             this.samples[index] = value;
         }
 
-        this.prevTime = currTime;
-
-        if (!Helpers.WithinRange(this.floatingAverage, -this.maxValue, this.maxValue))
+        if (!Helpers.WithinRange(this.floatingAverage, -this.maxValue, this.maxValue) ||
+            currTime >= this.lastRecalcTime + FloatingAverageCalculator.RECALC_PERIOD)
         {
-            ExceptionHelpers.Assert(false, "How was our floating average above max value? %f", this.floatingAverage);
+            ExceptionHelpers.Assert(Helpers.WithinRange(this.floatingAverage, -this.maxValue, this.maxValue), "How was our floating average above max value? %f", this.floatingAverage);
 
             // not sure how this was possible.  Let's recalculate
             double total = 0.0;
@@ -109,7 +110,10 @@ public class FloatingAverageCalculator implements ISimpleFilter
             }
 
             this.floatingAverage = total * this.sampleDurationRate;
+            this.lastRecalcTime = currTime;
         }
+
+        this.prevTime = currTime;
 
         return this.floatingAverage;
     }
@@ -121,6 +125,7 @@ public class FloatingAverageCalculator implements ISimpleFilter
 
     public void reset()
     {
+        this.lastRecalcTime = -1.0;
         this.prevTime = -1.0;
         this.floatingAverage = 0.0;
         for (int i = 0; i < this.totalSamples; i++)

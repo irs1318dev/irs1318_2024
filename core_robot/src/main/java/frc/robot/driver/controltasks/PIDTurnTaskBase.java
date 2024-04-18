@@ -83,7 +83,7 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
         if (currentMeasuredAngle != null)
         {
             double turnSpeed = this.turnPidHandler.calculatePosition(0.0, currentMeasuredAngle);
-            this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, turnSpeed);
+            this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, -turnSpeed);
         }
         else if (!this.keepTurningWithNoSample)
         {

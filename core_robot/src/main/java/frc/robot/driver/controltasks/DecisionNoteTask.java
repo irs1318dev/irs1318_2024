@@ -21,10 +21,12 @@ public class DecisionNoteTask extends DecisionSequentialTask
         EndEffectorMechanism eeMechanism = this.getInjector().getInstance(EndEffectorMechanism.class);
         if (eeMechanism.hasGamePiece())
         {
+            System.out.println("has gamepiece");
             this.AppendTask(this.hasNoteTask);
         }
         else
         {
+            System.out.println("no gamepiece");
             this.AppendTask(this.noNoteTask);
         }
     }

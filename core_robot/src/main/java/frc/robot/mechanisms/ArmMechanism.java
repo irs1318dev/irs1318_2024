@@ -360,10 +360,13 @@ public class ArmMechanism implements IMechanism
         double wristCurrent = this.powerManager.getCurrent(ElectronicsConstants.ARM_WRIST_PDH_CHANNEL);
         double batteryVoltage = this.powerManager.getBatteryVoltage();
 
-        this.shoulderMasterPowerAverage = this.shoulderMasterPowerAverageCalculator.update(shoulderCurrent * batteryVoltage);
-        this.shoulderFollowerPowerAverage = this.shoulderFollowerPowerAverageCalculator.update(shoulderFollowerCurrent * batteryVoltage);
+        double shoulderPower = shoulderCurrent * batteryVoltage;
+        double shoulderFollowerPower = shoulderFollowerCurrent * batteryVoltage;
+        double wristPower = wristCurrent * batteryVoltage;
+        this.shoulderMasterPowerAverage = this.shoulderMasterPowerAverageCalculator.update(shoulderPower);
+        this.shoulderFollowerPowerAverage = this.shoulderFollowerPowerAverageCalculator.update(shoulderFollowerPower);
         this.shoulderPowerAverage = 0.5 * (this.shoulderMasterPowerAverage + this.shoulderFollowerPowerAverage);
-        this.wristPowerAverage = this.wristPowerAverageCalculator.update(wristCurrent * batteryVoltage);
+        this.wristPowerAverage = this.wristPowerAverageCalculator.update(wristPower);
 
         this.shoulderVelocityAverage = this.shoulderVelocityAverageCalculator.update(Math.abs(this.shoulderVelocity));
         this.wristVelocityAverage = this.wristVelocityAverageCalculator.update(Math.abs(this.wristVelocity));
@@ -381,11 +384,14 @@ public class ArmMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ArmShoulderError, this.shoulderError);
         this.logger.logBoolean(LoggingKey.ArmShoulderMotorPowerDiscrepancy, isShoulderMotorPowerDiscrepancy);
         this.logger.logNumber(LoggingKey.ArmShoulderPowerAverage, this.shoulderPowerAverage);
+        this.logger.logNumber(LoggingKey.ArmShoulderPower, shoulderPower);
+        this.logger.logNumber(LoggingKey.ArmShoulderFollowerPower, shoulderFollowerPower);
         this.logger.logNumber(LoggingKey.ArmWristPosition, this.wristPosition);
         this.logger.logNumber(LoggingKey.ArmWristVelocity, this.wristVelocity);
         this.logger.logNumber(LoggingKey.ArmWristVelocityAverage, this.wristVelocityAverage);
         this.logger.logNumber(LoggingKey.ArmWristError, this.wristError);
         this.logger.logNumber(LoggingKey.ArmWristPowerAverage, this.wristPowerAverage);
+        this.logger.logNumber(LoggingKey.ArmWristPower, shoulderPower);
         this.logger.logBoolean(LoggingKey.ArmWristLimitSwitch, this.wristLimitSwitchHit);
         this.logger.logNumber(LoggingKey.ArmWristAbsoluteEncoderPosition, this.wristAbsoluteEncoderPosition);
         this.logger.logNumber(LoggingKey.ArmShoulderAbsoluteEncoderPosition, this.shoulderAbsoluteEncoderPosition);
