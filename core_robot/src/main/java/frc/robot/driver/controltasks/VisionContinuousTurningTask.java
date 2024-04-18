@@ -141,10 +141,6 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
             case AprilTagParallelizing:
                 // turn to match the yaw, so we are lined up parallel to the tag
                 angle = this.visionManager.getAprilTagYaw();
-                if (angle != null)
-                {
-                    angle = -1.0 * angle;
-                }
 
                 break;
 
@@ -158,7 +154,7 @@ public class VisionContinuousTurningTask extends PIDTurnTaskBase
                 }
                 else
                 {
-                    angle = -Helpers.atan2d(yOffset, xOffset);
+                    angle = Helpers.atan2d(yOffset, xOffset);
                 }
 
                 break;

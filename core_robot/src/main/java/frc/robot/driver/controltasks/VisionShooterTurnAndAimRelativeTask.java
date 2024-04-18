@@ -9,6 +9,7 @@ import frc.lib.filters.ISimpleFilter;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.ImmutablePair;
 import frc.lib.helpers.LinearInterpolator;
+import frc.lib.mechanisms.IIMUManager;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.ITimer;
@@ -18,6 +19,7 @@ import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.EndEffectorMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
+import frc.robot.mechanisms.PigeonManager;
 import frc.robot.mechanisms.SDSDriveTrainMechanism;
 
 public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
@@ -38,16 +40,18 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
 
     private ISimpleFilter visionRelXFilter;
     private ISimpleFilter visionRelYFilter;
-    private ISimpleFilter visionRelYawFilter;
 
     private OffboardVisionManager visionManager;
     private ArmMechanism armMechanism;
     private SDSDriveTrainMechanism driveTrainMechanism;
     private EndEffectorMechanism endEffectorMechanism;
+    private IIMUManager imuManager;
 
     private boolean isRedAlliance;
 
     private Double turnAngle;
+    private Double turnRelativeYaw;
+
     private Double wristAngle;
     private Double farFlywheelVelocity;
     private Double nearFlywheelVelocity;
@@ -57,7 +61,7 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
 
     public VisionShooterTurnAndAimRelativeTask()
     {
-        super(true, false, TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD);
+        super(true, false, TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD, TuningConstants.SHOOT_VISION_RELATIVE_USE_ROBOT_YAW);
 
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
         this.velocityLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES);
@@ -69,12 +73,12 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         // ITimer timer = this.getInjector().getInstance(ITimer.class);
         this.visionRelXFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
         this.visionRelYFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
-        this.visionRelYawFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);
         this.endEffectorMechanism = this.getInjector().getInstance(EndEffectorMechanism.class);
         this.driveTrainMechanism = this.getInjector().getInstance(SDSDriveTrainMechanism.class);
+        this.imuManager = this.getInjector().getInstance(PigeonManager.class);
 
         this.noTargetCount = 0;
         this.hasEverSeenTarget = false;
@@ -106,8 +110,18 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
 
         if (xOffset == null || yOffset == null || yaw == null || tagId == null)
         {
-            // for continuous turning - don't keep turning unless we still see the AprilTag
-            this.turnAngle = null;
+            if (TuningConstants.SHOOT_VISION_RELATIVE_USE_ROBOT_YAW &&
+                this.turnAngle != null &&
+                this.turnRelativeYaw != null)
+            {
+                double currentRobotYaw = this.imuManager.getYaw();
+                this.turnAngle -= (currentRobotYaw - this.turnRelativeYaw);
+            }
+            else
+            {
+                // for continuous turning - don't keep turning unless we still see the AprilTag
+                this.turnAngle = null;
+            }
 
             this.noTargetCount++;
         }
@@ -136,7 +150,8 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
                 goalDistance = Math.sqrt(xOffset * xOffset + yOffset * yOffset);
             }
 
-            this.turnAngle = -goalAngle;
+            this.turnAngle = goalAngle;
+            this.turnRelativeYaw = this.imuManager.getYaw();
 
             this.wristAngle = this.angleLinterp.sample(goalDistance);
 

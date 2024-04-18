@@ -63,7 +63,7 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
 
     public VisionShooterTurnAndAimAbsoluteTask()
     {
-        super(true, false, TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD);
+        super(true, false, TuningConstants.SHOOT_VISION_ABSOLUTE_APRILTAG_NOT_FOUND_THRESHOLD, false);
 
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
         this.velocityLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES);
@@ -154,7 +154,7 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
                     goalAngle = 180.0 + goalAngle;
                 }
     
-                this.orientationTheta = Helpers.updateAngleRange180(this.pigeonManager.getYaw() - goalAngle);
+                this.orientationTheta = -Helpers.updateAngleRange180(this.pigeonManager.getYaw() - goalAngle);
     
                 this.distanceToSpeaker = Math.sqrt(
                     Math.pow(absoluteDeltaXSpeakerToRobot, 2) +
@@ -201,7 +201,7 @@ public class VisionShooterTurnAndAimAbsoluteTask extends PIDTurnTaskBase
                 goalAngle = 180.0 + goalAngle;
             }
 
-            this.orientationTheta = Helpers.updateAngleRange180(this.pigeonManager.getYaw() - goalAngle);
+            this.orientationTheta = -Helpers.updateAngleRange180(this.pigeonManager.getYaw() - goalAngle);
 
             this.distanceToSpeaker = Math.sqrt(
                 Math.pow(absoluteDeltaXSpeakerToRobot, 2) +
