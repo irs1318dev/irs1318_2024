@@ -544,7 +544,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 31.6 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 33.0 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 20.76609577449192 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
@@ -731,7 +731,7 @@ public class TuningConstants
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
     
     // Through Bore Reset Shoulder
-    public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 0.1;
+    public static final double ARM_SHOULDER_RESET_STOPPED_VELOCITY_THRESHOLD = 5.0;
     public static final double ARM_SHOULDER_RESET_AT_POSITION_THRESHOLD = 3.0;
     public static final double ARM_SHOULDER_RESET_CORRECTION_THRESHOLD = 1.0;
     public static final double ARM_SHOULDER_ABSOLUTE_ENCODER_OFFSET = 0.0;
@@ -1001,6 +1001,7 @@ public class TuningConstants
             105,
             115,
             125,
+            140,
         };
 
     // angles where successful shots were made at the given velocity and location
@@ -1014,6 +1015,7 @@ public class TuningConstants
             5.5,
             4.0,
             2.5,
+            0.6
         };
 
     // velocities where successful shots were made at the given angle and location
@@ -1026,7 +1028,8 @@ public class TuningConstants
             3800.0,
             4000.0,
             4000.0,
-            4000.0,
+            4250.0,
+            4250.0
         };
 
     public static final double SHOOT_VISION_SPEED = 4000;
