@@ -843,10 +843,10 @@ public class AutonomousRoutineSelector
                             locManager.getOrientationOrHeading(180),
                             true,
                             true),
-                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 19.5)
+                        new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, 17.5)
                     ),
 
-                    new WaitTask(0.7),
+                    new WaitTask(0.9),
                     new FeedRingTask(true, 0.25), //shoot
 
                     ConcurrentTask.AllTasks(

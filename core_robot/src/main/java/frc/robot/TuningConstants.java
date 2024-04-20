@@ -888,8 +888,8 @@ public class TuningConstants
 
     // Arm Stall protection
     public static final boolean ARM_STALL_PROTECTION_ENABLED = true;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 27.0;
-    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 10.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_BUFFER = 127.0;
+    public static final double ARM_SHOULDER_STALLED_CURRENT_THRESHOLD = 110.0;
     public static final double BATTERY_AVERAGE_EXPECTED_VOLTAGE = 12.0;
     public static final double PERCENT_OUTPUT_MULTIPLIER = 40.0;
     public static final double MAX_POWER_VALUE = 250.0 * 12.0; // 250A at 12V, completely unrealistic amount of power
