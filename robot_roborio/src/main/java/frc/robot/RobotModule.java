@@ -24,11 +24,11 @@ public class RobotModule extends AbstractModule
 
         if (TuningConstants.USE_ADVANTAGE_KIT)
         {
-            this.bind(ISmartDashboardLogger.class).to(SmartDashboardLogger.class);
+            this.bind(ISmartDashboardLogger.class).to(AdvantageKitLogger.class);
         }
         else
         {
-            this.bind(ISmartDashboardLogger.class).to(AdvantageKitLogger.class);
+            this.bind(ISmartDashboardLogger.class).to(SmartDashboardLogger.class);
         }
     }
 

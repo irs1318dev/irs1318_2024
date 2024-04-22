@@ -10,7 +10,7 @@ import frc.lib.helpers.Helpers;
  */
 public class HardwareConstants
 {
-    public static final double MAX_ROBOT_HEIGHT = 45.25;//44.75; // inches, max overall height
+    public static final double MAX_ROBOT_HEIGHT = 45.5;//44.75; // inches, max overall height
     public static final double MAX_ROBOT_EXTENSION = 10.0;//9.75; // inches, max extension beyond frame perimeter
     public static final double ROBOT_FRAME_DIMENSION = 28.0; // frame perimeter / 4.0
     public static final double ROBOT_HALF_FRAME_PERIMETER = 17.0; // "half frame dimension" + 3.0"
@@ -104,5 +104,12 @@ public class HardwareConstants
     public static final double SHOOTER_NEAR_FLYWHEEL_TICK_DISTANCE = 1.0;
     public static final double SHOOTER_FAR_FLYWHEEL_TICK_DISTANCE = 1.0;
 
-    public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;
+    public static final double SHOOTER_FLYWHEEL_RADIUS = 2.0;  
+
+    //=============================================== Field =====================================================================//
+    public static final double FIELD_WIDTH_X = 653.0;
+    public static final double FIELD_HALF_WIDTH_X = FIELD_WIDTH_X / 2.0;
+    public static final double FIELD_LENGTH_Y = 323.0;
+
+
 }

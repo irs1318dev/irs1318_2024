@@ -1,7 +1,6 @@
 package frc.robot.mechanisms;
 
 import java.util.List;
-import java.util.Set;
 
 import frc.lib.helpers.Graph;
 import frc.lib.helpers.GraphNode;
@@ -17,8 +16,8 @@ public class ArmKinematicsCalculator
 {
     private static ArmGraph graph;
 
+    public static ArmGraphNode startingConfiguration;
     private static ArmGraphNode lowerUniversalTransit;
-    private static ArmGraphNode startingConfiguration;
     private static ArmGraphNode groundPickup;
     private static ArmGraphNode groundShot;
     private static ArmGraphNode upperUniversalTransit;
@@ -33,6 +32,7 @@ public class ArmKinematicsCalculator
     private static ArmGraphNode trapIntermediate;
     private static ArmGraphNode upperObtuseWrist;
     private static ArmGraphNode ampScoreOuttakeUp;
+    private static ArmGraphNode quickTuck;
 
     static
     {
@@ -120,6 +120,11 @@ public class ArmKinematicsCalculator
             TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE,
             TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE);
 
+        ArmKinematicsCalculator.quickTuck = ArmKinematicsCalculator.graph.createNode(
+            "groundAmpInt",
+            TuningConstants.ARM_SHOULDER_POSITION_QUICK_TUCK,
+            TuningConstants.ARM_WRIST_POSITION_QUICK_TUCK);
+
         // create all of the links between the nodes
 
         // lower-universal transit to lower-univeral nodes
@@ -163,6 +168,15 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.groundPickup,
             ArmKinematicsCalculator.groundShot,
             TuningConstants.GROUND_PICKUP_AND_GROUND_SHOT_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.startingConfiguration,
+            TuningConstants.QUICK_TUCK_AND_STARTING_CONFIGURATION_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.groundShot,
+            TuningConstants.GROUND_SHOT_AND_QUICK_TUCK_WEIGHT);
+        
 
         // links between each of the upper-universal node combinations
         ArmKinematicsCalculator.graph.connectBidirectional(
@@ -252,11 +266,22 @@ public class ArmKinematicsCalculator
             ArmKinematicsCalculator.upperObtuseWrist,
             TuningConstants.AMP_SCORE_AND_OBTUSE_WRIST_WEIGHT);
 
-        // TEST - SPEEDS UP AMP EVEN MORE
+        // AMP FAST CONNECTIONS
         ArmKinematicsCalculator.graph.connectBidirectional(
             ArmKinematicsCalculator.tuckedGroundTransit,
             ArmKinematicsCalculator.ampScore,
             TuningConstants.AMP_SCORE_AND_TUCKED_GROUND_TRANSIT_WEIGHT);
+
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.groundPickup,
+            TuningConstants.GROUND_PICKUP_AND_QUICK_TUCK_WEIGHT);
+        ArmKinematicsCalculator.graph.connectBidirectional(
+            ArmKinematicsCalculator.quickTuck,
+            ArmKinematicsCalculator.ampScoreOuttakeUp,
+            TuningConstants.QUICK_TUCK_AND_AMP_OUTTAKE_WEIGHT);
+
+        
     }
 
     public enum ExtensionType
@@ -657,9 +682,14 @@ public class ArmKinematicsCalculator
         return ArmKinematicsCalculator.graph.getOptimalPath(startArmGraphNode, goalArmGraphNode);
     }
 
-    public static Set<ArmGraphNode> getAllGraphNodes()
+    public static List<ArmGraphNode> getAllGraphNodes()
     {
         return ArmKinematicsCalculator.graph.getNodes();
+    }
+
+    public static void precalculateOptimalPaths()
+    {
+        ArmKinematicsCalculator.graph.precalculateOptimalPaths();
     }
 
     private static class ArmGraph extends Graph<ArmGraphNode>

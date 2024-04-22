@@ -2,6 +2,7 @@ package frc.robot.mechanisms;
 
 import frc.robot.*;
 import frc.lib.driver.IDriver;
+import frc.lib.helpers.Helpers;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
@@ -29,6 +30,7 @@ public class OffboardVisionManager implements IMechanism
         DigitalOperation.VisionFindAmpAprilTagRear,
         DigitalOperation.VisionFindStageAprilTagsFront,
         DigitalOperation.VisionFindStageAprilTagsRear,
+        DigitalOperation.VisionFindAbsolutePosition,
     };
 
     public static final List<DigitalOperation> PossibleFrontVisionOperations =
@@ -50,7 +52,7 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atrYawSubscriber;
     private IDoubleSubscriber atrPitchSubscriber;
     private IDoubleSubscriber atrRollSubscriber;
-    private IIntegerSubscriber atrIdSubscriber;
+    private IDoubleSubscriber atrIdSubscriber;
 
     private IDoubleSubscriber atfXOffsetSubscriber;
     private IDoubleSubscriber atfYOffsetSubscriber;
@@ -58,9 +60,19 @@ public class OffboardVisionManager implements IMechanism
     private IDoubleSubscriber atfYawSubscriber;
     private IDoubleSubscriber atfPitchSubscriber;
     private IDoubleSubscriber atfRollSubscriber;
-    private IIntegerSubscriber atfIdSubscriber;
+    private IDoubleSubscriber atfIdSubscriber;
 
-    private IIntegerSubscriber heartbeatSubscriber;
+    private IDoubleSubscriber absXOffsetSubscriber;
+    private IDoubleSubscriber absYOffsetSubscriber;
+    private IDoubleSubscriber absZOffsetSubscriber;
+    private IDoubleSubscriber absRollAngleSubscriber;
+    private IDoubleSubscriber absPitchAngleSubscriber;
+    private IDoubleSubscriber absYawAngleSubscriber;
+    private IDoubleSubscriber absTagIdSubscriber;
+    private IDoubleSubscriber absDecisionMarginSubscriber;
+    private IDoubleSubscriber absErrorSubscriber;
+
+    private IDoubleSubscriber heartbeatSubscriber;
 
     private Double atXOffset;
     private Double atYOffset;
@@ -70,11 +82,21 @@ public class OffboardVisionManager implements IMechanism
     private Double atRoll;
     private Integer atId;
 
+    private Double absXOffset;
+    private Double absYOffset;
+    private Double absZOffset;
+    private Double absRollAngle;
+    private Double absPitchAngle;
+    private Double absYawAngle;
+    private Integer absTagId;
+    private Double absDecisionMargin;
+    private Double absError;
+
     private int prevMode;
     private List<Integer> prevTargets;
 
     private int missedHeartbeats;
-    private long prevHeartbeat;
+    private double prevHeartbeat;
 
     /**
      * Initializes a new OffboardVisionManager
@@ -96,7 +118,7 @@ public class OffboardVisionManager implements IMechanism
         this.atrYawSubscriber = this.networkTable.getDoubleSubscriber("atr.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atrPitchSubscriber = this.networkTable.getDoubleSubscriber("atr.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atrRollSubscriber = this.networkTable.getDoubleSubscriber("atr.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atrIdSubscriber = this.networkTable.getIntegerSubscriber("atr.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+        this.atrIdSubscriber = this.networkTable.getDoubleSubscriber("atr.tagId", (int)TuningConstants.MAGIC_NULL_VALUE);
 
         this.atfXOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.xOffset", TuningConstants.MAGIC_NULL_VALUE);
         this.atfYOffsetSubscriber = this.networkTable.getDoubleSubscriber("atf.yOffset", TuningConstants.MAGIC_NULL_VALUE);
@@ -104,9 +126,19 @@ public class OffboardVisionManager implements IMechanism
         this.atfYawSubscriber = this.networkTable.getDoubleSubscriber("atf.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfPitchSubscriber = this.networkTable.getDoubleSubscriber("atf.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
         this.atfRollSubscriber = this.networkTable.getDoubleSubscriber("atf.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
-        this.atfIdSubscriber = this.networkTable.getIntegerSubscriber("atf.tagId", (int) TuningConstants.MAGIC_NULL_VALUE);
+        this.atfIdSubscriber = this.networkTable.getDoubleSubscriber("atf.tagId", (int)TuningConstants.MAGIC_NULL_VALUE);
 
-        this.heartbeatSubscriber = this.networkTable.getIntegerSubscriber("v.heartbeat", 0);
+        this.absXOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.xOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absYOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.yOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absZOffsetSubscriber = this.networkTable.getDoubleSubscriber("abs.zOffset", TuningConstants.MAGIC_NULL_VALUE);
+        this.absRollAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.rollAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absPitchAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.pitchAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absYawAngleSubscriber = this.networkTable.getDoubleSubscriber("abs.yawAngle", TuningConstants.MAGIC_NULL_VALUE);
+        this.absTagIdSubscriber = this.networkTable.getDoubleSubscriber("abs.tagId", TuningConstants.MAGIC_NULL_VALUE);
+        this.absDecisionMarginSubscriber = this.networkTable.getDoubleSubscriber("abs.decisionMargin", TuningConstants.MAGIC_NULL_VALUE);
+        this.absErrorSubscriber = this.networkTable.getDoubleSubscriber("abs.error", TuningConstants.MAGIC_NULL_VALUE);
+
+        this.heartbeatSubscriber = this.networkTable.getDoubleSubscriber("v.heartbeat", 0);
 
         this.ds = provider.getDriverStation();
 
@@ -122,7 +154,7 @@ public class OffboardVisionManager implements IMechanism
         this.prevTargets = null;
 
         this.missedHeartbeats = 0;
-        this.prevHeartbeat = 0L;
+        this.prevHeartbeat = 0.0;
     }
 
     /**
@@ -147,8 +179,18 @@ public class OffboardVisionManager implements IMechanism
         double atfRoll = this.atfRollSubscriber.get();
         int atfId = (int)this.atfIdSubscriber.get();
 
-        long newHeartbeat = this.heartbeatSubscriber.get();
-        if (this.prevHeartbeat != newHeartbeat)
+        double absXOffset = this.absXOffsetSubscriber.get();
+        double absYOffset = this.absYOffsetSubscriber.get();
+        double absZOffset = this.absZOffsetSubscriber.get();
+        double absRollAngle = this.absRollAngleSubscriber.get();
+        double absPitchAngle = this.absPitchAngleSubscriber.get();
+        double absYawAngle = this.absYawAngleSubscriber.get();
+        int absTagId = (int)this.absTagIdSubscriber.get();
+        double absDecisionMargin = this.absDecisionMarginSubscriber.get();
+        double absError = this.absErrorSubscriber.get();
+
+        double newHeartbeat = this.heartbeatSubscriber.get();
+        if (!Helpers.RoughEquals(this.prevHeartbeat, newHeartbeat, 0.5))
         {
             this.missedHeartbeats = 0;
         }
@@ -157,9 +199,11 @@ public class OffboardVisionManager implements IMechanism
             this.missedHeartbeats++;
         }
 
+        this.prevHeartbeat = newHeartbeat;
         this.logger.logNumber(LoggingKey.OffboardVisionMissedHeartbeats, this.missedHeartbeats);
 
         boolean missedHeartbeatExceedsThreshold = this.missedHeartbeats > TuningConstants.VISION_MISSED_HEARTBEAT_THRESHOLD;
+        this.logger.logBoolean(LoggingKey.OffboardVisionExcessiveMissedHeartbeats, missedHeartbeatExceedsThreshold);
 
         // reset if we couldn't find the april tag
         this.atXOffset = null;
@@ -169,6 +213,16 @@ public class OffboardVisionManager implements IMechanism
         this.atPitch = null;
         this.atRoll = null;
         this.atId = null;
+
+        this.absXOffset = null;
+        this.absYOffset = null;
+        this.absZOffset = null;
+        this.absRollAngle = null;
+        this.absPitchAngle = null;
+        this.absYawAngle = null;
+        this.absTagId = null;
+        this.absDecisionMargin = null;
+        this.absError = null;
 
         if (!missedHeartbeatExceedsThreshold)
         {
@@ -208,6 +262,22 @@ public class OffboardVisionManager implements IMechanism
 
                     break;
 
+                case 3:
+                    if (absXOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        absYOffset != TuningConstants.MAGIC_NULL_VALUE &&
+                        absZOffset != TuningConstants.MAGIC_NULL_VALUE)
+                    {
+                        this.absXOffset = absXOffset;
+                        this.absYOffset = absYOffset;
+                        this.absZOffset = absZOffset;
+                        this.absRollAngle = absRollAngle;
+                        this.absPitchAngle = absPitchAngle;
+                        this.absYawAngle = absYawAngle;
+                        this.absTagId = absTagId;
+                        this.absDecisionMargin = absDecisionMargin;
+                        this.absError = absError;
+                    }
+
                 case 0:
                 default:
                     break;
@@ -237,6 +307,7 @@ public class OffboardVisionManager implements IMechanism
         boolean enableStageRear = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsRear);
         boolean enableStageFront = this.driver.getDigital(DigitalOperation.VisionFindStageAprilTagsFront);
         boolean enableSourceFront = this.driver.getDigital(DigitalOperation.VisionFindSourceAprilTagsFront);
+        boolean enableAbsolutePosition = this.driver.getDigital(DigitalOperation.VisionFindAbsolutePosition);
 
         Optional<Alliance> alliance = this.ds.getAlliance();
         boolean isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
@@ -253,6 +324,10 @@ public class OffboardVisionManager implements IMechanism
             else if (enableAnyFront || enableSpeakerFront || enableStageFront || enableAmpFront || enableSourceFront)
             {
                 visionProcessingMode = 2;
+            }
+            else if (enableAbsolutePosition)
+            {
+                visionProcessingMode = 3;
             }
 
             if (enableSpeakerFront || enableSpeakerRear)
@@ -348,5 +423,25 @@ public class OffboardVisionManager implements IMechanism
     public Integer getAprilTagId()
     {
         return this.atId;
+    }
+
+    public Double getAbsolutePositionX()
+    {
+        return this.absXOffset;
+    }
+
+    public Double getAbsolutePositionY()
+    {
+        return this.absYOffset;
+    }
+
+    public Double getAbsolutePositionZ()
+    {
+        return this.absZOffset;
+    }
+
+    public Double getAbsolutePositionYaw()
+    {
+        return this.absYawAngle;
     }
 }

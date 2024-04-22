@@ -15,6 +15,8 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
 
     private final boolean useTime;
     private final boolean bestEffort;
+    private final double noAngleThreshold;
+    private final boolean keepTurningWithNoSample;
 
     private ITimer timer;
     private PIDHandler turnPidHandler;
@@ -30,13 +32,26 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
      */
     public PIDTurnTaskBase(boolean useTime, boolean bestEffort)
     {
+        this(useTime, bestEffort, PIDTurnTaskBase.NO_ANGLE_THRESHOLD, false);
+    }
+
+    /**
+     * Initializes a new PIDTurnTaskBase
+     * @param useTime whether to make sure we are centered for a second or not
+     * @param bestEffort whether to end (true) or cancel (false, default) when we cannot see the game piece or vision target (for sequential tasks, whether to continue on or not)
+     */
+    protected PIDTurnTaskBase(boolean useTime, boolean bestEffort, double noAngleThreshold, boolean keepTurningWithNoSample)
+    {
         this.useTime = useTime;
         this.bestEffort = bestEffort;
 
         this.turnPidHandler = null;
         this.centeredTime = null;
 
+        this.noAngleThreshold = noAngleThreshold;
         this.noAngleCount = 0;
+
+        this.keepTurningWithNoSample = keepTurningWithNoSample;
     }
 
     /**
@@ -54,7 +69,8 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
-        this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, true);
+        this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, 0.0);
+        this.setAnalogOperationState(AnalogOperation.DriveTrainSpinRight, 0.0);
     }
 
     /**
@@ -67,7 +83,11 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
         if (currentMeasuredAngle != null)
         {
             double turnSpeed = this.turnPidHandler.calculatePosition(0.0, currentMeasuredAngle);
-            this.setAnalogOperationState(AnalogOperation.DriveTrainSpinRight, turnSpeed);
+            this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, -turnSpeed);
+        }
+        else if (!this.keepTurningWithNoSample)
+        {
+            this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, 0.0);
         }
     }
 
@@ -77,11 +97,11 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
     @Override
     public void end()
     {
+        this.setAnalogOperationState(AnalogOperation.DriveTrainSpinLeft, 0.0);
         this.setAnalogOperationState(AnalogOperation.DriveTrainSpinRight, 0.0);
 
         this.setDigitalOperationState(DigitalOperation.DriveTrainEnableFieldOrientation, false);
         this.setDigitalOperationState(DigitalOperation.DriveTrainDisableFieldOrientation, false);
-        this.setDigitalOperationState(DigitalOperation.DriveTrainUseRobotOrientation, false);
     }
 
     /**
@@ -98,7 +118,7 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
             {
                 this.noAngleCount++;
 
-                return this.noAngleCount >= PIDTurnTaskBase.NO_ANGLE_THRESHOLD;
+                return this.noAngleCount >= this.noAngleThreshold;
             }
 
             this.noAngleCount = 0;
@@ -158,7 +178,7 @@ public abstract class PIDTurnTaskBase extends ControlTaskBase
             this.noAngleCount = 0;
         }
 
-        return this.noAngleCount >= PIDTurnTaskBase.NO_ANGLE_THRESHOLD || super.shouldCancel();
+        return this.noAngleCount >= this.noAngleThreshold || super.shouldCancel();
     }
 
     protected abstract Double getHorizontalAngle();

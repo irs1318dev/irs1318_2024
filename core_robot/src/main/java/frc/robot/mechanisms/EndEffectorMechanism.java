@@ -2,6 +2,7 @@ package frc.robot.mechanisms;
 
 import frc.robot.*;
 import frc.lib.driver.*;
+import frc.lib.filters.BooleanThresholdFilter;
 import frc.lib.mechanisms.*;
 import frc.lib.robotprovider.*;
 import frc.robot.driver.*;
@@ -24,6 +25,8 @@ public class EndEffectorMechanism implements IMechanism
     private final ISparkMax farFlywheelMotor;
 
     private final IAnalogInput throughBeamSensor;
+
+    private final BooleanThresholdFilter throughBeamFilter;
 
     private double intakeMotorVelocity;
 
@@ -115,6 +118,7 @@ public class EndEffectorMechanism implements IMechanism
 
         // THROUGH BEAM
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
+        this.throughBeamFilter = new BooleanThresholdFilter(2);
 
         this.useShootAnywayMode = false;
         this.useIntakeForceSpin = false;
@@ -147,7 +151,7 @@ public class EndEffectorMechanism implements IMechanism
 
         this.logger.logBoolean(LoggingKey.ShooterSpunUp, this.isFlywheelSpunUp());
         this.throughBeamSensorValue = this.throughBeamSensor.getVoltage();
-        this.throughBeamBroken = this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF;
+        this.throughBeamBroken = this.throughBeamFilter.update(this.throughBeamSensorValue < TuningConstants.INTAKE_THROUGHBEAM_CUTOFF);
 
         this.logger.logNumber(LoggingKey.IntakeThroughBeamSensorValue, this.throughBeamSensorValue);
         this.logger.logBoolean(LoggingKey.IntakeThroughBeamBroken, this.throughBeamBroken);
@@ -156,6 +160,15 @@ public class EndEffectorMechanism implements IMechanism
     @Override
     public void update(RobotMode mode)
     {
+        if (mode == RobotMode.Autonomous)
+        {
+            this.throughBeamFilter.setThreshold(2);
+        }
+        else
+        {
+            this.throughBeamFilter.setThreshold(0);
+        }
+
         double currTime = this.timer.get();
 
         // FLYWHEEL LOGIC
@@ -169,11 +182,8 @@ public class EndEffectorMechanism implements IMechanism
             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-
-            this.nearFlywheelMotor.set(flywheelMotorPower);
-            this.farFlywheelMotor.set(flywheelMotorPower);
+            this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, flywheelMotorPower);
+            this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, flywheelMotorPower);
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, flywheelMotorPower);
         }
@@ -182,22 +192,16 @@ public class EndEffectorMechanism implements IMechanism
             this.nearFlywheelSetpoint = this.nearFlywheelVelocity;
             this.farFlywheelSetpoint = this.farFlywheelVelocity;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.PercentOutput);
-
-            this.nearFlywheelMotor.set(noteOut);
-            this.farFlywheelMotor.set(-noteOut);            
+            this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, noteOut);
+            this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -noteOut);
         }
         else if (nearFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE && farFlywheelVelocityGoal != TuningConstants.MAGIC_NULL_VALUE)
         {
             this.nearFlywheelSetpoint = nearFlywheelVelocityGoal;
             this.farFlywheelSetpoint = farFlywheelVelocityGoal;
 
-            this.nearFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-            this.farFlywheelMotor.setControlMode(SparkMaxControlMode.Velocity);
-
-            this.nearFlywheelMotor.set(this.nearFlywheelSetpoint);
-            this.farFlywheelMotor.set(this.farFlywheelSetpoint);
+            this.nearFlywheelMotor.set(SparkMaxControlMode.Velocity, this.nearFlywheelSetpoint);
+            this.farFlywheelMotor.set(SparkMaxControlMode.Velocity, this.farFlywheelSetpoint);
 
             this.logger.logNumber(LoggingKey.ShooterFlywheelPower, TuningConstants.MAGIC_NULL_VALUE);
         }
@@ -225,22 +229,23 @@ public class EndEffectorMechanism implements IMechanism
         //     this.useShootAnywayMode = false;
         // }
 
-        if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
+        if (this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
         {
             this.useIntakeForceSpin = true;
         }
-        else if(this.driver.getDigital(DigitalOperation.IntakeForceSpinOff))
+        else if (this.driver.getDigital(DigitalOperation.IntakeForceSpinOff))
         {
             this.useIntakeForceSpin = false;
         }
 
-        if(this.driver.getDigital(DigitalOperation.IntakeForceOnAndIntakeIn))
+        if (this.driver.getDigital(DigitalOperation.IntakeForceOnAndIntakeIn))
         {
             this.useIntakeForceSpin = true;
             this.currentEffectorState = EffectorState.Intaking;
         }
 
         // STATE SWITCHING
+        boolean intakeOutSlow = this.driver.getDigital(DigitalOperation.IntakeOutSlow);
         switch (this.currentEffectorState)
         {
             case Off:
@@ -263,7 +268,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // Start outtaking when told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -295,7 +301,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -326,7 +333,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.currentEffectorState = EffectorState.Shooting;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -358,7 +366,8 @@ public class EndEffectorMechanism implements IMechanism
                     this.shootingStartTime = currTime;
                 }
                 // outtake if told to
-                else if (this.driver.getDigital(DigitalOperation.IntakeOut))
+                else if (this.driver.getDigital(DigitalOperation.IntakeOut) ||
+                    intakeOutSlow)
                 {
                     this.currentEffectorState = EffectorState.Outtaking;
                 }
@@ -380,7 +389,13 @@ public class EndEffectorMechanism implements IMechanism
                 break;
 
             case Outtaking:
-                intakePower = TuningConstants.EFFECTOR_INTAKE_OUT_POWER;
+                if (this.nearFlywheelSetpoint == TuningConstants.ZERO && this.farFlywheelSetpoint == TuningConstants.ZERO)
+                {
+                    this.nearFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -0.25);
+                    this.farFlywheelMotor.set(SparkMaxControlMode.PercentOutput, -0.25);
+                }
+
+                intakePower = intakeOutSlow ? TuningConstants.EFFECTOR_INTAKE_OUT_SLOW_POWER : TuningConstants.EFFECTOR_INTAKE_OUT_POWER;
                 break;
 
             case Shooting:

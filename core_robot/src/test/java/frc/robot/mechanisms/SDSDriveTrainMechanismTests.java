@@ -68,12 +68,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         for (int timestep = 0; timestep < 10; timestep++)
@@ -113,12 +115,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         for (int timestep = 0; timestep < 50; timestep++)
@@ -164,12 +168,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         for (int timestep = 0; timestep < 50; timestep++)
@@ -216,12 +222,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         for (int timestep = 0; timestep < 50; timestep++)
@@ -269,12 +277,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         for (int timestep = 0; timestep < 50; timestep++)
@@ -321,12 +331,14 @@ public class SDSDriveTrainMechanismTests
         LoggingManager logger = new LoggingManager(new NullLogger());
         PigeonManager pigeonManager = new PigeonManager(driver, logger, provider);
         PowerManager powerManager = new PowerManager(driver, timer, logger, provider);
+        OffboardVisionManager visionManager = new OffboardVisionManager(driver, logger, provider);
         SDSDriveTrainMechanism driveTrain = new SDSDriveTrainMechanism(
             driver,
             logger,
             provider,
             pigeonManager,
             powerManager,
+            visionManager,
             timer);
 
         double robotVelocityRight = 0.0;

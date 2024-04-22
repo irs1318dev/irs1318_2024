@@ -13,8 +13,10 @@ public enum MacroOperation implements IOperation
     FaceBackward,
     FaceLeft,
     FaceRight,
+    FaceSource,
     AlignStage,
     AlignAmp,
+    FacePassing,
 
     // Arm operations:
     ArmShoulderWristPosition1,
@@ -27,6 +29,7 @@ public enum MacroOperation implements IOperation
     ArmShoulderWristPosition8,
     ArmShoulderWristPosition9,
     ArmShoulderWristPosition10,
+    ArmShoulderWristPosition11,
     //ArmWristPosition5,
     ResetArm,
 
@@ -34,6 +37,7 @@ public enum MacroOperation implements IOperation
     ShooterSpinSpeed1,
     ShooterSpinSpeed2,
     ShootAuto,
+    IntakeFix,
 
     // Shooter Operations
     ShootNote,
@@ -41,13 +45,14 @@ public enum MacroOperation implements IOperation
     // Climber
     ClimbMacro,
     TrapCombo,
+    ClimbTrap,
 
     // Vision operations
-    VisionTest,
+    VisionShootAim,
+    VisionAbsoluteShootAim,
 
     // Trap
     AutoTrapScore,
-    
 
     // Path testing:
     FollowPathTest1,
@@ -60,6 +65,5 @@ public enum MacroOperation implements IOperation
 
     // Wrist
     UpdatedIntakeIn,
-    UpdatedShoot
-    
+    UpdatedShoot,
 }

@@ -7,6 +7,8 @@ import frc.robot.TuningConstants;
 @Singleton
 public class RobotProvider implements IRobotProvider
 {
+    private IPowerDistribution powerDistribution;
+
     @Override
     public IAnalogInput getAnalogInput(int channel)
     {
@@ -142,13 +144,33 @@ public class RobotProvider implements IRobotProvider
     @Override
     public IPowerDistribution getPowerDistribution()
     {
-        return new PowerDistributionWrapper();
+        if (!TuningConstants.USE_ADVANTAGE_KIT || !TuningConstants.RETREIVE_PDH_FIRST)
+        {
+            return new PowerDistributionWrapper();
+        }
+
+        if (powerDistribution == null)
+        {
+            powerDistribution = new PowerDistributionWrapper();
+        }
+
+        return powerDistribution;
     }
 
     @Override
     public IPowerDistribution getPowerDistribution(int module, PowerDistributionModuleType moduleType)
     {
-        return new PowerDistributionWrapper(module, moduleType);
+        if (!TuningConstants.USE_ADVANTAGE_KIT || !TuningConstants.RETREIVE_PDH_FIRST)
+        {
+            return new PowerDistributionWrapper(module, moduleType);
+        }
+
+        if (powerDistribution == null)
+        {
+            powerDistribution = new PowerDistributionWrapper(module, moduleType);
+        }
+
+        return powerDistribution;
     }
 
     @Override

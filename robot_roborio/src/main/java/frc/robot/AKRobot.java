@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.CoreRobot;
+import frc.lib.robotprovider.IRobotProvider;
 
 /**
  * Robot wraps CoreRobot to allow for the basic autonomous/teleop and switching logic to be shared between
@@ -75,10 +76,18 @@ public class AKRobot extends LoggedRobot
             Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         }
 
-        this.robot.robotInit();
+        if (TuningConstants.RETREIVE_PDH_FIRST)
+        {
+            // retrieve the power distribution hub before we start the logger to avoid double-initialization
+            this.robot.getInjector()
+                .getInstance(IRobotProvider.class)
+                .getPowerDistribution(ElectronicsConstants.POWER_DISTRIBUTION_CAN_ID, ElectronicsConstants.POWER_DISTRIBUTION_TYPE);
+        }
 
         // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in the "Understanding Data Flow" page
         Logger.start();
+
+        this.robot.robotInit();
     }
 
     /**

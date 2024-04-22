@@ -38,6 +38,7 @@ public class SmartDashboardSelectionManager
         TwoNote,
         OneNote,
         AmpThreeNote,
+        Sneak,
     }
 
     public enum PriorityPickupSide
@@ -75,6 +76,7 @@ public class SmartDashboardSelectionManager
         this.routineChooser.addObject("One Plus Charge", AutoRoutine.FiveNote);
         this.routineChooser.addObject("One Pickup Charge", AutoRoutine.SixNote);
         this.routineChooser.addObject("One Note", AutoRoutine.OneNote);
+        this.routineChooser.addObject("Sneak", AutoRoutine.Sneak);
 
         this.positionChooser = networkTableProvider.getSendableChooser("Start Position");
         this.positionChooser.addDefault("None", StartPosition.None);

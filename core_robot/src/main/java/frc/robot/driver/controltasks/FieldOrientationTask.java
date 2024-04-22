@@ -15,6 +15,8 @@ public class FieldOrientationTask extends UpdateCycleTask
     public enum DesiredOrientation
     {
         Amp,
+        Source,
+        Passing,
     }
 
     private final boolean waitUntilGoalReached;
@@ -60,6 +62,14 @@ public class FieldOrientationTask extends UpdateCycleTask
                 this.desiredYaw = isRed ? -90.0 : 90.0;
                 break;
 
+            case Source:
+                this.desiredYaw = isRed ? 40.0 : -40.0;
+                break;
+
+            case Passing:
+                this.desiredYaw = isRed ? 30.0 : -30.0;
+                break;
+
             default:
                 this.desiredYaw = 0.0;
                 break;
@@ -95,7 +105,7 @@ public class FieldOrientationTask extends UpdateCycleTask
             return super.hasCompleted();
         }
 
-        double currentYaw = this.pigeonManager.getYaw();
+        double currentYaw = this.pigeonManager.getYaw() + (this.pigeonManager.getAllianceSwapForward() ? 180.0 : 0.0);
         double yawGoal = AnglePair.getClosestAngle(this.desiredYaw, currentYaw, false).getAngle();
         return Math.abs(currentYaw - yawGoal) < TuningConstants.ORIENTATION_TURN_THRESHOLD;
     }

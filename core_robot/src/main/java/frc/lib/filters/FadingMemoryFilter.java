@@ -1,18 +1,18 @@
 package frc.lib.filters;
 
-public class ComplementaryFilter
+public class FadingMemoryFilter implements ISimpleFilter
 {
     private final double kO;
     private final double kN;
 
     private double currentValue;
 
-    public ComplementaryFilter(double kO, double kN)
+    public FadingMemoryFilter(double kO, double kN)
     {
         this(kO, kN, 0.0);
     }
 
-    public ComplementaryFilter(double kO, double kN, double startingValue)
+    public FadingMemoryFilter(double kO, double kN, double startingValue)
     {
         this.kO = kO;
         this.kN = kN;

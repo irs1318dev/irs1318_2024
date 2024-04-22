@@ -1,26 +1,36 @@
 package frc.lib.helpers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class Graph<TGraphNode extends GraphNode>
 {
-    private final Set<TGraphNode> nodes;
-    private final Map<TGraphNode, Map<TGraphNode, TGraphNode>> optimalPathMap;
+    private final ArrayList<TGraphNode> nodes;
+    private final ArrayList<ArrayList<TGraphNode>> optimalPredecessorPathMap;
+
+    private int nodeCount;
+    private boolean precalculated;
 
     protected Graph()
     {
-        this.nodes = new HashSet<TGraphNode>();
-        this.optimalPathMap = new HashMap<TGraphNode, Map<TGraphNode, TGraphNode>>();
+        this.optimalPredecessorPathMap = new ArrayList<ArrayList<TGraphNode>>();
+        this.nodes = new ArrayList<TGraphNode>();
+
+        this.nodeCount = 0;
+        this.precalculated = false;
     }
 
     protected void addNode(TGraphNode node)
     {
+        node.ordinal = this.nodeCount++;
         this.nodes.add(node);
+        this.optimalPredecessorPathMap.add(null);
+        ExceptionHelpers.Assert(this.nodes.size() == this.nodeCount, "Expect node count %d to equal node count %d", this.nodes.size(), this.nodeCount);
+        ExceptionHelpers.Assert(this.optimalPredecessorPathMap.size() == this.nodeCount, "Expect optimal predecessor map count %d to equal node count %d", this.nodes.size(), this.nodeCount);
     }
 
     public void connectBidirectional(TGraphNode node1, TGraphNode node2)
@@ -49,37 +59,46 @@ public abstract class Graph<TGraphNode extends GraphNode>
         from.addLink(new GraphLink(from, to, weight));
     }
 
-    public Set<TGraphNode> getNodes()
+    public List<TGraphNode> getNodes()
     {
         return this.nodes;
     }
 
     public void precalculateOptimalPaths()
     {
-        for (TGraphNode node : this.nodes)
+        System.out.println("Precalculating optimal paths through the graph");
+        for (int i = 0; i < this.nodeCount; i++)
         {
-            this.optimalPathMap.put(node, this.dijkstra(node));
+            TGraphNode node = this.nodes.get(i);
+            ExceptionHelpers.Assert(node.ordinal == i, "Expect node ordinal %d to equal index %d", node.ordinal, i);
+            ArrayList<TGraphNode> optimalPredecessorNodes = this.dijkstra(node);
+            this.optimalPredecessorPathMap.set(i, optimalPredecessorNodes);
         }
+
+        this.precalculated = true;
     }
 
     public List<TGraphNode> getOptimalPath(TGraphNode start, TGraphNode end)
     {
-        Map<TGraphNode, TGraphNode> optimalPreviousNodes = this.optimalPathMap.get(start);
-        if (optimalPreviousNodes == null)
+        ArrayList<TGraphNode> optimalPredecessorNodes = this.optimalPredecessorPathMap.get(start.ordinal);
+        if (optimalPredecessorNodes == null)
         {
-            optimalPreviousNodes = this.dijkstra(start);
-            this.optimalPathMap.put(start, optimalPreviousNodes);
+            ExceptionHelpers.Assert(!this.precalculated, "Didn't expect to need to calculate the optimal path if we precalculated them...");
+            optimalPredecessorNodes = this.dijkstra(start);
+            this.optimalPredecessorPathMap.set(start.ordinal, optimalPredecessorNodes);
         }
 
-        LinkedList<TGraphNode> optimalPath = new LinkedList<TGraphNode>();
+        // build the list in reverse order
+        List<TGraphNode> optimalPath = new ArrayList<TGraphNode>(16);
         TGraphNode node = end;
         while (node != null)
         {
-            optimalPath.addFirst(node);
-            node = optimalPreviousNodes.get(node);
+            optimalPath.add(node);
+            node = optimalPredecessorNodes.get(node.ordinal);
         }
 
-        if (optimalPath.getFirst() != start)
+        Collections.reverse(optimalPath);
+        if (optimalPath.size() < 1 || optimalPath.get(0) != start)
         {
             ExceptionHelpers.Assert(false, "The provided start node is not reachable from the provided end node.");
             return null;
@@ -88,18 +107,21 @@ public abstract class Graph<TGraphNode extends GraphNode>
         return optimalPath;
     }
 
-    // Java sucks and doesn't have actualized generics, so we have to suppress the unchecked warning
-    @SuppressWarnings("unchecked")
-    private Map<TGraphNode, TGraphNode> dijkstra(TGraphNode start)
+    private ArrayList<TGraphNode> dijkstra(TGraphNode start)
     {
-        // the optimal previous node along each potential path for each node based on the provided starting node
-        Map<TGraphNode, TGraphNode> optimalPreviousNode = new HashMap<TGraphNode, TGraphNode>(this.nodes.size());
+        // the optimal previous node along each potential path for each node based on the provided starting node,
+        // where the index is the ordinal number for the node.
+        ArrayList<TGraphNode> optimalPreviousNode = new ArrayList<TGraphNode>(this.nodeCount);
+        for (int i = 0; i < this.nodeCount; i++)
+        {
+            optimalPreviousNode.add(null);
+        }
 
         // the current distance to each node from the starting node
-        Map<GraphNode, Double> distanceMap = new HashMap<GraphNode, Double>(this.nodes.size());
+        Map<GraphNode, Double> distanceMap = new HashMap<GraphNode, Double>(this.nodeCount);
 
         // the set of nodes that have not yet been visited
-        HashSet<TGraphNode> unvisitedNodes = new HashSet<TGraphNode>(this.nodes.size());
+        HashSet<TGraphNode> unvisitedNodes = new HashSet<TGraphNode>(this.nodeCount);
         for (TGraphNode node : this.nodes)
         {
             if (node == start)
@@ -135,7 +157,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
                 if (distance < distanceMap.get(to))
                 {
                     distanceMap.put(to, distance);
-                    optimalPreviousNode.put((TGraphNode)to, node);
+                    optimalPreviousNode.set(to.ordinal, node);
                 }
             }
         }

@@ -10,61 +10,19 @@ import frc.robot.mechanisms.ArmMechanism;
 import frc.robot.mechanisms.EndEffectorMechanism;
 import frc.robot.mechanisms.OffboardVisionManager;
 
-public class VisionShooterAimLinterpTask extends ControlTaskBase
+public class VisionShooterAimOriginalLinterpTask extends ControlTaskBase
 {
-    public static IControlTask createShootMacroTask(boolean continuous)
+    public static IControlTask createShootMacroTask()
     {
-        if (continuous)
-        {
-            return ConcurrentTask.AnyTasks(
-                new RumbleTask(),
-                SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    ConcurrentTask.AllTasks(
-                        new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                        new VisionShooterAimLinterpTask(false)),
-                    ConcurrentTask.AnyTasks(
-                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                        new VisionShooterAimLinterpTask(true))));
-        }
-
-        return ConcurrentTask.AnyTasks(
-            new RumbleTask(),
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
+        return 
             SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
                 ConcurrentTask.AllTasks(
                     new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                new VisionShooterAimLinterpTask(false))));
-    }
-
-    public static IControlTask createFullShootMacroTask(boolean continuous)
-    {
-        if (continuous)
-        {
-            return ConcurrentTask.AnyTasks(
-                new RumbleTask(),
-                new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
-                SequentialTask.Sequence(
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                    ConcurrentTask.AllTasks(
-                        new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                        new VisionShooterAimLinterpTask(false)),
-                    ConcurrentTask.AnyTasks(
-                        new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
-                        new VisionShooterAimLinterpTask(true),
-                        new FeedRingTask(true, 5.0))));
-        }
-
-        return ConcurrentTask.AnyTasks(
-            new RumbleTask(),
-            new ShooterSpinTask(TuningConstants.SHOOT_VISION_SPEED, 15.0),
-            SequentialTask.Sequence(
-                ConcurrentTask.AllTasks(
-                    new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear),
-                    new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                new VisionShooterAimLinterpTask(false),
-                new FeedRingTask(true, 5.0))));
+                    new VisionShooterAimOriginalLinterpTask(false)),
+                ConcurrentTask.AnyTasks(
+                    new VisionContinuousTurningTask(VisionContinuousTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear, true),
+                    new VisionShooterAimOriginalLinterpTask(true)));
     }
 
     private enum State
@@ -89,11 +47,9 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
     private double farFlywheelVelocity;
     private double nearFlywheelVelocity;
 
-
-    public VisionShooterAimLinterpTask(boolean continuous)
+    public VisionShooterAimOriginalLinterpTask(boolean continuous)
     {
         super();
-
         this.angleLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_ANGLES);
         this.velocityLinterp = new LinearInterpolator(TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES, TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES);
         this.continuous = continuous;
@@ -129,25 +85,23 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                     this.shouldCancel = true;
                 }
             }
-            // else if (!this.continuous &&
-            //     (distance < TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[0] ||
-            //         distance > TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES[TuningConstants.SHOOT_VISION_SAMPLE_DISTANCES.length - 1]))
-            // {
-            //     // if distance is out of range cancel, avoid inaccuracy in interpolation
-            //     this.shouldCancel = true;
-            // }
             else
             {
+                distance = Math.abs(distance);
+
                 this.wristAngle = this.angleLinterp.sample(distance);
-                this.farFlywheelVelocity = this.velocityLinterp.sample(distance);
-                this.nearFlywheelVelocity = this.velocityLinterp.sample(distance);
+
+                double flywheelVelocity = this.velocityLinterp.sample(distance);
+                this.farFlywheelVelocity = flywheelVelocity;
+                this.nearFlywheelVelocity = flywheelVelocity;
+
+                this.noTargetCount = 0;
                 this.currentState = State.SetWristAndVelocity;
             }
         }
 
         if (this.currentState == State.SetWristAndVelocity)
         {
-            this.noTargetCount = 0;
             if (Helpers.RoughEquals(this.arm.getWristPosition(), this.wristAngle, TuningConstants.SHOOT_VISION_WRIST_ACCURACY_THRESHOLD))
             {
                 if (this.continuous)
@@ -179,6 +133,7 @@ public class VisionShooterAimLinterpTask extends ControlTaskBase
                 {
                     this.setAnalogOperationState(AnalogOperation.EndEffectorNearFlywheelVelocityGoal, this.nearFlywheelVelocity);
                     this.setAnalogOperationState(AnalogOperation.EndEffectorFarFlywheelVelocityGoal, this.farFlywheelVelocity);
+                    this.setDigitalOperationState(DigitalOperation.ForceLightDriverRumble, true);
                 }
 
                 break;

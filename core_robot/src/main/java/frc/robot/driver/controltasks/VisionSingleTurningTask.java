@@ -91,7 +91,7 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
     @Override
     protected Double getHorizontalAngle()
     {
-        double pigeonYaw = this.pigeonManager.getYaw();
+        double pigeonYaw = this.pigeonManager.getYaw() + (this.pigeonManager.getAllianceSwapForward() ? 180.0 : 0.0);
         if (this.ultimateYawAngle == null)
         {
             Double angle;
@@ -100,11 +100,6 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
                 case AprilTagParallelizing:
                     // turn to match the yaw, so we are lined up parallel to the tag
                     angle = this.visionManager.getAprilTagYaw();
-                    if (angle != null)
-                    {
-                        angle = -1.0 * angle;
-                    }
-
                     break;
 
                 case AprilTagCentering:
@@ -117,7 +112,7 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
                     }
                     else
                     {
-                        angle = -Helpers.atan2d(yOffset, xOffset);
+                        angle = Helpers.atan2d(yOffset, xOffset);
                     }
 
                     break;
@@ -133,10 +128,10 @@ public class VisionSingleTurningTask extends PIDTurnTaskBase
                 return null;
             }
 
-            this.ultimateYawAngle = pigeonYaw - angle;
+            this.ultimateYawAngle = pigeonYaw + angle;
         }
 
-        double result = pigeonYaw - this.ultimateYawAngle;
+        double result = this.ultimateYawAngle - pigeonYaw;
         return result;
     }
 }

@@ -60,13 +60,13 @@ public class AdvantageKitLogger implements ISmartDashboardLogger
     @Override
     public void logNumber(LoggingKey key, Double value)
     {
-        String valueString = "N/A";
-        if (value != null)
+        if (value == null)
         {
-            valueString = String.valueOf(value);
+            Logger.recordOutput(key.value, -1318.0);
+            return;
         }
 
-        this.logString(key, valueString);
+        Logger.recordOutput(key.value, value.doubleValue());
     }
 
     /**
@@ -77,7 +77,7 @@ public class AdvantageKitLogger implements ISmartDashboardLogger
     @Override
     public void logInteger(LoggingKey key, int value)
     {
-        this.logInteger(key, value, null);
+        Logger.recordOutput(key.value, value);
     }
 
     /**
@@ -88,13 +88,13 @@ public class AdvantageKitLogger implements ISmartDashboardLogger
     @Override
     public void logInteger(LoggingKey key, Integer value)
     {
-        String valueString = "N/A";
-        if (value != null)
+        if (value == null)
         {
-            valueString = String.valueOf(value);
+            Logger.recordOutput(key.value, -1318);
+            return;
         }
 
-        this.logString(key, valueString);
+        Logger.recordOutput(key.value, value.intValue());
     }
 
     /**
