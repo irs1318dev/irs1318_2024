@@ -246,7 +246,7 @@ public class FauxbotJointSpaceReachScreen implements Screen
 
             Texture targetTexture = new Texture(Gdx.files.internal("images/target.png"));
 
-            Set<ArmKinematicsCalculator.ArmGraphNode> allNodes = ArmKinematicsCalculator.getAllGraphNodes();
+            List<ArmKinematicsCalculator.ArmGraphNode> allNodes = ArmKinematicsCalculator.getAllGraphNodes();
             int targetHalfWidth = (int)(targetTexture.getWidth() / 2.0);
             int targetHalfHeight = (int)(targetTexture.getHeight() / 2.0);
             for (ArmKinematicsCalculator.ArmGraphNode node : allNodes)
