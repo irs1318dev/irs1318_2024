@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import frc.lib.driver.IControlTask;
 import frc.lib.filters.FadingMemoryFilter;
-import frc.lib.filters.FloatingAverageCalculator;
 import frc.lib.filters.ISimpleFilter;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.ImmutablePair;
@@ -12,7 +11,6 @@ import frc.lib.helpers.LinearInterpolator;
 import frc.lib.mechanisms.IIMUManager;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -29,9 +27,6 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
         return 
             SequentialTask.Sequence(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-                // ConcurrentTask.AnyTasks(
-                    // new VisionSingleTurningTask(VisionSingleTurningTask.TurnType.AprilTagCentering, DigitalOperation.VisionFindSpeakerAprilTagRear), // centers to the apriltag we find, may be the off-centered one initially
-                    // new ShooterSpinTask(TuningConstants.SHOOT_VISION_SAMPLE_VELOCITIES[0], 10.0)),
                 new VisionShooterTurnAndAimRelativeTask());
     }
 
@@ -70,9 +65,8 @@ public class VisionShooterTurnAndAimRelativeTask extends PIDTurnTaskBase
     @Override
     public void begin()
     {
-        // ITimer timer = this.getInjector().getInstance(ITimer.class);
-        this.visionRelXFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
-        this.visionRelYFilter = new FadingMemoryFilter(0.0, 1.0); // new FloatingAverageCalculator(timer, 0.25, TuningConstants.LOOPS_PER_SECOND);
+        this.visionRelXFilter = new FadingMemoryFilter(0.0, 1.0);
+        this.visionRelYFilter = new FadingMemoryFilter(0.0, 1.0);
 
         this.visionManager = this.getInjector().getInstance(OffboardVisionManager.class);
         this.armMechanism = this.getInjector().getInstance(ArmMechanism.class);

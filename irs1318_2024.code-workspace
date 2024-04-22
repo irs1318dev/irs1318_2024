@@ -13,9 +13,6 @@
 			"path": "fauxbot_desktop"
 		},
 		{
-			"path": "fauxbot_javafx"
-		},
-		{
 			"path": "robot_roborio"
 		}
 	],
@@ -30,16 +27,6 @@
 	},
 	"launch": {
 		"configurations": [
-			{
-				"type": "java",
-				"name": "Fauxbot JavaFX Debug",
-				"request": "launch",
-				"console": "internalConsole",
-				"stopOnEntry": false,
-				"mainClass": "Fauxbot",
-				"args": "",
-				"projectName": "fauxbot_javafx"
-			},
 			{
 				"type": "java",
 				"name": "Fauxbot libGDX Debug",

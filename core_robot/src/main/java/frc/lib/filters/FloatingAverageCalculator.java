@@ -13,7 +13,6 @@ public class FloatingAverageCalculator implements ISimpleFilter
     private final double duration;
     private final double samplesPerSecond;
     private final double sampleDurationRate; // 1 / (#samples*duration)
-    private final double sampleDuration;
 
     private final int totalSamples;
     private final double[] samples;
@@ -46,7 +45,6 @@ public class FloatingAverageCalculator implements ISimpleFilter
         this.maxValue = maxValue;
         this.duration = duration;
         this.samplesPerSecond = samplesPerSecond;
-        this.sampleDuration = 1.0 / samplesPerSecond;
         this.sampleDurationRate = 1.0 / (samplesPerSecond * duration);
 
         this.totalSamples = (int)(this.duration * this.samplesPerSecond);

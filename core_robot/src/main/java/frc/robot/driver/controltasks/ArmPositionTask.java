@@ -46,7 +46,6 @@ public class ArmPositionTask extends ControlTaskBase
         this.arm = this.getInjector().getInstance(ArmMechanism.class);
 
         double curShoulderAngle = this.arm.getShoulderPosition();
-        double curWristAngle = this.arm.getWristPosition();
 
         this.curMoveToLowerUniv = Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL)
             < Math.abs(curShoulderAngle - TuningConstants.ARM_SHOULDER_POSITION_UPPER_UNIVERSAL);

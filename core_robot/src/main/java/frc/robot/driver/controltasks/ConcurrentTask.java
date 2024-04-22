@@ -2,8 +2,6 @@ package frc.robot.driver.controltasks;
 
 import java.util.EnumMap;
 
-import javax.swing.Icon;
-
 import frc.lib.driver.IControlTask;
 import frc.lib.driver.states.AnalogOperationState;
 import frc.lib.driver.states.DigitalOperationState;
