@@ -48,7 +48,6 @@ public enum DigitalOperation implements IOperation
     IntakeForceSpinOff,
     ShooterFeedRing,
     ShooterShootAnywayMode,
-    // ShooterDisableShootAnywayMode,
 
     // Arm operations:
     ArmEnableSimpleMode,

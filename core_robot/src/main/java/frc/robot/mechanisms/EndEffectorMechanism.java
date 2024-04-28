@@ -54,7 +54,6 @@ public class EndEffectorMechanism implements IMechanism
 
     private EffectorState currentEffectorState;
 
-    private boolean useShootAnywayMode;
     private boolean useIntakeForceSpin;
     private double shootingStartTime;
 
@@ -120,7 +119,6 @@ public class EndEffectorMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_THROUGHBEAM_ANALOG_INPUT);
         this.throughBeamFilter = new BooleanThresholdFilter(2);
 
-        this.useShootAnywayMode = false;
         this.useIntakeForceSpin = false;
         this.shootingStartTime = 0.0;
 
@@ -219,15 +217,7 @@ public class EndEffectorMechanism implements IMechanism
         this.logger.logNumber(LoggingKey.ShooterNearFlywheelDesiredVelocity, this.nearFlywheelSetpoint);
         this.logger.logNumber(LoggingKey.ShooterFarFlywheelDesiredVelocity, this.farFlywheelSetpoint);
 
-        this.useShootAnywayMode = this.driver.getDigital(DigitalOperation.ShooterShootAnywayMode);
-        // if (this.driver.getDigital(DigitalOperation.ShooterShootAnywayMode))
-        // {
-        //     this.useShootAnywayMode = true;
-        // }
-        // else if (this.driver.getDigital(DigitalOperation.ShooterDisableShootAnywayMode))
-        // {
-        //     this.useShootAnywayMode = false;
-        // }
+        boolean useShootAnywayMode = this.driver.getDigital(DigitalOperation.ShooterShootAnywayMode);
 
         if (this.driver.getDigital(DigitalOperation.IntakeForceSpinOn))
         {
@@ -262,7 +252,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // Start shooting if told to, and flywheel is spun up or we don't care about spun up
                 else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
-                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                    (this.isFlywheelSpunUp() || useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;
@@ -295,7 +285,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // shoot if told to, and were not intaking
                 else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
-                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                    (this.isFlywheelSpunUp() || useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;
@@ -360,7 +350,7 @@ public class EndEffectorMechanism implements IMechanism
                 }
                 // feed ring if told to
                 else if (this.driver.getDigital(DigitalOperation.ShooterFeedRing) &&
-                    (this.isFlywheelSpunUp() || this.useShootAnywayMode))
+                    (this.isFlywheelSpunUp() || useShootAnywayMode))
                 {
                     this.currentEffectorState = EffectorState.Shooting;
                     this.shootingStartTime = currTime;

@@ -30,40 +30,24 @@ public enum MacroOperation implements IOperation
     ArmShoulderWristPosition9,
     ArmShoulderWristPosition10,
     ArmShoulderWristPosition11,
-    //ArmWristPosition5,
     ResetArm,
 
     // EndEffector operations:
     ShooterSpinSpeed1,
-    ShooterSpinSpeed2,
-    ShootAuto,
     IntakeFix,
 
     // Shooter Operations
     ShootNote,
 
     // Climber
-    ClimbMacro,
-    TrapCombo,
     ClimbTrap,
 
     // Vision operations
     VisionShootAim,
-    VisionAbsoluteShootAim,
-
-    // Trap
-    AutoTrapScore,
 
     // Path testing:
     FollowPathTest1,
     FollowPathTest2,
     FollowPathTest3,
-    FollowPathTest4, 
-
-    //auto stop forward drive note intake
-    DriveAndIntake,
-
-    // Wrist
-    UpdatedIntakeIn,
-    UpdatedShoot,
+    FollowPathTest4,
 }
