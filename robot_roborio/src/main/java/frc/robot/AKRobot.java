@@ -7,8 +7,11 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.google.inject.Injector;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.CoreRobot;
+import frc.lib.robotprovider.IFile;
 import frc.lib.robotprovider.IRobotProvider;
 
 /**
