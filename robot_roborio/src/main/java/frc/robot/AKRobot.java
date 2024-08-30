@@ -7,8 +7,11 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.google.inject.Injector;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.CoreRobot;
+import frc.lib.robotprovider.IFile;
 import frc.lib.robotprovider.IRobotProvider;
 
 /**
@@ -59,8 +62,15 @@ public class AKRobot extends LoggedRobot
 
         if (RobotBase.isReal())
         {
-            // Running on a real robot, log to a USB stick ("/U/logs")
-            Logger.addDataReceiver(new WPILOGWriter());
+            // Running on a real robot, attempt to log to a USB stick ("/U/logs") if one is plugged in
+            Injector injector = this.robot.getInjector();
+            IFile rootDirectory = injector.getInstance(IFile.class);
+            rootDirectory.open("/U/");
+            if (rootDirectory.exists())
+            {
+                Logger.addDataReceiver(new WPILOGWriter());
+            }
+
             Logger.addDataReceiver(new NT4Publisher());
         }
         else if (RobotBase.isSimulation())

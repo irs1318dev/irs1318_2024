@@ -423,7 +423,7 @@ public class TuningConstants
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.5;
     public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.4;
-    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.7; // Old value modified for outreach -0.4;
     public static final double EFFECTOR_INTAKE_OUT_SLOW_POWER = -0.2;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 

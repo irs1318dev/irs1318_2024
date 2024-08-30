@@ -19,21 +19,21 @@ public enum MacroOperation implements IOperation
     FacePassing,
 
     // Arm operations:
-    ArmShoulderWristPosition1,
-    ArmShoulderWristPosition2,
-    ArmShoulderWristPosition3,
-    ArmShoulderWristPosition4,
+    ArmShoulderWristPositionStartingConfiguration,
+    ArmShoulderWristPositionGroundPickup,
+    ArmShoulderWristPositionGroundShot,
+    ArmShoulderWristPositionUpperShot,
     ArmShoulderWristPosition5,
-    ArmShoulderWristPosition6,
-    ArmShoulderWristPosition7,
-    ArmShoulderWristPosition8,
+    ArmShoulderWristPositionPassing,
+    ArmShoulderWristPositionAmpOuttake,
+    ArmShoulderWristPositionTrapIntermediate,
     ArmShoulderWristPosition9,
-    ArmShoulderWristPosition10,
-    ArmShoulderWristPosition11,
+    ArmShoulderWristPositionUpperBotDistanceShot,
+    ArmShoulderWristPositionTrapDelivery,
     ResetArm,
 
     // EndEffector operations:
-    ShooterSpinSpeed1,
+    ShooterSpin,
     IntakeFix,
 
     // Shooter Operations
