@@ -860,7 +860,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition1,
+            MacroOperation.ArmShoulderWristPositionStartingConfiguration,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_X_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -893,7 +893,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-           MacroOperation.ArmShoulderWristPosition2,
+           MacroOperation.ArmShoulderWristPositionGroundPickup,
            UserInputDevice.Codriver, 
            UserInputDeviceButton.XBONE_Y_BUTTON,
            EnumSet.of(Shift.CodriverDebug),
@@ -911,7 +911,7 @@ public class ButtonMap implements IButtonMap
            }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition3,
+            MacroOperation.ArmShoulderWristPositionGroundShot,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_Y_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -929,7 +929,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-           MacroOperation.ArmShoulderWristPosition4,
+           MacroOperation.ArmShoulderWristPositionUpperShot,
            UserInputDevice.Codriver,
            UserInputDeviceButton.XBONE_B_BUTTON,
            EnumSet.of(Shift.CodriverDebug),
@@ -947,7 +947,7 @@ public class ButtonMap implements IButtonMap
            }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition7,
+            MacroOperation.ArmShoulderWristPositionAmpOuttake,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -965,7 +965,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition6,
+            MacroOperation.ArmShoulderWristPositionPassing,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -989,7 +989,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition11,
+            MacroOperation.ArmShoulderWristPositionTrapDelivery,
             UserInputDevice.Codriver,
             0,
             EnumSet.of(Shift.CodriverDebug),
@@ -1017,7 +1017,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition8,
+            MacroOperation.ArmShoulderWristPositionTrapIntermediate,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_SELECT_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -1035,7 +1035,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPosition10,
+            MacroOperation.ArmShoulderWristPositionUpperBotDistanceShot,
             UserInputDevice.Codriver, 
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
@@ -1053,7 +1053,7 @@ public class ButtonMap implements IButtonMap
             }),
 
         new MacroOperationDescription(
-            MacroOperation.ShooterSpinSpeed1,
+            MacroOperation.ShooterSpin,
             UserInputDevice.Codriver, 
             270,
             // EnumSet.of(Shift.CodriverDebug),
