@@ -544,7 +544,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_LOWER_UNIVERSAL_MAX = TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP;
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
-    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 33.0 : 37.0;
+    public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 27.0 : 37.0;
     public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 20.76609577449192 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
