@@ -714,6 +714,9 @@ public class TuningConstants
     public static final boolean ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET = TuningConstants.COMPETITION_ROBOT ? true : false;
     public static final boolean ARM_USE_WRIST_PROTECTION = false;
+    public static final boolean ARM_USE_STARTUP_DONT_BREAK_ME_MODE = true;
+
+    public static final double ARM_STARTUP_DONT_BREAK_ME_THRESHOLD = 5.0;
 
     public static final double ARM_WRIST_PROTECTION_EXTEND_TIMEOUT = 2.0; // how long we should spend with the wrist out before retracting it when using wrist protection
     public static final double ARM_WRIST_PROTECTION_OFFSET = 5.0;

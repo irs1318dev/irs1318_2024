@@ -128,6 +128,7 @@ public class ArmMechanism implements IMechanism
 
     private boolean useThroughBoreEncoders;
     private boolean useArmProtection;
+    private boolean doFirstRunCheck;
 
     private ArmProtectionState currWristProtectionState;
     private double lastWristActionTime;
@@ -317,6 +318,7 @@ public class ArmMechanism implements IMechanism
         this.useThroughBoreEncoders = TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET || TuningConstants.ARM_USE_SHOULDER_ABSOLUTE_ENCODER_RESET;
         this.useArmProtection = TuningConstants.ARM_USE_WRIST_PROTECTION;
         this.wasEnabled = false;
+        this.doFirstRunCheck = TuningConstants.ARM_USE_STARTUP_DONT_BREAK_ME_MODE;
     }
 
     @Override
@@ -400,6 +402,24 @@ public class ArmMechanism implements IMechanism
     @Override
     public void update(RobotMode mode)
     {
+        // on first run, if we have evidence that we are not in the correct starting configuration,
+        // reset our wrist position based on the absolute encoder and skip the rest of this update cycle
+        // this should trigger the wrist to go back to starting configuration...
+        if (TuningConstants.ARM_USE_WRIST_ABSOLUTE_ENCODER_RESET && this.doFirstRunCheck)
+        {
+            if (!this.wristLimitSwitchHit ||
+                !Helpers.RoughEquals(this.wristAbsoluteEncoderPosition, TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION, TuningConstants.ARM_STARTUP_DONT_BREAK_ME_THRESHOLD))
+            {
+                this.updateCurrWristPosition = JumpProtectionReason.Reset;
+                this.wristPosition = this.wristAbsoluteEncoderPosition;
+                this.wristMotor.setPosition(this.wristAbsoluteEncoderPosition);
+                this.wristMotor.burnFlash();
+            }
+
+            this.doFirstRunCheck = false;
+            return;
+        }
+
         double currTime = this.timer.get();
         double elapsedTime = currTime - this.prevTime;
         ExceptionHelpers.Assert(elapsedTime < 0.5, "ElapsedTime too long! %.4f", elapsedTime);
