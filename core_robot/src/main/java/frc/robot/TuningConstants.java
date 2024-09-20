@@ -730,7 +730,7 @@ public class TuningConstants
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 15.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.5435;
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.3824;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
     
     // Through Bore Reset Shoulder
