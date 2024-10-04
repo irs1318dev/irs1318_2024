@@ -423,7 +423,7 @@ public class TuningConstants
     public static final boolean INTAKE_MOTOR_INVERT_OUTPUT = TuningConstants.COMPETITION_ROBOT ? true : true;
     public static final double EFFECTOR_INTAKE_IN_POWER = 0.5;
     public static final double EFFECTOR_INTAKE_IN_AUTO_POWER = 0.4;
-    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.7; // Old value modified for outreach -0.4;
+    public static final double EFFECTOR_INTAKE_OUT_POWER = -0.4;
     public static final double EFFECTOR_INTAKE_OUT_SLOW_POWER = -0.2;
     public static final double EFFECTOR_INTAKE_FEED_SHOOTER_POWER = 0.9;
 
@@ -545,7 +545,7 @@ public class TuningConstants
     public static final double ARM_WRIST_POSITION_STOWED = TuningConstants.ARM_WRIST_POSITION_STARTING_CONFIGURATION;
 
     public static final double ARM_WRIST_POSITION_GROUND_PICKUP = TuningConstants.COMPETITION_ROBOT ? 30.0 : 37.0;
-    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18.0 : 28.634967803955078;// change ti p4
+    public static final double ARM_WRIST_POSITION_GROUND_SHOT = TuningConstants.COMPETITION_ROBOT ? 18 : 28.634967803955078;// change ti p4
 
     public static final double ARM_WRIST_AUTO_P4_SHOT = 22;
     public static final double ARM_WRIST_AUTO_P2_SHOT = 25;
@@ -730,7 +730,7 @@ public class TuningConstants
     public static final double ARM_WRIST_RESET_STOPPED_VELOCITY_THRESHOLD = 0.3;
     public static final double ARM_WRIST_RESET_AT_POSITION_THRESHOLD = 15.0;
     public static final double ARM_WRIST_RESET_CORRECTION_THRESHOLD = 1.0;
-    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.5435;
+    public static final double ARM_WRIST_ABSOLUTE_ENCODER_OFFSET = 0.3684;
     public static final double ARM_WRIST_RESET_DIFFERENCE_MAX = 45.0;
     
     // Through Bore Reset Shoulder

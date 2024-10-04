@@ -900,6 +900,7 @@ public class ButtonMap implements IButtonMap
            EnumSet.noneOf(Shift.class),
            ButtonType.Toggle, 
            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_PICKUP),
+           
            new IOperation[]
            {
                 AnalogOperation.ArmShoulderPositionSetpoint,
@@ -910,23 +911,26 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristPower,
            }),
 
-        new MacroOperationDescription(
-            MacroOperation.ArmShoulderWristPositionGroundShot,
-            UserInputDevice.Codriver,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
-            EnumSet.of(Shift.CodriverDebug),
-            EnumSet.of(Shift.CodriverDebug),
-            ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-            new IOperation[]
-            {
-                AnalogOperation.ArmShoulderPositionSetpoint,
-                AnalogOperation.ArmWristPositionSetpoint,
-                AnalogOperation.ArmShoulderAdjustment,
-                AnalogOperation.ArmWristAdjustment,
-                AnalogOperation.ArmShoulderPower,
-                AnalogOperation.ArmWristPower,
-            }),
+        //    //Here
+        // new MacroOperationDescription(
+        //     MacroOperation.ArmShoulderWristPositionGroundShot,
+        //     UserInputDevice.Codriver,
+        //     UserInputDeviceButton.XBONE_Y_BUTTON,
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     EnumSet.of(Shift.CodriverDebug),
+        //     ButtonType.Toggle, 
+        //     () -> SequentialTask.Sequence(
+        //     new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),4
+        //     new ShooterSpinTask(2900)),
+        //     new IOperation[]
+        //     {
+        //         AnalogOperation.ArmShoulderPositionSetpoint,
+        //         AnalogOperation.ArmWristPositionSetpoin
+        //         AnalogOperation.ArmShoulderAdjustment,
+        //         AnalogOperation.ArmWristAdjustment,
+        //         AnalogOperation.ArmShoulderPower,
+        //         AnalogOperation.ArmWristPower,
+        //     }),
 
         new MacroOperationDescription(
            MacroOperation.ArmShoulderWristPositionUpperShot,
@@ -1126,6 +1130,7 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.EndEffectorGetNoteOut,
             }),
 
+            
         new MacroOperationDescription(
             MacroOperation.ClimbTrap,
             UserInputDevice.Test1, 
