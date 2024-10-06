@@ -919,7 +919,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle, 
-            () -> SequentialTask.Sequence(
+            () -> ConcurrentTask.AllTasks(
             new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
             new ShooterSpinTask(3500)),
             new IOperation[]
@@ -930,6 +930,10 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristAdjustment,
                 AnalogOperation.ArmShoulderPower,
                 AnalogOperation.ArmWristPower,
+                AnalogOperation.EndEffectorFarFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorNearFlywheelVelocityGoal,
+                AnalogOperation.EndEffectorFlywheelMotorPower,
+                AnalogOperation.EndEffectorGetNoteOut,
             }),
 
         new MacroOperationDescription(
@@ -977,7 +981,7 @@ public class ButtonMap implements IButtonMap
             ButtonType.Toggle, 
             () -> ConcurrentTask.AllTasks(
                 new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_PASSING),
-                new ShooterSpinTask(2900)
+                new ShooterSpinTask(3500)
             ),
             new IOperation[]
             {
@@ -1022,7 +1026,7 @@ public class ButtonMap implements IButtonMap
 
         new MacroOperationDescription(
             MacroOperation.ArmShoulderWristPositionTrapIntermediate,
-            UserInputDevice.Codriver, 
+            UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_SELECT_BUTTON,
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
