@@ -117,6 +117,7 @@ public class ArmMechanism implements IMechanism
 
     private final ArmKinematicsCalculator armKinematicsCalculator;
     private final Pair<Double, Double> kinematicsLimitedAngles;
+    private boolean useIKLimiting;
 
     private double lastLegalWristPosition;
     private double lastLegalShoulderPosition;
@@ -319,6 +320,8 @@ public class ArmMechanism implements IMechanism
         this.useArmProtection = TuningConstants.ARM_USE_WRIST_PROTECTION;
         this.wasEnabled = false;
         this.doFirstRunCheck = TuningConstants.ARM_USE_STARTUP_DONT_BREAK_ME_MODE;
+
+        this.useIKLimiting = TuningConstants.ARM_USE_IK_CONSTRAINTS;
     }
 
     @Override
@@ -447,6 +450,15 @@ public class ArmMechanism implements IMechanism
         else if (this.driver.getDigital(DigitalOperation.ArmDisableProtection))
         {
             this.useArmProtection = false;
+        }
+
+        if (this.driver.getDigital(DigitalOperation.ArmEnableIKLimiting))
+        {
+            this.useIKLimiting = true;
+        }
+        else if (this.driver.getDigital(DigitalOperation.ArmDisableIKLimiting))
+        {
+            this.useIKLimiting = false;
         }
 
         if (!this.inSimpleMode && this.driver.getDigital(DigitalOperation.ArmEnableSimpleMode))
@@ -987,7 +999,7 @@ public class ArmMechanism implements IMechanism
                 this.currentDesiredShoulderPosition,
                 this.currentDesiredWristPosition,
                 this.kinematicsLimitedAngles);
-        if (TuningConstants.ARM_USE_IK_CONSTRAINTS && mode != RobotMode.Test)
+        if (this.useIKLimiting && mode != RobotMode.Test)
         {
             double ikFixedShoulderPosition = this.kinematicsLimitedAngles.getFirst();
             double ikFixedWristPosition = this.kinematicsLimitedAngles.getSecond();

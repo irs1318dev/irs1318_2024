@@ -59,6 +59,8 @@ public enum DigitalOperation implements IOperation
     ArmEnableProtection,
     ArmDisableProtection,
     ArmSlowMode,
+    ArmDisableIKLimiting,
+    ArmEnableIKLimiting,
 
     // Climber operations:
     ClimberServoUp,

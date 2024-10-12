@@ -920,8 +920,8 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             ButtonType.Toggle, 
             () -> ConcurrentTask.AllTasks(
-            new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
-            new ShooterSpinTask(3500)),
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_LOWER_UNIVERSAL, TuningConstants.ARM_WRIST_POSITION_GROUND_SHOT),
+                new ShooterSpinTask(3500)),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
@@ -1031,7 +1031,9 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(Shift.CodriverDebug),
             EnumSet.noneOf(Shift.class),
             ButtonType.Toggle, 
-            () -> new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE, TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE),
+            () -> SequentialTask.Sequence(
+                new ArmGraphTask(TuningConstants.ARM_SHOULDER_POSITION_TRAP_INTERMEDIATE, TuningConstants.ARM_WRIST_POSITION_TRAP_INTERMEDIATE),
+                new ArmIKLimitingTask(false)),
             new IOperation[]
             {
                 AnalogOperation.ArmShoulderPositionSetpoint,
@@ -1040,6 +1042,8 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ArmWristAdjustment,
                 AnalogOperation.ArmShoulderPower,
                 AnalogOperation.ArmWristPower,
+                DigitalOperation.ArmEnableIKLimiting,
+                DigitalOperation.ArmDisableIKLimiting,
             }),
 
         new MacroOperationDescription(
